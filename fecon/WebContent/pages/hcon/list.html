@@ -1,0 +1,73 @@
+<div data-ng-controller="secCtrl"></div>
+
+<article class="modulo anchura_full">
+	<header>
+		<h3 class="tabs_involved">Apuntes</h3>
+	</header>
+
+	<fieldset style="width:20%; float:left; margin-left: 1%;">
+		<label>Anualidad</label>
+		<select style="width:92%;" data-ng-model="hcon.anua" data-ng-options="parm.clav as parm.valo for parm in parAnuaList" data-ng-change="refresh();">
+		</select>
+	</fieldset>
+	<fieldset style="width:20%; float:left; margin-left: 1%;">
+		<label>Mes</label>
+		<select style="width:92%;" data-ng-model="hcon.mesp" data-ng-options="parm.clav as parm.valo for parm in parMesList" data-ng-change="refresh();">
+		</select>
+	</fieldset>
+	<fieldset style="width:25%; float:left; margin-left: 1%;">
+		<label>Categoria</label>
+		<select style="width:92%;" data-ng-model="hcon.cate" data-ng-options="cate.iden as cate.desc for cate in cateList" data-ng-change="refresh();">
+		</select>
+	</fieldset>
+	<fieldset style="width:29%; float:right; margin-right: 1%;">
+		<label>Concepto</label>
+		<select style="width:92%;" data-ng-model="hcon.conc" data-ng-options="conc.iden as conc.desc for conc in concList" data-ng-change="refresh();">
+		</select>
+	</fieldset>
+
+	<div class="contenedor_tabla">
+		<table class="listado"> 
+			<thead> 
+				<tr>
+					<th style="width:  5%;" data-ng-click="sort('iden')">Id</th>   
+					<th style="width: 10%;" data-ng-click="sort('fval')">F.Valor</th>
+					<th style="width: 16%;" data-ng-click="sort('cate')">Categoria</th>
+					<th style="width: 20%;">Concepto</th>
+					<th style="width:  8%;">Importe</th>
+					<th style="width: 31%;">Desc</th>  
+					<th style="width: 10%;">Acciones</th>
+				</tr> 
+			</thead> 
+			<tbody data-ng-repeat="hcon in hconList | orderBy:hcon.sort"> 
+				<tr>  
+					<td class="right">{{hcon.iden}}</td>
+ 					<td class="left">{{hcon.fval | yyyymmddFmt}}</td>
+ 					<td class="left">{{cateMap[hcon.cate].desc}}</td>
+ 					<td class="left">{{concMap[hcon.conc].desc}}</td>
+					<td class="right">{{hcon.impo | number:2}} &euro;</td>
+					<td class="left">{{hcon.desc}}</td>
+					<td class="center"><a href="" data-ng-click="anul(hcon.iden);"><input type="image" src="images/icn_delete.png" title="Anular apunte"></a></td> 
+				</tr>
+			<!-- FIXME -->	
+<!--   				<tr data-ng-show="resu($index)">
+  					<th></th>
+					<th></th>
+					<th></th>
+					<th class="left">Acumulado</th>
+					<td class="right">{{hconList | filter:{hcon.sort:parseInt(1)} | sumByKey:'impo' | number:2}} &euro;</td>
+				</tr> -->
+			</tbody>
+			<tfoot>
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th class="left">Total</th>
+					<td class="right">{{hconList | sumByKey:'impo' | number:2}} &euro;</td>
+				</tr>
+			</tfoot>
+		</table>
+		{{resu(2)}}
+	</div>
+</article>

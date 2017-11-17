@@ -1,0 +1,157 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Resumen Anual</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+  			<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" >
+	        	<label>Año</label>
+				<md-select ng-model="cntx.form.anua" ng-change="anuaChng()">
+	               	<md-option ng-repeat="anua in cntx.data.ltAnualidad" ng-value="anua.clav">{{anua.desc}}</md-option>
+	            </md-select>
+	        </md-input-container>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"><b>Presup.</b></div>
+								<div flex="35"><b>Desv.</b></div>
+								<div flex="30"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="25"><b>Concepto</b></div>
+								<div flex="25"><b>Presupuesto</b></div>
+								<div flex="25"><b>Desviación</b></div>
+								<div flex="25"><b>Estado</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"><b>Concepto</b></div>
+								<div flex="15"><b>Presupuesto</b></div>
+								<div flex="15"><b>Real</b></div>
+								<div flex="15"><b>Desviación</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<section data-ng-repeat="pres in cntx.data.presCateList">
+					<md-list-item ng-click="xpnd($index)" class="header">
+						<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+							<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+								<div layout="column" flex>
+									<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+									<div flex layout="column">
+										<div flex="auto" hide show-xs layout="column">
+											<div flex>{{cateMap[pres.cate].desc}}</div>
+											<div flex layout="row">
+												<div flex="35">{{pres.impo | number:2}} &euro;</div>
+												<div flex="35">{{pres.desv | number:2}} &euro;</div>
+												<div flex="30">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+											</div>
+										</div>
+										<div flex="auto" hide show-sm layout="row">
+											<div flex="25">{{cateMap[pres.cate].desc}}</div>
+											<div flex="25">{{pres.impo | number:2}} &euro;</div>
+											<div flex="25">{{pres.desv | number:2}} &euro;</div>
+											<div flex="25">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										</div>
+										<div flex="auto" hide show-gt-sm layout="row">
+											<div flex="40">{{cateMap[pres.cate].desc}}</div>
+											<div flex="15">{{pres.impo | number:2}} &euro;</div>
+											<div flex="15">{{pres.imto | number:2}} &euro;</div>
+											<div flex="15">{{pres.desv | number:2}} &euro;</div>
+											<div flex="15">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div flex></div>
+							<div flex="10">
+								<md-menu md-position-mode="target-right target">
+									<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+										<md-icon md-font-set="material-icons">home</md-icon>
+									</md-button>
+									<md-menu-content width="4">
+										<md-menu-item>
+											<md-button ng-click="fnEdit($index)">
+												Apuntes
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</div>
+					</md-list-item>
+					<md-list-item ng-click="xpnd(pres.cate, $index)" data-ng-repeat="presConc in cntx.data.presListMap[pres.cate]" data-ng-class="{positive: (presConc.esta === 'C' && presConc.desv > 0), negative: (presConc.esta === 'C' && presConc.desv < 0)}">
+						<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+							<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+								<div layout="column" flex>
+									<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+									<div flex="auto" layout="column">
+										<div flex="auto" hide show-xs layout="column">
+											<div flex>{{concMap[presConc.conc].desc}}</div>
+											<div flex layout="row">
+												<div flex="35">{{presConc.impo | number:2}} &euro;</div>
+												<div flex="35">{{presConc.desv | number:2}} &euro;</div>
+												<div flex="30">{{cntx.data.ltPresesta[presConc.esta].desc}}</div>
+											</div>
+										</div>
+										<div flex="auto" hide show-sm layout="row">
+											<div flex="25">{{concMap[presConc.conc].desc}}</div>
+											<div flex="25">{{presConc.impo | number:2}} &euro;</div>
+											<div flex="25">{{presConc.desv | number:2}} &euro;</div>
+											<div flex="25">{{cntx.data.ltPresesta[presConc.esta].desc}}</div>
+										</div>
+										<div flex="auto" hide show-gt-sm layout="row">
+											<div flex="40">{{concMap[presConc.conc].desc}}</div>
+											<div flex="15">{{presConc.impo | number:2}} &euro;</div>
+											<div flex="15">{{presConc.imto | number:2}} &euro;</div>
+											<div flex="15">{{presConc.desv | number:2}} &euro;</div>
+											<div flex="15">{{cntx.data.ltPresesta[presConc.esta].desc}}</div>
+										</div>
+ 										<div flex layout="row" ng-show="$index === cntx.conf.item && presConc.cate === cntx.conf.cate" layout-padding>
+ 											<div flex layout="column" class="md-whiteframe-z2">
+												<div flex><b>Partida: </b>{{cateMap[presConc.cate].desc}} - {{concMap[presConc.conc].desc}}</div>
+												<div flex><b>Importe presupuestado: </b>{{presConc.impo | number:2}} &euro;</div>
+												<div flex><b>Importe real: </b>{{presConc.imto | number:2}} &euro;</div>
+												<div flex><b>Desviación: </b>{{presConc.desv | number:2}} &euro;</div>
+												<div flex><b>Estado: </b>{{cntx.data.ltPresesta[presConc.esta].desc}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div flex></div>
+							<div flex="10">
+								<md-menu md-position-mode="target-right target">
+									<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+										<md-icon md-font-set="material-icons">home</md-icon>
+									</md-button>
+									<md-menu-content width="4">
+										<md-menu-item>
+											<md-button ng-click="fnEdit($index)">
+												Apuntes
+											</md-button>
+										</md-menu-item>
+									</md-menu-content>
+								</md-menu>
+							</div>
+							<md-divider ng-if="!$last"></md-divider>
+						</div>
+					</md-list-item>
+				</section>
+			</md-list>
+        </md-content>
+    </div>
+</div>

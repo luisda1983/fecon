@@ -1,0 +1,130 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Resumen Anual</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="30"><b>Año</b></div>
+								<div flex="40"><b>Total</b></div>
+								<div flex="30"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="15"><b>Año</b></div>
+								<div flex="25"><b>Ingr.</b></div>
+								<div flex="25"><b>Gast.</b></div>
+								<div flex="20"><b>Total</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="10"><b>Año</b></div>
+								<div flex="15"><b>Ingresos</b></div>
+								<div flex="15"><b>Gastos</b></div>
+								<div flex="15"><b>Presupuesto</b></div>
+								<div flex="15"><b>Total</b></div>
+								<div flex="15"><b>Desviación</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="pres in presList" ng-click="xpnd($index)"  data-ng-class="{positive: (pres.esta === 'C' && pres.desv > 0), negative: (pres.desv < 0)}">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+							<div layout="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div layout="column">
+									<div flex="auto" hide show-xs layout="row">
+										<div flex="30">{{pres.anua}}</div>
+										<div flex="40">{{pres.imto | number:2}} &euro;</div>
+										<div flex="30">{{ltPresEsta[pres.esta].desc}}</div>
+									</div>
+									<div flex="auto" hide show-sm layout="row">
+										<div flex="15">{{pres.anua}}</div>
+										<div flex="25">{{pres.toha | number:2}} &euro;</div>
+										<div flex="25">{{pres.tode | number:2}} &euro;</div>
+										<div flex="20">{{pres.imto | number:2}} &euro;</div>
+										<div flex="15">{{ltPresEsta[pres.esta].desc}}</div>
+									</div>
+									<div flex="auto" hide show-gt-sm layout="row">
+										<div flex="10">{{pres.anua}}</div>
+										<div flex="15">{{pres.toha | number:2}} &euro;</div>
+										<div flex="15">{{pres.tode | number:2}} &euro;</div>
+										<div flex="15">{{pres.impo | number:2}} &euro;</div>
+										<div flex="15">{{pres.imto | number:2}} &euro;</div>
+										<div flex="15">{{pres.desv | number:2}} &euro;</div>
+										<div flex="15">{{ltPresEsta[pres.esta].desc}}</div>
+									</div>
+									<div flex layout="row" ng-show="$index === conf.item" layout-padding>
+										<div flex layout="column" class="md-whiteframe-z2">
+											<div flex><b>Año: </b>{{pres.anua}}</div>
+											<div flex><b>Ingresos: </b>{{pres.toha | number:2}} &euro;</div>
+											<div flex><b>Gastos: </b>{{pres.tode | number:2}} &euro;</div>
+											<div flex><b>Total presupuesto: </b>{{pres.impo | number:2}} &euro;</div>
+											<div flex><b>Balance real: </b>{{pres.imto | number:2}} &euro;</div>
+											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
+											<div flex><b>Estado: </b>{{ltPresEsta[pres.esta].desc}}</div>
+										</div>
+									</div>
+									<!--  Detalle -->
+<!--  									<div flex ng-show="$index === conf.item" layout="row">
+ 										<div flex="5"></div>
+ 										<div flex="95" layout="column">
+											<div flex><b>Año: </b>{{pres.anua}}</div>
+											<div flex><b>Ingresos: </b>{{pres.toha | number:2}} &euro;</div>
+											<div flex><b>Gastos: </b>{{pres.tode | number:2}} &euro;</div>
+											<div flex><b>Total presupuesto: </b>{{pres.impo | number:2}} &euro;</div>
+											<div flex><b>Balance real: </b>{{pres.imto | number:2}} &euro;</div>
+											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
+											<div flex><b>Estado: </b>{{ltPresEsta[pres.esta].desc}}</div>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="10">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">home</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="fnAnua($index)">
+											Detalle
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnConc($index)">
+											Desglose
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<canvas id="presResuChart" style="width:90%; padding-left: 4%; padding-top: 20px; height: 300px;"></canvas>
+	</div>
+</div>

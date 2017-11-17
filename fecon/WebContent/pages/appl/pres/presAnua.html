@@ -1,0 +1,269 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Presupuesto Anual</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+  			<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" >
+	        	<label>Año</label>
+				<md-select ng-model="cntx.form.anua" ng-change="anuaChng()">
+	               	<md-option ng-repeat="anua in cntx.data.ltAnualidad" ng-value="anua.clav">{{anua.desc}}</md-option>
+	            </md-select>
+	        </md-input-container>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"><b>Presup.</b></div>
+								<div flex="35"><b>Desv.</b></div>
+								<div flex="30"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="25"><b>Mes</b></div>
+								<div flex="25"><b>Presupuesto</b></div>
+								<div flex="25"><b>Desviación</b></div>
+								<div flex="25"><b>Estado</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"><b>Mes</b></div>
+								<div flex="15"><b>Presupuesto</b></div>
+								<div flex="15"><b>Real</b></div>
+								<div flex="15"><b>Desviación</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="pres in cntx.data.presList" ng-click="xpnd($index, 1)" data-ng-class="{positive: (pres.esta === 'C' && pres.desv > 0), negative: (pres.desv < 0)}">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+							<div layout="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div layout="column">
+									<div flex="auto" hide show-xs layout="column">
+										<div flex>{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex layout="row">
+											<div flex="35">{{pres.impo | number:2}} &euro;</div>
+											<div flex="35">{{pres.desv | number:2}} &euro;</div>
+											<div flex="30">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										</div>
+									</div>
+									<div flex="auto" hide show-sm layout="row">
+										<div flex="25">{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex="25">{{pres.impo | number:2}} &euro;</div>
+										<div flex="25">{{pres.desv | number:2}} &euro;</div>
+										<div flex="25">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+									</div>
+									<div flex="auto" hide show-gt-sm layout="row">
+										<div flex="40">{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex="15">{{pres.impo | number:2}} &euro;</div>
+										<div flex="15">{{pres.imto | number:2}} &euro;</div>
+										<div flex="15">{{pres.desv | number:2}} &euro;</div>
+										<div flex="15">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+									</div>
+ 									<div flex layout="row" ng-show="$index === cntx.conf.itm1" layout-padding>
+ 										<div flex layout="column" class="md-whiteframe-z2">
+											<div flex><b>Mes: </b>{{cntx.data.ltMes[pres.mesp].desc}}</div>
+											<div flex><b>Importe presupuestado: </b>{{pres.impo | number:2}} &euro;</div>
+											<div flex><b>Importe real: </b>{{pres.imto | number:2}} &euro;</div>
+											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
+											<div flex><b>Estado: </b>{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="10">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">home</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="fnMesp($index)">
+											Detalle
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnEdit($index)">
+											Apuntes
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+								
+				<md-list-item class="summary">
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
+ 								<div flex="35"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="30"></div>
+							</div>
+ 							<div flex hide show-sm layout="row">
+								<div flex="40"><b>Resumen</b></div>
+								<div flex="20"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"><b>Resumen</b></div>
+								<div flex="15"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.presList | sumByKey:'imre' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"><b>Presup.</b></div>
+								<div flex="35"><b>Desv.</b></div>
+								<div flex="30"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="40"><b>Partida</b></div>
+								<div flex="20"><b>Presup.</b></div>
+								<div flex="20"><b>Desv.</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"><b>Partida</b></div>
+								<div flex="15"><b>Presupuesto</b></div>
+								<div flex="15"><b>Real</b></div>
+								<div flex="15"><b>Desviación</b></div>
+								<div flex="15"><b>Estado</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="presAnua in cntx.data.presListAnua" ng-click="xpnd($index, 2)" data-ng-class="{positive: (presAnua.esta === 'C' && presAnua.desv > 0), negative: (presAnua.desv < 0)}">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+							<div layout="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div layout="column">
+									<div flex="auto" hide show-xs layout="column">
+										<div flex>{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex layout="row">
+											<div flex="35">{{presAnua.impo | number:2}} &euro;</div>
+											<div flex="35">{{presAnua.desv | number:2}} &euro;</div>
+											<div flex="30">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+										</div>
+									</div>
+									<div flex="auto" hide show-sm layout="row">
+										<div flex="40">{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex="20">{{presAnua.impo | number:2}} &euro;</div>
+										<div flex="20">{{presAnua.desv | number:2}} &euro;</div>
+										<div flex="20">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+									</div>
+									<div flex="auto" hide show-gt-sm layout="row">
+										<div flex="40">{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex="15">{{presAnua.impo | number:2}} &euro;</div>
+										<div flex="15">{{presAnua.imto | number:2}} &euro;</div>
+										<div flex="15">{{presAnua.desv | number:2}} &euro;</div>
+										<div flex="15">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+									</div>
+ 									<div flex layout="row" ng-show="$index === cntx.conf.itm2" layout-padding>
+ 										<div flex layout="column" class="md-whiteframe-z2">
+											<div flex><b>Partida: </b>{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+											<div flex><b>Importe presupuestado: </b>{{presAnua.impo | number:2}} &euro;</div>
+											<div flex><b>Importe real: </b>{{presAnua.imto | number:2}} &euro;</div>
+											<div flex><b>Desviación: </b>{{presAnua.desv | number:2}} &euro;</div>
+											<div flex><b>Estado: </b>{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="10">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">home</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="fnEsta($index)">
+											Cambiar estado
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnEdit($index)">
+											Apuntes
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+				
+				<md-list-item class="summary">
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
+ 								<div flex="35"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="30"></div>
+							</div>
+ 							<div flex hide show-sm layout="row">
+								<div flex="40"><b>Resumen</b></div>
+								<div flex="20"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"><b>Resumen</b></div>
+								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'imre' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+			</md-list>
+        </md-content>
+    </div>
+</div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<canvas id="presAnuaChart" style="width:90%; padding-left: 4%; padding-top: 20px; height: 300px;"></canvas>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+<div data-ng-controller="secCtrl"></div>
+
+<article class="modulo anchura_full">
+	<header>
+		<h3>Traspaso</h3>
+	</header>
+
+	<form data-ng-submit="traspasar">
+	<div class="modulo_contenido">
+		<fieldset style="width:32%; float:left; margin-left: 1%;">
+			<label>Origen</label>
+			<select style="width:92%;" data-ng-model="cuen.orig" data-ng-options="cuen.iden as (cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)') for cuen in cuenList">
+			</select>
+		</fieldset>
+		<fieldset style="width:32%; float:left; margin-left: 1%;">
+			<label>Destino</label>
+			<select style="width:92%;" data-ng-model="cuen.dest" data-ng-options="cuen.iden as (cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)') for cuen in cuenList">
+			</select>
+		</fieldset>
+		<fieldset style="width:32%; float:right; margin-left: 1%;">
+			<label>Importe:</label>
+			<input style="width:92%;" type="text" data-ng-model="cuen.impo">
+		</fieldset>
+	</div> 
+	<footer>
+		<div class="botonera">
+			<input type="submit" value="Entrar" class="alt_btn" data-ng-click="traspasar();" >
+		</div>
+	</footer>
+	</form>
+</article>

@@ -1,0 +1,120 @@
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- // Pagina principal de la aplicacion.                                                        // -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- // Version | Tarea   | Comentarios de version                                                // -->
+<!-- // v.01.00 |         | Primera version del SW                                                // -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<!doctype html>
+
+<html lang="es" data-ng-app="app" data-ng-controller="appCtrl" >
+
+	<head>
+			
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width">
+		
+		<title ng-bind="$root.lite.nomb"></title>
+
+		<!-- Estilos de angular-material -->
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+
+		<!-- Estilos de la aplicación -->
+		<link rel="stylesheet" href="css/layout.css?v.0.00.31" type="text/css" media="screen" />
+
+		<!-- Librerias de angularJS -->
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+		
+		<!-- Módulo route de angularJS -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+		
+		<!-- Libreria de angular-material -->
+		<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+		
+		<!-- Configuracion principal de aplicacion -->
+		<script src="js/core/script.js?v.0.00.31"></script>
+
+		<!-- Configuracion de navegación de aplicacion -->
+		<script src="js/core/route.js?v.0.00.31"></script>
+
+		<!-- Configuración del servicio de contexto de controladores -->
+		<script src="js/core/cntx.js?v.0.00.31"></script>
+						
+		<!-- Configuración del servicion Front -->
+		<script src="js/core/srv.js?v.0.00.31"></script>
+		
+		<!-- Controladores de arquitectura -->
+		<script src="js/core/arqCtrl.js?v.0.00.31"></script>
+		
+		<!-- Controladores de servicios CORE -->
+		<script src="js/core/usua/usuaExitCtrl.js?v.0.00.31"></script>
+		<script src="js/core/usua/usuaLgonCtrl.js?v.0.00.31"></script>
+		<script src="js/core/usua/usuaRegiCtrl.js?v.0.00.31"></script>
+		<script src="js/core/avis/avisListCtrl.js?v.0.00.31"></script>
+		<script src="js/core/invi/inviListCtrl.js?v.0.00.31"></script>
+
+		<!-- Controladores de servicios de Aplicación -->
+		<script src="js/appl/cuen/cuenListCtrl.js?v.0.00.31"></script>
+		<script src="js/appl/pres/presResuCtrl.js?v.0.00.31"></script>
+		<script src="js/appl/pres/presAnuaCtrl.js?v.0.00.31"></script>
+		<script src="js/appl/pres/presMespCtrl.js?v.0.00.31"></script>
+		<script src="js/appl/pres/presConcCtrl.js?v.0.00.31"></script>
+		
+		<script src="js/Chart.js?v.0.00.31"></script>
+		<script src="js/adm/concCtrl.js?v.0.00.31"></script>
+		
+		
+		<script src="js/pres/presNuevCtrl.js?v.0.00.31"></script>
+		<script src="js/hcon/hconApunCtrl.js?v.0.00.31"></script>
+		<script src="js/hcon/hconListCtrl.js?v.0.00.31"></script>
+		<script src="js/cuen/cuenTrasCtrl.js?v.0.00.31"></script>
+		<script src="js/cuen/cuenCuadCtrl.js?v.0.00.31"></script>
+	</head>
+	
+	<body layout="column" layout-fill>
+	
+		<div layout="row" layout-align="center center" id="wait" ng-show="$root.esta.load">
+			<md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
+		</div>
+
+		<md-toolbar layout="row" class="md-toolbar-tools md-hue-2" layout-align="center center">
+			<md-button ng-click="showMenu()"><md-icon md-font-set="material-icons">menu</md-icon></md-button>
+			<div flex data-ng-show="!$root.esta.usuaRegi"><h2 ng-bind="$root.lite.nomb"></h2></div>
+			<div flex data-ng-show="$root.esta.usuaRegi"><h2>{{$root.esta.usua.iden}}</h2></div>
+			<md-button data-ng-show="$root.esta.usuaRegi" ng-click="go('/logout')"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+			<md-button data-ng-show="!$root.esta.usuaRegi" ng-click="go('/lgon')"><md-icon md-font-set="material-icons">exit_to_app</md-icon></md-button>
+		</md-toolbar>		
+
+		<md-content flex>
+			<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left">
+				<section data-ng-repeat="ctmn in $root.esta.menuList">
+      			<md-toolbar class="md-theme-indigo">
+        			<h4 class="md-toolbar-tools">{{ctmn.desc}}</h4>
+      			</md-toolbar>
+      			<md-content layout-padding>
+        			<md-button ng-click="go(dtmn.path)" class="md-fab md-mini" data-ng-repeat="dtmn in ctmn.dtmnList">
+          				<md-icon md-font-set="material-icons">{{dtmn.icon}}</md-icon>
+          				<!-- <md-icon md-font-set="material-icons">exit_to_app</md-icon> -->
+        			</md-button>
+      			</md-content>
+      			</section>
+    		</md-sidenav>
+    		<div flex layout="column">
+    			<div flex layout="column" layout-align="center center">
+    				<script type="text/javascript">
+						var ad_idzone = "2442039",
+	 						ad_width = "468",
+	 						ad_height = "60";
+					</script>
+					<script type="text/javascript" src="https://ads.exdynsrv.com/ads.js"></script>
+					<noscript><a href="http://main.exdynsrv.com/img-click.php?idzone=2442039" target="_blank"><img src="https://syndication.exdynsrv.com/ads-iframe-display.php?idzone=2442039&output=img&type=468x60" width="468" height="60"></a></noscript>
+    			</div>
+    			<div data-ng-view flex></div>
+    		</div>
+    	</md-content>			
+	</body>
+</html>

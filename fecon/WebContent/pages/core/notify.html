@@ -1,0 +1,43 @@
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- // Diálogo de Notificaciones de aplicación.                                                  // -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- // Version   | Fecha Fin  | Comentarios de version                                           // -->
+<!-- // v.1.00.00 | 03/02/2017 | Primera version del SW                                           // -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<md-dialog aria-label="Notificaciones">
+	<form ng-cloak>
+		<md-toolbar>
+      		<div class="md-toolbar-tools">
+        		<h2>Notificaciones: {{tradEsta();}}</h2>
+        		<span flex></span>
+        		<md-button class="md-icon-button" ng-click="cancel()">
+          			<md-icon md-font-set="material-icons">clear</md-icon>
+        		</md-button>
+      		</div>
+    	</md-toolbar>
+
+		<md-dialog-content>
+			<div class="md-dialog-content">
+				<h2 ng-if="isVoid()" data-ng-repeat="vd in data.void">{{vd.iden}} - {{vd.desc}}</h2>
+				        		
+        		<h2 ng-if="isAuto()" data-ng-repeat="au in data.auto">{{data.au.iden}} - {{data.au.desc}}</h2>
+        		
+        		<h2 ng-if="isInfo()" data-ng-repeat="info in data.info">{{info.iden}} - {{info.desc}}</h2>
+      		</div>
+    	</md-dialog-content>
+
+		<md-dialog-actions layout="row">
+      		<span flex></span>
+      		<md-button ng-if="isAuto()" ng-click="auto(true)">
+      			Autorizar
+      		</md-button>
+      		<md-button ng-if="isAuto()" ng-click="auto(false)">
+      			No autorizar
+      		</md-button>
+      		<md-button ng-if="!isAuto()" ng-click="auto(false)">
+      			Aceptar
+      		</md-button>
+    	</md-dialog-actions>
+  	</form>
+</md-dialog>

@@ -1,0 +1,41 @@
+<div data-ng-controller="secCtrl"></div>
+
+<article class="modulo anchura_full">
+	<header>
+		<h3 class="tabs_involved">Cuentas</h3>
+	</header>
+	
+	<div class="contenedor_tabla">
+		<table class="listado"> 
+			<thead> 
+				<tr>
+					<th style="width: 25%;">Desc</th>  
+					<th style="width: 25%;">Tipo</th> 
+					<th style="width:  7%;">Saldo</th>
+					<th style="width: 33%;"></th>  
+					<th style="width: 10%;">Acciones</th>
+				</tr> 
+			</thead> 
+			<tbody data-ng-repeat="cuen in cuenList"> 
+				<tr>  
+					<td>{{cuen.desc}}</td>
+					<td>{{parTipo[cuen.tipo].valo}}</td>
+					<td style="text-align: right;">{{cuen.sald | number:2}} &euro;</td>
+					<td></td>
+					<td><a href="#/cuen/tras/{{cuen.iden}}"><input type="image" src="images/icn_transfer.png" title="Traspasar"></a><a href="" data-ng-click="editar(cuen.iden, cuen.desc, cuen.tipo, cuen.sald);"><input type="image" src="images/icn_editar.png" title="Editar"></a></td> 
+				</tr>
+			</tbody>
+		</table>
+		<form data-ng-submit="save">
+			<table class="listado">
+				<tr>
+					<td style="width: 25%;"><input type="text" data-ng-model="ncuen.desc"/></td>  
+					<td style="width: 25%;"><select data-ng-model="ncuen.tipo" data-ng-options="parm.clav as parm.valo for parm in parTipoList"></select></td> 
+					<td style="width:  7%;"><input type="text" data-ng-model="ncuen.sald"/></td>
+					<td style="width: 33%;"><input type="submit" data-ng-show="{{0==1}}" data-ng-click="save();"/></td>  
+					<td style="width: 10%;"><a href="" data-ng-click="cancelar();" data-ng-show="ncuen.iden !== 0"><input type="image" src="images/icn_delete.png" title="Cancelar"></a></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</article>

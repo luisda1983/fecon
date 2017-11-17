@@ -1,0 +1,21 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Avisos</span>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item data-ng-repeat="avis in avisList" ng-click="null">
+					<div class="md-list-item-text" layout="columns">
+						<p>{{avis.desc}}</p>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

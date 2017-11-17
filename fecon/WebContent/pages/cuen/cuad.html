@@ -1,0 +1,35 @@
+<div data-ng-controller="secCtrl"></div>
+
+<article class="modulo anchura_full">
+	<header>
+		<h3>Cuadre de Cuenta</h3>
+	</header>
+
+	<form data-ng-submit="cuadrar">
+		<div class="modulo_contenido">
+			<fieldset style="width:32%; float:left; margin-left: 1%;">
+				<label>Cuenta:</label>
+				<select style="width:92%;" data-ng-model="cuad.cuen" data-ng-disabled="disa.cuen" data-ng-options="cuen as (cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)') for cuen in cuenList" data-ng-change="cuenSelect();">
+				</select>
+			</fieldset>
+			<fieldset style="width:32%; float:left; margin-left: 1%;" data-ng-show="cuad.cuen!==0">
+				<label>Saldo Actual:</label>
+				<input style="width:92%;" type="text" data-ng-model="cuad.sald" data-ng-disabled="disa.sald" data-ng-keyup="actuImpo();">
+			</fieldset>
+			<fieldset style="width:32%; float:right; margin-left: 1%;" data-ng-show="cuad.cuen!==0">
+				<label>Importe:</label>
+				<input style="width:92%;" type="text" data-ng-model="cuad.impo" data-ng-readonly="true">
+			</fieldset>
+		</div> 
+	<footer data-ng-show="!showResult">
+		<div class="botonera">
+			<input type="submit" value="Entrar" class="alt_btn" data-ng-click="cuadrar();" >
+		</div>
+	</footer>
+	</form>
+	<div class="modulo_contenido" data-ng-show="showResult">
+		Existe una diferencia de {{cuad.impo}} &euro;. <br><br> 
+		Cuadrar contra concepto: <select style="width:30%;" data-ng-model="cuad.cate" data-ng-options="cate.iden as cate.desc for cate in cateList" data-ng-change="cateChange();"></select> <select style="width:30%;" data-ng-model="cuad.conc" data-ng-options="conc.iden as conc.desc for conc in concList"></select> <a href="" data-ng-click="cuadrarApunte()"><input type="image" src="images/icn_aceptar.png" title="Cuadrar" style="height: 16px;"></a><br><br>
+		Registrar apuntes <a href="#/hcon/apun"><input type="image" src="images/icn_apun.png" title="Crear apuntes" style="height: 16px;"></a>
+	</div> 
+</article>

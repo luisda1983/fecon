@@ -1,0 +1,19 @@
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="20" flex-lg="35" flex-md="60" flex-sm="70" flex-xs="100" class="md-whiteframe-z4">
+        <md-content class="md-padding">
+                <form name="lgonForm" data-ng-submit="lgon()">
+                    <md-input-container md-no-float class="md-block">
+                        <label>Usuario:</label>
+                        <input ng-model="lgon.iden">
+                    </md-input-container>
+                    <md-input-container md-no-float class="md-block">
+                        <label>Password:</label>
+                        <input type="password" ng-model="lgon.pass">
+                    </md-input-container>
+                    <div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Entrar">Entrar</md-button>
+                    </div>
+                </form>
+        </md-content>
+    </div>
+</div>
