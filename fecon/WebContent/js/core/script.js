@@ -15,7 +15,7 @@ var app = angular.module('app', ['ngRoute','ngMaterial']);
 // en la URL de openshift no aparezca la aplicación
 var targetHost = 'http://fecon-luisda1983.193b.starter-ca-central-1.openshiftapps.com/';
 //var targetHost = 'http://fecon-luisda1983.rhcloud.com/';
-//var targetHost = 'http://fecon-luisda1983.1d35.starter-us-east-1.openshiftapps.com/';
+//var targetHost = 'http://fecon-luisda1983.1d35.starter-us-east-1.openshiftapps.com/fecon';
 //Configuracion de tema primario y secundario
 app.config(function($mdThemingProvider) {
 	$mdThemingProvider
