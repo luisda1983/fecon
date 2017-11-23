@@ -15,7 +15,9 @@
         				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         				   http://www.springframework.org/schema/task
         				   http://www.springframework.org/schema/task/spring-task-4.0.xsd">
-    
+
+	<mvc:annotation-driven />
+		    
     <context:component-scan base-package="es.ldrsoftware.core.fwk.ctrl" />
     <context:component-scan base-package="ldrsoftware.app.dao.impl" />
     <context:component-scan base-package="ldrsoftware.app.service" />    				   
@@ -23,7 +25,6 @@
 	<context:component-scan base-package="es.ldrsoftware.core" />
 	<context:component-scan base-package="es.ldrsoftware.fecon" />
 	
-	<mvc:annotation-driven />
 	<task:annotation-driven />
 	
 	<context:property-placeholder location="classpath:jdbc.properties"/>
