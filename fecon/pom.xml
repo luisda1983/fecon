@@ -83,7 +83,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>${artifactId}</finalName>
+		<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
