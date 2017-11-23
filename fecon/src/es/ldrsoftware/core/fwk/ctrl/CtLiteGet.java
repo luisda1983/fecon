@@ -28,7 +28,6 @@ public class CtLiteGet extends BaseController {
 	
 	@RequestMapping(value="/angular/lite/get", method = RequestMethod.POST, headers="Accept=application/json")
 	public ResponseArea ctLiteGet(HttpServletRequest servletRqt, @RequestBody CtLiteGetRqt rqt) {
-		System.out.println("Entra?");
 		BsLiteGetArea area = new BsLiteGetArea();
 		area.IN.tbla = rqt.tbla;
 		area.IN.clav = rqt.clav;

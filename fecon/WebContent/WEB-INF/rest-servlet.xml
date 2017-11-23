@@ -16,6 +16,7 @@
         				   http://www.springframework.org/schema/task
         				   http://www.springframework.org/schema/task/spring-task-4.0.xsd">
     
+    <context:component-scan base-package="es.ldrsoftware.core.fwk.ctrl" />
     <context:component-scan base-package="ldrsoftware.app.dao.impl" />
     <context:component-scan base-package="ldrsoftware.app.service" />    				   
 	<context:component-scan base-package="ldrsoftware.app.controller" />
