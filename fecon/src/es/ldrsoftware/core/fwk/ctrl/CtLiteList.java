@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +21,7 @@ import es.ldrsoftware.core.fwk.bs.BsLiteList;
 import es.ldrsoftware.core.fwk.bs.BsLiteListArea;
 import es.ldrsoftware.core.fwk.entity.Lite;
 
-@Controller
+@RestController
 public class CtLiteList extends BaseController {
 
 	@Autowired
