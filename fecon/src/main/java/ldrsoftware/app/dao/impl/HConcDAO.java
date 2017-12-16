@@ -40,7 +40,7 @@ public class HConcDAO extends DAOEntityManager implements IHConcDAO {
 	}
 	
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public HConc getByIden(long inst, int iden) {
+	public HConc getByIden(long inst, long iden) {
 		String query =  "  SELECT C FROM HConc C ";
 		query = query + "   WHERE C.inst = " + inst + " ";
 		query = query + "     AND C.iden = " + iden + " ";

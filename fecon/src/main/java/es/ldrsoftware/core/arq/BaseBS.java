@@ -59,6 +59,18 @@ public abstract class BaseBS extends BaseNotifyManager {
 		}
 	}
 	
+	protected void validateDecRequired(double d, String notf) throws Exception {
+		if (d == 0) {
+			notify(notf);
+		}
+	}
+	
+	protected void validateDecEmpty(double d, String notf) throws Exception {
+		if (d != 0) {
+			notify(notf);
+		}
+	}
+	
 	protected boolean testString(String s) {
 		if (s == null || "".equals(s)) {
 			return false;

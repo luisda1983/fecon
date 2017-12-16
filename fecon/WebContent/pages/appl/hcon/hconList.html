@@ -1,0 +1,178 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Consula de Apuntes</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+  			<form name="hconList" data-ng-submit="fnList()">
+  				<div layout="row" layout-xs="column" layout-sm="column">
+  					<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="show.tipo">
+	        			<label>Tipo de Consulta</label>
+						<md-select ng-model="form.tipo" ng-change="fnTipoChng()">
+	               			<md-option ng-repeat="tipo in ltHconLtTipo" ng-value="tipo.clav">{{tipo.desc}}</md-option>
+	            		</md-select>
+	        		</md-input-container>
+	        	</div>
+	        	<div layout="row" layout-xs="column" layout-sm="column">
+	        		<div layout="row" layout-xs="column" flex>
+	               		<md-input-container class="md-block" flex data-ng-show="show.anua">
+	               			<label>Año</label>
+							<md-select ng-model="form.anua" ng-change="concChange()">
+	                       		<md-option ng-repeat="anua in ltAnualidad" ng-value="anua.clav">{{anua.desc}}</md-option>
+	                		</md-select>
+	            		</md-input-container>
+						<md-input-container class="md-block" flex data-ng-show="show.mesh">
+	                		<label>Mes</label>
+	                    	<md-select ng-model="form.mesh">
+		                      	<md-option ng-repeat="mesh in ltMes" ng-value="mesh.clav">{{mesh.desc}}</md-option>
+		                    </md-select>
+	    	            </md-input-container>
+					</div>
+					<div layout="row" layout-xs="column" flex>
+	               		<md-input-container class="md-block" flex data-ng-show="show.cate">
+	               			<label>Categoria</label>
+							<md-select ng-model="form.cate" ng-change="fnCateChng()">
+	                       		<md-option ng-repeat="cate in cateList" ng-value="cate.iden">{{cate.desc}}</md-option>
+	                		</md-select>
+	            		</md-input-container>
+						<md-input-container class="md-block" flex data-ng-show="show.conc">
+	                		<label>Concepto</label>
+	                    	<md-select ng-model="form.conc">
+		                      	<md-option ng-repeat="conc in concList" ng-value="conc.iden">{{conc.desc}}</md-option>
+		                    </md-select>
+	    	            </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Buscar</md-button> 
+                </div>
+			</form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="75"><b>Categoria</b></div>
+								<div flex="25"><b>Importe</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="20"><b>F.Valor</b></div>
+								<div flex="30"><b>Categoria</b></div>
+								<div flex="30"><b>Concepto</b></div>
+								<div flex="20"><b>Importe</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="15"><b>F.Valor</b></div>
+								<div flex="20"><b>Categoría</b></div>
+								<div flex="20"><b>Concepto</b></div>
+								<div flex="15"><b>Importe</b></div>
+								<div flex="30"><b>Descripción</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="hcon in hconList" ng-click="xpnd($index, 1)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+							<div layout="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div layout="column">
+									<div flex="auto" hide show-xs layout="column">
+										<div flex>{{hcon.feva | yyyymmddFmt}}</div>
+										<div flex layout="row">
+											<div flex="75">{{cateMap[hcon.cate].desc + "[" + concMap[hcon.conc].desc + "]"}}</div>
+											<div flex="25">{{hcon.impo | number: 2}} &euro;</div>
+										</div>
+									</div>
+									<div flex="auto" hide show-sm layout="row">
+										<div flex="20">{{hcon.feva | yyyymmddFmt}}</div>
+										<div flex="30">{{cateMap[hcon.cate].desc}}</div>
+										<div flex="30">{{concMap[hcon.conc].desc}}</div>
+										<div flex="20">{{hcon.impo | number: 2}} &euro;</div>
+									</div>
+									<div flex="auto" hide show-gt-sm layout="row">
+										<div flex="15">{{hcon.feva | yyyymmddFmt}}</div>
+										<div flex="20">{{cateMap[hcon.cate].desc}}</div>
+										<div flex="20">{{concMap[hcon.conc].desc}}</div>
+										<div flex="15">{{hcon.impo | number: 2}} &euro;</div>
+										<div flex="30">{{hcon.desc}}</div>
+									</div>
+ 									<div flex layout="row" ng-show="$index === conf.item" layout-padding>
+ 										<div flex layout="column" class="md-whiteframe-z2">
+											<div flex><b>Identificador: </b>{{hcon.iden}}</div>
+											<div flex><b>Fecha Valor: </b>{{hcon.feva | yyyymmddFmt}}</div>
+											<div flex><b>Categoria: </b>{{cateMap[hcon.cate].desc}}</div>
+											<div flex><b>Concepto: </b>{{concMap[hcon.conc].desc}}</div>
+											<div flex><b>Descripción: </b>{{hcon.desc}}</div>
+											<div flex><b>Fecha operación: </b>{{hcon.feop | yyyymmddFmt}}</div>
+											<div flex><b>Hora operación: </b>{{hcon.hoop | hhmmssFmt}}</div>
+											<div flex><b>Usuario: </b>{{hcon.usua}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="10">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">home</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="fnAnul($index)">
+											Anular
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnEdit($index)">
+											Apuntes
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+								
+				<md-list-item class="summary">
+					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="35"></div>
+ 								<div flex="35"></div>
+								<div flex="30"><b>{{hconList | sumByKey:'impo' | number:2}} &euro;</b></div>
+							</div>
+ 							<div flex hide show-sm layout="row">
+								<div flex="40"></div>
+								<div flex="20"></div>
+								<div flex="20"></div>
+								<div flex="15"><b>{{hconList | sumByKey:'impo' | number:2}} &euro;</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="40"></div>
+								<div flex="15"></div>
+								<div flex="15"></div>
+								<div flex="15"><b>{{hconList | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="15"></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

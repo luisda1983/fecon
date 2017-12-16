@@ -1,0 +1,60 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z4">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Apunte</span>
+    		</h2>
+  		</md-toolbar>
+        <md-content class="md-padding">
+			<form name="apunForm" data-ng-submit="save()">
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex>
+	                		<label>Categoria</label>
+							<md-select ng-model="apun.cate" ng-change="concChange()">
+	                        	<md-option ng-repeat="cate in cateList" ng-value="cate.iden">{{cate.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Concepto</label>
+	                        <md-select ng-model="apun.conc">
+	                        	<md-option ng-repeat="conc in concList" ng-value="conc.iden">{{conc.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Cuenta</label>
+	                        <md-select ng-model="apun.cuen">
+	                        	<md-option ng-repeat="cuen in cuenList" ng-value="cuen.iden">{{cuen.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Importe</label>
+	                    	<input type="number" ng-model="apun.impo" step="0.01"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column">
+					<div layout="row" layout-xs="column" flex="25" flex-sm="50" flex-xs="100">
+						<md-input-container class="md-block" flex>
+	                    	<label>Fecha Valor</label>
+	                    	<input type="date" ng-model="apun.fval"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row">
+					<md-input-container class="md-block" flex>
+	                	<label>Descripción</label>
+	                	<input type="text" ng-model="apun.desc"/>
+					</md-input-container>
+				</div>
+                <div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
+                </div>
+			</form>
+        </md-content>
+    </div>
+</div>

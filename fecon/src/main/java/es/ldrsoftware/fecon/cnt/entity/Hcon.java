@@ -39,21 +39,27 @@ public class Hcon implements Serializable {
 	@Column(name = "HCONFEVA", nullable = false)
 	private int    feva;
 
-	@Column(name = "HCONPRES", nullable = false)
-	private String pres;
-
-	@Column(name = "HCONANUA", nullable = false)
-	private int    anua;
-
-	@Column(name = "HCONMESP", nullable = false)
-	private int    mesp;
-
 	@Column(name = "HCONCATE", nullable = false)
 	private long   cate;
 
 	@Column(name = "HCONCONC", nullable = false)
 	private long   conc;
 
+	@Column(name = "HCONPRES", nullable = false)
+	private String pres;
+
+	@Column(name = "HCONPRAN", nullable = false)
+	private int    pran;
+
+	@Column(name = "HCONPRMS", nullable = false)
+	private int    prms;
+
+	@Column(name = "HCONPRCT", nullable = false)
+	private long   prct;
+	
+	@Column(name = "HCONPRCC", nullable = false)
+	private long   prcc;
+	
 	@Column(name = "HCONIMPO", nullable = false)
 	private double impo;
 	
@@ -127,20 +133,37 @@ public class Hcon implements Serializable {
 		this.pres = pres;
 	}
 
-	public int getAnua() {
-		return anua;
+
+	public int getPran() {
+		return pran;
 	}
 
-	public void setAnua(int anua) {
-		this.anua = anua;
+	public void setPran(int pran) {
+		this.pran = pran;
 	}
 
-	public int getMesp() {
-		return mesp;
+	public int getPrms() {
+		return prms;
 	}
 
-	public void setMesp(int mesp) {
-		this.mesp = mesp;
+	public void setPrms(int prms) {
+		this.prms = prms;
+	}
+
+	public long getPrct() {
+		return prct;
+	}
+
+	public void setPrct(long prct) {
+		this.prct = prct;
+	}
+
+	public long getPrcc() {
+		return prcc;
+	}
+
+	public void setPrcc(long prcc) {
+		this.prcc = prcc;
 	}
 
 	public long getCate() {

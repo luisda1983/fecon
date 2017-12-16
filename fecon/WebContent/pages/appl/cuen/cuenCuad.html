@@ -1,0 +1,62 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z4">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Cuadre de cuenta</span>
+    		</h2>
+  		</md-toolbar>
+        <md-content class="md-padding">
+			<form name="cuadForm" data-ng-submit="fnCuad()">
+				<div layout="row" layout-xs="column" flex="75" flex-sm="100" flex-xs="100">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex>
+	                		<label>Cuenta</label>
+							<md-select ng-model="form.cuen" ng-change="fnCuenSelc()">
+	                        	<md-option ng-repeat="cuen in cuenList" ng-value="cuen">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Saldo Actual</label>
+	                    	<input type="number" ng-model="form.sald" step="0.01" data-ng-keyup="fnImpoRfsh();"/>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Importe</label>
+	                        <input type="number" ng-model="form.impo" data-ng-readonly="true"/>
+	                    </md-input-container>
+					</div>
+				</div>
+                <div layout="row" layout-align="center center" data-ng-show="show.btCuad">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Cuadrar">Cuadrar</md-button> 
+                </div>
+			</form>
+        </md-content>
+        <md-content class="md-padding" data-ng-show="show.arApun">
+        	Existe una diferencia de {{form.impo}} &euro;. <br><br>
+        	Seleccione concepto de cuadre. <br><br>
+        	<form name="apunForm" data-ng-submit="fnApun()">
+        		<div layout="row" layout-xs="column" flex="50" flex-sm="100" flex-xs="100">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex>
+	                		<label>Categoria</label>
+							<md-select ng-model="form.cate" ng-change="fnCateChng()">
+	                        	<md-option ng-repeat="cate in cateList" ng-value="cate">{{cate.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex>
+	                    	<label>Concepto</label>
+	                    	<md-select ng-model="form.conc">
+	                        	<md-option ng-repeat="conc in concList" ng-value="conc">{{conc.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Apunte">Apunte</md-button> 
+                    <md-button ng-click="fnCanc()" class="md-raised md-primary" aria-label="Cancelar">Cancelar</md-button>
+                </div>
+        	</form>
+        </md-content>
+    </div>
+</div>

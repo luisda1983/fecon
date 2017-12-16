@@ -14,7 +14,7 @@ public interface IHConcDAO {
 
 	List<HConc> getList(long inst, ConcSearch search);
 	
-	HConc getByIden    (long inst, int iden);
+	HConc getByIden    (long inst, long iden);
 	HConc getByCateDesc(long inst, int cate, String desc);
 	HConc getByCateOrde(long inst, int cate, int orde);
 	
