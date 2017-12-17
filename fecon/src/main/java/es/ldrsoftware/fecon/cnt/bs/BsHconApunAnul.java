@@ -13,7 +13,6 @@ import es.ldrsoftware.fecon.prp.bs.BsPresGetArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresSave;
 import es.ldrsoftware.fecon.prp.bs.BsPresSaveArea;
 import es.ldrsoftware.fecon.prp.entity.Pres;
-import ldrsoftware.app.dao.IHConcDAO;
 
 @Component
 public class BsHconApunAnul extends BaseBS {
@@ -38,7 +37,6 @@ public class BsHconApunAnul extends BaseBS {
 		
 		Hcon hcon = area.IN.hcon;
 		
-		//Convivencia
 		BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
 		bsCuenGetArea.IN.iden = hcon.getCuen();
 		bsCuenGet.executeBS(bsCuenGetArea);
@@ -71,10 +69,7 @@ public class BsHconApunAnul extends BaseBS {
 		
 		Pres pres = bsPresGetArea.OUT.pres;
 
-		//Mientras no se determine la exclusión de presupuesto mediante la entrada, la partida indicará
-		//si computa contra presupuesto o no. En la anulación, el propio movimiento indicará si computó
-		//contra presupuesto o no
-		if (pres.getImpo() != 0) {
+		if ("S".equals(hcon.getPres())) {
 			pres.setImpr(pres.getImpr() - hcon.getImpo());
 		} else {
 			pres.setImnp(pres.getImnp() - hcon.getImpo());
