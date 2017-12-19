@@ -30,8 +30,8 @@
 								<div flex="15"><b>Ingresos</b></div>
 								<div flex="15"><b>Gastos</b></div>
 								<div flex="15"><b>Presupuesto</b></div>
-								<div flex="15"><b>Total</b></div>
 								<div flex="15"><b>Desviación</b></div>
+								<div flex="15"><b>Total</b></div>
 								<div flex="15"><b>Estado</b></div>
 							</div>
 						</div>
@@ -41,7 +41,7 @@
 					<md-divider></md-divider>
 				</md-list-item>
 				
-				<md-list-item data-ng-repeat="pres in presList" ng-click="xpnd($index)"  data-ng-class="{positive: (pres.esta === 'C' && pres.desv > 0), negative: (pres.desv < 0)}">
+				<md-list-item data-ng-repeat="pres in presList" ng-click="xpnd($index)"  data-ng-class="{positive: (pres.esta === 'C' && pres.bala > 0), negative: (pres.bala < 0)}">
 					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 							<div layout="column" flex>
@@ -64,8 +64,8 @@
 										<div flex="15">{{pres.toha | number:2}} &euro;</div>
 										<div flex="15">{{pres.tode | number:2}} &euro;</div>
 										<div flex="15">{{pres.impo | number:2}} &euro;</div>
-										<div flex="15">{{pres.imto | number:2}} &euro;</div>
 										<div flex="15">{{pres.desv | number:2}} &euro;</div>
+										<div flex="15">{{pres.imto | number:2}} &euro;</div>
 										<div flex="15">{{ltPresEsta[pres.esta].desc}}</div>
 									</div>
 									<div flex layout="row" ng-show="$index === conf.item" layout-padding>
@@ -74,24 +74,12 @@
 											<div flex><b>Ingresos: </b>{{pres.toha | number:2}} &euro;</div>
 											<div flex><b>Gastos: </b>{{pres.tode | number:2}} &euro;</div>
 											<div flex><b>Total presupuesto: </b>{{pres.impo | number:2}} &euro;</div>
-											<div flex><b>Balance real: </b>{{pres.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
+											<div flex><b>Total: </b>{{pres.imto | number:2}} &euro;</div>
+											<div flex><b>Balance: </b>{{pres.bala | number:2}} &euro;</div>
 											<div flex><b>Estado: </b>{{ltPresEsta[pres.esta].desc}}</div>
 										</div>
 									</div>
-									<!--  Detalle -->
-<!--  									<div flex ng-show="$index === conf.item" layout="row">
- 										<div flex="5"></div>
- 										<div flex="95" layout="column">
-											<div flex><b>Año: </b>{{pres.anua}}</div>
-											<div flex><b>Ingresos: </b>{{pres.toha | number:2}} &euro;</div>
-											<div flex><b>Gastos: </b>{{pres.tode | number:2}} &euro;</div>
-											<div flex><b>Total presupuesto: </b>{{pres.impo | number:2}} &euro;</div>
-											<div flex><b>Balance real: </b>{{pres.imto | number:2}} &euro;</div>
-											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
-											<div flex><b>Estado: </b>{{ltPresEsta[pres.esta].desc}}</div>
-										</div>
-									</div> -->
 								</div>
 							</div>
 						</div>

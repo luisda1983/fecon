@@ -45,8 +45,9 @@ public class PresDAO extends BaseDAO {
 		Query query = 
 				this.getEntityManager().createQuery(
 				          "SELECT P.anua, SUM(P.impo), SUM(P.imto), SUM(P.desv), MIN(P.esta) " 
-						+ "     , SUM(CASE WHEN P.imto > 0 THEN P.imto ELSE 0 END)"
-				        + "     , SUM(CASE WHEN P.imto < 0 THEN P.imto ELSE 0 END)"
+						+ "     , SUM(CASE WHEN P.imto > 0 THEN P.imto ELSE 0 END) "
+				        + "     , SUM(CASE WHEN P.imto < 0 THEN P.imto ELSE 0 END) "
+						+ "     , SUM(P.bala) "
 				        + "  FROM Pres P"
 				        + " WHERE P.inst = " + inst + " "
 						+ " GROUP BY P.anua "
@@ -76,6 +77,8 @@ public class PresDAO extends BaseDAO {
 				if (row[5] != null) { ingr = (Double)row[5];}
 				double gast = 0;
 				if (row[6] != null) { gast = (Double)row[6];}
+				double bala = 0;
+				if (row[7] != null) { bala = (Double)row[7];}
 				
 				Pres pres = new Pres();
 				pres.setInst(inst);
@@ -86,6 +89,7 @@ public class PresDAO extends BaseDAO {
 				pres.setEsta(esta);
 				pres.setToha(ingr);
 				pres.setTode(gast);
+				pres.setBala(bala);
 				presList.add(pres);
 			}
 		}
@@ -97,7 +101,7 @@ public class PresDAO extends BaseDAO {
 		
 		Query query = 
 				this.getEntityManager().createQuery(
-				          "SELECT P.mesp, SUM(P.impo), SUM(P.imto), SUM(P.desv), MIN(P.esta) "
+				          "SELECT P.mesp, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
 						+ "  FROM Pres P " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
@@ -130,8 +134,10 @@ public class PresDAO extends BaseDAO {
 				if (row[2] != null) { imto = (Double)row[2];}
 				double desv = 0;
 				if (row[3] != null) { desv = (Double)row[3];}
+				double bala = 0;
+				if (row[4] != null) { bala = (Double)row[4];}
 				String esta = "";
-				if (row[4] != null) { esta = (String)row[4];}
+				if (row[5] != null) { esta = (String)row[5];}
 				
 				while (mesEsperado < mesp) {
 					Pres pres = new Pres();
@@ -141,6 +147,7 @@ public class PresDAO extends BaseDAO {
 					pres.setImpo(0);
 					pres.setImto(0);
 					pres.setDesv(0);
+					pres.setBala(0);
 					pres.setEsta("A");
 					presList.add(pres);
 					mesEsperado++;	
@@ -153,6 +160,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(impo);
 				pres.setImto(imto);
 				pres.setDesv(desv);
+				pres.setBala(bala);
 				pres.setEsta(esta);
 				presList.add(pres);
 				mesEsperado++;
@@ -165,6 +173,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(0);
 				pres.setImto(0);
 				pres.setDesv(0);
+				pres.setBala(0);
 				pres.setEsta("A");
 				presList.add(pres);
 				mesEsperado++;
@@ -178,6 +187,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(0);
 				pres.setImto(0);
 				pres.setDesv(0);
+				pres.setBala(0);
 				pres.setEsta("A");
 				presList.add(pres);
 			}
@@ -190,7 +200,7 @@ public class PresDAO extends BaseDAO {
 		
 		Query query = 
 				this.getEntityManager().createQuery(
-				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), MIN(P.esta) "
+				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
 						+ "  FROM Pres P, HCate Ca " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
@@ -217,8 +227,10 @@ public class PresDAO extends BaseDAO {
 				if (row[2] != null) { imto = (Double)row[2];}
 				double desv = 0;
 				if (row[3] != null) { desv = (Double)row[3];}
+				double bala = 0;
+				if (row[4] != null) { bala = (Double)row[4];}
 				String esta = "";
-				if (row[4] != null) { esta = (String)row[4];}
+				if (row[5] != null) { esta = (String)row[5];}
 								
 				Pres pres = new Pres();
 				pres.setInst(inst);
@@ -228,6 +240,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(impo);
 				pres.setImto(imto);
 				pres.setDesv(desv);
+				pres.setBala(bala);
 				pres.setEsta(esta);
 				presList.add(pres);
 			}
@@ -240,7 +253,7 @@ public class PresDAO extends BaseDAO {
 		
 		Query query = 
 				this.getEntityManager().createQuery(
-				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), MIN(P.esta) "
+				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
 						+ "  FROM Pres P, HCate Ca " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
@@ -266,8 +279,10 @@ public class PresDAO extends BaseDAO {
 				if (row[2] != null) { imto = (Double)row[2];}
 				double desv = 0;
 				if (row[3] != null) { desv = (Double)row[3];}
+				double bala = 0;
+				if (row[4] != null) { bala = (Double)row[4];}
 				String esta = "";
-				if (row[4] != null) { esta = (String)row[4];}
+				if (row[5] != null) { esta = (String)row[5];}
 								
 				Pres pres = new Pres();
 				pres.setInst(inst);
@@ -276,6 +291,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(impo);
 				pres.setImto(imto);
 				pres.setDesv(desv);
+				pres.setBala(bala);
 				pres.setEsta(esta);
 				presList.add(pres);
 			}
@@ -288,7 +304,7 @@ public class PresDAO extends BaseDAO {
 		
 		Query query = 
 				this.getEntityManager().createQuery(
-				          "SELECT P.conc, SUM(P.impo), SUM(P.imto), SUM(P.desv), MIN(P.esta) "
+				          "SELECT P.conc, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
 						+ "  FROM Pres P " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
@@ -312,8 +328,10 @@ public class PresDAO extends BaseDAO {
 				if (row[2] != null) { imto = (Double)row[2];}
 				double desv = 0;
 				if (row[3] != null) { desv = (Double)row[3];}
+				double bala = 0;
+				if (row[4] != null) { bala = (Double)row[4];}
 				String esta = "";
-				if (row[4] != null) { esta = (String)row[4];}
+				if (row[5] != null) { esta = (String)row[5];}
 								
 				Pres pres = new Pres();
 				pres.setInst(inst);
@@ -323,6 +341,7 @@ public class PresDAO extends BaseDAO {
 				pres.setImpo(impo);
 				pres.setImto(imto);
 				pres.setDesv(desv);
+				pres.setBala(bala);
 				pres.setEsta(esta);
 				presList.add(pres);
 			}

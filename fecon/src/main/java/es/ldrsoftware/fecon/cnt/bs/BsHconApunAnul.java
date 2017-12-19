@@ -71,12 +71,13 @@ public class BsHconApunAnul extends BaseBS {
 
 		if ("S".equals(hcon.getPres())) {
 			pres.setImpr(pres.getImpr() - hcon.getImpo());
+			pres.setDesv(pres.getImpr() - pres.getImpo());
 		} else {
 			pres.setImnp(pres.getImnp() - hcon.getImpo());
 		}
 
 		pres.setImto(pres.getImto() - hcon.getImpo());
-		pres.setDesv(pres.getImto() - pres.getImpo());
+		pres.setBala(pres.getImnp() + pres.getDesv());
 
 		BsPresSaveArea bsPresSaveArea = new BsPresSaveArea();
 		bsPresSaveArea.IN.pres = pres;

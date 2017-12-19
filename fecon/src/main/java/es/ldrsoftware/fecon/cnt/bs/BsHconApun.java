@@ -100,6 +100,7 @@ public class BsHconApun extends BaseBS {
 		//si computa contra presupuesto o no
 		if (pres.getImpo() != 0) {
 			pres.setImpr(pres.getImpr() + hcon.getImpo());
+			pres.setDesv(pres.getImpr() - pres.getImpo());
 			hcon.setPres("S");
 		} else {
 			pres.setImnp(pres.getImnp() + hcon.getImpo());
@@ -107,7 +108,7 @@ public class BsHconApun extends BaseBS {
 		}
 		
 		pres.setImto(pres.getImto() + hcon.getImpo());
-		pres.setDesv(pres.getImto() - pres.getImpo());
+		pres.setBala(pres.getImnp() + pres.getDesv());
 
 		BsPresSaveArea bsPresSaveArea = new BsPresSaveArea();
 		bsPresSaveArea.IN.pres = pres;

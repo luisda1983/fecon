@@ -51,6 +51,9 @@ public class Pres implements Serializable {
 	@Column(name = "PRESDESV", nullable = false)
 	private double desv;
 
+	@Column(name = "PRESBALA", nullable = false)
+	private double bala;
+	
 	@Column(name = "PRESESTA", nullable = false)
 	private String esta;
 
@@ -143,6 +146,14 @@ public class Pres implements Serializable {
 		this.desv = desv;
 	}
 
+	public double getBala() {
+		return bala;
+	}
+	
+	public void setBala(double bala) {
+		this.bala = bala;
+	}
+	
 	public String getEsta() {
 		return esta;
 	}
