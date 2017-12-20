@@ -9,7 +9,8 @@ public class BsPresGetArea extends BaseBSArea {
 	public BsPresGetAreaOut OUT = new BsPresGetAreaOut();
 	
 	public class BsPresGetAreaIn {
-		public long fech;
+		public int  anua;
+		public int  mesp;
 		public long cate;
 		public long conc;
 	}

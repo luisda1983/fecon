@@ -133,9 +133,14 @@
 											Anular
 										</md-button>
 									</md-menu-item>
-									<md-menu-item>
-										<md-button ng-click="fnEdit($index)">
-											Apuntes
+									<md-menu-item data-ng-show="hcon.pres === 'S'">
+										<md-button ng-click="fnExcl($index)">
+											Excluir Presupuesto
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="hcon.pres === 'N'">
+										<md-button ng-click="fnIncl($index)">
+											Incluir Presupuesto
 										</md-button>
 									</md-menu-item>
 								</md-menu-content>

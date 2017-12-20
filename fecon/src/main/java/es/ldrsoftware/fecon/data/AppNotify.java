@@ -20,9 +20,9 @@ public class AppNotify {
 	public final static String CUEN_TRAS_IMPO_RQRD         = "CUEN-00015";
 	
 	//Notificaciones de módulo PRES
-	public final static String PRES_GETP_FECH_RQRD         = "PRES-00001";
-	public final static String PRES_GETP_CATE_RQRD         = "PRES-00002";
-	public final static String PRES_GETP_CONC_RQRD         = "PRES-00003";
+	public final static String PRES_CALC_FECH_RQRD         = "PRES-00001";
+	public final static String PRES_CALC_CATE_RQRD         = "PRES-00002";
+	public final static String PRES_CALC_CONC_RQRD         = "PRES-00003";
 	public final static String PRES_SAVE_PRES_RQRD         = "PRES-00004";
 	public final static String PRES_LIST_TIPO_RQRD         = "PRES-00005";
 	public final static String PRES_LIST_TIPO_ERRO         = "PRES-00006";
@@ -34,6 +34,8 @@ public class AppNotify {
 	public final static String PRES_ESTA_ESTA_RQRD         = "PRES-00012";
 	public final static String PRES_ESTA_PRES_NF           = "PRES-00013";
 	public final static String PRES_ESTA_ESTA_ERRO         = "PRES-00014";
+	public final static String PRES_GETP_ANUA_RQRD         = "PRES-00015";
+	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";
 	
 	//Notificaciones del módulo HCON
 	public final static String HCON_SAVE_HCON_RQRD         = "HCON-00001";
@@ -65,4 +67,13 @@ public class AppNotify {
 	public final static String HCON_ANUL_TIPO_NO_ANUL      = "HCON-00027";
 	public final static String HCON_APUN_ANUL_HCON_RQRD    = "HCON-00028";
 	public final static String HCON_APUN_ANUL_CUEN_NF      = "HCON-00029";
+	public final static String HCON_PRES_GEST_IDEN_RQRD    = "HCON-00030";
+	public final static String HCON_PRES_GEST_ACCI_RQRD    = "HCON-00031";
+	public final static String HCON_PRES_GEST_ACCI_ERRO    = "HCON-00032";
+	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-00033";
+	public final static String HCON_PRES_GEST_TIPO_ERRO    = "HCON-00034";
+	public final static String HCON_PRES_GEST_APUN_INCL    = "HCON-00035";
+	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-00036";
+	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
+	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
 }

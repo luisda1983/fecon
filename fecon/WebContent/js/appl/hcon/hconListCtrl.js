@@ -19,7 +19,8 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.conf = {
 		mode: '',
 		item: -1,
-		iden: 0
+		iden: 0,
+		acci: ''
 	};
 	
 	var srv1 = srvLiteHconLtTipo();
@@ -102,6 +103,31 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		});
 	};
 
+	//Funcion que excluye un apunte de su partida presupuestaria
+	$scope.fnExcl = function excl(indx) {
+		$scope.conf.iden = $scope.hconList[indx].iden;
+		$scope.conf.acci = 'E';
+		
+		var srv1 = srvHconPresGest();
+		
+		$q.all([srv1]).then(function() {
+			$scope.conf.iden = 0;
+			$scope.conf.acci = '';
+		});
+	}
+	
+	//Funcion que incluye un apunte en su partida presupuestaria
+	$scope.fnIncl = function incl(indx) {
+		$scope.conf.iden = $scope.hconList[indx].iden;
+		$scope.conf.acci = 'I';
+		
+		var srv1 = srvHconPresGest();
+		
+		$q.all([srv1]).then(function() {
+			$scope.conf.iden = 0;
+			$scope.conf.acci = '';
+		});
+	}
 	//Función que despliega el menú de acciones
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
@@ -257,6 +283,24 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/hcon/anul/', dataObject);
+		output.then(function() {
+			var data = srv.getData();
+			d.resolve(data);
+		});
+		return d.promise;
+	}
+
+	//Function que llama al servicio de anulacion de apuntes
+	function srvHconPresGest() {
+		var dataObject = {
+			sesi : parseInt($rootScope.esta.sesi),
+			iden : parseInt($scope.conf.iden),
+			acci : $scope.conf.acci
+		};
+
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/hcon/pres/gest/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
 			d.resolve(data);

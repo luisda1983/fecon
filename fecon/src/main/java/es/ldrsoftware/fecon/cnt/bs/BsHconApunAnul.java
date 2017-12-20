@@ -8,8 +8,8 @@ import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
-import es.ldrsoftware.fecon.prp.bs.BsPresGet;
-import es.ldrsoftware.fecon.prp.bs.BsPresGetArea;
+import es.ldrsoftware.fecon.prp.bs.BsPresCalc;
+import es.ldrsoftware.fecon.prp.bs.BsPresCalcArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresSave;
 import es.ldrsoftware.fecon.prp.bs.BsPresSaveArea;
 import es.ldrsoftware.fecon.prp.entity.Pres;
@@ -27,7 +27,7 @@ public class BsHconApunAnul extends BaseBS {
 	public BsHconSave bsHconSave;
 
 	@Autowired
-	public BsPresGet bsPresGet;
+	public BsPresCalc bsPresGet;
 
 	@Autowired
 	public BsPresSave bsPresSave;
@@ -60,7 +60,7 @@ public class BsHconApunAnul extends BaseBS {
 		bsHconSave.execute(bsHconSaveArea);
 		hcon = bsHconSaveArea.OUT.hcon;
 		
-		BsPresGetArea bsPresGetArea = new BsPresGetArea();
+		BsPresCalcArea bsPresGetArea = new BsPresCalcArea();
 		bsPresGetArea.IN.fech = hcon.getFeva();
 		//FIXME: usar las variables del area de presupuesto del apunte
 		bsPresGetArea.IN.cate = hcon.getCate();
