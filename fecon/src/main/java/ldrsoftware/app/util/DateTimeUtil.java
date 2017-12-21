@@ -19,29 +19,4 @@ public class DateTimeUtil {
 				   (calendar.get(Calendar.SECOND));
 		return time;
 	}
-	
-	public final static int getYear(int date) {
-		int year = 0;
-		
-		if (date < 10000000) {
-			date = 10000101;
-		}
-		String s = new Integer(date).toString();
-		String sYear = s.substring(0, 4);
-		year = new Integer(sYear);
-		return year;
-	}
-	
-	public final static int getMonth(int date) {
-		int month = 0;
-		
-		if (date < 10000000) {
-			date = 10000101;
-		}
-		String s = new Integer(date).toString();
-		String sMonth = s.substring(4, 6);
-		System.out.println(s + "||" + sMonth);
-		month = new Integer(sMonth);
-		return month;
-	}
 }
