@@ -32,9 +32,6 @@ public class Cate implements Serializable {
 	
 	@Column(name = "CATEORDE", nullable = false)
 	private int    orde;
-	
-	@Column(name = "CATEACTI", nullable = false)
-	private String acti;
 
 	@Column(name = "CATEPRES", nullable = false)
 	private String pres;
@@ -77,14 +74,6 @@ public class Cate implements Serializable {
 
 	public void setOrde(int orde) {
 		this.orde = orde;
-	}
-
-	public String getActi() {
-		return acti;
-	}
-
-	public void setActi(String acti) {
-		this.acti = acti;
 	}
 
 	public String getPres() {

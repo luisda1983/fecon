@@ -150,7 +150,7 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	function srvCateList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion)
+			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
@@ -158,7 +158,7 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.cateList = data.cateList;
+			$scope.cateList = data.OUTPUT['cateList'];
 			d.resolve(data);
 		});
 		return d.promise;

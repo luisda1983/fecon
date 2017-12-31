@@ -153,15 +153,15 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Function que recupera el mapa de categorias
 	function srvCateList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion)
+			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/cate/map/', dataObject);
+		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.cateMap = data.cateMap;
+			$scope.cateMap = data.OUTPUT['cateListMap'];
 			d.resolve(data);
 		});
 		return d.promise;

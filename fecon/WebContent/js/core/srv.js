@@ -92,7 +92,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyController,
-					templateUrl: 'pages/core/notify.html?v.0.00.31',
+					templateUrl: 'pages/core/notify.html?v.0.00.42',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -420,6 +420,13 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		//Finalmente vamos al path indicado
 		$location.path(goPath);
 	}
+
+	//C-Función para volver a la vista anterior
+	function back() {
+		if (cntxData.backPath !== null) {
+			$location.path(cntxData.backPath);
+		}
+	}
 	
 	//Interfaz del servicio srv
 	return {
@@ -431,7 +438,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		logOut   : logOut,
 		home     : home,
 		getCntx  : getCntx,
-		go       : go
+		go       : go,
+		back     : back
 	};
 }]);
 

@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//WebContent/pages=UTF-8
+encoding//WebContent/pages/appl/cate/cateForm.html=UTF-8
+encoding//WebContent/pages/appl/cate/cateList.html=UTF-8
 encoding//WebContent/pages/appl/cuen/cuenList.html=UTF-8
 encoding//WebContent/pages/appl/hcon/hconApun.html=UTF-8
 encoding//WebContent/pages/appl/hcon/hconList.html=UTF-8
@@ -10,4 +12,5 @@ encoding//WebContent/pages/appl/pres/presResu.html=UTF-8
 encoding//WebContent/pages/core/invi/inviList.html=UTF-8
 encoding//WebContent/pages/core/usua/usuaRegi.html=UTF-8
 encoding//WebContent/pages/home.html=UTF-8
+encoding/<project>=UTF-8
 encoding/WebContent=UTF-8

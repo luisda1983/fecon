@@ -201,14 +201,14 @@ public class PresDAO extends BaseDAO {
 		Query query = 
 				this.getEntityManager().createQuery(
 				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
-						+ "  FROM Pres P, HCate Ca " 
+						+ "  FROM Pres P, Cate C " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
 						+ "   AND P.mesp = " + mesp + " "
-						+ "   AND P.inst = Ca.inst "
-						+ "   AND P.cate = Ca.iden "
-						+ " GROUP BY P.cate, Ca.orde "
-						+ " ORDER BY Ca.orde ASC "
+						+ "   AND P.inst = C.inst "
+						+ "   AND P.cate = C.iden "
+						+ " GROUP BY P.cate, C.orde "
+						+ " ORDER BY C.orde ASC "
 						);
 		
 		@SuppressWarnings("unchecked")
@@ -254,13 +254,13 @@ public class PresDAO extends BaseDAO {
 		Query query = 
 				this.getEntityManager().createQuery(
 				          "SELECT P.cate, SUM(P.impo), SUM(P.imto), SUM(P.desv), SUM(P.bala), MIN(P.esta) "
-						+ "  FROM Pres P, HCate Ca " 
+						+ "  FROM Pres P, Cate C " 
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
-						+ "   AND P.inst = Ca.inst "
-						+ "   AND P.cate = Ca.iden "
-						+ " GROUP BY P.cate, Ca.orde "
-						+ " ORDER BY Ca.orde ASC "
+						+ "   AND P.inst = C.inst "
+						+ "   AND P.cate = C.iden "
+						+ " GROUP BY P.cate, C.orde "
+						+ " ORDER BY C.orde ASC "
 						);
 		
 		@SuppressWarnings("unchecked")
@@ -355,13 +355,13 @@ public class PresDAO extends BaseDAO {
 		
 		TypedQuery<Pres> query = 
 				this.getEntityManager().createQuery(
-				          "SELECT P FROM Pres P, HCate Ca "
+				          "SELECT P FROM Pres P, Cate C "
 						+ " WHERE P.inst = " + inst + " "
 						+ "   AND P.anua = " + anua + " "
 						+ "   AND P.mesp = " + mesp + " "
-						+ "   AND P.inst = Ca.inst "
-						+ "   AND P.cate = Ca.iden "
-						+ " ORDER BY Ca.orde ASC "
+						+ "   AND P.inst = C.inst "
+						+ "   AND P.cate = C.iden "
+						+ " ORDER BY C.orde ASC "
 						, Pres.class);
 		
 		List<Pres> resultList = query.getResultList();

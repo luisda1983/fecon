@@ -76,4 +76,15 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-00036";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
 	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
+	
+	//Notificaciones del módulo CATE
+	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";
+	public final static String CATE_GETD_DESL_RQRD         = "CATE-00002";
+	public final static String CATE_GETD_DESC_RQRD         = "CATE-00003";
+	public final static String CATE_GETK_IDEN_RQRD         = "CATE-00004";
+	public final static String CATE_FORM_DESL_RQRD         = "CATE-00005";
+	public final static String CATE_FORM_DESC_RQRD         = "CATE-00006";
+	public final static String CATE_FORM_PRES_RQRD         = "CATE-00007";
+	public final static String CATE_FORM_DESC_EXIS         = "CATE-00008";
+	public final static String CATE_FORM_CATE_NF           = "CATE-00009";
 }

@@ -26,7 +26,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv1 = srvLiteHconLtTipo();
 	var srv2 = srvLiteAnualidad();
 	var srv3 = srvLiteMes();
-	var srv4 = srvCateMap();
+	var srv4 = srvCateList();
 	var srv5 = srvConcMap();
 
 	$q.all([srv1, srv2, srv3, srv4, srv5]).then(function() {
@@ -144,18 +144,18 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	}
 
 	//Function que recupera el mapa de categorias
-	function srvCateMap() {
+	function srvCateList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion)
+			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/cate/map/', dataObject);
+		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.cateMap = data.cateMap;
-			$scope.cateList = data.cateList;
+			$scope.cateMap = data.OUTPUT['cateListMap'];
+			$scope.cateList = data.OUTPUT['cateList'];
 			d.resolve(data);
 		});
 		return d.promise;
