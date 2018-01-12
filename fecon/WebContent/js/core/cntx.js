@@ -11,6 +11,8 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'pres/mesp') { return getPresMespCntx(); }
 		else if (view === 'cate/list') { return getCateListCntx(); }
 		else if (view === 'cate/form') { return getCateFormCntx(); }
+		else if (view === 'conc/list') { return getConcListCntx(); }
+		else if (view === 'conc/form') { return getConcFormCntx(); }
 		     
 		return cntx;
 	}
@@ -154,4 +156,72 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		return cntx;
 	}
+
+	//Contexto concList
+	function getConcListCntx() {
+		var vForm = {
+			cate: 0
+		};
+		var vShow = {
+			cate: false
+		};
+		var vRead = {
+			cate: true
+		};
+		var vData = {
+			concList: null
+		};
+		var vConf = {
+			item: -1
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto concForm
+	function getConcFormCntx() {
+		var vForm = {
+			iden: 0,
+			cate: 0,
+			desl: '',
+			desc: '',
+			orde: 0
+		};
+		var vShow = {
+			iden: false,
+			cate: false,
+			desl: false,
+			desc: false,
+			orde: false
+		};
+		var vRead = {
+			iden: false,
+			cate: false,
+			desl: false,
+			desc: false,
+			orde: false
+		};
+		var vData = {
+			cate: null,
+			conc: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
 }]);

@@ -167,8 +167,8 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Funcion que obtiene una lista de conceptos.
 	function srvConcList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion),
-			cate     : parseInt($scope.form.cate.iden)
+			sesi: parseInt($rootScope.esta.sesi),
+			cate: parseInt($scope.form.cate.iden)
 		};
 
 		var d = $q.defer();
@@ -176,7 +176,7 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 		var output = srv.call(targetHost + 'service/angular/conc/list/', dataObject);
 		output.then(function(){
 			var data = srv.getData();
-			$scope.concList = data.concList;
+			$scope.concList = data.OUTPUT['concList'];
 			d.resolve(data);
 		});
 		return d.promise;

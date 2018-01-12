@@ -2,7 +2,7 @@ package es.ldrsoftware.fecon.data;
 
 public class AppNotify {
 	
-	//Notificaciones de módulo CUEN
+	//Notificaciones de mï¿½dulo CUEN
 	public final static String CUEN_GETC_IDEN_RQRD         = "CUEN-00001";
 	public final static String CUEN_SAVE_CUEN_RQRD         = "CUEN-00002";
 	public final static String CUEN_FORM_TIPO_RQRD         = "CUEN-00003";
@@ -19,7 +19,7 @@ public class AppNotify {
 	public final static String CUEN_TRAS_CTDE_RQRD         = "CUEN-00014";
 	public final static String CUEN_TRAS_IMPO_RQRD         = "CUEN-00015";
 	
-	//Notificaciones de módulo PRES
+	//Notificaciones de mï¿½dulo PRES
 	public final static String PRES_CALC_FECH_RQRD         = "PRES-00001";
 	public final static String PRES_CALC_CATE_RQRD         = "PRES-00002";
 	public final static String PRES_CALC_CONC_RQRD         = "PRES-00003";
@@ -37,7 +37,7 @@ public class AppNotify {
 	public final static String PRES_GETP_ANUA_RQRD         = "PRES-00015";
 	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";
 	
-	//Notificaciones del módulo HCON
+	//Notificaciones del mï¿½dulo HCON
 	public final static String HCON_SAVE_HCON_RQRD         = "HCON-00001";
 	public final static String HCON_APUN_CATE_RQRD         = "HCON-00002";
 	public final static String HCON_APUN_CONC_RQRD         = "HCON-00003";
@@ -77,7 +77,7 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
 	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
 	
-	//Notificaciones del módulo CATE
+	//Notificaciones del mï¿½dulo CATE
 	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";
 	public final static String CATE_GETD_DESL_RQRD         = "CATE-00002";
 	public final static String CATE_GETD_DESC_RQRD         = "CATE-00003";
@@ -87,4 +87,20 @@ public class AppNotify {
 	public final static String CATE_FORM_PRES_RQRD         = "CATE-00007";
 	public final static String CATE_FORM_DESC_EXIS         = "CATE-00008";
 	public final static String CATE_FORM_CATE_NF           = "CATE-00009";
+	
+	//Notificacion del mÃ³dulo CONC
+	public final static String CONC_LIST_TIPO_RQRD         = "CONC-00001";
+	public final static String CONC_LIST_CATE_RQRD         = "CONC-00002";
+	public final static String CONC_SAVE_CONC_RQRD         = "CONC-00003";
+	public final static String CONC_FORM_CATE_RQRD         = "CONC-00004";
+	public final static String CONC_FORM_DESL_RQRD         = "CONC-00005";
+	public final static String CONC_FORM_DESC_RQRD         = "CONC-00006";
+	public final static String CONC_FORM_CATE_NF           = "CONC-00007";
+	public final static String CONC_FORM_DESC_EXIS         = "CONC-00008";
+	public final static String CONC_FORM_CONC_NF           = "CONC-00009";
+	public final static String CONC_FORM_CATE_DIFF         = "CONC-00010";
+	public final static String CONC_GETD_CATE_RQRD         = "CONC-00011";
+	public final static String CONC_GETD_DESL_RQRD         = "CONC-00012";
+	public final static String CONC_GETD_DESC_RQRD         = "CONC-00013";
+	public final static String CONC_GETK_IDEN_RQRD         = "CONC-00014";
 }

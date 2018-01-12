@@ -118,15 +118,15 @@ app.controller('presConcCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Function que recupera el mapa de conceptos
 	function srvConcList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion)
+			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/conc/map/', dataObject);
+		var output = srv.call(targetHost + 'service/angular/conc/full/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.concMap = data.concMap;
+			$scope.concMap = data.OUTPUT['concListMap'];
 			d.resolve(data);
 		});
 		return d.promise;

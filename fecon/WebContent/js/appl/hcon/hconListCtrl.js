@@ -27,7 +27,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv2 = srvLiteAnualidad();
 	var srv3 = srvLiteMes();
 	var srv4 = srvCateList();
-	var srv5 = srvConcMap();
+	var srv5 = srvConcFull();
 
 	$q.all([srv1, srv2, srv3, srv4, srv5]).then(function() {
 		$scope.conf.mode = 'T';
@@ -162,17 +162,17 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	}
 
 	//Function que recupera el mapa de conceptos
-	function srvConcMap() {
+	function srvConcFull() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion)
+			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/conc/map/', dataObject);
+		var output = srv.call(targetHost + 'service/angular/conc/full/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.concMap = data.concMap;
+			$scope.concMap = data.OUTPUT['concListMap'];
 			d.resolve(data);
 		});
 		return d.promise;
@@ -181,8 +181,8 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Function que obtiene la lista de conceptos (de la categoria seleccionada)
 	function srvConcList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion),
-			cate     : parseInt($scope.form.cate)
+			sesi: parseInt($rootScope.esta.sesi),
+			cate: parseInt($scope.form.cate)
 		};
 
 		var d = $q.defer();
@@ -190,7 +190,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		var output = srv.call(targetHost + 'service/angular/conc/list/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.concList = data.concList;
+			$scope.concList = data.OUTPUT['concList'];
 			d.resolve(data);
 		});
 		return d.promise;

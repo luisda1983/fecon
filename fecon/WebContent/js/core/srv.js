@@ -19,7 +19,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		viewMode: 'L',
 		load    : false,
 		srvStack: 0,
-		doingGo : false
+		doingGo : false,
+		doingBack: false
 	};
 
 	//C-Area de datos de contexto de la aplicación
@@ -393,11 +394,24 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 			//Verificamos que el goPath, es el mismo que para el que se pide el contexto
 			if (view === cntxData.goPath) {
 				//En ese caso devolvemos el goData guardado
+				$rootScope.esta.doingGo = false;
 				return cntxData.goData;
+			}
+		}
+		//Verificamos si estamos haciendo un retorno
+		if ($rootScope.esta.doingBack) {
+			//Verificamos que el backPath, es el misma que para el que se pide el contexto
+			if (view === cntxData.backPath) {
+				//Verificamos que el backData está cargado
+				if (cntxData.backData !== null) {
+					$rootScope.esta.doingBack = false;
+					return cntxData.backData;
+				}
 			}
 		}
 		//En cualquier otro caso, inicializamos el estado y devolvemos un contexto inicializado
 		$rootScope.esta.doingGo = false;
+		$rootScope.esta.doingBack = false;
 		cntx.goPath = '';
 		cntx.goData = null;
 		cntx.backPath = '';
@@ -428,6 +442,17 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		}
 	}
 	
+	//C-Función para volver a la vista anterior, con la posibilidad de mantener el estado
+	function backState(keep) {
+		if (cntxData.backPath !== null) {
+			if (keep) {
+				//Activamos indicador de que estamos haciendo un retorno con estado
+				$rootScope.esta.doingBack = true;
+			}
+			$location.path(cntxData.backPath);
+		}
+	}
+	
 	//Interfaz del servicio srv
 	return {
 		inicApp  : inicApp,
@@ -439,7 +464,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		home     : home,
 		getCntx  : getCntx,
 		go       : go,
-		back     : back
+		back     : back,
+		backState: backState
 	};
 }]);
 

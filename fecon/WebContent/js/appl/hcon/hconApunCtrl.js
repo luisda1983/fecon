@@ -87,8 +87,8 @@ app.controller('hconApunCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Function que obtiene la lista de conceptos (de la categoria seleccionada)
 	function srvConcList() {
 		var dataObject = {
-			idSesion : parseInt($rootScope.idSesion),
-			cate     : parseInt($scope.apun.cate)
+			sesi: parseInt($rootScope.esta.sesi),
+			cate: parseInt($scope.apun.cate)
 		};
 
 		var d = $q.defer();
@@ -96,7 +96,7 @@ app.controller('hconApunCtrl', function($rootScope, $scope, $http, $routeParams,
 		var output = srv.call(targetHost + 'service/angular/conc/list/', dataObject);
 		output.then(function() {
 			var data = srv.getData();
-			$scope.concList = data.concList;
+			$scope.concList = data.OUTPUT['concList'];
 			d.resolve(data);
 		});
 		return d.promise;

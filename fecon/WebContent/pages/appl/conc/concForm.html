@@ -1,0 +1,48 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Concepto</span>
+      			<div flex></div>
+      			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+        	<form name="concForm" data-ng-submit="form()">
+        		<div layout="row" layout-xs="column" layout-sm="column">
+        			<div layout="row" layout-xs="column" flex>
+        				<md-input-container class="md-block" flex data-ng-show="cntx.show.iden">
+	                		<label>Identificador</label>
+							<input type="text" ng-model="cntx.form.iden" ng-readonly="cntx.read.iden"/>
+	                    </md-input-container>
+        			</div>
+        		</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.desl">
+	                		<label>Desc. Larga</label>
+							<input type="text" ng-model="cntx.form.desl" ng-readonly="cntx.read.desl"/>
+	                    </md-input-container>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.desc">
+	                    	<label>Desc. Corta</label>
+	                        <input type="text" ng-model="cntx.form.desc" ng-readonly="cntx.read.desc"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.orde">
+	                    	<label>Orden</label>
+	                        <input type="text" ng-model="cntx.form.orde" ng-readonly="cntx.read.orde"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
+                </div>
+        	</form>
+        </md-content>
+    </div>
+</div>

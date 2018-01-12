@@ -42,7 +42,15 @@ app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams,
 		cntx.form.pres = cate.pres;
 		srv.go('cate/list', $scope.cntx, 'cate/form', cntx);
 	}
-		
+
+	//Función que pasa a los conceptos de la categoría
+	$scope.fnConc = function(i) {
+		var cate = $scope.cntx.data.cateList[i];
+		var cntx = srv.getCntx('conc/list');
+		cntx.form.cate = cate.iden;
+		srv.go('cate/list', $scope.cntx, 'conc/list', cntx);
+	}
+	
 	//Función que despliega el menú de acciones
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
