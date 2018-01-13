@@ -5,16 +5,8 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
-import es.ldrsoftware.fecon.prp.bs.BsPresCalc;
-import es.ldrsoftware.fecon.prp.bs.BsPresCalcArea;
-import es.ldrsoftware.fecon.prp.bs.BsPresSave;
-import es.ldrsoftware.fecon.prp.bs.BsPresSaveArea;
-import es.ldrsoftware.fecon.prp.entity.Pres;
-import ldrsoftware.app.dao.IHConcDAO;
-import ldrsoftware.app.domain.HConc;
 
 @Component
 public class BsHconAnul extends BaseBS {

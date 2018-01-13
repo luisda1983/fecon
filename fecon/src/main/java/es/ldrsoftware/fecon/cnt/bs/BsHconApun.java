@@ -8,13 +8,14 @@ import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.prp.bs.BsConcGetk;
+import es.ldrsoftware.fecon.prp.bs.BsConcGetkArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresCalc;
 import es.ldrsoftware.fecon.prp.bs.BsPresCalcArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresSave;
 import es.ldrsoftware.fecon.prp.bs.BsPresSaveArea;
+import es.ldrsoftware.fecon.prp.entity.Conc;
 import es.ldrsoftware.fecon.prp.entity.Pres;
-import ldrsoftware.app.dao.IHConcDAO;
-import ldrsoftware.app.domain.HConc;
 
 @Component
 public class BsHconApun extends BaseBS {
@@ -35,20 +36,24 @@ public class BsHconApun extends BaseBS {
 	public BsPresSave bsPresSave;
 	
 	@Autowired
-	public IHConcDAO concDao;
+	public BsConcGetk bsConcGetk;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsHconApunArea area = (BsHconApunArea)a;
 		
-		HConc hConc = concDao.getByIden(SESSION.get().inst, area.IN.conc);
+		BsConcGetkArea bsConcGetkArea = new BsConcGetkArea();
+		bsConcGetkArea.IN.iden = area.IN.conc;
+		bsConcGetk.executeBS(bsConcGetkArea);
+		Conc conc = bsConcGetkArea.OUT.conc;
 		
-		if (hConc == null) {
+		if (conc == null) {
 			notify(AppNotify.HCON_APUN_CONC_NF);
 		} else {
-			if (!hConc.isActi()) {
-				notify(AppNotify.HCON_APUN_CONC_NO_ACTI);
-			}
-			if ("G".equals(hConc.getTipo())){
+			//TODO: ver si permitimos desactivar conceptos o eliminar este if
+//			if (!conc.isActi()) {
+//				notify(AppNotify.HCON_APUN_CONC_NO_ACTI);
+//			}
+			if ("G".equals(conc.getTipo())){
 				if (area.IN.impo  > 0) {
 					notify(AppNotify.HCON_APUN_CONC_IMPO_ERRO);
 				}
@@ -96,7 +101,7 @@ public class BsHconApun extends BaseBS {
 		bsPresGet.executeBS(bsPresGetArea);		
 		Pres pres = bsPresGetArea.OUT.pres;
 
-		//Mientras no se determine la exclusión de presupuesto mediante la entrada, la partida indicará
+		//Mientras no se determine la exclusiï¿½n de presupuesto mediante la entrada, la partida indicarï¿½
 		//si computa contra presupuesto o no
 		if (pres.getImpo() != 0) {
 			pres.setImpr(pres.getImpr() + hcon.getImpo());
