@@ -78,10 +78,6 @@ app.config(function($routeProvider) {
 			templateUrl : 'pages/appl/conc/concForm.html?v.0.00.43',
 			controller  : 'concFormCtrl'
 		})
-		.when('/pres/nuev', {
-			templateUrl : 'pages/pres/presNuev.html?v.0.00.43',
-			controller  : 'presNuevController'
-		})
 		.otherwise({
 	        redirectTo: '/'
 	    });
