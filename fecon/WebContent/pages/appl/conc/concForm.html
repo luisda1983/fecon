@@ -10,12 +10,12 @@
     		</h2>
   		</md-toolbar>
   		<md-content>
-        	<form name="concForm" data-ng-submit="form()">
+        	<form name="concForm" data-ng-submit="fnForm()">
         		<div layout="row" layout-xs="column" layout-sm="column">
         			<div layout="row" layout-xs="column" flex>
         				<md-input-container class="md-block" flex data-ng-show="cntx.show.iden">
 	                		<label>Identificador</label>
-							<input type="text" ng-model="cntx.form.iden" ng-readonly="cntx.read.iden"/>
+							<input type="text" ng-model="cntx.form.iden" ng-disabled="cntx.read.iden"/>
 	                    </md-input-container>
         			</div>
         		</div>
@@ -23,11 +23,11 @@
 					<div layout="row" layout-xs="column" flex>
 	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.desl">
 	                		<label>Desc. Larga</label>
-							<input type="text" ng-model="cntx.form.desl" ng-readonly="cntx.read.desl"/>
+							<input type="text" ng-model="cntx.form.desl" ng-disabled="cntx.read.desl"/>
 	                    </md-input-container>
 	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.desc">
 	                    	<label>Desc. Corta</label>
-	                        <input type="text" ng-model="cntx.form.desc" ng-readonly="cntx.read.desc"/>
+	                        <input type="text" ng-model="cntx.form.desc" ng-disabled="cntx.read.desc"/>
 	                    </md-input-container>
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 					<div layout="row" layout-xs="column" flex>
 	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.orde">
 	                    	<label>Orden</label>
-	                        <input type="text" ng-model="cntx.form.orde" ng-readonly="cntx.read.orde"/>
+	                        <input type="text" ng-model="cntx.form.orde" ng-disabled="cntx.read.orde"/>
 	                    </md-input-container>
 					</div>
 				</div>
