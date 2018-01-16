@@ -1,29 +1,11 @@
-app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv) {
+app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
 
 	$scope.cntx = srv.getCntx('cate/list');
-	
-	var srv1 = srvCateList();
-	
-	$q.all([srv1]).then(function(){
-		
-	});
-	
-	//Funcion que obtiene la lista de cuentas.
-	function srvCateList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
 
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.cateList = data.OUTPUT['cateList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
+	var srv1 = comc.request('cate/list', $scope.cntx);
+	$q.all([srv.stResp(srv1)]).then(function() {
+		view();
+	});	
 
 	//Función que pasa a la creación de una nueva categoría
 	$scope.fnNuev = function() {
@@ -64,5 +46,11 @@ app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams,
 		} else {
 			$scope.cntx.conf.item = i;
 		}
+	}
+
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+
 	}
 });

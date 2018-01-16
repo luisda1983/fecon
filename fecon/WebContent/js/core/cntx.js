@@ -105,6 +105,12 @@ app.factory("cntx", ['$q', function($q) {
 		var vForm = {
 			ndat: null
 		};
+		var vShow = {
+			ndat: null
+		};
+		var vRead = {
+			ndat: null
+		}
 		var vData = {
 			cateList: new Array()
 		};
@@ -113,6 +119,8 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		cntx = {
 			form: vForm,
+			show: vShow,
+			read: vRead,
 			data: vData,
 			conf: vConf
 		};

@@ -9,7 +9,8 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		
 		var d = $q.defer();
 		
-		if (name === 'cate/form') { return srvCateForm(cntx); }
+		     if (name === 'cate/form') { return srvCateForm(cntx); }
+		else if (name === 'cate/list') { return srvCateList(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -20,7 +21,30 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 	return {
 		request: request
 	};
-	
+
+	////////////////////////////////////////////////////////////////
+	// cate/list: lista de categorías                             //
+	////////////////////////////////////////////////////////////////
+	function srvCateList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/cate/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.cateList = data.OUTPUT['cateList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// cate/form: edición/alta de categorías                      //
 	////////////////////////////////////////////////////////////////
@@ -41,7 +65,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.cate = data['cate'];
+				cntx.data.cate = data.OUTPUT['cate'];
 				d.resolve(data);
 			}
 		});
