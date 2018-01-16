@@ -13,7 +13,8 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cate/form') { return getCateFormCntx(); }
 		else if (view === 'conc/list') { return getConcListCntx(); }
 		else if (view === 'conc/form') { return getConcFormCntx(); }
-		     
+		else if (view === 'lite/list') { return getLiteListCntx(); }
+
 		return cntx;
 	}
 		
@@ -142,7 +143,8 @@ app.factory("cntx", ['$q', function($q) {
 			pres: false
 		};
 		var vData = {
-			cate: null
+			cate: null,
+			ltBool: new Array()
 		};
 		var vConf = {
 			mode: ''
@@ -210,6 +212,33 @@ app.factory("cntx", ['$q', function($q) {
 		var vData = {
 			cate: null,
 			conc: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto liteList
+	function getLiteListCntx() {
+		var vForm = {
+			tbla: ''
+		};
+		var vShow = {
+			tbla: false
+		};
+		var vRead = {
+			tbla: false
+		};
+		var vData = {
+			liteList: new Array()
 		};
 		var vConf = {
 			mode: ''

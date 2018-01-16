@@ -1,5 +1,5 @@
-app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv) {
-	
+app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+
 	$scope.cntx = srv.getCntx('cate/form');
 	
 	if ($scope.cntx.form.iden === 0) {
@@ -7,9 +7,29 @@ app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	} else {
 		$scope.cntx.conf.mode = 'E';
 	}
-	view();
+	
+	var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
+	$q.all([srv.stResp(srv1)]).then(function() {
+		view();
+	});	
+	
+	//Función que captura la cancelación de la vista
+	$scope.fnCanc = function() {
+		srv.back();
+	}
+	
+	//Función que captura el submit del formulario
+	$scope.fnForm = function() {
+		var srv1 = comc.request('cate/form', $scope.cntx);
+		
+		$q.all([srv.stResp(srv1)]).then(function(){
+			$scope.fnCanc();
+		});
+	};
 	
 	//Función encargada de manejar la vista, y sus modos de presentación
+	// - mode 'N': Nueva categoría
+	// - mode 'E': Edición de categoría
 	function view() {
 		//Nueva categoría
 		if ($scope.cntx.conf.mode === 'N') {
@@ -44,43 +64,8 @@ app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams,
 			$scope.cntx.read.desl = false;
 			$scope.cntx.read.desc = false;
 			$scope.cntx.read.orde = true;
-			$scope.cntx.read.pres = false;
+			$scope.cntx.read.pres = true;
 		}
 	}
-	
-	//Función que captura la cancelación de la vista
-	$scope.fnCanc = function() {
-		srv.back();
-	}
-	
-	//Function que captura el submit del formulario
-	$scope.form = function() {
-		var srv1 = srvCateForm();
-		$q.all([srv1]).then(function() {
-			$scope.fnCanc();
-		})
-	};
-	
-	function srvCateForm() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: $scope.cntx.form.iden,
-			desl: $scope.cntx.form.desl,
-			desc: $scope.cntx.form.desc,
-			pres: $scope.cntx.form.pres
-		};
 
-		var d = $q.defer();
-			
-		var output = srv.call(targetHost + 'service/angular/cate/form/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			if (data.EXEC_RC === 'V') {
-				d.reject('NOK');
-			} else {
-				d.resolve(data);
-			}
-		});
-		return d.promise;
-	}
 });

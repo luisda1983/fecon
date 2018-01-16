@@ -64,7 +64,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		$location.url(url);
 		$mdSidenav('left').close();
 	};
-	
+
 	//Almacenamiento de response
 	var outData  = {};
 	
@@ -140,7 +140,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	    	$mdDialog.hide(auto);
 	    };
 	}
-
+	
 	//Funcion que efetua llamada el WS, controla el error de sesion, y gestiona errores
 	//TODO: implementar el modo de ejecucion (View Loading - Event Processing)
 	//      Realizar el tratamiento de errores segun el modo, de manera que en view loading, haya un contador de servicios, 
@@ -238,6 +238,51 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		});
 		return res;
 	};
+
+	//Función que inicializa un proceso Front
+	// 1.- Inicializa el área de mensajes
+	function startProc() {
+		$rootScope.notf.esta = null;
+		$rootScope.notf.void = new Array();
+		$rootScope.notf.auto = new Array();
+		$rootScope.notf.info = new Array();
+	};
+	
+	//Función que finaliza un proceso Front:
+	// 1.- Muestra los mensajes.
+	function endProc() {
+		var d = $q.defer();
+		if ($rootScope.notf.esta !== null) {
+			var msg = showAdvanced($rootScope.notf);
+			$q.all([msg]).then(function() {
+				d.resolve();
+			});
+		} else {
+			d.resolve();
+		}
+		return d.promise;
+	}
+
+	//Función que realiza las opciones estándares de respuesta ante n llamadas a servicios:
+	// Finaliza el proceso. 
+	function stResp(...promises) {
+		var d = $q.defer();
+		
+		$q.all(promises).then(function() {
+			//Ok
+			var v = endProc();
+			$q.all([v]).then(function(){
+				d.resolve();
+			})
+		}, function() {
+			//No-ok
+			var v = endProc();
+			$q.all([v]).then(function(){
+				d.reject();
+			})
+		})
+		return d.promise;
+	}
 	
 	//Datos obtenidos desde el WS
 	function getData() {
@@ -457,6 +502,9 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	return {
 		inicApp  : inicApp,
 		call     : call,
+		startProc: startProc,
+		endProc  : endProc,
+		stResp   : stResp,
 		getData  : getData,
 		clearMsg : clearMsg,
 		lgon     : lgon,
