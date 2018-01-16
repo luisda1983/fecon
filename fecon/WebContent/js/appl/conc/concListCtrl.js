@@ -1,30 +1,11 @@
-app.controller('concListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv) {
+app.controller('concListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
 
 	$scope.cntx = srv.getCntx('conc/list');
 	
-	var srv1 = srvConcList();
-	
-	$q.all([srv1]).then(function(){
-		
+	var srv1 = comc.request('conc/list', $scope.cntx);
+	$q.all([srv.stResp(srv1)]).then(function() {
+		view();
 	});
-	
-	//Funcion que obtiene la lista de conceptos.
-	function srvConcList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			cate: parseInt($scope.cntx.form.cate)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/conc/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.concList = data.OUTPUT['concList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
 
 	//Función que pasa a la creación de un nuevo concepto
 	$scope.fnNuev = function() {
@@ -63,5 +44,11 @@ app.controller('concListCtrl', function($rootScope, $scope, $http, $routeParams,
 		} else {
 			$scope.cntx.conf.item = i;
 		}
+	}
+
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+
 	}
 });

@@ -12,6 +12,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		     if (name === 'cate/form') { return srvCateForm(cntx); }
 		else if (name === 'cate/list') { return srvCateList(cntx); }
 		else if (name === 'conc/form') { return srvConcForm(cntx); }
+		else if (name === 'conc/list') { return srvConcList(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -95,6 +96,30 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.conc = data.OUTPUT['conc'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// conc/list: lista de conceptos                              //
+	////////////////////////////////////////////////////////////////
+	function srvConcList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			cate: parseInt(cntx.form.cate)
+		};
+
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/conc/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.concList = data.OUTPUT['concList'];
 				d.resolve(data);
 			}
 		});
