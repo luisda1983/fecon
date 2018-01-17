@@ -16,7 +16,6 @@ app.controller('cuenFormCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	//Función que captura la cancelación de la vista
 	$scope.fnCanc = function() {
-		alert(2);
 		srv.backState(true);
 	}
 

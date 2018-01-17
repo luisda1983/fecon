@@ -15,6 +15,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'conc/list') { return srvConcList(cntx); }
 		else if (name === 'cuen/form') { return srvCuenForm(cntx); }
 		else if (name === 'cuen/list') { return srvCuenList(cntx); }
+		else if (name === 'cuen/tras') { return srvCuenTras(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -173,6 +174,45 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.cuenList = data.OUTPUT['cuenList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// cuen/tras: traspaso entre cuentas                          //
+	////////////////////////////////////////////////////////////////
+	function srvCuenTras(cntx) {
+		var impo = cntx.form.impo;
+		impo = impo.toString().replace(',', '.');
+		
+		var fmtFeva;
+		if (cntx.form.feva === undefined || cntx.form.feva === '' || cntx.form.feva === null) {
+			fmtFeva = 0;
+		} else {
+			var yf=cntx.form.feva.getFullYear();           
+			var mf=cntx.form.feva.getMonth() + 1;
+			var df=cntx.form.feva.getDate();
+			fmtFeva = (yf*10000)+(mf*100)+df;
+		}
+		
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			ctor : cntx.form.ctor,
+			ctde : cntx.form.ctde,
+			impo : parseFloat(impo),
+			feva : parseInt(fmtFeva),
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/cuen/tras/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
 				d.resolve(data);
 			}
 		});

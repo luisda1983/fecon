@@ -30,8 +30,8 @@ app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.fnTras = function(i) {
 		var cntx = srv.getCntx('cuen/tras');
 		var cuen = $scope.cntx.data.cuenList[i];
-		//TODO: cargar datos
-		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
+		cntx.form.ctor = cuen.iden;
+		srv.go('cuen/list', $scope.cntx, 'cuen/tras', cntx);
 	}
 	
 	//Función encargada de manejar la vista, y sus modos de presentación
