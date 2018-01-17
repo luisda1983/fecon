@@ -13,6 +13,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cate/form') { return getCateFormCntx(); }
 		else if (view === 'conc/list') { return getConcListCntx(); }
 		else if (view === 'conc/form') { return getConcFormCntx(); }
+		else if (view === 'cuen/list') { return getCuenListCntx(); }
 		else if (view === 'cuen/form') { return getCuenFormCntx(); }
 		else if (view === 'lite/list') { return getLiteListCntx(); }
 
@@ -224,6 +225,33 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vConf = {
 			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto cuenList
+	function getCuenListCntx() {
+		var vForm = {
+			ndat: null
+		};
+		var vShow = {
+			ndat: null
+		};
+		var vRead = {
+			ndat: null
+		}
+		var vData = {
+			cuenList: null
+		};
+		var vConf = {
+			item: -1
 		};
 		cntx = {
 			form: vForm,

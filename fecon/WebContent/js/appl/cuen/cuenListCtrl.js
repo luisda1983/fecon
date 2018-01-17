@@ -1,133 +1,24 @@
-app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv) {
+app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
 
-	$scope.form = {
-		titl : '',
-		iden : 0,
-		tipo : '',
-		desc : '',
-		sald : 0
-	}
+	$scope.cntx = srv.getCntx('cuen/list');
 	
-	$scope.show = {
-		list : false,
-		form : false,
-		iden : false,
-		tipo : false,
-		desc : false,
-		sald : false
-	}
+	var srv1 = comc.request('cuen/list', $scope.cntx);
+	var srv2 = comc.requestLiteList('CUENTIPO', $scope.cntx);
 	
-	$scope.read = {
-		iden : false,
-		tipo : false,
-		desc : false,
-		sald : false
-	}
-	
-	$scope.conf = {
-		item : -1,
-		load : false,
-		mode : ''
-	}
-
-	var srv1 = srvLiteCuenTipo();
-	
-	$q.all([srv1]).then(function(){
-		loadList();
-		$scope.conf.load = true;
-		$scope.conf.mode = 'L';
+	$q.all([srv.stResp(srv1,srv2)]).then(function() {
 		view();
 	});
-	
-	function loadList() {
-		var srv1 = srvCuenList();
-		
-		$q.all([srv1]).then(function() { });
+
+	//Función que captura la entrada en modo alta de cuenta
+	$scope.fnNuev = function() {
+		var cntx = srv.getCntx('cuen/form');
+		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
 	}
 
-	//Funcion que obtiene la lista de cuentas.
-	function srvCuenList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/cuen/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cuenList = data.OUTPUT['cuenList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Estados de Invitacion
-	function srvLiteCuenTipo() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'CUENTIPO'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltCuenTipo = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Función encargada de manejar la vista, y sus modos de presentación
-	function view() {
-		if ($scope.conf.mode === 'L') {
-			$scope.form.titl = "Cuentas";
-			
-			$scope.show.list = true;
-			$scope.show.form = false;
-			$scope.show.iden = false;
-			$scope.show.tipo = false;
-			$scope.show.desc = false;
-			$scope.show.sald = false;
-		} else if ($scope.conf.mode === 'E') {
-			$scope.form.titl = "Edición de cuenta (" + $scope.form.iden + ")";
-			
-			$scope.show.list = false;
-			$scope.show.form = true;
-			
-			$scope.show.iden = true;
-			$scope.show.tipo = true;
-			$scope.show.desc = true;
-			$scope.show.sald = true;
-			
-			$scope.read.iden = true;
-			$scope.read.tipo = false;
-			$scope.read.desc = false;
-			$scope.read.sald = true;
-		} else if ($scope.conf.mode === 'N') {
-			$scope.form.titl = "Alta de cuenta";
-			
-			$scope.show.list = false;
-			$scope.show.form = true;
-			
-			$scope.show.iden = false;
-			$scope.show.tipo = true;
-			$scope.show.desc = true;
-			$scope.show.sald = true;
-			
-			$scope.read.iden = true;
-			$scope.read.tipo = false;
-			$scope.read.desc = false;
-			$scope.read.sald = false;
-		}
-	}
-	
 	//Función que carga el modo de edición de cuenta
 	$scope.fnEdit = function(i) {
 		var cntx = srv.getCntx('cuen/form');
-		var cuen = $scope.cuenList[i];
+		var cuen = $scope.cntx.data.cuenList[i];
 		cntx.form.iden = cuen.iden;
 		cntx.form.tipo = cuen.tipo;
 		cntx.form.desc = cuen.desc;
@@ -135,20 +26,18 @@ app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams,
 		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
 	}
 
-	//Función que captura la entrada en modo alta de cuenta
-	$scope.fnNuev = function() {
-		var cntx = srv.getCntx('cuen/form');
+	//Función que viaja al traspaso de cuenta
+	$scope.fnTras = function(i) {
+		var cntx = srv.getCntx('cuen/tras');
+		var cuen = $scope.cntx.data.cuenList[i];
+		//TODO: cargar datos
 		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
 	}
 	
-	//Función que captura la cancelación del modo edición/alta
-	$scope.fnCanc = function() {
-		$scope.form.iden = 0;
-		$scope.form.tipo = '';
-		$scope.form.desc = '';
-		$scope.form.sald = 0;
-		$scope.conf.mode = 'L';
-		view();
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+		
 	}
 	
 	//Función que despliega el menú de acciones
@@ -159,42 +48,10 @@ app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams,
 	
 	//Función que amplia un registro de la lista
 	$scope.xpnd = function(i) {
-		if ($scope.conf.item === i) {
-			$scope.conf.item = -1;
+		if ($scope.cntx.conf.item === i) {
+			$scope.cntx.conf.item = -1;
 		} else {
-			$scope.conf.item = i;
+			$scope.cntx.conf.item = i;
 		}
-	}
-	
-	//Function que captura el submit del formulario
-	$scope.form = function() {
-		var srv1 = srvCuenForm();
-		$q.all([srv1]).then(function() {
-			loadList();
-			$scope.fnCanc();
-		})
-	};
-	
-	function srvCuenForm() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: $scope.form.iden,
-			tipo: $scope.form.tipo,
-			desc: $scope.form.desc,
-			sald: $scope.form.sald
-		};
-
-		var d = $q.defer();
-			
-		var output = srv.call(targetHost + 'service/angular/cuen/form/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			if (data.EXEC_RC === 'V') {
-				d.reject('NOK');
-			} else {
-				d.resolve(data);
-			}
-		});
-		return d.promise;
 	}
 });

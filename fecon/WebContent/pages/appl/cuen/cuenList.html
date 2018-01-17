@@ -4,13 +4,12 @@
 	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
 		<md-toolbar class="md-warn md-whiteframe-z2">
     		<h2 class="md-toolbar-tools">
-      			<span>{{form.titl}}</span>
+      			<span>Cuentas</span>
       			<div flex></div>
-      			<md-button data-ng-show="show.form" ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
-      			<md-button data-ng-show="show.list" ng-click="fnNuev()"><md-icon md-font-set="material-icons">add</md-icon></md-button>
+      			<md-button ng-click="fnNuev()"><md-icon md-font-set="material-icons">add</md-icon></md-button>
     		</h2>
   		</md-toolbar>
-  		<md-content data-ng-show="show.list">
+  		<md-content>
 			<md-list class="md-dense" flex>
 				<md-list-item>
 					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
@@ -32,12 +31,12 @@
 					<md-divider></md-divider>
 				</md-list-item>
 				
-				<md-list-item data-ng-repeat="cuen in cuenList" ng-click="xpnd($index)">
+				<md-list-item data-ng-repeat="cuen in cntx.data.cuenList" ng-click="xpnd($index)">
 					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 							<div layout="row" layout-xs="column" flex>
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
-								<div flex ng-hide="$index === conf.item">
+								<div flex ng-hide="$index === cntx.conf.item">
 									<div flex hide show-xs layout="row">
 										<div flex="70">{{cuen.desc}} [{{cuen.tipo}}]</div>
 										<div flex="30">{{cuen.sald | number:2}} &euro;</div>
@@ -50,7 +49,7 @@
 									</div>
 								</div>
 								<!--  Detalle -->
-								<div flex ng-show="$index === conf.item">
+								<div flex ng-show="$index === cntx.conf.item">
 									<div flex><b>Identificador: </b>{{cuen.iden}}</div>
 									<div flex><b>Tipo: </b>{{ltCuenTipo[cuen.tipo].desc}}</div>
 									<div flex><b>Descripción: </b>{{cuen.desc}}</div>
@@ -72,7 +71,7 @@
 								</md-button>
 								<md-menu-content width="4">
 									<md-menu-item>
-										<md-button ng-click="cuenTras(cuen.iden)">
+										<md-button ng-click="fnTras($index)">
 											Traspaso
 										</md-button>
 									</md-menu-item>
@@ -88,37 +87,6 @@
 					<md-divider ng-if="!$last"></md-divider>
 				</md-list-item>
 			</md-list>
-        </md-content>
-        <md-content data-ng-show="show.form">
-        	<form name="cuenForm2" data-ng-submit="form()">
-        		<div layout="row" layout-xs="column" layout-sm="column">
-					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex data-ng-show="show.iden">
-	                		<label>Ident.</label>
-							<input type="text" ng-model="form.iden" ng-readonly="read.iden"/>
-	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="show.tipo">
-	                    	<label>Tipo</label>
-	                        <md-select ng-model="form.tipo" ng-readonly="read.tipo">
-	                        	<md-option ng-repeat="tipo in ltCuenTipo" ng-value="tipo.clav">{{tipo.desc}}</md-option>
-	                        </md-select>
-	                    </md-input-container>
-					</div>
-					<div layout="row" layout-xs="column" flex>
-	                    <md-input-container class="md-block" flex data-ng-show="show.desc">
-	                    	<label>Descripción</label>
-	                        <input type="text" ng-model="form.desc" ng-readonly="read.desc"/>
-	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="show.sald">
-	                    	<label>Saldo</label>
-	                    	<input type="number" ng-model="form.sald" step="0.01" ng-readonly="read.sald"/>
-	                    </md-input-container>
-					</div>
-				</div>
-				<div layout="row" layout-align="center center">
-                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
-                </div>
-        	</form>
         </md-content>
     </div>
 </div>

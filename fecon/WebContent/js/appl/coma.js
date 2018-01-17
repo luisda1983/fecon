@@ -14,6 +14,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'conc/form') { return srvConcForm(cntx); }
 		else if (name === 'conc/list') { return srvConcList(cntx); }
 		else if (name === 'cuen/form') { return srvCuenForm(cntx); }
+		else if (name === 'cuen/list') { return srvCuenList(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -149,6 +150,29 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.cuen = data.OUTPUT['cuen'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// cuen/list: lista de cuentas                                //
+	////////////////////////////////////////////////////////////////
+	function srvCuenList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/cuen/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.cuenList = data.OUTPUT['cuenList'];
 				d.resolve(data);
 			}
 		});
