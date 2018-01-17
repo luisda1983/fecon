@@ -93,7 +93,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyController,
-					templateUrl: 'pages/core/notify.html?v.0.00.42',
+					templateUrl: 'pages/core/notify.html?v.0.00.44',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,

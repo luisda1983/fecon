@@ -13,6 +13,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'cate/list') { return srvCateList(cntx); }
 		else if (name === 'conc/form') { return srvConcForm(cntx); }
 		else if (name === 'conc/list') { return srvConcList(cntx); }
+		else if (name === 'cuen/form') { return srvCuenForm(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -120,6 +121,34 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.concList = data.OUTPUT['concList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// cuen/form: edición/alta de cuentas                         //
+	////////////////////////////////////////////////////////////////
+
+	function srvCuenForm(cntx) {
+		var dataRequest = {
+				sesi: parseInt($rootScope.esta.sesi),
+				iden: cntx.form.iden,
+				tipo: cntx.form.tipo,
+				desc: cntx.form.desc,
+				sald: cntx.form.sald
+		};
+
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/cuen/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.cuen = data.OUTPUT['cuen'];
 				d.resolve(data);
 			}
 		});

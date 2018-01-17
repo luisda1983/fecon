@@ -126,19 +126,19 @@ app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams,
 	
 	//Función que carga el modo de edición de cuenta
 	$scope.fnEdit = function(i) {
+		var cntx = srv.getCntx('cuen/form');
 		var cuen = $scope.cuenList[i];
-		$scope.form.iden = cuen.iden;
-		$scope.form.tipo = cuen.tipo;
-		$scope.form.desc = cuen.desc;
-		$scope.form.sald = cuen.sald;
-		$scope.conf.mode = 'E';
-		view();
+		cntx.form.iden = cuen.iden;
+		cntx.form.tipo = cuen.tipo;
+		cntx.form.desc = cuen.desc;
+		cntx.form.sald = cuen.sald;
+		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
 	}
 
 	//Función que captura la entrada en modo alta de cuenta
 	$scope.fnNuev = function() {
-		$scope.conf.mode = 'N';
-		view();
+		var cntx = srv.getCntx('cuen/form');
+		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
 	}
 	
 	//Función que captura la cancelación del modo edición/alta

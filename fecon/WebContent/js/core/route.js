@@ -27,8 +27,12 @@ app.config(function($routeProvider) {
 			controller  : 'inviListCtrl'
 		})
 		.when('/cuen/list', {
-			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.43',
+			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.43d',
 			controller  : 'cuenListCtrl'
+		})
+		.when('/cuen/form', {
+			templateUrl : 'pages/appl/cuen/cuenForm.html?v.0.00.43d',
+			controller  : 'cuenFormCtrl'
 		})
 		.when('/cuen/cuad', {
 			templateUrl : 'pages/appl/cuen/cuenCuad.html?v.0.00.43',
@@ -63,19 +67,19 @@ app.config(function($routeProvider) {
 			controller  : 'hconListCtrl'
 		})
 		.when('/cate/list/', {
-			templateUrl : 'pages/appl/cate/cateList.html?v.0.00.43',
+			templateUrl : 'pages/appl/cate/cateList.html?v.0.00.43d',
 			controller  : 'cateListCtrl'
 		})
 		.when('/cate/form', {
-			templateUrl : 'pages/appl/cate/cateForm.html?v.0.00.43',
+			templateUrl : 'pages/appl/cate/cateForm.html?v.0.00.43d',
 			controller  : 'cateFormCtrl'
 		})
 		.when('/conc/list', {
-			templateUrl : 'pages/appl/conc/concList.html?v.0.00.43',
+			templateUrl : 'pages/appl/conc/concList.html?v.0.00.43d',
 			controller  : 'concListCtrl'
 		})
 		.when('/conc/form', {
-			templateUrl : 'pages/appl/conc/concForm.html?v.0.00.43',
+			templateUrl : 'pages/appl/conc/concForm.html?v.0.00.43d',
 			controller  : 'concFormCtrl'
 		})
 		.otherwise({
