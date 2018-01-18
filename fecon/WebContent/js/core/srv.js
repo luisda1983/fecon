@@ -93,7 +93,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyController,
-					templateUrl: 'pages/core/notify.html?v.0.00.44',
+					templateUrl: 'pages/core/notify.html?v.0.00.44a',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -251,16 +251,16 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	//Función que finaliza un proceso Front:
 	// 1.- Muestra los mensajes.
 	function endProc() {
-		var d = $q.defer();
-		if ($rootScope.notf.esta !== null) {
-			var msg = showAdvanced($rootScope.notf);
-			$q.all([msg]).then(function() {
-				d.resolve();
-			});
-		} else {
-			d.resolve();
-		}
-		return d.promise;
+//		var d = $q.defer();
+//		if ($rootScope.notf.esta !== null) {
+//			var msg = showAdvanced($rootScope.notf);
+//			$q.all([msg]).then(function() {
+//				d.resolve();
+//			});
+//		} else {
+//			d.resolve();
+//		}
+//		return d.promise;
 	}
 
 	//Función que realiza las opciones estándares de respuesta ante n llamadas a servicios:

@@ -27,7 +27,7 @@ app.config(function($routeProvider) {
 			controller  : 'inviListCtrl'
 		})
 		.when('/cuen/list', {
-			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.43d',
+			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.43e',
 			controller  : 'cuenListCtrl'
 		})
 		.when('/cuen/form', {
@@ -35,11 +35,11 @@ app.config(function($routeProvider) {
 			controller  : 'cuenFormCtrl'
 		})
 		.when('/cuen/cuad', {
-			templateUrl : 'pages/appl/cuen/cuenCuad.html?v.0.00.43',
+			templateUrl : 'pages/appl/cuen/cuenCuad.html?v.0.00.43c',
 			controller  : 'cuenCuadCtrl'
 		})
 		.when('/cuen/tras/', {
-			templateUrl : 'pages/appl/cuen/cuenTras.html?v.0.00.43',
+			templateUrl : 'pages/appl/cuen/cuenTras.html?v.0.00.43d',
 			controller  : 'cuenTrasCtrl'
 		})
 		.when('/pres/resu', {
@@ -59,8 +59,8 @@ app.config(function($routeProvider) {
 			controller  : 'presConcCtrl'
 		})
 		.when('/hcon/apun', {
-			templateUrl : 'pages/appl/hcon/hconApun.html?v.0.00.43',
-			controller  : 'hconApunCtrl'
+			templateUrl : 'pages/appl/hcon/hconForm.html?v.0.00.43',
+			controller  : 'hconFormCtrl'
 		})
 		.when('/hcon/list/', {
 			templateUrl : 'pages/appl/hcon/hconList.html?v.0.00.43',

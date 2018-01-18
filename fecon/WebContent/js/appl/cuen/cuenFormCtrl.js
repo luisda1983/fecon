@@ -1,4 +1,3 @@
-//LDR: despues de meter el cuenForm ha dejado de funcionar el cateform... el concform si funciona... no tiene sentido
 app.controller('cuenFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
 
 	$scope.cntx = srv.getCntx('cuen/form');

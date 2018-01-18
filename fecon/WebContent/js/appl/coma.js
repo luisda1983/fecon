@@ -17,6 +17,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'cuen/list') { return srvCuenList(cntx); }
 		else if (name === 'cuen/tras') { return srvCuenTras(cntx); }
 		else if (name === 'cuen/cuad') { return srvCuenCuad(cntx); }
+		else if (name === 'hcon/form') { return srvHconForm(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -236,6 +237,46 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/cuen/cuad/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// hcon/form: alta/modificación de apuntes                    //
+	////////////////////////////////////////////////////////////////
+	function srvHconForm(cntx) {
+		var fmtFeva;
+		if (cntx.form.feva === undefined || cntx.form.feva === '' || cntx.form.feva === null) {
+			fmtFeva = 0;
+		} else {
+			var yf=cntx.form.feva.getFullYear();           
+			var mf=cntx.form.feva.getMonth() + 1;
+			var df=cntx.form.feva.getDate();
+			fmtFval = (yf*10000)+(mf*100)+df;
+		}
+
+		//TODO: meter el iden para permitir la edición
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			cuen: parseInt(cntx.form.cuen),
+			cate: parseInt(cntx.form.cate),
+			conc: parseInt(cntx.form.conc),
+			impo: parseFloat(cntx.form.impo),
+			feva: parseInt(fmtFeva),
+			desc: cntx.form.desc
+		};
+		
+		var d = $q.defer();
+		
+		//FIXME: homogeneizar la llamada a backend como hcon-form
+		var output = srv.call(targetHost + 'service/angular/hcon/apun/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
