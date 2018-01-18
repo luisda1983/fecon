@@ -11,43 +11,43 @@
 			<form name="cuadForm" data-ng-submit="fnCuad()">
 				<div layout="row" layout-xs="column" flex="75" flex-sm="100" flex-xs="100">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.cuen">
 	                		<label>Cuenta</label>
-							<md-select ng-model="form.cuen" ng-change="fnCuenSelc()">
-	                        	<md-option ng-repeat="cuen in cuenList" ng-value="cuen">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
+							<md-select ng-model="cntx.form.cuen" ng-disabled="cntx.read.cuen" ng-change="fnCuenSelc()">
+	                        	<md-option ng-repeat="cuen in cntx.data.cuenList" ng-value="cuen">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.sald">
 	                    	<label>Saldo Actual</label>
-	                    	<input type="number" ng-model="form.sald" step="0.01" data-ng-keyup="fnImpoRfsh();"/>
+	                    	<input type="number" ng-model="cntx.form.sald" step="0.01" ng-disabled="cntx.read.sald" data-ng-keyup="fnImpoRfsh();"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.impo">
 	                    	<label>Importe</label>
-	                        <input type="number" ng-model="form.impo" data-ng-readonly="true"/>
+	                        <input type="number" ng-model="cntx.form.impo" ng-disabled="cntx.read.impo"/>
 	                    </md-input-container>
 					</div>
 				</div>
-                <div layout="row" layout-align="center center" data-ng-show="show.btCuad">
+                <div layout="row" layout-align="center center" data-ng-show="cntx.show.btCuad">
                     <md-button type="submit" class="md-raised md-primary" aria-label="Cuadrar">Cuadrar</md-button> 
                 </div>
 			</form>
         </md-content>
-        <md-content class="md-padding" data-ng-show="show.arApun">
-        	Existe una diferencia de {{form.impo}} &euro;. <br><br>
+        <md-content class="md-padding" data-ng-show="cntx.show.stApun">
+        	Existe una diferencia de {{cntx.form.impo}} &euro;. <br><br>
         	Seleccione concepto de cuadre. <br><br>
         	<form name="apunForm" data-ng-submit="fnApun()">
         		<div layout="row" layout-xs="column" flex="50" flex-sm="100" flex-xs="100">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.cate">
 	                		<label>Categoria</label>
-							<md-select ng-model="form.cate" ng-change="fnCateChng()">
-	                        	<md-option ng-repeat="cate in cateList" ng-value="cate">{{cate.desc}}</md-option>
+							<md-select ng-model="cntx.form.cate" ng-disabled="cntx.read.cate" ng-change="fnCateChng()">
+	                        	<md-option ng-repeat="cate in cntx.data.cateList" ng-value="cate.iden">{{cate.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.conc">
 	                    	<label>Concepto</label>
-	                    	<md-select ng-model="form.conc">
-	                        	<md-option ng-repeat="conc in concList" ng-value="conc">{{conc.desc}}</md-option>
+	                    	<md-select ng-model="cntx.form.conc" ng-disabled="cntx.read.conc">
+	                        	<md-option ng-repeat="conc in cntx.data.concList" ng-value="conc.iden">{{conc.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
 					</div>

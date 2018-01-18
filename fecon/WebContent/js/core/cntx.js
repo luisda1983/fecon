@@ -16,6 +16,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cuen/list') { return getCuenListCntx(); }
 		else if (view === 'cuen/form') { return getCuenFormCntx(); }
 		else if (view === 'cuen/tras') { return getCuenTrasCntx(); }
+		else if (view === 'cuen/cuad') { return getCuenCuadCntx(); }
 		else if (view === 'lite/list') { return getLiteListCntx(); }
 
 		return cntx;
@@ -323,6 +324,49 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			cuenList: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto cuenCuad
+	function getCuenCuadCntx() {
+		var vForm = {
+			cuen : 0,
+			sald : 0,
+			impo : 0,
+			cate : 0,
+			conc : 0
+		};
+		var vShow = {
+			cuen: false,
+			sald: false,
+			impo: false,
+			cate: false,
+			conc: false,
+			btCuad: false,
+			stApun: false
+		};
+		var vRead = {
+			cuen: false,
+			sald: false,
+			impo: false,
+			cate: false,
+			conc: false
+		};
+		var vData = {
+			cuenList: null,
+			cateList: null,
+			concList: null
 		};
 		var vConf = {
 			mode: ''

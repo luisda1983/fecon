@@ -16,6 +16,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'cuen/form') { return srvCuenForm(cntx); }
 		else if (name === 'cuen/list') { return srvCuenList(cntx); }
 		else if (name === 'cuen/tras') { return srvCuenTras(cntx); }
+		else if (name === 'cuen/cuad') { return srvCuenCuad(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -208,6 +209,33 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/cuen/tras/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// cuen/cuad: cuadre de cuentas                               //
+	////////////////////////////////////////////////////////////////
+	function srvCuenCuad(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			cate: parseInt(cntx.form.cate),
+			conc: parseInt(cntx.form.conc),
+			impo: parseFloat(cntx.form.impo),
+			sald: parseFloat(cntx.form.cuen.sald).toFixed(2), //TODO: validación de concurrencia. No funciona por redondeo en backend
+			cuen: parseInt(cntx.form.cuen.iden)
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/cuen/cuad/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
