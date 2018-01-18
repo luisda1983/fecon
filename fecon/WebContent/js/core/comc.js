@@ -26,9 +26,12 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var srv1 = request('lite/list', cntxLite);
 		$q.all([srv1]).then(function() {
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
-			     if (tbla === 'BOOL')     { cntx.data.ltBool     = cntxLite.data.liteList; d.resolve(); }
+			     if (tbla === 'BOOL')       { cntx.data.ltBool       = cntxLite.data.liteList; d.resolve(); }
 			//TODO: los literales de aplicación no deberían estar aquí
-			else if (tbla === 'CUENTIPO') { cntx.data.ltCuentipo = cntxLite.data.liteList; d.resolve(); }
+			else if (tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; d.resolve(); }
+			else if (tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; d.resolve(); }
+			else if (tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; d.resolve(); }
+			else if (tbla === 'MES')        { cntx.data.ltMes        = cntxLite.data.liteList; d.resolve(); }
 			//else if
 			//Si no tenemos mapeada la tabla de literales, rechazamos el promise
 			else { d.reject(); }

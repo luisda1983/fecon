@@ -9,15 +9,19 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		
 		var d = $q.defer();
 		
-		     if (name === 'cate/form') { return srvCateForm(cntx); }
-		else if (name === 'cate/list') { return srvCateList(cntx); }
-		else if (name === 'conc/form') { return srvConcForm(cntx); }
-		else if (name === 'conc/list') { return srvConcList(cntx); }
-		else if (name === 'cuen/form') { return srvCuenForm(cntx); }
-		else if (name === 'cuen/list') { return srvCuenList(cntx); }
-		else if (name === 'cuen/tras') { return srvCuenTras(cntx); }
-		else if (name === 'cuen/cuad') { return srvCuenCuad(cntx); }
-		else if (name === 'hcon/form') { return srvHconForm(cntx); }
+		     if (name === 'cate/form')      { return srvCateForm(cntx);     }
+		else if (name === 'cate/list')      { return srvCateList(cntx);     }
+		else if (name === 'conc/form')      { return srvConcForm(cntx);     }
+		else if (name === 'conc/full')      { return srvConcFull(cntx);     }
+		else if (name === 'conc/list')      { return srvConcList(cntx);     }
+		else if (name === 'cuen/form')      { return srvCuenForm(cntx);     }
+		else if (name === 'cuen/list')      { return srvCuenList(cntx);     }
+		else if (name === 'cuen/tras')      { return srvCuenTras(cntx);     }
+		else if (name === 'cuen/cuad')      { return srvCuenCuad(cntx);     }
+		else if (name === 'hcon/anul')      { return srvHconAnul(cntx);     }
+		else if (name === 'hcon/form')      { return srvHconForm(cntx);     }
+		else if (name === 'hcon/list')      { return srvHconList(cntx);     }
+		else if (name === 'hcon/pres/gest') { return srvHconPresGest(cntx); }
 		else {
 			d.reject();
 			return d.promise;
@@ -73,6 +77,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.cateList = data.OUTPUT['cateList'];
+				cntx.data.cateMap  = data.OUTPUT['cateListMap'];
 				d.resolve(data);
 			}
 		});
@@ -101,6 +106,30 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 				d.reject();
 			} else {
 				cntx.data.conc = data.OUTPUT['conc'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// conc/full: lista de conceptos (completa)                   //
+	////////////////////////////////////////////////////////////////
+	function srvConcFull(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/conc/full/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.concFullList = data.OUTPUT['concList'];
+				cntx.data.concFullMap  = data.OUTPUT['concListMap'];
 				d.resolve(data);
 			}
 		});
@@ -249,6 +278,29 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 	}
 
 	////////////////////////////////////////////////////////////////
+	// hcon/anul: anulación de apuntes                            //
+	////////////////////////////////////////////////////////////////
+	function srvHconAnul(cntx) {
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			iden : parseInt(cntx.conf.iden)
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/hcon/anul/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
 	// hcon/form: alta/modificación de apuntes                    //
 	////////////////////////////////////////////////////////////////
 	function srvHconForm(cntx) {
@@ -277,6 +329,60 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		
 		//FIXME: homogeneizar la llamada a backend como hcon-form
 		var output = srv.call(targetHost + 'service/angular/hcon/apun/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// hcon/list: lista de apuntes                                //
+	////////////////////////////////////////////////////////////////
+	function srvHconList(cntx) {
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			tipo : cntx.form.tipo,
+			anua : parseInt(cntx.form.anua),
+			mesh : parseInt(cntx.form.mesh),
+			cate : parseInt(cntx.form.cate),
+			conc : parseInt(cntx.form.conc)
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/hcon/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.hconList = data.OUTPUT['hconList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	//TODO: probablemente sea mejor tener en front-end dos servicios, con la acción a huevo... y aunque quedará
+	//      como está, la acción e identificador no deben estar en el área de configuración
+	////////////////////////////////////////////////////////////////
+	// hcon/pres/gest: gestión de apuntes respecto al presupuesto //
+	////////////////////////////////////////////////////////////////
+	function srvHconPresGest(cntx) {
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			iden : parseInt(cntx.conf.iden),
+			acci : cntx.conf.acci
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/hcon/pres/gest/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {

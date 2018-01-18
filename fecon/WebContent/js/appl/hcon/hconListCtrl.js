@@ -1,133 +1,127 @@
-app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, $filter) {
+app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc, $filter) {
 
-	$scope.form = {
-		tipo: '',
-		anua: 0,
-		mesh: 0,
-		cate: 0,
-		conc: 0
-	};
-	
-	$scope.show = {
-		tipo: false,
-		anua: false,
-		mesh: false,
-		cate: false,
-		conc: false
-	};
-	
-	$scope.conf = {
-		mode: '',
-		item: -1,
-		iden: 0,
-		acci: ''
-	};
-	
-	var srv1 = srvLiteHconLtTipo();
-	var srv2 = srvLiteAnualidad();
-	var srv3 = srvLiteMes();
-	var srv4 = srvCateList();
-	var srv5 = srvConcFull();
+	$scope.cntx = srv.getCntx('hcon/list');
+		
+	var srv1 = comc.requestLiteList('HCONLTTIPO', $scope.cntx);
+	var srv2 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
+	var srv3 = comc.requestLiteList('MES', $scope.cntx);
+	var srv4 = comc.request('cate/list', $scope.cntx);
+	var srv5 = comc.request('conc/full', $scope.cntx); 
 
-	$q.all([srv1, srv2, srv3, srv4, srv5]).then(function() {
-		$scope.conf.mode = 'T';
+	$q.all([srv.stResp(srv1,srv2,srv3,srv4,srv5)]).then(function() {
+		$scope.cntx.conf.mode = 'T';
 		view();
-		srv.clearMsg();
 	});
 
-	function view() {
-		//Seleccionar Tipo de Consulta
-		if ($scope.conf.mode === 'T') {
-			$scope.show.tipo = true;
-			$scope.show.anua = false;
-			$scope.show.mesh = false;
-			$scope.show.cate = false;
-			$scope.show.conc = false;
-		} else if ($scope.conf.mode === 'LT01') { //Consulta por mes
-			$scope.show.tipo = true;
-			$scope.show.anua = true;
-			$scope.show.mesh = true;
-			$scope.show.cate = false;
-			$scope.show.conc = false;
-		} else if ($scope.conf.mode === 'LT02') { //Consulta por año y concepto 
-			$scope.show.tipo = true;
-			$scope.show.anua = true;
-			$scope.show.mesh = false;
-			$scope.show.cate = true;
-			$scope.show.conc = true;
-		} else if ($scope.conf.mode === 'LT03') { //Consulta por mes y concepto
-			$scope.show.tipo = true;
-			$scope.show.anua = true;
-			$scope.show.mesh = true;
-			$scope.show.cate = true;
-			$scope.show.conc = true;
-		} else {
-			$scope.show.tipo = true;
-			$scope.show.anua = false;
-			$scope.show.mesh = false;
-			$scope.show.cate = false;
-			$scope.show.conc = false;
-		}
-	}
-
 	$scope.fnTipoChng = function() {
-		$scope.conf.mode = $scope.form.tipo;
+		$scope.cntx.conf.mode = $scope.cntx.form.tipo;
 		view();
 	}
-	
+
 	$scope.fnCateChng = function() {
-		var srv1 = srvConcList();
-		$q.all([srv1]).then(function() {
-			
-		});
+		var srv1 = comc.request('conc/list', $scope.cntx);
+		srv.stResp(srv1);
 	}
-	
-	$scope.fnList = function() {
-		var srv1 = srvHconList();
-		$q.all([srv1]).then(function() {
-			
-		});
+
+	$scope.fnForm = function() {
+		var srv1 = comc.request('hcon/list', $scope.cntx); 
+		srv.stResp(srv1);
 	}
 
 	//Funcion que captura la solicitud de anulacion de un apunte
-	$scope.fnAnul = function anul(iden) {
-		$scope.conf.iden = $scope.hconList[iden].iden;
-		var srv1 = srvHconAnul();
+	$scope.fnAnul = function anul(indx) {
+		$scope.cntx.conf.iden = $scope.cntx.data.hconList[indx].iden;
+		var srv1 = comc.request('hcon/anul', $scope.cntx); 
 		
-		$q.all([srv1]).then(function() {
-			$scope.conf.iden = 0;
-			var srv2 = srvHconList();
-			$q.all([srv2]).then(function() {
-				srv.clearMsg();
-			});
+		$q.all([srv.stResp(srv1)]).then(function() {
+			$scope.cntx.conf.iden = 0;
+			var srv2 = comc.request('hcon/list', $scope.cntx);
+			srv.stResp(srv2);
 		});
 	};
 
 	//Funcion que excluye un apunte de su partida presupuestaria
 	$scope.fnExcl = function excl(indx) {
-		$scope.conf.iden = $scope.hconList[indx].iden;
-		$scope.conf.acci = 'E';
+		$scope.cntx.conf.iden = $scope.cntx.data.hconList[indx].iden;
+		$scope.cntx.conf.acci = 'E';
 		
-		var srv1 = srvHconPresGest();
+		var srv1 = comc.request('hcon/pres/gest', $scope.cntx); 
 		
-		$q.all([srv1]).then(function() {
-			$scope.conf.iden = 0;
-			$scope.conf.acci = '';
+		$q.all([srv.stResp(srv1)]).then(function() {
+			$scope.cntx.conf.iden = 0;
+			$scope.cntx.conf.acci = '';
 		});
 	}
 	
 	//Funcion que incluye un apunte en su partida presupuestaria
 	$scope.fnIncl = function incl(indx) {
-		$scope.conf.iden = $scope.hconList[indx].iden;
-		$scope.conf.acci = 'I';
+		$scope.cntx.conf.iden = $scope.cntx.data.hconList[indx].iden;
+		$scope.cntx.conf.acci = 'I';
 		
-		var srv1 = srvHconPresGest();
+		var srv1 = comc.request('hcon/pres/gest', $scope.cntx); 
 		
-		$q.all([srv1]).then(function() {
-			$scope.conf.iden = 0;
-			$scope.conf.acci = '';
+		$q.all([srv.stResp(srv1)]).then(function() {
+			$scope.cntx.conf.iden = 0;
+			$scope.cntx.conf.acci = '';
 		});
 	}
+
+	function view() {
+		//Seleccionar Tipo de Consulta
+		if ($scope.cntx.conf.mode === 'T') {
+			$scope.cntx.show.tipo = true;
+			$scope.cntx.show.anua = false;
+			$scope.cntx.show.mesh = false;
+			$scope.cntx.show.cate = false;
+			$scope.cntx.show.conc = false;
+			
+			$scope.cntx.read.tipo = false;
+			$scope.cntx.read.anua = true;
+			$scope.cntx.read.mesh = true;
+			$scope.cntx.read.cate = true;
+			$scope.cntx.read.conc = true;
+		//Consulta por mes
+		} else if ($scope.cntx.conf.mode === 'LT01') { 
+			$scope.cntx.show.tipo = true;
+			$scope.cntx.show.anua = true;
+			$scope.cntx.show.mesh = true;
+			$scope.cntx.show.cate = false;
+			$scope.cntx.show.conc = false;
+			
+			$scope.cntx.read.tipo = false;
+			$scope.cntx.read.anua = false;
+			$scope.cntx.read.mesh = false;
+			$scope.cntx.read.cate = true;
+			$scope.cntx.read.conc = true;
+		//Consulta por año y concepto
+		} else if ($scope.cntx.conf.mode === 'LT02') {  
+			$scope.cntx.show.tipo = true;
+			$scope.cntx.show.anua = true;
+			$scope.cntx.show.mesh = false;
+			$scope.cntx.show.cate = true;
+			$scope.cntx.show.conc = true;
+			
+			$scope.cntx.read.tipo = false;
+			$scope.cntx.read.anua = false;
+			$scope.cntx.read.mesh = true;
+			$scope.cntx.read.cate = false;
+			$scope.cntx.read.conc = false;
+		//Consulta por mes y concepto
+		} else if ($scope.cntx.conf.mode === 'LT03') { 
+			$scope.cntx.show.tipo = true;
+			$scope.cntx.show.anua = true;
+			$scope.cntx.show.mesh = true;
+			$scope.cntx.show.cate = true;
+			$scope.cntx.show.conc = true;
+			
+			$scope.cntx.read.tipo = false;
+			$scope.cntx.read.anua = false;
+			$scope.cntx.read.mesh = false;
+			$scope.cntx.read.cate = false;
+			$scope.cntx.read.conc = false;
+		}
+	}
+
 	//Función que despliega el menú de acciones
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
@@ -142,281 +136,4 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 			$scope.conf.item = i;
 		}
 	}
-
-	//Function que recupera el mapa de categorias
-	function srvCateList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cateMap = data.OUTPUT['cateListMap'];
-			$scope.cateList = data.OUTPUT['cateList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Function que recupera el mapa de conceptos
-	function srvConcFull() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/conc/full/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.concMap = data.OUTPUT['concListMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Function que obtiene la lista de conceptos (de la categoria seleccionada)
-	function srvConcList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			cate: parseInt($scope.form.cate)
-		};
-
-		var d = $q.defer();
-			
-		var output = srv.call(targetHost + 'service/angular/conc/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.concList = data.OUTPUT['concList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Tipos de lista de Hcon
-	function srvLiteHconLtTipo() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'HCONLTTIPO'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltHconLtTipo = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de parámetros por instalación: Anualidad
-	function srvLiteAnualidad() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'ANUALIDAD'
-		};
-		
-		var d = $q.defer();
-		
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltAnualidad = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Estados de Presupuesto
-	function srvLiteMes() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'MES'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltMes = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Function que obtiene la lista de apuntes
-	function srvHconList() {
-		var dataObject = {
-			sesi : parseInt($rootScope.esta.sesi),
-			tipo : $scope.form.tipo,
-			anua : parseInt($scope.form.anua),
-			mesh : parseInt($scope.form.mesh),
-			cate : parseInt($scope.form.cate),
-			conc : parseInt($scope.form.conc)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/hcon/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.hconList = data.OUTPUT['hconList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Function que llama al servicio de anulacion de apuntes
-	function srvHconAnul() {
-		var dataObject = {
-			sesi : parseInt($rootScope.esta.sesi),
-			iden : parseInt($scope.conf.iden)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/hcon/anul/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Function que llama al servicio de anulacion de apuntes
-	function srvHconPresGest() {
-		var dataObject = {
-			sesi : parseInt($rootScope.esta.sesi),
-			iden : parseInt($scope.conf.iden),
-			acci : $scope.conf.acci
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/hcon/pres/gest/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	
-	
-	//Function que inicializa las variables usadas en la vista.
-	function inic(parAnua, parMesp, parCate, parConc) {
-		$scope.hcon =  {
-			anua : parAnua,
-			mesp : parMesp,
-			cate : parseInt(parCate),
-			conc : parseInt(parConc),
-			sort : '',
-			sortList : new Array()
-		};
-//		$scope.esta = {
-//			anua : $scope.hcon.anua,
-//			mesp : $scope.hcon.mesp,
-//			cate : 0,
-//			conc : $scope.hcon.conc
-//		};
-		$scope.esta = {
-			anua : 0,
-			mesp : 0,
-			cate : 0,
-			conc : 0
-		};
-	}
-
-	function consultar() {
-		var cons = false;
-		
-		if ($scope.hcon.anua !== 0 && $scope.hcon.mesp !== 0) { cons = true; };
-		if ($scope.hcon.anua !== 0 && $scope.hcon.cate !== 0) { cons = true; };
-		
-		return cons;
-	}
-	
-	$scope.refresh = function refresh() {
-		if ($scope.hcon.cate !== $scope.esta.cate && $scope.hcon.cate !== 0) {
-			if ($scope.esta.conc !== 0) {
-				$scope.hcon.conc = 0;
-			}
-			var srv1 = srvConcList();
-			$q.all([srv1]).then(function() {
-				$scope.esta.cate = $scope.hcon.cate;
-				srv.clearMsg();
-			});
-		}
-		if (consultar()) {
-			var srv1 = srvHconList();
-			$q.all([srv1]).then(function() {
-				srv.clearMsg();
-			});
-		}
-		$scope.esta.anua = $scope.hcon.anua;
-		$scope.esta.mesp = $scope.hcon.mesp;
-		$scope.esta.cate = $scope.hcon.cate;
-		$scope.esta.conc = $scope.hcon.conc;
-	};
-
-	$scope.sort = function sort(camp) {
-		$scope.hcon.sort = camp;
-		$scope.hcon.sortList = $filter('orderBy')($scope.hconList, camp);
-	};
-	
-	$scope.resu = function resu(i) {
-		if ($scope.hcon.sort !== '') {
-			if (i < $scope.hcon.sortList.length - 1) {
-				var actual = $scope.hcon.sortList[i][$scope.hcon.sort];
-				var siguiente = $scope.hcon.sortList[i+1][$scope.hcon.sort];
-				if (actual === siguiente) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				if ( i === $scope.hcon.sortList.length - 1) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			return false;
-		}
-	};
-		
-	//Funcion que obtiene la lista parametrica ANUALCONTA.
-	function srvParAnua() {
-		var d = $q.defer();
-		$http.get(targetHost + 'service/angular/parametro/ANUALCONTA/').success(function(data) {
-			$scope.parAnuaList = data.parmList;
-//			if ($scope.hcon.anua === 0) {
-//				$scope.hcon.anua = data.parmList[0].clav;
-//			}
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Funcion que obtiene la lista parametrica CALENDAMES.
-	function srvParMes() {
-		var d = $q.defer();
-		$http.get(targetHost + 'service/angular/parametro/CALENDAMES/').success(function(data) {
-			$scope.parMesList = data.parmList;
-			if ($scope.hcon.mesp === 0) {
-				$scope.hcon.mesp = $scope.parMesList[0].clav;
-			}
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
 });

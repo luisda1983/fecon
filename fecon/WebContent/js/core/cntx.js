@@ -18,6 +18,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cuen/tras') { return getCuenTrasCntx(); }
 		else if (view === 'cuen/cuad') { return getCuenCuadCntx(); }
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
+		else if (view === 'hcon/list') { return getHconListCntx(); }
 		else if (view === 'lite/list') { return getLiteListCntx(); }
 
 		return cntx;
@@ -117,7 +118,8 @@ app.factory("cntx", ['$q', function($q) {
 			ndat: null
 		}
 		var vData = {
-			cateList: new Array()
+			cateList: null,
+			cateMap : null
 		};
 		var vConf = {
 			item: -1
@@ -367,6 +369,7 @@ app.factory("cntx", ['$q', function($q) {
 		var vData = {
 			cuenList: null,
 			cateList: null,
+			cateMap : null,
 			concList: null
 		};
 		var vConf = {
@@ -414,10 +417,61 @@ app.factory("cntx", ['$q', function($q) {
 		var vData = {
 			cuenList: null,
 			cateList: null,
+			cateMap : null,
 			concList: null
 		};
 		var vConf = {
 			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto hconList
+	function getHconListCntx() {
+		var vForm = {
+			tipo : 0,
+			anua : 0,
+			mesh : 0,
+			cate : 0,
+			conc : 0
+		};
+		var vShow = {
+			tipo: false,
+			anua: false,
+			mesh: false,
+			cate: false,
+			conc: false
+		};
+		var vRead = {
+			tipo: false,
+			anua: false,
+			mesh: false,
+			cate: false,
+			conc: false
+		};
+		var vData = {
+			ltHconlttipo: null,
+			ltAnualidad : null,
+			ltMes       : null,
+			hconList    : new Array(), //No puede ser null por que es usada en un filter
+			cateList    : null,
+			cateMap     : null,
+			concList    : null,
+			concFullList: null,
+			concFullMap : null
+		};
+		var vConf = {
+			mode: '',
+			item: -1,
+			iden: 0,
+			acci: ''
 		};
 		cntx = {
 			form: vForm,
