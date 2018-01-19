@@ -20,6 +20,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
 		else if (view === 'hcon/list') { return getHconListCntx(); }
 		else if (view === 'lite/list') { return getLiteListCntx(); }
+		else if (view === 'para/get')  { return getParaGetCntx();  }
 
 		return cntx;
 	}
@@ -34,11 +35,24 @@ app.factory("cntx", ['$q', function($q) {
 		var vForm = {
 			anua: 0
 		};
+		var vShow = {
+			anua: false
+		};
+		var vRead = {
+			anua: false
+		};
 		var vData = {
 			prPeripresup: null,
 			ltAnualidad: null,
+			ltMAnualidad: null,
 			ltPresesta: null,
+			ltMPresesta: null,
 			ltMes: null,
+			ltMMes: null,
+			cateList: null,
+			cateMap: null,
+			concFullList: null,
+			concFullListMap: null,
 			presListAnua: new Array(),
 			presList: new Array(),
 			pres: null
@@ -49,6 +63,8 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		cntx = {
 			form: vForm,
+			show: vShow,
+			read: vRead,
 			data: vData,
 			conf: vConf
 		};
@@ -64,8 +80,11 @@ app.factory("cntx", ['$q', function($q) {
 		var vData = {
 			prPeripresup: null,
 			ltAnualidad: null,
+			ltMAnualidad: null,
 			ltPresesta: null,
+			ltMPresesta: null,
 			ltMes: null,
+			ltMMes: null,
 			presCateList: new Array(),
 			presListMap : new Map(),
 			pres: null
@@ -90,7 +109,9 @@ app.factory("cntx", ['$q', function($q) {
 		var vData = {
 			prPeripresup: null,
 			ltAnualidad: null,
+			ltMAnualidad: null,
 			ltPresesta: null,
+			ltMPresesta: null,
 			presCateList: new Array(),
 			presListMap: new Map()
 		};
@@ -159,7 +180,8 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			cate: null,
-			ltBool: new Array()
+			ltBool: new Array(),
+			ltMBool: null
 		};
 		var vConf = {
 			mode: ''
@@ -290,7 +312,8 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			cuen: null,
-			ltCuentipo: null
+			ltCuentipo: null,
+			ltMCuentipo: null
 		};
 		var vConf = {
 			mode: ''
@@ -458,8 +481,11 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			ltHconlttipo: null,
+			ltMHconlttipo: null,
 			ltAnualidad : null,
+			ltMAnualidad: null,
 			ltMes       : null,
+			ltMMes      : null,
 			hconList    : new Array(), //No puede ser null por que es usada en un filter
 			cateList    : null,
 			cateMap     : null,
@@ -496,6 +522,39 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			liteList: new Array()
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto paraGet
+	function getParaGetCntx() {
+		var vForm = {
+			tipo: '',
+			tbla: '',
+			clav: ''
+		};
+		var vShow = {
+			tipo: false,
+			tbla: false,
+			clav: false
+		};
+		var vRead = {
+			tipo: false,
+			tbla: false,
+			clav: false
+		};
+		var vData = {
+			para: null
 		};
 		var vConf = {
 			mode: ''

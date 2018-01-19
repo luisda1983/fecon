@@ -22,6 +22,8 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'hcon/form')      { return srvHconForm(cntx);     }
 		else if (name === 'hcon/list')      { return srvHconList(cntx);     }
 		else if (name === 'hcon/pres/gest') { return srvHconPresGest(cntx); }
+		else if (name === 'pres/anua')      { return srvPresAnua(cntx);     }
+		else if (name === 'pres/esta')      { return srvPresEsta(cntx);     }
 		else {
 			d.reject();
 			return d.promise;
@@ -60,6 +62,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		return d.promise;
 	}
 
+	//FIXME: cambiar cateMap por cateListMap
 	////////////////////////////////////////////////////////////////
 	// cate/list: lista de categorías                             //
 	////////////////////////////////////////////////////////////////
@@ -368,7 +371,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		return d.promise;
 	}
 
-	//TODO: probablemente sea mejor tener en front-end dos servicios, con la acción a huevo... y aunque quedará
+	//TODO: probablemente sea mejor tener en front-end dos servicios, con la acción a huevo... y aunque quedara
 	//      como está, la acción e identificador no deben estar en el área de configuración
 	////////////////////////////////////////////////////////////////
 	// hcon/pres/gest: gestión de apuntes respecto al presupuesto //
@@ -388,6 +391,69 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// pres/anua: consulta de presupuesto anual                   //
+	////////////////////////////////////////////////////////////////
+	function srvPresAnua(cntx) {
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			tipo: 'LT02',
+			anua: parseInt(cntx.form.anua)
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/pres/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.presList = data.OUTPUT['presList'];
+				cntx.data.presListAnua = data.OUTPUT['presListAnua'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// pres/esta: cambio de estado de partida presupuestaria      //
+	////////////////////////////////////////////////////////////////
+	function srvPresEsta(cntx) {
+
+		var esta = "";
+		
+		if (cntx.data.pres.esta === 'A') {
+			esta = 'C';
+		} else {
+			esta = 'A';
+		}
+
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			anua: parseInt(cntx.data.pres.anua),
+			mesp: parseInt(cntx.data.pres.mesp),
+			cate: parseInt(cntx.data.pres.cate),
+			conc: parseInt(cntx.data.pres.conc),
+			esta: esta
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/pres/esta/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.pres = data.OUTPUT['pres'];
 				d.resolve(data);
 			}
 		});

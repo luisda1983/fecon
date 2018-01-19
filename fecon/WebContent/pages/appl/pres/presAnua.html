@@ -11,7 +11,7 @@
   		<md-content>
   			<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" >
 	        	<label>Año</label>
-				<md-select ng-model="cntx.form.anua" ng-change="anuaChng()">
+				<md-select ng-model="cntx.form.anua" ng-change="fnAnuaChng()">
 	               	<md-option ng-repeat="anua in cntx.data.ltAnualidad" ng-value="anua.clav">{{anua.desc}}</md-option>
 	            </md-select>
 	        </md-input-container>
@@ -51,34 +51,34 @@
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 								<div layout="column">
 									<div flex="auto" hide show-xs layout="column">
-										<div flex>{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex>{{cntx.data.ltMMes[pres.mesp].desc}}</div>
 										<div flex layout="row">
 											<div flex="35">{{pres.impo | number:2}} &euro;</div>
 											<div flex="35">{{pres.desv | number:2}} &euro;</div>
-											<div flex="30">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+											<div flex="30">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
-										<div flex="25">{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex="25">{{cntx.data.ltMMes[pres.mesp].desc}}</div>
 										<div flex="25">{{pres.impo | number:2}} &euro;</div>
 										<div flex="25">{{pres.desv | number:2}} &euro;</div>
-										<div flex="25">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										<div flex="25">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
-										<div flex="40">{{cntx.data.ltMes[pres.mesp].desc}}</div>
+										<div flex="40">{{cntx.data.ltMMes[pres.mesp].desc}}</div>
 										<div flex="15">{{pres.impo | number:2}} &euro;</div>
 										<div flex="15">{{pres.imto | number:2}} &euro;</div>
 										<div flex="15">{{pres.desv | number:2}} &euro;</div>
-										<div flex="15">{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+										<div flex="15">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
 									</div>
  									<div flex layout="row" ng-show="$index === cntx.conf.itm1" layout-padding>
  										<div flex layout="column" class="md-whiteframe-z2">
-											<div flex><b>Mes: </b>{{cntx.data.ltMes[pres.mesp].desc}}</div>
+											<div flex><b>Mes: </b>{{cntx.data.ltMMes[pres.mesp].desc}}</div>
 											<div flex><b>Importe presupuestado: </b>{{pres.impo | number:2}} &euro;</div>
 											<div flex><b>Importe real: </b>{{pres.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
 											<div flex><b>Balance: </b>{{pres.bala | number:2}}</div>
-											<div flex><b>Estado: </b>{{cntx.data.ltPresesta[pres.esta].desc}}</div>
+											<div flex><b>Estado: </b>{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
 										</div>
 									</div>
 								</div>
@@ -174,33 +174,33 @@
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 								<div layout="column">
 									<div flex="auto" hide show-xs layout="column">
-										<div flex>{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex>{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
 										<div flex layout="row">
 											<div flex="35">{{presAnua.impo | number:2}} &euro;</div>
 											<div flex="35">{{presAnua.desv | number:2}} &euro;</div>
-											<div flex="30">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+											<div flex="30">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
-										<div flex="40">{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
 										<div flex="20">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="20">{{presAnua.desv | number:2}} &euro;</div>
-										<div flex="20">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+										<div flex="20">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
-										<div flex="40">{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
 										<div flex="15">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.imto | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.desv | number:2}} &euro;</div>
-										<div flex="15">{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+										<div flex="15">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
 									</div>
  									<div flex layout="row" ng-show="$index === cntx.conf.itm2" layout-padding>
  										<div flex layout="column" class="md-whiteframe-z2">
-											<div flex><b>Partida: </b>{{cateMap[presAnua.cate].desc}} - {{concMap[presAnua.conc].desc}}</div>
+											<div flex><b>Partida: </b>{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
 											<div flex><b>Importe presupuestado: </b>{{presAnua.impo | number:2}} &euro;</div>
 											<div flex><b>Importe real: </b>{{presAnua.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{presAnua.desv | number:2}} &euro;</div>
-											<div flex><b>Estado: </b>{{cntx.data.ltPresesta[presAnua.esta].desc}}</div>
+											<div flex><b>Estado: </b>{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
 										</div>
 									</div>
 								</div>
