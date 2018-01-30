@@ -23,6 +23,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (name === 'hcon/list')      { return srvHconList(cntx);     }
 		else if (name === 'hcon/pres/gest') { return srvHconPresGest(cntx); }
 		else if (name === 'pres/anua')      { return srvPresAnua(cntx);     }
+		else if (name === 'pres/conc')      { return srvPresConc(cntx);     }
 		else if (name === 'pres/esta')      { return srvPresEsta(cntx);     }
 		else {
 			d.reject();
@@ -417,6 +418,32 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			} else {
 				cntx.data.presList = data.OUTPUT['presList'];
 				cntx.data.presListAnua = data.OUTPUT['presListAnua'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// pres/conc: consulta de presupuesto anual por conceptos     //
+	////////////////////////////////////////////////////////////////
+	function srvPresConc(cntx) {
+		var dataRequest = {
+			sesi : parseInt($rootScope.esta.sesi),
+			tipo: 'LT04',
+			anua: parseInt(cntx.form.anua)
+		};
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/pres/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.presCateList = data.OUTPUT['presList'];
+				cntx.data.presListMap  = data.OUTPUT['presListMap'];
 				d.resolve(data);
 			}
 		});

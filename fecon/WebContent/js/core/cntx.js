@@ -106,6 +106,12 @@ app.factory("cntx", ['$q', function($q) {
 		var vForm = {
 			anua: 0
 		};
+		var vShow = {
+			anua: false
+		};
+		var vRead = {
+			anua: false
+		}
 		var vData = {
 			prPeripresup: null,
 			ltAnualidad: null,
@@ -121,6 +127,8 @@ app.factory("cntx", ['$q', function($q) {
 		}
 		cntx = {
 			form: vForm,
+			show: vShow,
+			read: vRead,
 			data: vData,
 			conf: vConf
 		};
