@@ -1,16 +1,16 @@
-app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams, $q, $mdMedia, srv) {
+app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams, $q, $mdMedia, srv, comc) {
 
 	$scope.cntx = srv.getCntx('pres/mesp');
 		
-	var srv1 = srvLiteAnualidad();
-	var srv2 = srvLiteMes();
-	var srv3 = srvCateList();
-	var srv4 = srvConcList();
-	var srv5 = srvLitePresEsta();
+	var srv1 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
+	var srv2 = comc.requestLiteList('MES', $scope.cntx);
+	var srv3 = comc.requestLiteList('PRESESTA', $scope.cntx);
+	var srv4 = comc.request('cate/list', $scope.cntx);
+	var srv5 = comc.request('conc/full', $scope.cntx);
 
-	$q.all([srv1, srv2, srv3, srv4, srv5]).then(function() {
-		var srv6 = srvParaPeripresup();
-		$q.all([srv6]).then(function() {
+	$q.all([srv.stResp(srv1, srv2, srv3, srv4, srv5)]).then(function() {
+		var srv6 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
+		$q.all([srv.stResp(srv6)]).then(function() {
 			if ($scope.cntx.data.prPeripresup.pval.anac !== 'undefined' &&
 				$scope.cntx.data.prPeripresup.pval.anac > 0 &&
 				$scope.cntx.data.prPeripresup.pval.msac > 0) {
@@ -19,174 +19,17 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 					$scope.cntx.form.mesp = $scope.cntx.data.prPeripresup.pval.msac;
 				}
 			}
-			var srv7 = srvPresMesp();	
+			var srv7 = comc.request('pres/mesp', $scope.cntx);
+			$q.all([srv.stResp(srv7)]).then(function() {
+				view();
+			});	
 		});		
 	});
-	
-	//Obtiene el resumen presupuestario para un determinado mes
-	function srvPresMesp() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tipo: 'LT03',
-			anua: parseInt($scope.cntx.form.anua),
-			mesp: parseInt($scope.cntx.form.mesp)
-		};
-		
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/pres/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.presCateList = data.OUTPUT['presList'];
-			$scope.cntx.data.presListMap  = data.OUTPUT['presListMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de parámetros por instalación: Anualidad
-	function srvLiteAnualidad() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'ANUALIDAD'
-		};
-		
-		var d = $q.defer();
-		
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.ltAnualidad = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Cambio de estado de partida presupuestaria
-	function srvPresEsta() {
-		
-		var esta = "";
-		
-		if ($scope.cntx.data.pres.esta === 'A') {
-			esta = 'C';
-		} else {
-			esta = 'A';
-		}
-		
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			anua: parseInt($scope.cntx.data.pres.anua),
-			mesp: parseInt($scope.cntx.data.pres.mesp),
-			cate: parseInt($scope.cntx.data.pres.cate),
-			conc: parseInt($scope.cntx.data.pres.conc),
-			esta: esta
-		};
-		
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/pres/esta/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.pres = data.OUTPUT['pres'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Estados de Presupuesto
-	function srvLiteMes() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'MES'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.ltMes = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Estados de Presupuesto
-	function srvLitePresEsta() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'PRESESTA'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.ltPresesta = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de parámetros: Periodo actual del presupuesto
-	function srvParaPeripresup() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tipo: 'I',
-			tbla: 'PERIPRESUP' //Necesitamos que obtenga el parámetro de la instalación
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/para/get/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cntx.data.prPeripresup = data.OUTPUT['para'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//TODO: adaptar a nuevas categorias y conceptos
-	//Function que recupera el mapa de categorias
-	function srvCateList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/cate/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.cateMap = data.OUTPUT['cateListMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Function que recupera el mapa de conceptos
-	function srvConcList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/conc/full/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.concMap = data.OUTPUT['concListMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
 
 	//Captura el evento del cambio en el desplegable de anyo/mes
-	$scope.anuaMespChng = function() {
-		var srv1 = srvPresMesp();
+	$scope.fnAnuaMespChng = function() {
+		var srv1 = comc.request('pres/mesp', $scope.cntx);
+		srv.stResp(srv1);
 	};
 
 	//Función que despliega el menú de acciones
@@ -210,10 +53,16 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.fnEsta = function(cate, i) {
 		$scope.cntx.data.pres = $scope.cntx.data.presListMap[cate][i];
 		
-		var srv1 = srvPresEsta();
-		$q.all([srv1]).then(function() {
+		var srv1 = comc.request('pres/esta', $scope.cntx);
+		$q.all([srv.stResp(srv1)]).then(function() {
 			$scope.cntx.data.presListMap[cate][i] = $scope.cntx.data.pres;	
 		})
+	}
+
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+		//TODO
 	}
 
 });

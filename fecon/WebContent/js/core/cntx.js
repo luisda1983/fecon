@@ -1,4 +1,6 @@
 //Factory que encapsula la gestión de contexto de la aplicación
+//TODO: en pres/conc... he visto que en el data no es necesario definir el detalle... al llamar a comc, se añade el 
+//      atributo y se tiene visibilidad... analizar si se puede eliminar el detalle siempre
 app.factory("cntx", ['$q', function($q) {
 	
 	//Función que devuelve el Contexto de la vista recibida.
@@ -77,6 +79,14 @@ app.factory("cntx", ['$q', function($q) {
 			anua: 0,
 			mesp: 0
 		};
+		var vShow = {
+			anua: false,
+			mesp: false
+		};
+		var vRead = {
+			anua: false,
+			mesp: false
+		};
 		var vData = {
 			prPeripresup: null,
 			ltAnualidad: null,
@@ -95,6 +105,8 @@ app.factory("cntx", ['$q', function($q) {
 		}
 		cntx = {
 			form: vForm,
+			show: vShow,
+			read: vRead,
 			data: vData,
 			conf: vConf
 		};

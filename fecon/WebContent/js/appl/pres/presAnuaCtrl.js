@@ -92,7 +92,7 @@ app.controller('presAnuaCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Función encargada de manejar la vista, y sus modos de presentación
 	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
 	function view() {
-		
+		//TODO
 	}
 
 	function presAnuaChart() {
