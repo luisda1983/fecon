@@ -11,6 +11,7 @@ app.factory("cntx", ['$q', function($q) {
 		     if (view === 'pres/anua') { return getPresAnuaCntx(); }
 		else if (view === 'pres/conc') { return getPresConcCntx(); }
 		else if (view === 'pres/mesp') { return getPresMespCntx(); }
+		else if (view === 'pres/resu') { return getPresResuCntx(); }
 		else if (view === 'cate/list') { return getCateListCntx(); }
 		else if (view === 'cate/form') { return getCateFormCntx(); }
 		else if (view === 'conc/list') { return getConcListCntx(); }
@@ -146,7 +147,36 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		return cntx;
 	}
-	
+
+	//Contexto presResu
+	function getPresResuCntx() {
+		var vForm = {
+			ndat: null
+		};
+		var vShow = {
+			ndat: false
+		};
+		var vRead = {
+			ndat: false
+		}
+		var vData = {
+			ltPresesta: null,
+			ltMPresesta: null,
+			presList: new Array()
+		};
+		var vConf = {
+			item: -1
+		}
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
 	//Contexto cateList
 	function getCateListCntx() {
 		var vForm = {

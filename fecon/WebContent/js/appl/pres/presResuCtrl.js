@@ -1,52 +1,13 @@
-app.controller('presResuCtrl', function($rootScope, $scope, $http, $routeParams, $q, $mdMedia, srv) {
+app.controller('presResuCtrl', function($rootScope, $scope, $http, $routeParams, $q, $mdMedia, srv, comc) {
 
-	$scope.conf = {
-		item : -1
-	}
+	$scope.cntx = srv.getCntx('pres/resu');
 
-	var srv1 = srvPresResu();
-	var srv2 = srvLitePresEsta();
+	var srv1 = comc.requestLiteList('PRESESTA', $scope.cntx);
+	var srv2 = comc.request('pres/resu', $scope.cntx);
 
-	$q.all([srv1, srv2]).then(function(){
+	$q.all([srv.stResp(srv1, srv2)]).then(function() {
 		presResuChart();
 	});
-
-	//Obtiene el resumen presupuestario
-	function srvPresResu() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tipo: 'LT01'
-		};
-		
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/pres/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.presList = data.OUTPUT['presList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Llamada al servicio de consulta de literales: Estados de Presupuesto
-	function srvLitePresEsta() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'PRESESTA'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltPresEsta = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
 	
 	//Función que despliega el menú de acciones
 	$scope.openMenu = function($mdOpenMenu, ev) {
@@ -56,17 +17,17 @@ app.controller('presResuCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	//Función que amplia un registro de la lista
 	$scope.xpnd = function(i) {
-		if ($scope.conf.item === i) {
-			$scope.conf.item = -1;
+		if ($scope.cntx.conf.item === i) {
+			$scope.cntx.conf.item = -1;
 		} else {
-			$scope.conf.item = i;
+			$scope.cntx.conf.item = i;
 		}
 	}
 
 	//Función para navegar al detalle de un año
 	$scope.fnAnua = function(i) {
 		var cntx = srv.getCntx('pres/anua');
-		var pres = $scope.presList[i];
+		var pres = $scope.cntx.data.presList[i];
 		cntx.form.anua = pres.anua;
 		srv.go(null, null, 'pres/anua', cntx);
 	}
@@ -74,7 +35,7 @@ app.controller('presResuCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Función para navegar al desglose por conceptos
 	$scope.fnConc = function(i) {
 		var cntx = srv.getCntx('pres/conc');
-		var pres = $scope.presList[i];
+		var pres = $scope.cntx.data.presList[i];
 		cntx.form.anua = pres.anua;
 		srv.go(null, null, 'pres/conc', cntx);
 	}
@@ -106,7 +67,7 @@ app.controller('presResuCtrl', function($rootScope, $scope, $http, $routeParams,
 			    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
 
 			};
-		var anuaList = $scope.presList;
+		var anuaList = $scope.cntx.data.presList;
 
 		var max = 9;
 		var b = $mdMedia('xs');
