@@ -1,22 +1,16 @@
-app.controller('avisListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv) {
+app.controller('avisListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
 
-	var srv1 = srvAvisList();
-	$q.all([srv1]).then(function(){ /*srv.clearMsg(); */ });
-	
-	//Llamada al servicio de consulta de aviso
-	function srvAvisList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi)
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/avis/get/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.avisList = data.OUTPUT['avisList'];
-			d.resolve(data);
-		});
-		return d.promise;
+	$scope.cntx = srv.getCntx('avis/list');
+
+	var srv1 = comc.request('avis/list', $scope.cntx);
+	$q.all([srv.stResp(srv1)]).then(function() {
+		view();
+	});
+
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+		//TODO
 	}
+
 });

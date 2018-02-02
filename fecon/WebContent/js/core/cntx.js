@@ -25,6 +25,8 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'lite/list') { return getLiteListCntx(); }
 		else if (view === 'para/get')  { return getParaGetCntx();  }
 
+		else if (view === 'avis/list') { return getAvisListCntx(); }
+		
 		return cntx;
 	}
 		
@@ -605,6 +607,34 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vData = {
 			para: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+
+	//Contexto avisList
+	function getAvisListCntx() {
+		var vForm = {
+			ndat: null
+		};
+		var vShow = {
+			ndat: false
+		};
+		var vRead = {
+			ndat: false
+		};
+		var vData = {
+			avisList: null
 		};
 		var vConf = {
 			mode: ''

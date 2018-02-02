@@ -8,6 +8,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		
 		     if (name === 'lite/list') { return srvLiteList(cntx); }
 		else if (name === 'para/get')  { return srvParaGet(cntx);  }
+		else if (name === 'avis/list') { return srvAvisList(cntx); }
 		//else if (name === 'servicioCore') { }
 		else {
 			return coma.request(name, cntx);
@@ -122,6 +123,30 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.para = data.OUTPUT['para'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// avis/list: Consulta de avisos                              //
+	////////////////////////////////////////////////////////////////
+	//Llamada al servicio de consulta de aviso
+	function srvAvisList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/avis/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.avisList = data.OUTPUT['avisList'];
 				d.resolve(data);
 			}
 		});
