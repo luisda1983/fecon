@@ -9,6 +9,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		     if (name === 'lite/list') { return srvLiteList(cntx); }
 		else if (name === 'para/get')  { return srvParaGet(cntx);  }
 		else if (name === 'avis/list') { return srvAvisList(cntx); }
+		else if (name === 'invi/list') { return srvInviList(cntx); }
+		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
+		else if (name === 'invi/rech') { return srvInviRech(cntx); }
 		//else if (name === 'servicioCore') { }
 		else {
 			return coma.request(name, cntx);
@@ -29,6 +32,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		$q.all([srv1]).then(function() {
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
 			     if (tbla === 'BOOL')       { cntx.data.ltBool       = cntxLite.data.liteList; cntx.data.ltMBool       = cntxLite.data.liteMap; d.resolve(); }
+			else if (tbla === 'INVIESTA')   { cntx.data.ltInviesta   = cntxLite.data.liteList; cntx.data.ltMInviesta   = cntxLite.data.liteMap; d.resolve(); }
+			else if (tbla === 'INVITIPO')   { cntx.data.ltInvitipo   = cntxLite.data.liteList; cntx.data.ltMInvitipo   = cntxLite.data.liteMap; d.resolve(); }
 			//TODO: los literales de aplicación no deberían estar aquí
 			else if (tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; cntx.data.ltMCuentipo   = cntxLite.data.liteMap; d.resolve(); }
 			else if (tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
@@ -132,7 +137,6 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
     ////////////////////////////////////////////////////////////////
 	// avis/list: Consulta de avisos                              //
 	////////////////////////////////////////////////////////////////
-	//Llamada al servicio de consulta de aviso
 	function srvAvisList(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi)
@@ -147,6 +151,76 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.avisList = data.OUTPUT['avisList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/list: Consulta de invitaciones                        //
+	////////////////////////////////////////////////////////////////
+	function srvInviList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			esta: cntx.form.esta
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.inviList = data.OUTPUT['inviList'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/acep: Aceptación de invitaciones                      //
+	////////////////////////////////////////////////////////////////
+	function srvInviAcep(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.iden
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/acep/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/rech: Rechazo de invitaciones                         //
+	////////////////////////////////////////////////////////////////
+	function srvInviRech(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.iden
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/rech/acep/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
 				d.resolve(data);
 			}
 		});

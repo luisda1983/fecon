@@ -1,135 +1,43 @@
-app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, $mdMenu) {
+app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, $mdMenu, comc) {
 
-	$scope.conf = {
-		item : -1,
-		load : false
-	}
+	$scope.cntx = srv.getCntx('invi/list');
 	
-	$scope.form = {
-		esta : ""
-	};
+	var srv1 = comc.requestLiteList('INVIESTA', $scope.cntx);
+	var srv2 = comc.requestLiteList('INVITIPO', $scope.cntx);
 	
-	var srv1 = srvLiteInviEsta();
-	var srv2 = srvLiteInviTipo();
-	
-	$q.all([srv1, srv2]).then(function(){
-		loadList();
-		$scope.conf.load = true;
+	$q.all([srv.stResp(srv1, srv2)]).then(function(){
+		var srv3 = comc.request('invi/list', $scope.cntx);
+		srv.stResp(srv3);
 	});
-
-	function loadList() {
-		var srv1 = srvInviList();
 		
-		$q.all([srv1]).then(function() { });
-	}
-
-	//Llamada al servicio de consulta de invitaciones
-	function srvInviList() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			esta: $scope.form.esta
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/invi/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.inviList = data.OUTPUT['inviList'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Llamada al servicio de rechazo de invitación
-	function srvInviRech(iden) {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: iden
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/invi/rech/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de aceptación de invitación
-	function srvInviAcep(iden) {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: iden
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/invi/acep/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//Llamada al servicio de consulta de literales: Estados de Invitacion
-	function srvLiteInviEsta() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'INVIESTA'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltInviEsta = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
-	//Llamada al servicio de consulta de literales: Tipos de Invitacion
-	function srvLiteInviTipo() {
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'INVITIPO'
-		};
-	  
-		var d = $q.defer();
-		
-		var output = srv.call(targetHost + 'service/angular/lite/list/', dataObject);
-		output.then(function() {
-			var data = srv.getData();
-			$scope.ltInviTipo = data.OUTPUT['liteMap'];
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-	
 	//Función para capturar la aceptación de una invitación
-	$scope.inviAcep = function(iden) {
-		var srv1 = srvInviAcep(iden);
+	$scope.fnInviAcep = function(i) {
+		var invi = $scope.cntx.data.inviList[i];
+		$scope.cntx.form.iden = invi.iden;
+		var srv1 = comc.request('invi/acep', $scope.cntx);
 		
-		$q.all([srv1]).then(function() { loadList(); })
+		$q.all([srv.stResp(srv1)]).then(function() {
+			var srv2 = comc.request('invi/list', $scope.cntx);
+			srv.stResp(srv2);
+		});
 	}
 	
 	//Función para capturar el rechazo de una invitación
-	$scope.inviRech = function(iden) {
-		var srv1 = srvInviRech(iden);
+	$scope.fnInviRech = function(i) {
+		var invi = $scope.cntx.data.inviList[i];
+		$scope.cntx.form.iden = invi.iden;
+		var srv1 = comc.request('invi/rech', $scope.cntx);
 		
-		$q.all([srv1]).then(function(){ loadList(); });
+		$q.all([srv.stResp(srv1)]).then(function() {
+			var srv2 = comc.request('invi/list', $scope.cntx);
+			srv.stResp(srv2);
+		});
 	}
 	
 	//Funcion para capturar la selección del desplegable de estado de invitacion
-	$scope.estaChng = function() {
-		if ($scope.conf.load) {
-			loadList();
-		}
+	$scope.fnEstaChng = function() {
+		var srv1 = comc.request('invi/list', $scope.cntx);
+		srv.stResp(srv1);
 	}
 	
 	//Función que despliega el menú de acciones
@@ -140,10 +48,17 @@ app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams,
 	
 	//Función que amplia un registro de la lista
 	$scope.xpnd = function(i) {
-		if ($scope.conf.item === i) {
-			$scope.conf.item = -1;
+		if ($scope.cntx.conf.item === i) {
+			$scope.cntx.conf.item = -1;
 		} else {
-			$scope.conf.item = i;
+			$scope.cntx.conf.item = i;
 		}
 	}
+
+	//Función encargada de manejar la vista, y sus modos de presentación
+	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+	function view() {
+		//TODO
+	}
+
 });

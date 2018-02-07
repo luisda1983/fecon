@@ -26,6 +26,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'para/get')  { return getParaGetCntx();  }
 
 		else if (view === 'avis/list') { return getAvisListCntx(); }
+		else if (view === 'invi/list') { return getInviListCntx(); }
 		
 		return cntx;
 	}
@@ -638,6 +639,41 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		var vConf = {
 			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto inviList
+	function getInviListCntx() {
+		var vForm = {
+			esta: '',
+			iden: 0
+		};
+		var vShow = {
+			esta: false,
+			iden: false
+		};
+		var vRead = {
+			esta: false,
+			iden: false
+		};
+		var vData = {
+			inviList: null,
+			ltInviesta: null,
+			ltMInviesta: null,
+			ltInvitipo: null,
+			ltMInvitipo: null
+		};
+		var vConf = {
+			mode: '',
+			item: -1
 		};
 		cntx = {
 			form: vForm,
