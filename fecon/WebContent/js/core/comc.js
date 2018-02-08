@@ -12,6 +12,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'invi/list') { return srvInviList(cntx); }
 		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
 		else if (name === 'invi/rech') { return srvInviRech(cntx); }
+		else if (name === 'invi/soli') { return srvInviSoli(cntx); }
+		else if (name === 'invi/vali') { return srvInviVali(cntx); }
+		else if (name === 'invi/proc') { return srvInviProc(cntx); }
 		else if (name === 'usua/lgon') { return srvUsuaLgon(cntx); }
 		//else if (name === 'servicioCore') { }
 		else {
@@ -67,6 +70,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		$q.all([srv1]).then(function() {
 			//Mapeamos el parámetro al campo asociado al mismo y resolvemos el promise
 			     if (tbla === 'PERIPRESUP') { cntx.data.prPeripresup = cntxPara.data.para; d.resolve(); }
+			else if (tbla === 'APLICONFIG' && clav === 'CONFREGIST') { cntx.data.prConfregist = cntxPara.data.para; d.resolve(); }
+			else if (tbla === 'DYNAMICFLD' && clav === 'REGINVDESC') { cntx.data.prReginvdesc = cntxPara.data.para; d.resolve(); }
 			//else if
 			//Si no tenemos mapeado el parámetro, rechazamos el promise
 			else { d.reject(); }
@@ -216,12 +221,86 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	  
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/rech/acep/', dataRequest);
+		var output = srv.call(targetHost + 'service/angular/invi/acep/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/soli: Solicitud de invitaciones                       //
+	////////////////////////////////////////////////////////////////
+	function srvInviSoli(cntx) {
+		var dataRequest = {
+			mail: cntx.form.mail
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/soli/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/soli: Solicitud de invitaciones                       //
+	////////////////////////////////////////////////////////////////
+	function srvInviVali(cntx) {
+		var dataRequest = {
+			iden: cntx.form.invi
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/vali/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.invi = data.OUTPUT['invi'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// invi/proc: Proceso de invitación                           //
+	////////////////////////////////////////////////////////////////
+	function srvInviProc(cntx) {
+		var dataRequest = {
+			iden : cntx.form.invi,
+			mail : cntx.form.mail,
+			//FIXME
+			//desc : $scope.form.desc,
+			usua : cntx.form.usua,
+			pass : cntx.form.pass,
+			cpas : cntx.form.cpas
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/proc/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.invi = data.OUTPUT['invi'];
 				d.resolve(data);
 			}
 		});

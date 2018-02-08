@@ -28,6 +28,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'avis/list') { return getAvisListCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
 		else if (view === 'usua/lgon') { return getUsuaLgonCntx(); }
+		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		
 		return cntx;
 	}
@@ -701,8 +702,57 @@ app.factory("cntx", ['$q', function($q) {
 			pass: false
 		};
 		var vData = {
-			sesi: null,
+			invi: null,
 			usua: null
+		};
+		var vConf = {
+			mode: '',
+			vali: false,
+			invi: false
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
+	//Contexto usuaRegi
+	function getUsuaRegiCntx() {
+		var vForm = {
+			invi : '',
+			mail : '',
+			desc : '',
+			ldes : '',
+			usua : '',
+			pass : '',
+			cpas : ''
+		};
+		var vShow = {
+			invi : false,
+			mail : false,
+			desc : false,
+			usua : false,
+			pass : false,
+			cpas : false,
+			btRegi : false,
+			btSoli : false
+		};
+		var vRead = {
+			invi : false,
+			mail : false,
+			desc : false,
+			usua : false,
+			pass : false,
+			cpas : false,
+		};
+		var vData = {
+			sesi: null,
+			prConfregist: null,
+			prReginvdesc: null
 		};
 		var vConf = {
 			mode: ''
