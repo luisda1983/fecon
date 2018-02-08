@@ -16,6 +16,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'invi/vali') { return srvInviVali(cntx); }
 		else if (name === 'invi/proc') { return srvInviProc(cntx); }
 		else if (name === 'usua/lgon') { return srvUsuaLgon(cntx); }
+		else if (name === 'usua/exit') { return srvUsuaExit(cntx); }
 		//else if (name === 'servicioCore') { }
 		else {
 			return coma.request(name, cntx);
@@ -327,6 +328,28 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			} else {
 				cntx.data.sesi = data.OUTPUT['sesi'];
 				cntx.data.usua = data.OUTPUT['usua'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// usua/exit: Logout de usuario                               //
+	////////////////////////////////////////////////////////////////
+	function srvUsuaLgon(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/exit/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
 				d.resolve(data);
 			}
 		});
