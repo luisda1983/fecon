@@ -337,7 +337,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
     ////////////////////////////////////////////////////////////////
 	// usua/exit: Logout de usuario                               //
 	////////////////////////////////////////////////////////////////
-	function srvUsuaLgon(cntx) {
+	function srvUsuaExit(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi)
 		};
