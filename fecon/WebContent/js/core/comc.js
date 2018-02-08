@@ -12,6 +12,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'invi/list') { return srvInviList(cntx); }
 		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
 		else if (name === 'invi/rech') { return srvInviRech(cntx); }
+		else if (name === 'usua/lgon') { return srvUsuaLgon(cntx); }
 		//else if (name === 'servicioCore') { }
 		else {
 			return coma.request(name, cntx);
@@ -221,6 +222,32 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+    ////////////////////////////////////////////////////////////////
+	// usua/lgon: Login de usuario                                //
+	////////////////////////////////////////////////////////////////
+	function srvUsuaLgon(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.iden,
+			pass: cntx.form.pass
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/lgon/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.sesi = data.OUTPUT['sesi'];
+				cntx.data.usua = data.OUTPUT['usua'];
 				d.resolve(data);
 			}
 		});

@@ -355,15 +355,15 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	}
 
 	//Efectua el login en la aplicacion, guardando el idSesion, usuario y obteniendo el menu.
-	function lgon(response) {
-		$rootScope.idSesion = response.OUTPUT['sesi'];
+	function lgon(cntx) {
+		$rootScope.idSesion = cntx.data.sesi;
 		
-		$rootScope.esta.sesi     = response.OUTPUT['sesi'];
+		$rootScope.esta.sesi     = cntx.data.sesi;
 		$rootScope.esta.usuaRegi = true;
-		$rootScope.esta.usua     = response.OUTPUT['usua'];
+		$rootScope.esta.usua     = cntx.data.usua;
 		
-		$rootScope.sesi = response.OUTPUT['sesi'];
-		$rootScope.usua = response.OUTPUT['usua'];
+		$rootScope.sesi = cntx.data.sesi;
+		$rootScope.usua = cntx.data.usua;
 		//menu();
 		srvMenu();
 		$location.path('/');

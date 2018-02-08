@@ -27,6 +27,7 @@ app.factory("cntx", ['$q', function($q) {
 
 		else if (view === 'avis/list') { return getAvisListCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
+		else if (view === 'usua/lgon') { return getUsuaLgonCntx(); }
 		
 		return cntx;
 	}
@@ -685,4 +686,34 @@ app.factory("cntx", ['$q', function($q) {
 		return cntx;
 	}
 
+	//Contexto usuaLgon
+	function getUsuaLgonCntx() {
+		var vForm = {
+			iden: '',
+			pass: ''
+		};
+		var vShow = {
+			iden: false,
+			pass: false
+		};
+		var vRead = {
+			iden: false,
+			pass: false
+		};
+		var vData = {
+			sesi: null,
+			usua: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
 }]);
