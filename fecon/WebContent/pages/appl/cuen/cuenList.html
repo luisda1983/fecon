@@ -44,14 +44,14 @@
 									<div flex hide show-gt-xs layout="row">
 										<div flex="15">{{cuen.iden}}</div>
 										<div flex="45">{{cuen.desc}}</div>
-										<div flex="20">{{ltCuenTipo[cuen.tipo].desc}}</div>
+										<div flex="20">{{cntx.data.ltMCuentipo[cuen.tipo].desc}}</div>
 										<div flex="20">{{cuen.sald | number:2}} &euro;</div>
 									</div>
 								</div>
 								<!--  Detalle -->
 								<div flex ng-show="$index === cntx.conf.item">
 									<div flex><b>Identificador: </b>{{cuen.iden}}</div>
-									<div flex><b>Tipo: </b>{{ltCuenTipo[cuen.tipo].desc}}</div>
+									<div flex><b>Tipo: </b>{{cntx.data.ltMCuentipo[cuen.tipo].desc}}</div>
 									<div flex><b>Descripción: </b>{{cuen.desc}}</div>
 									<div flex><b>Saldo: </b>{{cuen.sald | number:2}} &euro;</div>
 									<div flex><b>F. Alta: </b>{{cuen.feal | yyyymmddFmt}}</div>
