@@ -25,13 +25,25 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		}
 	}
 
-	//Funcion para lectura de lista de literales
+	//*************************************************************************************************************//
+	// PUBLIC: requestLiteList: Función para obtención de tablas de literales.                                     //
+	//*************************************************************************************************************//
 	function requestLiteList(tbla, cntx) {
 		//Creamos el promise de retorno
 		var d = $q.defer();
 		
-		//Obtenemos y formateamos el contexto de consulta de lista de literales
-		var cntxLite = srv.getCntx('lite/list');
+		//Creamos y formateamos el contexto de consulta de lista de literales
+		var vForm = {
+			tbla: ''
+		};
+		var vData = {
+			liteList: new Array(),
+			liteMap : new Map()
+		};
+		var cntxLite = {
+			form: vForm,
+			data: vData
+		};
 		cntxLite.form.tbla = tbla;
 		
 		//Request a la operación de lista de literales
@@ -41,15 +53,15 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			     if (tbla === 'BOOL')       { cntx.data.ltBool       = cntxLite.data.liteList; cntx.data.ltMBool       = cntxLite.data.liteMap; d.resolve(); }
 			else if (tbla === 'INVIESTA')   { cntx.data.ltInviesta   = cntxLite.data.liteList; cntx.data.ltMInviesta   = cntxLite.data.liteMap; d.resolve(); }
 			else if (tbla === 'INVITIPO')   { cntx.data.ltInvitipo   = cntxLite.data.liteList; cntx.data.ltMInvitipo   = cntxLite.data.liteMap; d.resolve(); }
-			//TODO: los literales de aplicación no deberían estar aquí
-			else if (tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; cntx.data.ltMCuentipo   = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; cntx.data.ltMAnualidad  = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'MES')        { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'PRESESTA')   { cntx.data.ltPresesta   = cntxLite.data.liteList; cntx.data.ltMPresesta   = cntxLite.data.liteMap; d.resolve(); }
-			//else if
-			//Si no tenemos mapeada la tabla de literales, rechazamos el promise
-			else { d.reject(); }
+			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
+			else { 
+				var appLite = coma.requestLiteList(cntxLite, cntx);
+				$q.all([appLite]).then(function() {
+					d.resolve();
+				}), function() {
+					d.reject();
+				}
+			}
 		   //Si hay errores en la operación, rechazamos el promise
 		}, function() {
 			d.reject();
@@ -57,13 +69,26 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
-	//Funcion para lectura de literal
+	//*************************************************************************************************************//
+	// PUBLIC: requestLite: Función para obtención de literal.                                                     //
+	//*************************************************************************************************************//
 	function requestLite(tbla, clav, cntx) {
 		//Creamos el promise de retorno
 		var d = $q.defer();
 		
 		//Obtenemos y formateamos el contexto de consulta de lista de literales
 		var cntxLite = srv.getCntx('lite/get');
+		var vForm = {
+			tbla: '',
+			clav: ''
+		};
+		var vData = {
+			lite: null
+		};
+		var cntxLite = {
+			form: vForm,
+			data: vData
+		};
 		cntxLite.form.tbla = tbla;
 		cntxLite.form.clav = clav;
 		
@@ -73,8 +98,15 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise (ARQ)
 			     if (tbla === 'APPLITERAL' && clav === 'APPNOMBRE') { $rootScope.data.applNomb = cntxLite.data.lite.desc; d.resolve(); }
 			//else if
-			//Si no tenemos mapeada la tabla de literales, rechazamos el promise
-			else { d.reject(); }
+			//Si no tenemos mapeado el literal, buscamos en el componente de aplicación
+			else { 
+				var appLite = coma.requestLite(cntxLite, cntx);
+				$q.all([appLite]).then(function() {
+					d.resolve();
+				}), function() {
+					d.reject();
+				}
+			}
 		   //Si hay errores en la operación, rechazamos el promise
 		}, function() {
 			d.reject();
@@ -88,7 +120,18 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var d = $q.defer();
 		
 		//Obtenemos y formateamos el contexto de consulta de parámetros
-		var cntxPara = srv.getCntx('para/get');
+		var vForm = {
+			tipo: '',
+			tbla: '',
+			clav: ''
+		};
+		var vData = {
+			para: null
+		};
+		var cntxPara = {
+			form: vForm,
+			data: vData
+		};
 		cntxPara.form.tipo = tipo;
 		cntxPara.form.tbla = tbla;
 		cntxPara.form.clav = clav;
@@ -97,12 +140,18 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var srv1 = request('para/get', cntxPara);
 		$q.all([srv1]).then(function() {
 			//Mapeamos el parámetro al campo asociado al mismo y resolvemos el promise
-			     if (tbla === 'PERIPRESUP') { cntx.data.prPeripresup = cntxPara.data.para; d.resolve(); }
-			else if (tbla === 'APLICONFIG' && clav === 'CONFREGIST') { cntx.data.prConfregist = cntxPara.data.para; d.resolve(); }
+			     if (tbla === 'APLICONFIG' && clav === 'CONFREGIST') { cntx.data.prConfregist = cntxPara.data.para; d.resolve(); }
 			else if (tbla === 'DYNAMICFLD' && clav === 'REGINVDESC') { cntx.data.prReginvdesc = cntxPara.data.para; d.resolve(); }
 			//else if
-			//Si no tenemos mapeado el parámetro, rechazamos el promise
-			else { d.reject(); }
+			//Si no tenemos mapeado el parámetro, buscamos en el componente de aplicación
+			else { 
+				var appPara = coma.requestParaGet(cntxPara, cntx);
+				$q.all([appPara]).then(function() {
+					d.resolve();
+				}), function() {
+					d.reject();
+				}
+			}
 		   //Si hay errores en la operación, rechazamos el promise
 		}, function() {
 			d.reject();
@@ -113,14 +162,14 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//Interfaz del servicio comc
 	return {
 		request        : request,
-		requestLite    : requestLite,
-		requestLiteList: requestLiteList,
+		requestLite    : requestLite,     //Consulta de literal
+		requestLiteList: requestLiteList, //Consulta de tablas de literales
 		requestParaGet : requestParaGet
 	};
 	
-	////////////////////////////////////////////////////////////////
-	// lite/list: Lista de tabla de literales                     //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// lite/list: Recuperación de una lista de literales.                                                          //
+	//*************************************************************************************************************//
 	function srvLiteList(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),

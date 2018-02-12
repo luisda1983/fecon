@@ -22,9 +22,6 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cuen/cuad') { return getCuenCuadCntx(); }
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
 		else if (view === 'hcon/list') { return getHconListCntx(); }
-		else if (view === 'lite/list') { return getLiteListCntx(); }
-		else if (view === 'lite/get' ) { return getLiteGetCntx();  }   //Contexto lite/get : consulta de literal
-		else if (view === 'para/get')  { return getParaGetCntx();  }
 
 		else if (view === 'avis/list') { return getAvisListCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
@@ -554,98 +551,6 @@ app.factory("cntx", ['$q', function($q) {
 			item: -1,
 			iden: 0,
 			acci: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto liteList
-	function getLiteListCntx() {
-		var vForm = {
-			tbla: ''
-		};
-		var vShow = {
-			tbla: false
-		};
-		var vRead = {
-			tbla: false
-		};
-		var vData = {
-			liteList: new Array()
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//*************************************************************************************************************//
-	// Contexto lite/get : contexto de consulta de un literal.                                                     //
-	//*************************************************************************************************************//
-	function getLiteGetCntx() {
-		var vForm = {
-			tbla: '',
-			clav: ''
-		};
-		var vShow = {
-			tbla: false,
-			clav: false  
-		};
-		var vRead = {
-			tbla: false,
-			clav: false
-		};
-		var vData = {
-			lite: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto paraGet
-	function getParaGetCntx() {
-		var vForm = {
-			tipo: '',
-			tbla: '',
-			clav: ''
-		};
-		var vShow = {
-			tipo: false,
-			tbla: false,
-			clav: false
-		};
-		var vRead = {
-			tipo: false,
-			tbla: false,
-			clav: false
-		};
-		var vData = {
-			para: null
-		};
-		var vConf = {
-			mode: ''
 		};
 		cntx = {
 			form: vForm,

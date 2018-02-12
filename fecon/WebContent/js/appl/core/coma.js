@@ -32,10 +32,66 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			return d.promise;
 		}
 	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: requestLiteList: Mapeado de tablas de literales de aplicación.                                      //
+	//*************************************************************************************************************//
+	function requestLiteList(cntxLite, cntx) {
+		//Creamos el promise de retorno
+		var d = $q.defer();
+
+		//Mapeamos la lista de literales de aplicación al campo asociado al mismo y resolvemos el promise
+		     if (cntxLite.form.tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; cntx.data.ltMCuentipo   = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; cntx.data.ltMAnualidad  = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'MES')        { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.ltPresesta   = cntxLite.data.liteList; cntx.data.ltMPresesta   = cntxLite.data.liteMap; d.resolve(); }
+		//else if
+		//Si no tenemos mapeada la tabla de literales, rechazamos el promise
+		else { d.reject(); }
 		
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: requestLite: Mapeado de literales de aplicación.                                                    //
+	//*************************************************************************************************************//
+	function requestLite(cntxLite, cntx) {
+		//Creamos el promise de retorno
+		var d = $q.defer();
+		
+		//Mapeamos el literal de aplicación al campo asociado al mismo y resolvemos el promise
+		//Sustituir el siguiente en cuanto tengamos uno de aplicación
+		     if (cntxLite.form.tbla === 'APPLITERAL' && cntxLite.form.clav === 'APPNOMBRE') { $cntx.data.lite = cntxLite.data.lite; d.resolve(); }
+		//else if
+		//Si no tenemos mapeada la tabla de literales, rechazamos el promise
+		else { d.reject(); }
+
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: requestParaGet: Mapeado de parámetros de aplicación.                                                //
+	//*************************************************************************************************************//
+	function requestParaGet(cntxPara, cntx) {
+		//Creamos el promise de retorno
+		var d = $q.defer();
+		
+		//Mapeamos el parámetro de aplicación al campo asociado al mismo y resolvemos el promise
+		if (cntxPara.form.tbla === 'PERIPRESUP') { cntx.data.prPeripresup = cntxPara.data.para; d.resolve(); }
+		//else if
+		//Si no tenemos mapeado el parámetro, rechazamos el promise
+		else { d.reject(); }
+
+		return d.promise;
+	}
+
 	//Interfaz del servicio coma
 	return {
-		request: request
+		request: request,
+		requestLite    : requestLite,        //Mapeado de literales de aplicación
+		requestLiteList: requestLiteList,    //Mapeado de tablas de literales de aplicación
+		requestParaGet : requestParaGet      //Mapeado de parámetros de aplicación
 	};
 
 	////////////////////////////////////////////////////////////////
