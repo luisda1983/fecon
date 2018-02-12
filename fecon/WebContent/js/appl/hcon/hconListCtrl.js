@@ -8,7 +8,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv4 = comc.request('cate/list', $scope.cntx);
 	var srv5 = comc.request('conc/full', $scope.cntx); 
 
-	$q.all([srv.stResp(srv1,srv2,srv3,srv4,srv5)]).then(function() {
+	$q.all([srv.stResp(true, srv1,srv2,srv3,srv4,srv5)]).then(function() {
 		$scope.cntx.conf.mode = 'T';
 		view();
 	});
@@ -20,12 +20,12 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	$scope.fnCateChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	}
 
 	$scope.fnForm = function() {
 		var srv1 = comc.request('hcon/list', $scope.cntx); 
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	}
 
 	//Funcion que captura la solicitud de anulacion de un apunte
@@ -33,10 +33,10 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		$scope.cntx.conf.iden = $scope.cntx.data.hconList[indx].iden;
 		var srv1 = comc.request('hcon/anul', $scope.cntx); 
 		
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.conf.iden = 0;
 			var srv2 = comc.request('hcon/list', $scope.cntx);
-			srv.stResp(srv2);
+			srv.stResp(true, srv2);
 		});
 	};
 
@@ -47,7 +47,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		
 		var srv1 = comc.request('hcon/pres/gest', $scope.cntx); 
 		
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.conf.iden = 0;
 			$scope.cntx.conf.acci = '';
 		});
@@ -60,7 +60,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		
 		var srv1 = comc.request('hcon/pres/gest', $scope.cntx); 
 		
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.conf.iden = 0;
 			$scope.cntx.conf.acci = '';
 		});

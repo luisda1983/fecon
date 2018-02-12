@@ -4,10 +4,10 @@ public class CoreNotify {
 	
 	//Notificaciones de arquitectura
 	public final static String CORE_NOTF_IDEN_RQRD         = "CORE-00001";
-	public final static String CORE_NOTF_IDEN_RQRD_DESC    = "Código de notificación obligatorio.";
+	public final static String CORE_NOTF_IDEN_RQRD_DESC    = "Cï¿½digo de notificaciï¿½n obligatorio.";
 	
 	public final static String CORE_NOTF_NF                = "CORE-00002";
-	public final static String CORE_NOTF_NF_DESC           = "Notificación inexistente.";
+	public final static String CORE_NOTF_NF_DESC           = "Notificaciï¿½n inexistente.";
 	
 	public final static String CORE_CTRL_ESTA              = "CORE-00003";
 	public final static String CORE_CTRL_ESTA_DESC         = "Llamada incorrecta. Controlador deshabilitado.";
@@ -19,21 +19,21 @@ public class CoreNotify {
 	public final static String CORE_CTRL_TIAC_NO_SESI_DESC = "Acceso no permitido. Usuario registrado no permitido.";
 
 	public final static String CORE_CTRL_TIAC_PERF         = "CORE-00006";
-	public final static String CORE_CTRL_TIAC_PERF_DESC    = "Acceso no permitido. Acción restringida por perfil.";
+	public final static String CORE_CTRL_TIAC_PERF_DESC    = "Acceso no permitido. Acciï¿½n restringida por perfil.";
 	
 	public final static String CORE_CTRL_TIAC_DOMI         = "CORE-00007";
-	public final static String CORE_CTRL_TIAC_DOMI_DESC    = "Error de aplicación. Controlador mal configurado.";
+	public final static String CORE_CTRL_TIAC_DOMI_DESC    = "Error de aplicaciï¿½n. Controlador mal configurado.";
 
 	public final static String CORE_BTCH_NO_IMPL           = "CORE-00008";
 	
-	//Notificaciones de módulo MENU
+	//Notificaciones de mï¿½dulo MENU
 	public final static String MENU_PERF_RQRD              = "MENU-00001";
 	
-	//Notificaciones de módulo CTRL
+	//Notificaciones de mï¿½dulo CTRL
 	public final static String CTRL_IDEN_RQRD              = "CTRL-00001";
 	public final static String CTRL_NF                     = "CTRL-00002";
 	
-	//Notificaciones de módulo SESI
+	//Notificaciones de mï¿½dulo SESI
 	public final static String SESI_IDEN_RQRD              = "SESI-00001";
 	public final static String SESI_CLAV_RQRD              = "SESI-00002";
 	public final static String SESI_IDEN_NF                = "SESI-00003";
@@ -44,7 +44,7 @@ public class CoreNotify {
 	public final static String SESI_OPEN_USUA_RQRD         = "SESI-00008";
 	public final static String SESI_OPEN_PERF_RQRD         = "SESI-00009";
 	
-	//Notificaciones del módulo USUA
+	//Notificaciones del mï¿½dulo USUA
 	public final static String USUA_EXIT_SESI_RQRD         = "USUA-00001";
 	public final static String USUA_GETU_IDEN_RQRD         = "USUA-00002"; //DESUSO
 	public final static String USUA_LGON_IDEN_RQRD         = "USUA-00003";
@@ -85,7 +85,7 @@ public class CoreNotify {
 	public final static String USUA_REGI_PERF_ERRO         = "USUA-00038";
 	public final static String USUA_GETU_ERRO              = "USUA-00039";
 	
-	//Notificaciones del módulo INST
+	//Notificaciones del mï¿½dulo INST
 	public final static String INST_GETI_IDEN_RQRD         = "INST-00001";
 	public final static String INST_SAVE_INST_RQRD         = "INST-00002";
 	public final static String INST_SAVE_DESC_RQRD         = "INST-00003";
@@ -107,7 +107,7 @@ public class CoreNotify {
 	public final static String INST_REGI_CERR              = "INST-00019";
 	public final static String INST_REGI_INVI_RQRD         = "INST-00020";
 	
-	//Notificaciones del módulo RELA
+	//Notificaciones del mï¿½dulo RELA
 	public final static String RELA_LIST_RELA_ERRO         = "RELA-00001";
 	public final static String RELA_LIST_RELA_RQRD         = "RELA-00002";
 	public final static String RELA_LIST_CLCA_RQRD         = "RELA-00003";
@@ -116,7 +116,7 @@ public class CoreNotify {
 	public final static String RELA_SAVE_CLC2_RQRD         = "RELA-00006";
 	public final static String RELA_SAVE_RELA_ERRO         = "RELA-00007";
 	
-	//Notificaciones del módulo INVI
+	//Notificaciones del mï¿½dulo INVI
 	public final static String INVI_SAVE_INVI_RQRD         = "INVI-00001";
 	public final static String INVI_SAVE_IDEN_RQRD         = "INVI-00002";
 	public final static String INVI_SAVE_IDEN_MAXL         = "INVI-00003";
@@ -157,14 +157,14 @@ public class CoreNotify {
 	public final static String INVI_SAVE_USUA_RQRD         = "INVI-00038";
 	public final static String INVI_SAVE_USUA_MAXL         = "INVI-00039";
 	
-	//Notificaciones del módulo STST
+	//Notificaciones del mï¿½dulo STST
 	public final static String STST_SAVE_CTRL_RQRD         = "STST-00001";
 	public final static String STST_SAVE_INEJ_RQRD         = "STST-00002";
 	public final static String STST_SAVE_FIEJ_RQRD         = "STST-00003";
 	public final static String STST_SAVE_INEJ_GT_FIEJ      = "STST-00004";
 	public final static String STST_SAVE_NOTF_RQRD         = "STST-00005";
 	
-	//Notificaciones del módulo STDI
+	//Notificaciones del mï¿½dulo STDI
 	public final static String STDI_SAVE_FECH_RQRD         = "STDI-00001";
 	public final static String STDI_SAVE_CTRL_RQRD         = "STDI-00002";
 
@@ -206,7 +206,7 @@ public class CoreNotify {
 	public final static String LITE_GETL_CLAV_RQRD         = "LITE-00002";
 	public final static String LITE_NF                     = "LITE-00003";
 	
-	//Notificaciones del módulo PARA
+	//Notificaciones del mï¿½dulo PARA
 	public final static String PARA_GETP_TBLA_RQRD         = "PARA-00001";
 	public final static String PARA_GETP_CLAV_RQRD         = "PARA-00002";
 	public final static String PARA_GETP_TBLA_ERRO         = "PARA_00003";

@@ -7,7 +7,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	function request(name, cntx) {
 		
 		     if (name === 'lite/list') { return srvLiteList(cntx); }
-		else if (name === 'para/get')  { return srvParaGet(cntx);  }
+		else if (name === 'lite/get' ) { return srvLiteGet(cntx);  }    //Consulta de un literal 
+		else if (name === 'para/get' ) { return srvParaGet(cntx);  }
+		else if (name === 'menu/get' ) { return srvMenuGet(cntx);  }    //Consulta de menú
 		else if (name === 'avis/list') { return srvAvisList(cntx); }
 		else if (name === 'invi/list') { return srvInviList(cntx); }
 		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
@@ -55,6 +57,31 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//Funcion para lectura de literal
+	function requestLite(tbla, clav, cntx) {
+		//Creamos el promise de retorno
+		var d = $q.defer();
+		
+		//Obtenemos y formateamos el contexto de consulta de lista de literales
+		var cntxLite = srv.getCntx('lite/get');
+		cntxLite.form.tbla = tbla;
+		cntxLite.form.clav = clav;
+		
+		//Request a la operación de lista de literales
+		var srv1 = request('lite/get', cntxLite);
+		$q.all([srv1]).then(function() {
+			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise (ARQ)
+			     if (tbla === 'APPLITERAL' && clav === 'APPNOMBRE') { $rootScope.data.applNomb = cntxLite.data.lite.desc; d.resolve(); }
+			//else if
+			//Si no tenemos mapeada la tabla de literales, rechazamos el promise
+			else { d.reject(); }
+		   //Si hay errores en la operación, rechazamos el promise
+		}, function() {
+			d.reject();
+		})
+		return d.promise;
+	}
+
 	//Funcion para lectura de parámetros
 	function requestParaGet(tipo, tbla, clav, cntx) {
 		//Creamos el promise de retorno
@@ -86,6 +113,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//Interfaz del servicio comc
 	return {
 		request        : request,
+		requestLite    : requestLite,
 		requestLiteList: requestLiteList,
 		requestParaGet : requestParaGet
 	};
@@ -115,6 +143,31 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//*************************************************************************************************************//
+	// lite/get: Recuperación de un literal.                                                                       //
+	//*************************************************************************************************************//
+	function srvLiteGet(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			tbla: cntx.form.tbla,
+			clav: cntx.form.clav
+		};
+
+		var d = $q.defer();
+				
+		var output = srv.call(targetHost + 'service/angular/lite/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.lite = data.OUTPUT['lite'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
 	////////////////////////////////////////////////////////////////
 	// para/get: Consulta de parámetros                           //
 	////////////////////////////////////////////////////////////////
@@ -135,6 +188,29 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.para = data.OUTPUT['para'];
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// menu/get: Consulta de menú.                                                                                 //
+	//*************************************************************************************************************//
+	function srvMenuGet(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+
+		var d = $q.defer();
+				
+		var output = srv.call(targetHost + 'service/angular/menu/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				$rootScope.data.menuList = data.OUTPUT['menu'];
 				d.resolve(data);
 			}
 		});

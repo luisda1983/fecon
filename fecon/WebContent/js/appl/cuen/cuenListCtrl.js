@@ -5,7 +5,7 @@ app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv1 = comc.request('cuen/list', $scope.cntx);
 	var srv2 = comc.requestLiteList('CUENTIPO', $scope.cntx);
 	
-	$q.all([srv.stResp(srv1,srv2)]).then(function() {
+	$q.all([srv.stResp(true, srv1,srv2)]).then(function() {
 		view();
 	});
 

@@ -23,6 +23,7 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
 		else if (view === 'hcon/list') { return getHconListCntx(); }
 		else if (view === 'lite/list') { return getLiteListCntx(); }
+		else if (view === 'lite/get' ) { return getLiteGetCntx();  }   //Contexto lite/get : consulta de literal
 		else if (view === 'para/get')  { return getParaGetCntx();  }
 
 		else if (view === 'avis/list') { return getAvisListCntx(); }
@@ -591,6 +592,38 @@ app.factory("cntx", ['$q', function($q) {
 		return cntx;
 	}
 
+	//*************************************************************************************************************//
+	// Contexto lite/get : contexto de consulta de un literal.                                                     //
+	//*************************************************************************************************************//
+	function getLiteGetCntx() {
+		var vForm = {
+			tbla: '',
+			clav: ''
+		};
+		var vShow = {
+			tbla: false,
+			clav: false  
+		};
+		var vRead = {
+			tbla: false,
+			clav: false
+		};
+		var vData = {
+			lite: null
+		};
+		var vConf = {
+			mode: ''
+		};
+		cntx = {
+			form: vForm,
+			show: vShow,
+			read: vRead,
+			data: vData,
+			conf: vConf
+		};
+		return cntx;
+	}
+
 	//Contexto paraGet
 	function getParaGetCntx() {
 		var vForm = {
@@ -623,7 +656,6 @@ app.factory("cntx", ['$q', function($q) {
 		};
 		return cntx;
 	}
-
 
 	//Contexto avisList
 	function getAvisListCntx() {

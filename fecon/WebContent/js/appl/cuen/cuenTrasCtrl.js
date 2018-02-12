@@ -9,7 +9,7 @@ app.controller('cuenTrasCtrl', function($rootScope, $scope, $http, $routeParams,
 	}
 	
 	var srv1 = comc.request('cuen/list', $scope.cntx);	
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});
 
@@ -23,25 +23,19 @@ app.controller('cuenTrasCtrl', function($rootScope, $scope, $http, $routeParams,
 		
 		var srv1 = comc.request('cuen/tras', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			if ($scope.cntx.conf.mode === 'O') {
 				$scope.fnCanc();
 			} else {
 				//TODO: inicializacion, como modo de vista I
 				srv2 = comc.request('cuen/list', $scope.cntx);
-				$scope.cntx.form.ctor = 0;
-				$scope.cntx.form.ctde = 0;
-				$scope.cntx.form.impo = 0;
-				$scope.cntx.form.feva = 0;
+				$q.all([srv.stResp(true, srv2)]).then(function() {
+					$scope.cntx.form.ctor = 0;
+					$scope.cntx.form.ctde = 0;
+					$scope.cntx.form.impo = 0;
+					$scope.cntx.form.feva = 0;
+				})
 			}
-		});
-		
-		$q.all(srv1).then(function() {
-//FIXME: con esta llamada no me salen las notificaciones
-//			var srv2 = srvCuenList();
-//			$q.all([srv2]).then(function(){
-//				srv.clearMsg();
-//			});
 		});
 	};
 

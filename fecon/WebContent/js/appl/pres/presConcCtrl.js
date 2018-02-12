@@ -7,9 +7,9 @@ app.controller('presConcCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv3 = comc.request('cate/list', $scope.cntx);
 	var srv4 = comc.request('conc/full', $scope.cntx);
 
-	$q.all([srv.stResp(srv1, srv2, srv3, srv4)]).then(function() {
+	$q.all([srv.stResp(false, srv1, srv2, srv3, srv4)]).then(function() {
 		var srv5 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
-		$q.all([srv.stResp(srv5)]).then(function() {
+		$q.all([srv.stResp(false, srv5)]).then(function() {
 			if ($scope.cntx.data.prPeripresup.pval.anac !== 'undefined' &&
 				$scope.cntx.data.prPeripresup.pval.anac > 0) {
 				$scope.cntx.form.anua = $scope.cntx.data.prPeripresup.pval.anac;
@@ -18,7 +18,7 @@ app.controller('presConcCtrl', function($rootScope, $scope, $http, $routeParams,
 				}
 			}
 			var srv7 = comc.request('pres/conc', $scope.cntx);
-			$q.all([srv.stResp(srv7)]).then(function() {
+			$q.all([srv.stResp(true, srv7)]).then(function() {
 				view();
 			});	
 		});		
@@ -27,7 +27,7 @@ app.controller('presConcCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Captura el evento del cambio en el desplegable de anyo
 	$scope.fnAnuaChng = function() {
 		var srv1 = comc.request('pres/anua', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	};
 
 	//Función que despliega el menú de acciones

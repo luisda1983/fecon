@@ -15,27 +15,26 @@ public class BsLiteGet extends BaseBS {
 	@Autowired
 	LiteDAO liteDao;
 	
-	@Autowired
-	BsParaGet bsParaGet;
-	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsLiteGetArea area = (BsLiteGetArea)a;
-		
+
+		//Obtenemos el literal de la BB.DD.
 		Lite lite = liteDao.getByTblaClav(area.IN.tbla, area.IN.clav);
 		
-		if (lite == null) {
-			notify(CoreNotify.LITE_NF);
-		}
-		
+		//Validamos que el literal exista
+		validateDto(lite, CoreNotify.LITE_NF);
+
+		//Devolemos el literal en la salida
 		area.OUT.lite = lite;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsLiteGetArea area = (BsLiteGetArea)a;
-		
-		if (area.IN.tbla == null || "".equals(area.IN.tbla)) { notify(CoreNotify.LITE_GETL_TBLA_RQRD); }
-		if (area.IN.clav == null || "".equals(area.IN.clav)) { notify(CoreNotify.LITE_GETL_CLAV_RQRD); }
-		
+	
+		//Validamos la entrada: tbla y clav obligatorios
+		validateStringRequired(area.IN.tbla, CoreNotify.LITE_GETL_TBLA_RQRD);
+		validateStringRequired(area.IN.clav, CoreNotify.LITE_GETL_CLAV_RQRD);
+
 	}
 
 }

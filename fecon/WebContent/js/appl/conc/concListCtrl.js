@@ -3,7 +3,7 @@ app.controller('concListCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.cntx = srv.getCntx('conc/list');
 	
 	var srv1 = comc.request('conc/list', $scope.cntx);
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});
 

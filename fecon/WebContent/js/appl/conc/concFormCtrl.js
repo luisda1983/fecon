@@ -18,7 +18,7 @@ app.controller('concFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.fnForm = function() {
 		var srv1 = comc.request('conc/form', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			$scope.fnCanc();
 		});
 	};

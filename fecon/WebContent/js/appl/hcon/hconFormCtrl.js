@@ -11,20 +11,20 @@ app.controller('hconFormCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	var srv1 = comc.request('cate/list', $scope.cntx);
 	var srv2 = comc.request('cuen/list', $scope.cntx);
-	$q.all([srv.stResp(srv1, srv2)]).then(function() {
+	$q.all([srv.stResp(true, srv1, srv2)]).then(function() {
 		view();
 	});
 	
 	//Función que captura el camio de categoria
 	$scope.fnConcChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	};
 	
 	//Funcion que captura la solicitud de guardar un nuevo apunte
 	$scope.fnForm = function() {
 		var srv1 = comc.request('hcon/form', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			$scope.cntx.form.iden = 0;
 			$scope.cntx.form.cate = 0;
 			$scope.cntx.form.conc = 0;

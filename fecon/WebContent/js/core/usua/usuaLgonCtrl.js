@@ -6,7 +6,7 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Captura el evento de login en la aplicacion
 	$scope.fnLgon = function() {
 		var srv1 = comc.request('usua/lgon', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			srv.lgon($scope.cntx);
 		});
 	};

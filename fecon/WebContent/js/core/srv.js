@@ -10,58 +10,51 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		srvc: 0
 	};
 	
-	//C-Area de estado de aplicación
+	//*************************************************************************************************************//
+	// Area de estado de aplicación.                                                                               //
+	//*************************************************************************************************************//
 	$rootScope.esta = {
-		sesi    : 0,
-		usuaRegi: false,
-		usua    : null,
-		menuList: new Array(),
-		viewMode: 'L',
-		load    : false,
+		sesi    : 0,             //Identificador de sesión activa
+		lgonUsua: false,         //Indicador de que hay un usuario activo en la aplicación
+		usua    : null,          //Usuario activo en la aplicación
+		load    : false,         //Indicador de comunicación en curso. Sirve para mostrar la pantalla de espera
 		srvStack: 0,
-		doingGo : false,
-		doingBack: false
+		doingGo : false,         //Indicador de transición entre vistas activa
+		doingBack: false         //Indicador de retorno de vista
 	};
 
-	//C-Area de datos de contexto de la aplicación
+	//*************************************************************************************************************//
+	// Area de datos generales de aplicación.                                                                      //
+	//*************************************************************************************************************//
+	$rootScope.data = {
+		applNomb: '',   //Nombre de la aplicación
+		menuList: null  //Menú de la aplicación
+	};
+	
+	//*************************************************************************************************************//
+	// Area de datos de contexto/transiciones de la aplicación.                                                    //
+	//*************************************************************************************************************//
 	var cntxData = {
-		goData  : null,
-		goPath  : null,
-		backData: null,
-		backPath: null
-	};
-	
-	//C-Area de literales de aplicación
-	$rootScope.lite = {
-		titu: ''
+		goData  : null,   //Datos en origen de la transición
+		goPath  : null,   //Dirección destino de la transición
+		backData: null,   //Datos de retorno de la transición
+		backPath: null    //Dirección de retorno de la transición
 	};
 
-	//PUBLIC: Efectua la inicializacion de la aplicacion.
-	function inicApp() {
-
-		//Obtenemos el nombre de la aplicación.
-		srvLiteNombGet();
-	
-		//TODO: obtener algunos parámetros
-		$rootScope.idSesion = 0;
-		$rootScope.sesi = 0;
-		$rootScope.usua = null;		
-		//menu();
-		srvMenu();
-		$location.path('/');
-	}
-
-	//C-Funcion encargada de mostrar el mostrar el menú
-	$rootScope.showMenu = function() {
+	//*************************************************************************************************************//
+	// fnMenuMove: Función encargada de mostrar/ocultar el menú de aplicación                                      //
+	//*************************************************************************************************************//
+	$rootScope.fnMenuMove = function() {
 		$mdSidenav('left').toggle();
 	}
 	
-	//C-Funcion que maneja los iconos del menú. Va a la dirección indicada y oculta el menú
-	$rootScope.go = function(url) {
-		//Siempre que cambiamos de vista, configuramos el modo View Loading
-		$rootScope.esta.viewMode = "L";
-		//Vamos a la URL, y cerramos el menú lateral
+	//*************************************************************************************************************//
+	// fnMenuGo: Función que maneja la navegación desde el menú.                                                   //
+	//*************************************************************************************************************//
+	$rootScope.fnMenuGo = function(url) {
+		//Vamos a la URL
 		$location.url(url);
+		//Cerramos el menú lateral
 		$mdSidenav('left').close();
 	};
 
@@ -81,13 +74,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 			warnList : new Array()
 	};
 	
-	$rootScope.data = {
-		menuList : null
-	};
-	
-	//Inicializamos icono de "cargando"
-	$rootScope.loading = false;
-	$rootScope.esta.load = false;
 
 	function showAdvanced(notf) {
 		return $mdDialog.show({
@@ -111,7 +97,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	function NotifyController($scope, data, $mdDialog) {
 		$scope.data = data;
 		console.log("NFCtrl " + data.esta);
-		//console.log("NFCtrl " + data.info[0].iden);
 		//Evaluacion de estados
 		$scope.isVoid = function() { return (data.esta === 'V'); }
 		$scope.isAuto = function() { return (data.esta === 'O'); }
@@ -140,7 +125,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	    	$mdDialog.hide(auto);
 	    };
 	}
-	
+
 	//Funcion que efetua llamada el WS, controla el error de sesion, y gestiona errores
 	//TODO: implementar el modo de ejecucion (View Loading - Event Processing)
 	//      Realizar el tratamiento de errores segun el modo, de manera que en view loading, haya un contador de servicios, 
@@ -150,7 +135,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		console.log(url);
 		$rootScope.notf.srvc = $rootScope.notf.srvc + 1;
 		
-		$rootScope.loading = true;
 		$rootScope.esta.load = true;
 		$rootScope.esta.srvStack = $rootScope.esta.srvStack + 1;
 		
@@ -161,33 +145,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 			
 			$rootScope.notf.srvc = $rootScope.notf.srvc - 1;
 			console.log(url + " " + $rootScope.notf.srvc);
-			//Convivencia con controladores antiguos
-			if (typeof data.OUTPUT == 'undefined') {
-				outData = data;
-				addInfoList(data.infoList);
-				addWarnList(data.warnList);
-				setError(data.error);
-				
-				if (data.status === 'ER') { 
-					$rootScope.notf.esta = 'V';
-					$rootScope.notf.void.push(data.error);
-					console.log(url + " C-Size: " + $rootScope.notf.void.length);
-				}
-
-				if (data.status === 'ER') {
-					if ($rootScope.notf.srvc === 0) {
-						console.log(url + "showMsg");
-						var promise = showAdvanced($rootScope.notf);
-						$q.all([promise]).then(function() {
-							//Logica en autorizaciones
-						
-							//Eliminamos los mensajes ya mostrados
-							clearMsg();
-						});
-						console.log(url + "hideMsg");
-					}
-				}
-			} else {
 				outData = data;
 				if (data.EXEC_RC === 'V') {
 					$rootScope.notf.esta = data.EXEC_RC;
@@ -203,38 +160,21 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 					//$rootScope.notf.info.push(data.EXEC_INFO_LIST);
 					addInfo(data.EXEC_INFO_LIST);
 				}
-				if (data.EXEC_RC === 'V' || data.EXEC_RC === 'I') {
-					
-					if ($rootScope.notf.srvc === 0) {
-						console.log(url + "showMsg");
-						var promise = showAdvanced($rootScope.notf);
-						$q.all([promise]).then(function() {
-							//Logica en autorizaciones
-						
-							//Eliminamos los mensajes ya mostrados
-							clearMsg();
-						});
-						console.log(url + "hideMsg");
-					}
-				}
-			}
-//			if (data.status === 'SS') {
-//				$location.path('/lgon');
-//			} else {
-//TODO: este bloque se puede usar para algun tipo de convivencia, si fuera necesario
-
-				//TODO: contemplar llamadas en paralelo (not sure)
-				$rootScope.loading = false;
+//				if (data.EXEC_RC === 'V' || data.EXEC_RC === 'I') {
+//					
+//					if ($rootScope.notf.srvc === 0) {
+//						console.log(url + "showMsg");
+//						var promise = showAdvanced($rootScope.notf);
+//						$q.all([promise]).then(function() {
+//							//Logica en autorizaciones
+//						
+//							//Eliminamos los mensajes ya mostrados
+//							clearMsg();
+//						});
+//						console.log(url + "hideMsg");
+//					}
+//				}
 				$rootScope.esta.load = false;
-				
-				if ($rootScope.esta.viewMode === 'L') {
-					$rootScope.esta.srvStack = $rootScope.esta.srvStack - 1;
-					if ($rootScope.esta.srvStack === 0) {
-						//clearMsg();
-					}
-				} else {
-					//clearMsg();
-				}
 		});
 		return res;
 	};
@@ -265,23 +205,44 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 
 	//Función que realiza las opciones estándares de respuesta ante n llamadas a servicios:
 	// Finaliza el proceso. 
-	function stResp(...promises) {
+	function stResp(end, ...promises) {
 		var d = $q.defer();
 		
 		$q.all(promises).then(function() {
 			//Ok
-			var v = endProc();
+			var v = notify(end);
 			$q.all([v]).then(function(){
 				d.resolve();
 			})
 		}, function() {
 			//No-ok
-			var v = endProc();
+			var v = notify(end);
 			$q.all([v]).then(function(){
 				d.reject();
 			})
 		})
 		return d.promise;
+	}
+
+	function notify(end) {
+		var d = $q.defer();
+		if (end && $rootScope.notf.esta !== null && $rootScope.notf.esta !== '') {
+			var promise = showAdvanced($rootScope.notf);
+			$q.all([promise]).then(function() {
+				d.resolve();
+				inicNotf();
+			});
+		} else {
+			d.resolve();
+		}
+		return d.promise;
+	}
+	
+	function inicNotf() {
+		$rootScope.notf.esta = '';
+		$rootScope.notf.void = new Array();
+		$rootScope.notf.auto = new Array();
+		$rootScope.notf.info = new Array();
 	}
 	
 	//Datos obtenidos desde el WS
@@ -302,7 +263,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		infoList = new Array();
 		warnList = new Array();
 		
-		$rootScope.loading = false;
 		$rootScope.esta.load = false;
 	}
 	
@@ -354,43 +314,17 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		$rootScope.msg.error = error;
 	}
 
-	//Efectua el login en la aplicacion, guardando el idSesion, usuario y obteniendo el menu.
+	//Efectua el login en la aplicacion, guardando el identificador de sesion, usuario y obteniendo el menu.
 	function lgon(cntx) {
-		$rootScope.idSesion = cntx.data.sesi;
 		
 		$rootScope.esta.sesi     = cntx.data.sesi;
-		$rootScope.esta.usuaRegi = true;
+		$rootScope.esta.lgonUsua = true;
 		$rootScope.esta.usua     = cntx.data.usua;
 		
-		$rootScope.sesi = cntx.data.sesi;
-		$rootScope.usua = cntx.data.usua;
-		//menu();
 		srvMenu();
 		$location.path('/');
 	}
-	
-	//Efectua el logout borrando usuario, idSesion y obteniendo el menu externo.
-	function logOut() {
-		$rootScope.idSesion = 0;
-		$rootScope.sesi = 0;
-		
-		$rootScope.esta.sesi     = 0;
-		$rootScope.esta.usuaRegi = false;
-		$rootScope.esta.usua     = null;
-		
-		$rootScope.usua = null;
-		srvMenu();
-		//menu();
-		$location.path('/lgon');
-	}
-
-	//Configuracion del path principal de la aplicacion (con login)
-	function home() {
-		if ($rootScope.esta.sesi !== 0) {
-			$location.path('avis/list');
-		}
-	}
-		
+			
 	//C-Servicio de obtención de menú.
 	function srvMenu() {
 
@@ -403,44 +337,27 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		var output = call(targetHost + 'service/angular/menu/get/', dataObject);
 		output.then(function() {
 			var data = getData();
-			$rootScope.esta.menuList = data.OUTPUT['menu'];
+			$rootScope.data.menuList = data.OUTPUT['menu'];
 			d.resolve(data);
 		});
 		return d.promise;
 	}
 	
-	//C-Servicio de obtención de literal: nombre de aplicación.
-	function srvLiteNombGet() {
-
-		var dataObject = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tbla: 'APPLITERAL',
-			clav: 'APPNOMBRE'
-		};
-		
-		var d = $q.defer();
-		
-		var output = call(targetHost + 'service/angular/lite/get/', dataObject);
-		output.then(function() {
-			var data = getData();
-			var lite = data.OUTPUT['lite'];
-			if (lite !== undefined) {
-				$rootScope.lite.nomb = lite.desc;
-			}
-			d.resolve(data);
-		});
-		return d.promise;
-	}
-
-	//C-Función que devuelve el Contexto de la vista recibida.
+	//*************************************************************************************************************//
+	// PUBLIC: srv.getCntx: Función encargada de generar contexto de vista, teniendo en cuenta transiciones con    //
+	//                      datos o retornos.                                                                      //
+	//*************************************************************************************************************//
 	function getCntx(view) {
 		//Verificamos si estamos haciendo una transición con estado
 		if ($rootScope.esta.doingGo) {
 			//Verificamos que el goPath, es el mismo que para el que se pide el contexto
 			if (view === cntxData.goPath) {
-				//En ese caso devolvemos el goData guardado
-				$rootScope.esta.doingGo = false;
-				return cntxData.goData;
+				//Verificamos que tenemos cargado el goData
+				if (cntxData.goData !== null) {
+					//En ese caso devolvemos el goData guardado
+					$rootScope.esta.doingGo = false;
+					return cntxData.goData;
+				}
 			}
 		}
 		//Verificamos si estamos haciendo un retorno
@@ -449,6 +366,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 			if (view === cntxData.backPath) {
 				//Verificamos que el backData está cargado
 				if (cntxData.backData !== null) {
+					//En ese caso devolvemos el backData guardado
 					$rootScope.esta.doingBack = false;
 					return cntxData.backData;
 				}
@@ -457,26 +375,28 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		//En cualquier otro caso, inicializamos el estado y devolvemos un contexto inicializado
 		$rootScope.esta.doingGo = false;
 		$rootScope.esta.doingBack = false;
-		cntx.goPath = '';
-		cntx.goData = null;
-		cntx.backPath = '';
-		cntx.backData = null;
+		cntxData.goPath = '';
+		cntxData.goData = null;
+		cntxData.backPath = '';
+		cntxData.backData = null;
 		
 		return cntx.getCntx(view);
 	}
 	
-	//C-Función para hacer transición con datos entre vistas.
+	//*************************************************************************************************************//
+	// PUBLIC: srv.go: Función encargada de realizar la transición entre vistas.                                   //
+	//*************************************************************************************************************//
 	function go(currentPath, currentData, goPath, goData) {
 		//Activamos indicador de que estamos haciendo una transición con estado
 		$rootScope.esta.doingGo = true;
 	
 		//Guardamos el estado
-		cntxData.goPath = goPath;
-		cntxData.goData = goData;
+		cntxData.goPath   = goPath;
+		cntxData.goData   = goData;
 		cntxData.backPath = currentPath;
 		cntxData.backData = currentData;
 
-		//Finalmente vamos al path indicado
+		//Vamos al path solicitado
 		$location.path(goPath);
 	}
 
@@ -500,7 +420,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	
 	//Interfaz del servicio srv
 	return {
-		inicApp  : inicApp,
 		call     : call,
 		startProc: startProc,
 		endProc  : endProc,
@@ -508,10 +427,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		getData  : getData,
 		clearMsg : clearMsg,
 		lgon     : lgon,
-		logOut   : logOut,
-		home     : home,
-		getCntx  : getCntx,
-		go       : go,
+		getCntx  : getCntx,     //Función encaargada de la gestión de contextos de vistas
+		go       : go,          //Función de transición entre vistas.
 		back     : back,
 		backState: backState
 	};

@@ -3,7 +3,7 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.cntx = srv.getCntx('cuen/cuad');
 	
 	var srv1 = comc.request('cuen/list', $scope.cntx);	
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		$scope.cntx.conf.mode = "C";
 		view();
 	});
@@ -32,14 +32,14 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Función que captura el cambio de categoria
 	$scope.fnCateChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	}
 
 	//Función que captura el evento de cuadre, para realizar la transición a la vista de apunte
 	$scope.fnCuad = function() {
 		if ($scope.cntx.form.impo !== 0) {
 			var srv1 = comc.request('cate/list', $scope.cntx);
-			$q.all([srv.stResp(srv1)]).then(function() {
+			$q.all([srv.stResp(true, srv1)]).then(function() {
 				$scope.cntx.conf.mode = 'A';
 				view();
 			})
@@ -60,9 +60,9 @@ app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Función que captura el evento de efectuar el apunte de cuadre.
 	$scope.fnApun = function() {
 		var srv1 = comc.request('cuen/cuad', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			var srv2 = comc.request('cuen/list', $scope.cntx);
-			$q.all([srv.stResp(srv2)]).then(function() {
+			$q.all([srv.stResp(true, srv2)]).then(function() {
 				//TODO: inicializar con view
 				$scope.cntx.form.cuen = 0;
 				$scope.cntx.form.sald = 0;

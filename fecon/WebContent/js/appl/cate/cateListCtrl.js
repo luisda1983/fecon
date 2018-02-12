@@ -3,7 +3,7 @@ app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.cntx = srv.getCntx('cate/list');
 
 	var srv1 = comc.request('cate/list', $scope.cntx);
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});	
 

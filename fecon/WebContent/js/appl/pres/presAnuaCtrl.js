@@ -10,9 +10,9 @@ app.controller('presAnuaCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv4 = comc.request('cate/list', $scope.cntx);
 	var srv5 = comc.request('conc/full', $scope.cntx);
 
-	$q.all([srv.stResp(srv1, srv2, srv3, srv4, srv5)]).then(function() {
+	$q.all([srv.stResp(false, srv1, srv2, srv3, srv4, srv5)]).then(function() {
 		var srv6 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
-		$q.all([srv.stResp(srv6)]).then(function() {
+		$q.all([srv.stResp(false, srv6)]).then(function() {
 			if ($scope.cntx.data.prPeripresup.pval.anac !== 'undefined' &&
 				$scope.cntx.data.prPeripresup.pval.anac > 0) {
 				if ($scope.cntx.form.anua === 0) {
@@ -20,7 +20,7 @@ app.controller('presAnuaCtrl', function($rootScope, $scope, $http, $routeParams,
 				}
 			}
 			var srv7 = comc.request('pres/anua', $scope.cntx);
-			$q.all([srv.stResp(srv7)]).then(function() {
+			$q.all([srv.stResp(true, srv7)]).then(function() {
 				view();
 				presAnuaChart();
 			});
@@ -33,7 +33,7 @@ app.controller('presAnuaCtrl', function($rootScope, $scope, $http, $routeParams,
 			chart.destroy();
 		}
 		var srv1 = comc.request('pres/anua', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			presAnuaChart(); 
 		});
 	};
@@ -52,7 +52,7 @@ app.controller('presAnuaCtrl', function($rootScope, $scope, $http, $routeParams,
 		$scope.cntx.data.pres = $scope.cntx.data.presListAnua[i];
 		
 		var srv1 = comc.request('pres/esta', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.presListAnua[i] = $scope.cntx.data.pres;	
 		})
 	}

@@ -5,7 +5,7 @@ app.controller('usuaRegiCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv1 = comc.requestParaGet('C', 'APLICONFIG', 'CONFREGIST', $scope.cntx);
 	var srv2 = comc.requestParaGet('C', 'DYNAMICFLD', 'REGINVDESC', $scope.cntx);
 	
-	$q.all([srv.stResp(srv1, srv2)]).then(function() { 
+	$q.all([srv.stResp(true, srv1, srv2)]).then(function() { 
 		view();
 	});
 	
@@ -18,7 +18,7 @@ app.controller('usuaRegiCtrl', function($rootScope, $scope, $http, $routeParams,
 			view();
 		} else if ($scope.cntx.conf.mode === 'S') {
 			var srv1 = comc.request('invi/soli', $scope.cntx);
-			$q.all([srv.stResp(srv1)]).then(function() {
+			$q.all([srv.stResp(true, srv1)]).then(function() {
 				$scope.cntx.form.invi = '';
 				$scope.cntx.form.mail = '';
 				$scope.cntx.form.desc = '';
@@ -40,7 +40,7 @@ app.controller('usuaRegiCtrl', function($rootScope, $scope, $http, $routeParams,
 			view();
 		} else if ($scope.cntx.conf.mode === 'I') {
 			var srv1 = comc.request('invi/vali', $scope.cntx);
-			$q.all([srv.stResp(srv1)]).then(function() {
+			$q.all([srv.stResp(true, srv1)]).then(function() {
 				$scope.cntx.conf.invi = true;
 				$scope.cntx.conf.vali = true;
 				view();
@@ -48,7 +48,7 @@ app.controller('usuaRegiCtrl', function($rootScope, $scope, $http, $routeParams,
 		} else if ($scope.cntx.conf.mode === 'V') {
 			if ($scope.cntx.data.invi.tipo === 'I') {
 				var srv1 = comc.request('invi/proc', cntx);
-				$q.all([srv.stResp(srv1)]).then(function() {
+				$q.all([srv.stResp(true, srv1)]).then(function() {
 					//TODO
 					//Hacer login
 				})

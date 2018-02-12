@@ -8,9 +8,9 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv4 = comc.request('cate/list', $scope.cntx);
 	var srv5 = comc.request('conc/full', $scope.cntx);
 
-	$q.all([srv.stResp(srv1, srv2, srv3, srv4, srv5)]).then(function() {
+	$q.all([srv.stResp(false, srv1, srv2, srv3, srv4, srv5)]).then(function() {
 		var srv6 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
-		$q.all([srv.stResp(srv6)]).then(function() {
+		$q.all([srv.stResp(false, srv6)]).then(function() {
 			if ($scope.cntx.data.prPeripresup.pval.anac !== 'undefined' &&
 				$scope.cntx.data.prPeripresup.pval.anac > 0 &&
 				$scope.cntx.data.prPeripresup.pval.msac > 0) {
@@ -20,7 +20,7 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 				}
 			}
 			var srv7 = comc.request('pres/mesp', $scope.cntx);
-			$q.all([srv.stResp(srv7)]).then(function() {
+			$q.all([srv.stResp(true, srv7)]).then(function() {
 				view();
 			});	
 		});		
@@ -29,7 +29,7 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 	//Captura el evento del cambio en el desplegable de anyo/mes
 	$scope.fnAnuaMespChng = function() {
 		var srv1 = comc.request('pres/mesp', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	};
 
 	//Función que despliega el menú de acciones
@@ -54,7 +54,7 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 		$scope.cntx.data.pres = $scope.cntx.data.presListMap[cate][i];
 		
 		var srv1 = comc.request('pres/esta', $scope.cntx);
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.presListMap[cate][i] = $scope.cntx.data.pres;	
 		})
 	}

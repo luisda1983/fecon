@@ -5,9 +5,9 @@ app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams,
 	var srv1 = comc.requestLiteList('INVIESTA', $scope.cntx);
 	var srv2 = comc.requestLiteList('INVITIPO', $scope.cntx);
 	
-	$q.all([srv.stResp(srv1, srv2)]).then(function(){
+	$q.all([srv.stResp(false, srv1, srv2)]).then(function(){
 		var srv3 = comc.request('invi/list', $scope.cntx);
-		srv.stResp(srv3);
+		srv.stResp(true, srv3);
 	});
 		
 	//Función para capturar la aceptación de una invitación
@@ -16,9 +16,9 @@ app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams,
 		$scope.cntx.form.iden = invi.iden;
 		var srv1 = comc.request('invi/acep', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			var srv2 = comc.request('invi/list', $scope.cntx);
-			srv.stResp(srv2);
+			srv.stResp(true, srv2);
 		});
 	}
 	
@@ -28,16 +28,16 @@ app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams,
 		$scope.cntx.form.iden = invi.iden;
 		var srv1 = comc.request('invi/rech', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1)]).then(function() {
 			var srv2 = comc.request('invi/list', $scope.cntx);
-			srv.stResp(srv2);
+			srv.stResp(true, srv2);
 		});
 	}
 	
 	//Funcion para capturar la selección del desplegable de estado de invitacion
 	$scope.fnEstaChng = function() {
 		var srv1 = comc.request('invi/list', $scope.cntx);
-		srv.stResp(srv1);
+		srv.stResp(true, srv1);
 	}
 	
 	//Función que despliega el menú de acciones

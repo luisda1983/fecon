@@ -3,7 +3,7 @@ app.controller('avisListCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.cntx = srv.getCntx('avis/list');
 
 	var srv1 = comc.request('avis/list', $scope.cntx);
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});
 

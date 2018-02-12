@@ -9,7 +9,7 @@ app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	}
 	
 	var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});	
 	
@@ -22,7 +22,7 @@ app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.fnForm = function() {
 		var srv1 = comc.request('cate/form', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			$scope.fnCanc();
 		});
 	};

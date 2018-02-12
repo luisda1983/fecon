@@ -9,7 +9,7 @@ app.controller('cuenFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	}
 	
 	var srv1 = comc.requestLiteList('CUENTIPO', $scope.cntx);	
-	$q.all([srv.stResp(srv1)]).then(function() {
+	$q.all([srv.stResp(true, srv1)]).then(function() {
 		view();
 	});
 
@@ -22,7 +22,7 @@ app.controller('cuenFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.fnForm = function() {
 		var srv1 = comc.request('cuen/form', $scope.cntx);
 		
-		$q.all([srv.stResp(srv1)]).then(function(){
+		$q.all([srv.stResp(true, srv1)]).then(function(){
 			$scope.fnCanc();
 		});
 	};
