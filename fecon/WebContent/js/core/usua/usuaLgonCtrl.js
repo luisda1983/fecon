@@ -5,9 +5,20 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $http, $routeParams,
 	
 	//Captura el evento de login en la aplicacion
 	$scope.fnLgon = function() {
+		//Realizamos el login en backend
 		var srv1 = comc.request('usua/lgon', $scope.cntx);
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			srv.lgon($scope.cntx);
+			//Establecemos los datos de la sesión en FrontEnd
+			$rootScope.esta.sesi     = $scope.cntx.data.sesi;
+			$rootScope.esta.lgonUsua = true;
+			$rootScope.esta.usua     = $scope.cntx.data.usua;
+			
+			//Volvemos a solicitar el menú, para obtener el correspondiente al usuario activo
+			var srv2 = comc.request('menu/get', null);
+			$q.all([srv.stResp(true, srv2)]).then(function() {
+				//Transición al home
+				srv.go(null, null, '/', null);
+			})
 		});
 	};
 

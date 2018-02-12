@@ -15,7 +15,7 @@ app.controller('cuenTrasCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	//Función que captura la cancelación de la vista
 	$scope.fnCanc = function() {
-		srv.backState(true);
+		srv.back(true);
 	}
 
 	//Funcion que realiza el traspaso

@@ -22,14 +22,14 @@ import es.ldrsoftware.core.fwk.entity.Notf;
 @Component
 public abstract class BaseController extends BaseNotifyManager {
 
-	//Varible que contendrá el identificador del controlador
+	//Varible que contendrï¿½ el identificador del controlador
 	private String iden;
 	
-	//Controlador para la gestión de los diferentes paréntesis transaccionales
+	//Controlador para la gestiï¿½n de los diferentes parï¿½ntesis transaccionales
 	@Autowired
 	private TxController txCtrl;
 	
-	//Servicio para obtener la configuración del controlador
+	//Servicio para obtener la configuraciï¿½n del controlador
 	@Autowired
 	private BsCtrlGet bsCtrlGet;
 	
@@ -37,23 +37,23 @@ public abstract class BaseController extends BaseNotifyManager {
 		this.iden = iden;
 	}
 	
-	//Inicializamos la sesión
+	//Inicializamos la sesiï¿½n
 	private void inicSession(HttpServletRequest servletRqt) {
 		SESSION.set(new Session());
 		SESSION.get().initializeSession(servletRqt);
 	}
 	
-	//Finalizamos la sesión
+	//Finalizamos la sesiï¿½n
 	private void endSession() {
 		SESSION.remove();
 	}
 		
-	//Metodo encargado de la ejecución del servicio asociado al controlador 
+	//Metodo encargado de la ejecuciï¿½n del servicio asociado al controlador 
 	public abstract void execute(BaseBSArea a) throws Exception;
 	//Metodo encargado de gestionar la salida hacia el Front
 	public abstract void output(BaseBSArea a, ResponseArea response);
 	
-	//Metodo encargado de toda la lógica de ejecución de los controladores
+	//Metodo encargado de toda la lï¿½gica de ejecuciï¿½n de los controladores
 	public ResponseArea ctrl(HttpServletRequest servletRqt, BaseRequest rqt, BaseBSArea a) {
 		ResponseArea response = new ResponseArea();
 		
@@ -78,7 +78,7 @@ public abstract class BaseController extends BaseNotifyManager {
 			//Capturamos el indicador de estadisticas en la variable local (fuera del try/catch)
 			stst = ctrl.getStst();
 			
-			//Validamos que el controlador esté activo
+			//Validamos que el controlador estï¿½ activo
 			if (!"A".equals(ctrl.getEsta())) {
 				ctrlNotify(CoreNotify.CORE_CTRL_ESTA, CoreNotify.CORE_CTRL_ESTA_DESC);
 			}
@@ -122,14 +122,14 @@ public abstract class BaseController extends BaseNotifyManager {
 				break;
 			}
 			
-			//Ejecucuión del servicio asociado al controlador
+			//Ejecucuiï¿½n del servicio asociado al controlador
 			txCtrl.execute(this, a);
 			
 			//Gestionamos la salida hacia el front
 			output(a, response);
 			
 		} catch (ArqException e) {
-			//Notificaciones de aplicación, en principio no es necesario realizar nada, a parte de capturarlas.
+			//Notificaciones de aplicaciï¿½n, en principio no es necesario realizar nada, a parte de capturarlas.
 		} catch (Exception e) {
 			e.printStackTrace();
 			//FIXME: parche, que ademas se ventila las notificaciones reales del servicio
@@ -140,10 +140,10 @@ public abstract class BaseController extends BaseNotifyManager {
 			notf.setTipo(Session.EXEC_STATE_VOID);
 			notf.setDesc(e.getLocalizedMessage());
 			SESSION.get().EXEC_VOID = notf;
-			//TODO: tratamiento de excepción
+			//TODO: tratamiento de excepciï¿½n
 		}
 		
-		//Evaluamos el estado de ejecucion que tenemos en la sesión, para trasladarlo al area de salida (response)
+		//Evaluamos el estado de ejecucion que tenemos en la sesiï¿½n, para trasladarlo al area de salida (response)
 		switch (SESSION.get().EXEC_STATE) {
 		case (Session.EXEC_STATE_OK):
 			response.EXEC_RC = ResponseArea.EXEC_RC_OK;
@@ -155,7 +155,7 @@ public abstract class BaseController extends BaseNotifyManager {
 		case (Session.EXEC_STATE_OVER):
 			response.EXEC_RC = ResponseArea.EXEC_RC_OVER;
 			response.EXEC_AUTO_LIST = SESSION.get().EXEC_OVER_LIST;
-			//TODO: tratamiento de autorización
+			//TODO: tratamiento de autorizaciï¿½n
 			break;
 		case (Session.EXEC_STATE_VOID):
 			response.EXEC_RC = ResponseArea.EXEC_RC_VOID;
@@ -164,7 +164,7 @@ public abstract class BaseController extends BaseNotifyManager {
 			break;
 		}
 		
-		//Capturamos el fin de la ejecución
+		//Capturamos el fin de la ejecuciï¿½n
 		fiej = DateTimeUtil.getTime();
 
 		//Si el controlador indica que se graben estadisticas, lo hacemos
@@ -174,13 +174,13 @@ public abstract class BaseController extends BaseNotifyManager {
 			} catch (Exception e) {}
 		}
 
-		//Finalizamos la sesión
+		//Finalizamos la sesiï¿½n
 		endSession();
 		
 		return response;
 	}
 
-	//Método encargado de articular notificaciones de error de arquitectura
+	//Mï¿½todo encargado de articular notificaciones de error de arquitectura
 	private void ctrlNotify(String iden, String desc) throws Exception {
 		SESSION.get().EXEC_STATE = Session.EXEC_STATE_VOID;
 		Notf notf = new Notf();

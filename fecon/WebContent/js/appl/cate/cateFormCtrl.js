@@ -15,7 +15,7 @@ app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams,
 	
 	//Función que captura la cancelación de la vista
 	$scope.fnCanc = function() {
-		srv.back();
+		srv.back(true);
 	}
 	
 	//Función que captura el submit del formulario

@@ -28,7 +28,7 @@ app.controller('concListCtrl', function($rootScope, $scope, $http, $routeParams,
 
 	//Función que retorna
 	$scope.fnCanc = function() {
-		srv.backState(true);
+		srv.back(true);
 	};
 	
 	//Función que despliega el menú de acciones
