@@ -1,13 +1,16 @@
 //Factory que encapsula la gestión de contexto de la aplicación
 //TODO: en pres/conc... he visto que en el data no es necesario definir el detalle... al llamar a comc, se añade el 
 //      atributo y se tiene visibilidad... analizar si se puede eliminar el detalle siempre
-app.factory("cntx", ['$q', function($q) {
+app.factory("ctxa", ['$q', function($q) {
 	
-	//Función que devuelve el Contexto de la vista recibida.
+	//*************************************************************************************************************//
+	// PUBLIC: getCntx: Función para la generación de vistas.                                                      //
+	//*************************************************************************************************************//
 	function getCntx(view) {
 		
 		var cntx = null;
-		
+
+		//Buscamos la vista para devolver su contexto.
 		     if (view === 'pres/anua') { return getPresAnuaCntx(); }
 		else if (view === 'pres/conc') { return getPresConcCntx(); }
 		else if (view === 'pres/mesp') { return getPresMespCntx(); }
@@ -22,16 +25,13 @@ app.factory("cntx", ['$q', function($q) {
 		else if (view === 'cuen/cuad') { return getCuenCuadCntx(); }
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
 		else if (view === 'hcon/list') { return getHconListCntx(); }
-
-		else if (view === 'avis/list') { return getAvisListCntx(); }
-		else if (view === 'invi/list') { return getInviListCntx(); }
-		else if (view === 'usua/lgon') { return getUsuaLgonCntx(); }
-		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		
 		return cntx;
 	}
 		
-	//Interfaz del servicio cntx
+	//*************************************************************************************************************//
+	// INTERFAZ PUBLICA CTXA: Funciones que ofrece el servicio cnta.                                               //
+	//*************************************************************************************************************//
 	return {
 		getCntx: getCntx
 	};
@@ -551,148 +551,6 @@ app.factory("cntx", ['$q', function($q) {
 			item: -1,
 			iden: 0,
 			acci: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto avisList
-	function getAvisListCntx() {
-		var vForm = {
-			ndat: null
-		};
-		var vShow = {
-			ndat: false
-		};
-		var vRead = {
-			ndat: false
-		};
-		var vData = {
-			avisList: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto inviList
-	function getInviListCntx() {
-		var vForm = {
-			esta: '',
-			iden: 0
-		};
-		var vShow = {
-			esta: false,
-			iden: false
-		};
-		var vRead = {
-			esta: false,
-			iden: false
-		};
-		var vData = {
-			inviList: null,
-			ltInviesta: null,
-			ltMInviesta: null,
-			ltInvitipo: null,
-			ltMInvitipo: null
-		};
-		var vConf = {
-			mode: '',
-			item: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto usuaLgon
-	function getUsuaLgonCntx() {
-		var vForm = {
-			iden: '',
-			pass: ''
-		};
-		var vShow = {
-			iden: false,
-			pass: false
-		};
-		var vRead = {
-			iden: false,
-			pass: false
-		};
-		var vData = {
-			invi: null,
-			usua: null
-		};
-		var vConf = {
-			mode: '',
-			vali: false,
-			invi: false
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
-		return cntx;
-	}
-
-	//Contexto usuaRegi
-	function getUsuaRegiCntx() {
-		var vForm = {
-			invi : '',
-			mail : '',
-			desc : '',
-			ldes : '',
-			usua : '',
-			pass : '',
-			cpas : ''
-		};
-		var vShow = {
-			invi : false,
-			mail : false,
-			desc : false,
-			usua : false,
-			pass : false,
-			cpas : false,
-			btRegi : false,
-			btSoli : false
-		};
-		var vRead = {
-			invi : false,
-			mail : false,
-			desc : false,
-			usua : false,
-			pass : false,
-			cpas : false,
-		};
-		var vData = {
-			sesi: null,
-			prConfregist: null,
-			prReginvdesc: null
-		};
-		var vConf = {
-			mode: ''
 		};
 		cntx = {
 			form: vForm,
