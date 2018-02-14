@@ -373,9 +373,9 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			var yf=cntx.form.feva.getFullYear();           
 			var mf=cntx.form.feva.getMonth() + 1;
 			var df=cntx.form.feva.getDate();
-			fmtFval = (yf*10000)+(mf*100)+df;
+			fmtFeva = (yf*10000)+(mf*100)+df;
 		}
-
+		
 		//TODO: meter el iden para permitir la edición
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),

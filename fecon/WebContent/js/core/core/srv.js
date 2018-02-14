@@ -186,7 +186,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		
 		return cntx.getCntx(view);
 	}
-	
+
 	//*************************************************************************************************************//
 	// PUBLIC: srv.go: Función encargada de realizar la transición entre vistas.                                   //
 	//*************************************************************************************************************//
@@ -224,7 +224,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.51',
+					templateUrl: 'pages/core/notify.html?v.0.00.52',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
