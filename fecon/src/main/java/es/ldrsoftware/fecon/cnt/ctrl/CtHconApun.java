@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import es.ldrsoftware.core.arq.BaseController;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.ResponseArea;
-import es.ldrsoftware.fecon.cnt.bs.BsHconApun;
-import es.ldrsoftware.fecon.cnt.bs.BsHconApunArea;
+import es.ldrsoftware.fecon.cnt.bs.BsHconForm;
+import es.ldrsoftware.fecon.cnt.bs.BsHconFormArea;
 
 @RestController
 public class CtHconApun extends BaseController {
 
 	@Autowired
-	public BsHconApun bsHconApun;
+	public BsHconForm bsHconForm;
 
 	public CtHconApun() {
 		super("ctHconApun");
@@ -28,7 +28,9 @@ public class CtHconApun extends BaseController {
 	
 	@RequestMapping(value="/angular/hcon/apun", method = RequestMethod.POST, headers="Accept=application/json")
 	public ResponseArea ctHconApun(HttpServletRequest servletRqt, @RequestBody CtHconApunRqt rqt) {
-		BsHconApunArea area = new BsHconApunArea();
+		BsHconFormArea area = new BsHconFormArea();
+		area.IN.tipo = rqt.tipo;
+		area.IN.iden = rqt.iden;
 		area.IN.cate = rqt.cate;
 		area.IN.conc = rqt.conc;
 		area.IN.cuen = rqt.cuen;
@@ -40,11 +42,11 @@ public class CtHconApun extends BaseController {
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseBSArea a) throws Exception {
-		bsHconApun.executeBS(a);
+		bsHconForm.executeBS(a);
 	}
 	
 	public void output(BaseBSArea a, ResponseArea response) {
-		BsHconApunArea area = (BsHconApunArea)a;
+		BsHconFormArea area = (BsHconFormArea)a;
 		
 		response.OUTPUT.put("hcon", area.OUT.hcon);
 	}

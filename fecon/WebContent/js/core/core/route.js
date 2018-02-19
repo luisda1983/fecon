@@ -9,27 +9,27 @@ app.config(function($routeProvider) {
 	
 	$routeProvider
 		.when('/', {
-			templateUrl : 'pages/home.html?v.0.00.53',
+			templateUrl : 'pages/home.html?v.0.00.54',
 			controller  : 'homeCtrl'
 		})
 		.when('/lgon', {
-			templateUrl : 'pages/core/usua/usuaLgon.html?v.0.00.53',
+			templateUrl : 'pages/core/usua/usuaLgon.html?v.0.00.54',
 			controller  : 'usuaLgonCtrl'
 		})
 		.when('/logout', {
-			templateUrl : 'pages/core/usua/usuaLgon.html?v.0.00.53',
+			templateUrl : 'pages/core/usua/usuaLgon.html?v.0.00.54',
 			controller  : 'usuaExitCtrl'
 		})
 		.when('/usua/regi', {
-			templateUrl : 'pages/core/usua/usuaRegi.html?v.0.00.53',
+			templateUrl : 'pages/core/usua/usuaRegi.html?v.0.00.54',
 			controller  : 'usuaRegiCtrl'
 		})
 		.when('/avis/list', {
-			templateUrl : 'pages/core/avis/avisList.html?v.0.00.53',
+			templateUrl : 'pages/core/avis/avisList.html?v.0.00.54',
 			controller  : 'avisListCtrl'
 		})
 		.when('/invi/list', {
-			templateUrl : 'pages/core/invi/inviList.html?v.0.00.53',
+			templateUrl : 'pages/core/invi/inviList.html?v.0.00.54',
 			controller  : 'inviListCtrl'
 		})
 		.otherwise({

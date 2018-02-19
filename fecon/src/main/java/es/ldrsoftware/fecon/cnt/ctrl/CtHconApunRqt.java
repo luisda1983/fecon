@@ -4,6 +4,8 @@ import es.ldrsoftware.core.arq.data.BaseRequest;
 
 public class CtHconApunRqt extends BaseRequest {
 	
+	public String tipo;
+	public long iden;
 	public long cate;
 	public long conc;
 	public long cuen;

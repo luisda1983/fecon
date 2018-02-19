@@ -464,6 +464,7 @@ app.factory("ctxa", ['$q', function($q) {
 	//Contexto hconForm
 	function getHconFormCntx() {
 		var vForm = {
+			tipo : '',
 			iden : 0,
 			cate : 0,
 			conc : 0,
@@ -473,6 +474,7 @@ app.factory("ctxa", ['$q', function($q) {
 			desc : ''
 		};
 		var vShow = {
+			tipo: false,
 			iden: false,
 			cate: false,
 			conc: false,
@@ -482,6 +484,7 @@ app.factory("ctxa", ['$q', function($q) {
 			desc: false
 		};
 		var vRead = {
+			tipo: false,
 			iden: false,
 			cate: false,
 			conc: false,

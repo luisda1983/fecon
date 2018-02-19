@@ -9,59 +9,63 @@ app.config(function($routeProvider) {
 	
 	$routeProvider
 		.when('/cuen/list', {
-			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.53',
+			templateUrl : 'pages/appl/cuen/cuenList.html?v.0.00.54',
 			controller  : 'cuenListCtrl'
 		})
 		.when('/cuen/form', {
-			templateUrl : 'pages/appl/cuen/cuenForm.html?v.0.00.53',
+			templateUrl : 'pages/appl/cuen/cuenForm.html?v.0.00.54',
 			controller  : 'cuenFormCtrl'
 		})
 		.when('/cuen/cuad', {
-			templateUrl : 'pages/appl/cuen/cuenCuad.html?v.0.00.53',
+			templateUrl : 'pages/appl/cuen/cuenCuad.html?v.0.00.54',
 			controller  : 'cuenCuadCtrl'
 		})
 		.when('/cuen/tras/', {
-			templateUrl : 'pages/appl/cuen/cuenTras.html?v.0.00.53',
+			templateUrl : 'pages/appl/cuen/cuenTras.html?v.0.00.54',
 			controller  : 'cuenTrasCtrl'
 		})
 		.when('/pres/resu', {
-			templateUrl : 'pages/appl/pres/presResu.html?v.0.00.53',
+			templateUrl : 'pages/appl/pres/presResu.html?v.0.00.54',
 			controller  : 'presResuCtrl'
 		})
 		.when('/pres/anua', {
-			templateUrl : 'pages/appl/pres/presAnua.html?v.0.00.53',
+			templateUrl : 'pages/appl/pres/presAnua.html?v.0.00.54',
 			controller  : 'presAnuaCtrl'
 		})
 		.when('/pres/mesp', {
-			templateUrl : 'pages/appl/pres/presMesp.html?v.0.00.53',
+			templateUrl : 'pages/appl/pres/presMesp.html?v.0.00.54',
 			controller  : 'presMespCtrl'
 		})
 		.when('/pres/conc', {
-			templateUrl : 'pages/appl/pres/presConc.html?v.0.00.53',
+			templateUrl : 'pages/appl/pres/presConc.html?v.0.00.54',
 			controller  : 'presConcCtrl'
 		})
-		.when('/hcon/apun', {
-			templateUrl : 'pages/appl/hcon/hconForm.html?v.0.00.53',
+		.when('/hcon/apun', { //FIXME: cambiar en enlace en el menú y dejar el hcon-form
+			templateUrl : 'pages/appl/hcon/hconForm.html?v.0.00.54',
+			controller  : 'hconFormCtrl'
+		})
+		.when('/hcon/form', {
+			templateUrl : 'pages/appl/hcon/hconForm.html?v.0.00.54',
 			controller  : 'hconFormCtrl'
 		})
 		.when('/hcon/list/', {
-			templateUrl : 'pages/appl/hcon/hconList.html?v.0.00.53',
+			templateUrl : 'pages/appl/hcon/hconList.html?v.0.00.54',
 			controller  : 'hconListCtrl'
 		})
 		.when('/cate/list/', {
-			templateUrl : 'pages/appl/cate/cateList.html?v.0.00.53',
+			templateUrl : 'pages/appl/cate/cateList.html?v.0.00.54',
 			controller  : 'cateListCtrl'
 		})
 		.when('/cate/form', {
-			templateUrl : 'pages/appl/cate/cateForm.html?v.0.00.53',
+			templateUrl : 'pages/appl/cate/cateForm.html?v.0.00.54',
 			controller  : 'cateFormCtrl'
 		})
 		.when('/conc/list', {
-			templateUrl : 'pages/appl/conc/concList.html?v.0.00.53',
+			templateUrl : 'pages/appl/conc/concList.html?v.0.00.54',
 			controller  : 'concListCtrl'
 		})
 		.when('/conc/form', {
-			templateUrl : 'pages/appl/conc/concForm.html?v.0.00.53',
+			templateUrl : 'pages/appl/conc/concForm.html?v.0.00.54',
 			controller  : 'concFormCtrl'
 		})
 });

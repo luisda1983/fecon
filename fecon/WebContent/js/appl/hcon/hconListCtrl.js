@@ -40,6 +40,26 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		});
 	};
 
+	//Funcion que captura la modificación de un apunte
+	$scope.fnModi = function anul(indx) {
+		var hcon = $scope.cntx.data.hconList[indx];
+		var cntx = srv.getCntx('hcon/form');
+		cntx.form.iden = hcon.iden;
+		cntx.form.cate = hcon.cate;
+		cntx.form.conc = hcon.conc;
+		cntx.form.cuen = hcon.cuen;
+		cntx.form.impo = hcon.impo;
+		//FIXME: crear función de gestión de fechas
+		var year        = hcon.feva.toString().substring(0,4);
+		var month       = hcon.feva.toString().substring(4,6);
+		var day         = hcon.feva.toString().substring(6,8);
+		var date        = new Date(year, month-1, day);
+		cntx.form.feva = date;
+		cntx.form.desc = hcon.desc;
+		
+		srv.go('hcon/list', $scope.cntx, 'hcon/form', cntx);
+	};
+
 	//Funcion que excluye un apunte de su partida presupuestaria
 	$scope.fnExcl = function excl(indx) {
 		$scope.cntx.conf.iden = $scope.cntx.data.hconList[indx].iden;

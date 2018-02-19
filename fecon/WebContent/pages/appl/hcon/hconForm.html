@@ -11,6 +11,16 @@
 			<form name="apunForm" data-ng-submit="fnForm()">
 				<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
+						<md-input-container class="md-block" flex data-ng-show="cntx.show.tipo">
+							<label>Tipo de modificación</label>
+							<md-select ng-model="cntx.form.tipo" ng-disabled="cntx.read.tipo" ng-change="fnTipoChng()">
+								<md-option ng-repeat="tipo in cntx.data.ltHconmdtipo" ng-value="tipo.clav">{{tipo.desc}}</md-option>
+							</md-select>
+						</md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
 	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.cate">
 	                		<label>Categoria</label>
 							<md-select ng-model="cntx.form.cate" ng-disabled="cntx.read.cate" ng-change="fnConcChng()">
@@ -24,8 +34,8 @@
 	                        </md-select>
 	                    </md-input-container>
 					</div>
-					<div layout="row" layout-xs="column" flex data-ng-show="cntx.show.cuen">
-	                    <md-input-container class="md-block" flex>
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.cuen">
 	                    	<label>Cuenta</label>
 	                        <md-select ng-model="cntx.form.cuen" ng-disabled="cntx.read.cuen">
 	                        	<md-option ng-repeat="cuen in cntx.data.cuenList" ng-value="cuen.iden">{{cuen.desc}}</md-option>

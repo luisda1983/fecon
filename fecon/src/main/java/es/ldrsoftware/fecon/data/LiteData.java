@@ -19,4 +19,10 @@ public class LiteData {
 	public final static String LT_EL_HCONLTTIPO_MES       = "LT01";
 	public final static String LT_EL_HCONLTTIPO_CONC_ANUA = "LT02";
 	public final static String LT_EL_HCONLTTIPO_CONC_MES  = "LT03";
+	
+	public final static String LT_TB_HCONMDTIPO             = "HCONMDTIPO";
+	public final static String LT_EL_HCONMDTIPO_FECHA       = "MD01";
+	public final static String LT_EL_HCONMDTIPO_DESCRIPCION = "MD02";
+	public final static String LT_EL_HCONMDTIPO_IMPORTE     = "MD03";
+	public final static String LT_EL_HCONMDTIPO_CONCEPTO    = "MD04";
 }

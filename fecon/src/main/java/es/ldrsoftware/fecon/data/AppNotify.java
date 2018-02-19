@@ -76,6 +76,14 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-00036";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
 	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
+
+	public final static String HCON_MODI_TIPO_RQRD         = "HCON-00039";
+	public final static String HCON_MODI_FEVA_RQRD         = "HCON-00040";
+	public final static String HCON_MODI_TIPO_ERRO         = "HCON-00041";
+	public final static String HCON_MODI_IDEN_RQRD         = "HCON-00042";
+	public final static String HCON_MODI_HCON_NF           = "HCON-00043";
+	public final static String HCON_MODI_CHGN_NO           = "HCON-00044";
+	public final static String HCON_MODI_ERRO              = "HCON-00045";
 	
 	//Notificaciones del m�dulo CATE
 	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";

@@ -43,6 +43,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		//Mapeamos la lista de literales de aplicación al campo asociado al mismo y resolvemos el promise
 		     if (cntxLite.form.tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; cntx.data.ltMCuentipo   = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'HCONMDTIPO') { cntx.data.ltHconmdtipo = cntxLite.data.liteList; cntx.data.ltMHconmdtipo = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; cntx.data.ltMAnualidad  = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'MES')        { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.ltPresesta   = cntxLite.data.liteList; cntx.data.ltMPresesta   = cntxLite.data.liteMap; d.resolve(); }
@@ -376,9 +377,10 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			fmtFeva = (yf*10000)+(mf*100)+df;
 		}
 		
-		//TODO: meter el iden para permitir la edición
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),
+			tipo: cntx.form.tipo,
+			iden: parseInt(cntx.form.iden),
 			cuen: parseInt(cntx.form.cuen),
 			cate: parseInt(cntx.form.cate),
 			conc: parseInt(cntx.form.conc),
