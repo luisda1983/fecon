@@ -16,13 +16,13 @@ public class BsInviAcep extends BaseBS {
 	private BsInviSave bsInviSave;
 	
 	@Autowired
-	private BsInviGet  bsInviGet;
+	private BsInviGetk  bsInviGet;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviAcepArea area = (BsInviAcepArea)a;
 	
-		//Consultamos la invitación
-		BsInviGetArea bsInviGetArea = new BsInviGetArea();
+		//Consultamos la invitaciï¿½n
+		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
 		bsInviGetArea.IN.iden = area.IN.iden;
 		bsInviGet.executeBS(bsInviGetArea);
 		

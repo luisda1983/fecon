@@ -208,7 +208,6 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	// PUBLIC: srv.back: Función encargada de realizar la transición de retorno a la vista anterior.               //
 	//*************************************************************************************************************//
 	function back(keep) {
-		alert(cntxData.backPath);
 		if (cntxData.backPath !== null) {
 			if (keep){
 				$rootScope.esta.doingBack = true;
@@ -218,13 +217,41 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	}
 
 	//*************************************************************************************************************//
+	// PUBLIC: srv.goTran: Función que indica si hemos realizado una transición con estado.                        //
+	//*************************************************************************************************************//
+	function goTran() {
+		return cntxData.goData !== null;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: srv.backTran: Función que indica si hemos realizado una transición de retorno con estado.           //
+	//*************************************************************************************************************//
+	function backTran() {
+		return cntxData.backData !== null;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: srv.getOrigView: Función que devuelve el origen de una transición.                                  //
+	//*************************************************************************************************************//
+	function getOrigView() {
+		return cntxData.backPath;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: srv.getDestView: Función que devuelve el origen de una transición de retorno.                       //
+	//*************************************************************************************************************//
+	function getDestView() {
+		return cntxData.goPath;
+	}
+
+	//*************************************************************************************************************//
 	// PRIVATE: showNotify: Constructor del mdDialog que muestra las notificaciones.                               //
 	//*************************************************************************************************************//
 	function showNotify(notf) {
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.52',
+					templateUrl: 'pages/core/notify.html?v.0.00.53',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -309,12 +336,17 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	// INTERFAZ PUBLICA SRV: Funciones que ofrece el servicio FrontEnd srv.                                        //
 	//*************************************************************************************************************//
 	return {
-		call   : call,
-		stResp : stResp,  //Gestión estándar de respuestas a servicios
-		getData: getData, //Obtención de los datos de respuesta del servicio
-		getCntx: getCntx, //Función encaargada de la gestión de contextos de vistas
-		go     : go,      //Función de transición entre vistas.
-		back   : back     //Función de transición de retorno
+		call       : call,
+		stResp     : stResp,        //Gestión estándar de respuestas a servicios
+		getData    : getData,       //Obtención de los datos de respuesta del servicio
+		getCntx    : getCntx,       //Función encaargada de la gestión de contextos de vistas
+		go         : go,            //Función de transición entre vistas.
+		back       : back,          //Función de transición de retorno
+		getOrigView: getOrigView,   //Función que devuelve la vista desde la que hacemos una transición
+		getDestView: getDestView,   //Función que devuelve la vista desde la que hacemos una transición de retorno
+		//Funciones de consulta de indicadores de estado
+		goTran     : goTran,        //Indica si estamos haciendo una transición con estado
+		backTran   : backTran       //Indica si estamos haciendo un retorno con estado
 	};
 }]);
 

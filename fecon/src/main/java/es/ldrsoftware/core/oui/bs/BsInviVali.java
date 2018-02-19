@@ -13,13 +13,13 @@ import es.ldrsoftware.core.oui.entity.Invi;
 public class BsInviVali extends BaseBS {
 	
 	@Autowired
-	private BsInviGet bsInviGet;
+	private BsInviGetk bsInviGet;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviValiArea area = (BsInviValiArea)a;
 	
-		//Obtenemos la invitación
-		BsInviGetArea bsInviGetArea = new BsInviGetArea();
+		//Obtenemos la invitaciï¿½n
+		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
 		bsInviGetArea.IN.iden = area.IN.iden;
 		bsInviGet.executeBS(bsInviGetArea);
 		

@@ -1,3 +1,4 @@
+//Normalizado
 package es.ldrsoftware.core.oui.bs;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,27 +7,27 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
-import es.ldrsoftware.core.oui.entity.Invi;
-import es.ldrsoftware.core.oui.entity.InviDAO;
+import es.ldrsoftware.core.oui.entity.Usua;
+import es.ldrsoftware.core.oui.entity.UsuaDAO;
 
 @Component
-public class BsInviGet extends BaseBS {
-	
+public class BsUsuaGetk extends BaseBS {
+
 	@Autowired
-	public InviDAO inviDao;
+	private UsuaDAO usuaDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsInviGetArea area = (BsInviGetArea)a;
-	
-		Invi invi = inviDao.getByIden(area.IN.iden);
+		BsUsuaGetkArea area = (BsUsuaGetkArea)a;
 		
-		area.OUT.invi = invi;
+		Usua usua = usuaDao.getByIden(area.IN.iden);
+		
+		area.OUT.usua = usua;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsInviGetArea area = (BsInviGetArea)a;
+		BsUsuaGetkArea area = (BsUsuaGetkArea)a;
 		
-		validateStringRequired(area.IN.iden, CoreNotify.INVI_GETI_IDEN_RQRD);
-
+		validateStringRequired(area.IN.iden, CoreNotify.USUA_GETK_IDEN_RQRD);
+		
 	}
 }

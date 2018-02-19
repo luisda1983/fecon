@@ -44,7 +44,7 @@ public class BsSesiOpen extends BaseBS {
 		sesi.setFeul(SESSION.get().feop);
 		sesi.setHoul(SESSION.get().hoop);
 		
-		//Recuperamos el parámetro de configuración de periodo de renovación de sesión
+		//Recuperamos el parï¿½metro de configuraciï¿½n de periodo de renovaciï¿½n de sesiï¿½n
 		BsParaGetArea paraGetArea = new BsParaGetArea();
 		paraGetArea.IN.tbla = ParaData.PARA_TBLA_FPER;
 		paraGetArea.IN.clav = ParaData.PARA_ELEM_FPER_RSES;
@@ -59,9 +59,9 @@ public class BsSesiOpen extends BaseBS {
 		sesi.setFeca(dataOut.fech);
 		sesi.setHoca(dataOut.hora);
 				
-		//TODO: renovación de clave externa con su propio parámetro
+		//TODO: renovaciï¿½n de clave externa con su propio parï¿½metro
 		
-		sesiDao.save(sesi);
+		sesi = sesiDao.save(sesi);
 		
 		area.OUT.sesi = sesi;
 	}
@@ -72,7 +72,7 @@ public class BsSesiOpen extends BaseBS {
 		if (area.IN.usua == null || "".equals(area.IN.usua)) { notify(CoreNotify.SESI_OPEN_USUA_RQRD); }
 		if (area.IN.perf == null || "".equals(area.IN.perf)) { notify(CoreNotify.SESI_OPEN_PERF_RQRD); }
 		
-		//No se valida el campo de entrada inst, porque se permite abrir sesión sin instalación asignada en multi-instalación
+		//No se valida el campo de entrada inst, porque se permite abrir sesiï¿½n sin instalaciï¿½n asignada en multi-instalaciï¿½n
 	}
 
 }

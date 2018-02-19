@@ -14,6 +14,7 @@ import es.ldrsoftware.core.fwk.bs.BsRelaList;
 import es.ldrsoftware.core.fwk.bs.BsRelaListArea;
 import es.ldrsoftware.core.fwk.bs.BsSesiOpen;
 import es.ldrsoftware.core.fwk.bs.BsSesiOpenArea;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.PVConfigmlti;
 import es.ldrsoftware.core.fwk.data.ParaData;
 import es.ldrsoftware.core.fwk.entity.Para;
@@ -25,7 +26,7 @@ import es.ldrsoftware.core.oui.entity.Usua;
 public class BsUsuaLgon extends BaseBS {
 
 	@Autowired
-	private BsUsuaGet bsUsuaGet;
+	private BsUsuaGetk bsUsuaGet;
 
 	@Autowired
 	private BsUsuaSave bsUsuaSave;
@@ -37,7 +38,7 @@ public class BsUsuaLgon extends BaseBS {
 	private BsSesiOpen bsSesiOpen;
 
 	@Autowired
-	private BsInstGet  bsInstGet;
+	private BsInstGetk  bsInstGet;
 
 	@Autowired
 	private BsInstSave bsInstSave;
@@ -49,22 +50,22 @@ public class BsUsuaLgon extends BaseBS {
 		BsUsuaLgonArea area = (BsUsuaLgonArea)a;
 		
 		//Obtenemos el usuario de la BBDD
-		BsUsuaGetArea bsUsuaGetArea = new BsUsuaGetArea();
-		bsUsuaGetArea.IN.iden = area.IN.iden;
-		bsUsuaGet.executeBS(bsUsuaGetArea);
+		BsUsuaGetkArea bsUsuaGetkArea = new BsUsuaGetkArea();
+		bsUsuaGetkArea.IN.iden = area.IN.iden;
+		bsUsuaGet.executeBS(bsUsuaGetkArea);
 		
-		Usua usua = bsUsuaGetArea.OUT.usua;
-		
-		//Validamos su existencia
-		if (usua == null) { notify(CoreNotify.USUA_LGON_USUA_NF); }
-		
-		//Validamos que el password introducido coindide
-		if (!area.IN.pass.equals(usua.getPass())) { notify(CoreNotify.USUA_LGON_PASS_ERRO); }
+		Usua usua = bsUsuaGetkArea.OUT.usua;
+	
+		//Validamos que exista el usuario
+		validateDto(usua, CoreNotify.USUA_LGON_USUA_NF);
 
-		//Validamos que se encuentre activo
-		if (!"S".equals(usua.getActi())) { notify(CoreNotify.USUA_LGON_ACTI_NO); }
+		//Validamos que el password introducido coindide
+		validateStringEqual(area.IN.pass, usua.getPass(), CoreNotify.USUA_LGON_PASS_ERRO);
+		
+		//Validamos que el usuario se encuentre activo
+		validateStringEqual(LiteData.LT_EL_BOOL_SI, usua.getActi(), CoreNotify.USUA_LGON_ACTI_NO);
 				
-		//Actualizamos la ˙ltima actividad del usuario
+		//Actualizamos la  √∫ltima actividad del usuario
 		usua.setFeul(SESSION.get().feop);
 		usua.setHoul(SESSION.get().hoop);
 		
@@ -73,10 +74,12 @@ public class BsUsuaLgon extends BaseBS {
 		bsUsuaSaveArea.IN.usua = usua;
 		bsUsuaSave.executeBS(bsUsuaSaveArea);
 		
+		usua = bsUsuaSaveArea.OUT.usua;
+		
 		long instIden = 0;
 		
-		//El perfil APM no se encuentra asociado a ninguna instalaciÛn
-		if (!"APM".equals(usua.getPerf())) {
+		//El perfil APM no se encuentra asociado a ninguna instalaci√≥n
+		if (!testStringEqual(LiteData.LT_EL_USUAPERF_APM, usua.getPerf())) {
 			
 			//Consultamos las relaciones INST-USUA
 			BsRelaListArea bsRelaListArea = new BsRelaListArea();
@@ -86,10 +89,10 @@ public class BsUsuaLgon extends BaseBS {
 			
 			List<Rela> relaList = bsRelaListArea.OUT.relaList;
 			
-			//Validamos que el usuario estÈ relacionado a alguna instalaciÛn
-			if (relaList == null || relaList.size() == 0) { notify(CoreNotify.USUA_LGON_INST_NO); }
+			//Validamos que el usuario est√© relacionado a alguna instalaci√≥n
+			validateListRequired(relaList, CoreNotify.USUA_LGON_RELA_INST_NF);
 			
-			//Obtenemos el par·metro multiinstalaciÛn
+			//Obtenemos el par√°metro multiinstalaci√≥n
 			BsParaGetArea bsParaGetArea = new BsParaGetArea();
 			bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
 			bsParaGetArea.IN.clav = ParaData.PARA_ELEM_APCF_MLTI;
@@ -98,31 +101,31 @@ public class BsUsuaLgon extends BaseBS {
 			Para para = bsParaGetArea.OUT.para;
 			PVConfigmlti pvConfigmlti = (PVConfigmlti) para.getPval();
 			
-			//Tratamiento de logon en modo instalaciÛn ˙nica: abrimos directamente en la instalaciÛn asociada
-			if (!"S".equals(pvConfigmlti.mlti)) {
-				//Validamos que no exista m·s de una instalaciÛn si el par·metro est· desactivado
-				if (relaList.size() > 1) { notify(CoreNotify.USUA_LGON_INST_MLTI_NO); }
+			//Tratamiento de logon en modo instalaci√≥n √∫nica: abrimos directamente en la instalaci√≥n asociada
+			if (!testStringEqual(LiteData.LT_EL_BOOL_SI, pvConfigmlti.mlti)) {
+				//Validamos que no exista m√°s de una instalaci√≥n si el par√°metro est√° desactivado
+				validateListSize(relaList, 1, CoreNotify.USUA_LGON_INST_MLTI_NO);
 				
-				//Obenemos la instalaciÛn asociada al usuario
-				BsInstGetArea bsInstGetArea = new BsInstGetArea();
+				//Obenemos la instalaci√≥n asociada al usuario
+				BsInstGetkArea bsInstGetArea = new BsInstGetkArea();
 				bsInstGetArea.IN.iden = relaList.get(0).getCln1();
 				bsInstGet.executeBS(bsInstGetArea);
 				
 				Inst inst = bsInstGetArea.OUT.inst;
 				
-				//Validamos su existencia
-				if (inst == null) { notify(CoreNotify.USUA_LGON_INST_NF); }
+				//Validamos que la instalaci√≥n exista
+				validateDto(inst, CoreNotify.USUA_LGON_INST_NF);
 				
 				//Validamos que se encuentre activa
-				if (!"A".equals(inst.getEsta())) { notify(CoreNotify.USUA_LGON_INST_ACTI_NO); }
+				validateStringEqual(LiteData.LT_EL_INSTESTA_ACTIVA, inst.getEsta(), CoreNotify.USUA_LGON_INST_ACTI_NO);
 				
-				//Nos guardamos el identificador de la instalaciÛn, para la apertura de sesiÛn
+				//Nos guardamos el identificador de la instalaci√≥n, para la apertura de sesi√≥n
 				instIden = inst.getIden();
 				
-				//Actualizamos la ˙ltima actividad de la instalaciÛn
+				//Actualizamos la √∫ltima actividad de la instalaci√≥n
 				inst.setFeul(SESSION.get().feop);
 				
-				//Guardamos la instalaciÛn en BBDD
+				//Guardamos la instalaci√≥n en BBDD
 				BsInstSaveArea bsInstSaveArea = new BsInstSaveArea();
 				bsInstSaveArea.IN.inst = inst;
 				bsInstSave.executeBS(bsInstSaveArea);
@@ -142,9 +145,8 @@ public class BsUsuaLgon extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsUsuaLgonArea area = (BsUsuaLgonArea)a;
-		
-		if (area.IN.iden == null || "".equals(area.IN.iden)) { notify(CoreNotify.USUA_LGON_IDEN_RQRD); }
-		if (area.IN.pass == null || "".equals(area.IN.pass)) { notify(CoreNotify.USUA_LGON_PASS_RQRD); }
-		
+
+		validateStringRequired(area.IN.iden, CoreNotify.USUA_LGON_IDEN_RQRD);
+		validateStringRequired(area.IN.pass, CoreNotify.USUA_LGON_PASS_RQRD);
 	}
 }

@@ -1,43 +1,44 @@
 <div flex layout="row" layout-align="center center" layout-padding>
 	<div flex-xl="20" flex-lg="35" flex-md="60" flex-sm="70" flex-xs="100" class="md-whiteframe-z4">
-		<md-content class="md-padding" data-ng-show="cntx.data.prConfregist.pval.esta === 'C'">
+		<md-content class="md-padding" data-ng-show="cntx.data.get('prConfregist').pval.esta === 'C'">
 			<p>El registro en la aplicación se encuentra temporalmente cerrado.</p>
 			<p>Para nosotros es innegociable maximizar el rendimiento y la experiencia de nuestros usuarios, por lo que hemos restringido el alta de nuevos miembros mientras trabajamos en ampliar la capacidad de nuestros servidores.</p>
 			<p>Muchas gracias.</p>
 		</md-content>
-		<md-content class="md-padding" data-ng-show="cntx.data.prConfregist.pval.esta !== 'C'">
-			<p data-ng-show="cntx.data.prConfregist.pval.esta === 'I'">Registro solo permitido por invitación.</p> 
-			<p data-ng-show="cntx.data.prConfregist.pval.esta === 'I' && cntx.conf.mode === 'S'">Puede solicitar una introduciendo su email. Si ya dispone de invitación, pulse registrar.</p>
-			<p data-ng-show="cntx.data.prConfregist.pval.esta === 'I' && cntx.conf.mode === 'I'">Introduzca código de invitación.</p>
-			<p data-ng-show="cntx.data.prConfregist.pval.esta === 'I' && cntx.conf.mode === 'V'">Invitación correcta. Regístrese.</p>
+		<md-content class="md-padding" data-ng-show="cntx.data.get('prConfregist').pval.esta !== 'C'">
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I'">Registro solo permitido por invitación.</p> 
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'S'">Puede solicitar una introduciendo su email. Si ya dispone de invitación, pulse registrar.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'I'">Introduzca código de invitación.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'V'">Invitación correcta. Regístrese.</p>
 			<form name ="inviForm">
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.invi">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('invi').show">
 					<label>Invitación:</label>
-					<input ng-model="cntx.form.invi" ng-readonly="cntx.read.invi">
+					<input ng-model="cntx.form.get('invi').data" ng-readonly="cntx.form.get('invi').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.mail">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('mail').show">
 					<label>Email:</label>
-					<input ng-model="cntx.form.mail">
+					<input ng-model="cntx.form.get('mail').data" ng-readonly="cntx.form.get('mail').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.desc">
-					<label>{{cntx.form.ldes}}:</label>
-					<input ng-model="cntx.form.desc">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('desc').show">
+					<label>{{cntx.form.get('ldes').data}}:</label>
+					<input ng-model="cntx.form.get('desc').data" ng-readonly="cntx.form.get('desc').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.usua">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('usua').show">
 					<label>Usuario:</label>
-					<input ng-model="cntx.form.usua">
+					<input ng-model="cntx.form.get('usua').data" ng-readonly="cntx.form.get('usua').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.pass">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('pass').show">
 					<label>Password:</label>
-					<input type="password" ng-model="cntx.form.pass">
+					<input type="password" ng-model="cntx.form.get('pass').data" ng-readonly="cntx.form.get('pass').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.show.cpas">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('cpas').show">
 					<label>Confirmar Password:</label>
-					<input type="password" ng-model="cntx.form.cpas">
+					<input type="password" ng-model="cntx.form.get('cpas').data" ng-readonly="cntx.form.get('cpas').read">
 				</md-input-container>
 				<div layout="row" layout-align="center center">
-                    <md-button ng-click="fnSoli()" class="md-raised md-primary" aria-label="Solicitar" data-ng-show="cntx.show.soli">Solicitar</md-button>
-                    <md-button ng-click="fnRegi()" class="md-raised md-primary" aria-label="Registrar" data-ng-show="cntx.show.regi">Registrar</md-button>
+                    <md-button ng-click="fnSoli()" class="md-raised md-primary" aria-label="Solicitar" data-ng-show="cntx.form.get('btSoli').show">{{cntx.form.get('btSoli').data}}</md-button>
+                    <md-button ng-click="fnRegi()" class="md-raised md-primary" aria-label="Registrar" data-ng-show="cntx.form.get('btRegi').show">{{cntx.form.get('btRegi').data}}</md-button>
+                    <md-button ng-click="fnCanc()" class="md-raised md-primary" aria-label="Cancelar"  data-ng-show="cntx.form.get('btCanc').show">{{cntx.form.get('btCanc').data}}</md-button>
                 </div>
 			</form>
 		</md-content>

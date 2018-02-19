@@ -12,8 +12,11 @@ import es.ldrsoftware.core.oui.entity.Usua;
 public class BsUsuaRegi extends BaseBS {
 
 	@Autowired
-	private BsUsuaGet bsUsuaGet;
+	private BsUsuaGetk bsUsuaGet;
 
+	@Autowired
+	private BsUsuaGetm bsUsuaGetm;
+	
 	@Autowired
 	private BsUsuaSave bsUsuaSave;
 	
@@ -21,20 +24,20 @@ public class BsUsuaRegi extends BaseBS {
 		BsUsuaRegiArea area = (BsUsuaRegiArea)a;
 		
 		//Obtenemos el usuario de la BBDD
-		BsUsuaGetArea bsUsuaGetArea = new BsUsuaGetArea();
-		bsUsuaGetArea.IN.iden = area.IN.iden;
-		bsUsuaGet.executeBS(bsUsuaGetArea);
+		BsUsuaGetkArea bsUsuaGetkArea = new BsUsuaGetkArea();
+		bsUsuaGetkArea.IN.iden = area.IN.iden;
+		bsUsuaGet.executeBS(bsUsuaGetkArea);
 		
-		Usua usua = bsUsuaGetArea.OUT.usua;
+		Usua usua = bsUsuaGetkArea.OUT.usua;
 		
 		//Validamos que no existe usuario con el mismo identificador
 		if (usua != null) { notify(CoreNotify.USUA_REGI_IDEN_DP); }
 		
-		bsUsuaGetArea = new BsUsuaGetArea();
-		bsUsuaGetArea.IN.mail = area.IN.mail;
-		bsUsuaGet.executeBS(bsUsuaGetArea);
+		BsUsuaGetmArea bsUsuaGetmArea = new BsUsuaGetmArea();
+		bsUsuaGetmArea.IN.mail = area.IN.mail;
+		bsUsuaGetm.executeBS(bsUsuaGetmArea);
 		
-		usua = bsUsuaGetArea.OUT.usua;
+		usua = bsUsuaGetmArea.OUT.usua;
 		
 		if (usua != null) { notify(CoreNotify.USUA_REGI_MAIL_DP); }
 		

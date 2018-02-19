@@ -1,7 +1,7 @@
 //Factory que encapsula la gestión de contexto de la aplicación
 //TODO: en pres/conc... he visto que en el data no es necesario definir el detalle... al llamar a comc, se añade el 
 //      atributo y se tiene visibilidad... analizar si se puede eliminar el detalle siempre
-app.factory("cntx", ['$q', 'ctxa', function($q, ctxa) {
+app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	
 	//*************************************************************************************************************//
 	// PUBLIC: getCntx: Función para la generación de vistas.                                                      //
@@ -13,14 +13,14 @@ app.factory("cntx", ['$q', 'ctxa', function($q, ctxa) {
 		//Buscamos la vista para devolver su contexto.
 		     if (view === 'avis/list') { return getAvisListCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
-		else if (view === 'usua/lgon') { return getUsuaLgonCntx(); }
+		else if (view === '/lgon')     { return getLgonCntx();     }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		else {
 			//En caso de no encontrarla, buscamos entre las vistas de la aplicación
 			return ctxa.getCntx(view);
 		}
 	}
-
+	
 	//*************************************************************************************************************//
 	// INTERFAZ PUBLICA CNTX: Funciones que ofrece el servicio cntx.                                               //
 	//*************************************************************************************************************//
@@ -91,82 +91,29 @@ app.factory("cntx", ['$q', 'ctxa', function($q, ctxa) {
 	}
 
 	//Contexto usuaLgon
-	function getUsuaLgonCntx() {
-		var vForm = {
-			iden: '',
-			pass: ''
-		};
-		var vShow = {
-			iden: false,
-			pass: false
-		};
-		var vRead = {
-			iden: false,
-			pass: false
-		};
-		var vData = {
-			invi: null,
-			usua: null
-		};
-		var vConf = {
-			mode: '',
-			vali: false,
-			invi: false
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+	//*************************************************************************************************************//
+	// Contexto: /lgon - Login de usuario.                                                                         //
+	//*************************************************************************************************************//
+	function getLgonCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(''));
+		cntx.form.set('pass', ctxl.makeField(''));
 		return cntx;
 	}
 
 	//Contexto usuaRegi
 	function getUsuaRegiCntx() {
-		var vForm = {
-			invi : '',
-			mail : '',
-			desc : '',
-			ldes : '',
-			usua : '',
-			pass : '',
-			cpas : ''
-		};
-		var vShow = {
-			invi : false,
-			mail : false,
-			desc : false,
-			usua : false,
-			pass : false,
-			cpas : false,
-			btRegi : false,
-			btSoli : false
-		};
-		var vRead = {
-			invi : false,
-			mail : false,
-			desc : false,
-			usua : false,
-			pass : false,
-			cpas : false,
-		};
-		var vData = {
-			sesi: null,
-			prConfregist: null,
-			prReginvdesc: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('invi', ctxl.makeField(''));
+		cntx.form.set('mail', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('ldes', ctxl.makeLabel(''));
+		cntx.form.set('usua', ctxl.makeField(''));
+		cntx.form.set('pass', ctxl.makeField(''));
+		cntx.form.set('cpas', ctxl.makeField(''));
+		cntx.form.set('btRegi', ctxl.makeBtn('Registrar'));
+		cntx.form.set('btSoli', ctxl.makeBtn('Solicitar'));
+		cntx.form.set('btCanc', ctxl.makeBtn('Cancelar'));
 		return cntx;
 	}
 }]);

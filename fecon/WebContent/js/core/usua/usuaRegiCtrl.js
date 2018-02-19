@@ -1,161 +1,216 @@
-app.controller('usuaRegiCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('usua/regi');
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	var srv1 = comc.requestParaGet('C', 'APLICONFIG', 'CONFREGIST', $scope.cntx);
-	var srv2 = comc.requestParaGet('C', 'DYNAMICFLD', 'REGINVDESC', $scope.cntx);
-	
-	$q.all([srv.stResp(true, srv1, srv2)]).then(function() { 
-		view();
-	});
-	
-	//Captura el evento de solitud de de invitación
-	$scope.fnSoli = function() {
-		if ($scope.cntx.conf.mode === 'I') {
-			$scope.cntx.conf.mode = 'S';
-			//$scope.cntx.conf.soli = true;
-			$scope.cntx.conf.vali = false;
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		inicForm();
+		
+		var srv1 = comc.requestParaGet('C', 'APLICONFIG', 'CONFREGIST', $scope.cntx);
+		var srv2 = comc.requestParaGet('C', 'DYNAMICFLD', 'REGINVDESC', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1, srv2)]).then(function() {
+			var prConfregist = $scope.cntx.data.get('prConfregist');
+			if (prConfregist.pval.esta === 'C') {
+				$scope.cntx.conf.set('mode', 'C');
+			} else if (prConfregist.pval.esta === 'L') {
+				$scope.cntx.conf.set('mode', 'L');
+			} else if (prConfregist.pval.esta === 'I') {
+				$scope.cntx.conf.set('mode', 'S');
+			} else {
+				$scope.cntx.conf.set('mode', 'C');
+			}
 			view();
-		} else if ($scope.cntx.conf.mode === 'S') {
+		});
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		//Sin acciones adicionales
+	}
+	
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'I': Esperamos código de invitación para ser validad.                                                     //
+	// - 'S': Solicitud de invitación.                                                                             //
+	// - 'V': Invitación validada.                                                                                 //
+	// - 'L': Registro libre, sin invitación.                                                                      //
+	// - 'C': Registro cerrado.                                                                                    //
+	//*************************************************************************************************************//
+	function view() {	
+		if ($scope.cntx.conf.get('mode') === 'C') {
+			ctxl.formField($scope.cntx, 'invi', false, true);
+			ctxl.formField($scope.cntx, 'mail', false, true);
+			ctxl.formField($scope.cntx, 'desc', false, true);
+			ctxl.formField($scope.cntx, 'usua', false, true);
+			ctxl.formField($scope.cntx, 'pass', false, true);
+			ctxl.formField($scope.cntx, 'cpas', false, true);
+			ctxl.formBtn($scope.cntx, 'btRegi', false);
+			ctxl.formBtn($scope.cntx, 'btSoli', false);
+			ctxl.formBtn($scope.cntx, 'btCanc', false);
+		} else if ($scope.cntx.conf.get('mode') === 'L') {
+			ctxl.formField($scope.cntx, 'invi', false, true);
+			ctxl.formField($scope.cntx, 'mail', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'usua', true, false);
+			ctxl.formField($scope.cntx, 'pass', true, false);
+			ctxl.formField($scope.cntx, 'cpas', true, false);
+			ctxl.formBtn($scope.cntx, 'btRegi', true);
+			ctxl.formBtn($scope.cntx, 'btSoli', false);
+			ctxl.formBtn($scope.cntx, 'btCanc', false);
+		} else if ($scope.cntx.conf.get('mode') === 'V') {
+			ctxl.formField($scope.cntx, 'invi', true, true);
+			ctxl.formField($scope.cntx, 'mail', true, true);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'usua', true, false);
+			ctxl.formField($scope.cntx, 'pass', true, false);
+			ctxl.formField($scope.cntx, 'cpas', true, false);
+			ctxl.formBtn($scope.cntx, 'btRegi', true);
+			ctxl.formBtn($scope.cntx, 'btSoli', false);
+			ctxl.formBtn($scope.cntx, 'btCanc', true);
+		} else if ($scope.cntx.conf.get('mode') === 'S') {
+			ctxl.formField($scope.cntx, 'invi', false, true);
+			ctxl.formField($scope.cntx, 'mail', true, false);
+			ctxl.formField($scope.cntx, 'desc', false, true);
+			ctxl.formField($scope.cntx, 'usua', false, true);
+			ctxl.formField($scope.cntx, 'pass', false, true);
+			ctxl.formField($scope.cntx, 'cpas', false, true);
+			ctxl.formBtn($scope.cntx, 'btRegi', true);
+			ctxl.formBtn($scope.cntx, 'btSoli', true);
+			ctxl.formBtn($scope.cntx, 'btCanc', false);
+		} else if ($scope.cntx.conf.get('mode') === 'I') {
+			ctxl.formField($scope.cntx, 'invi', true, false);
+			ctxl.formField($scope.cntx, 'mail', false, true);
+			ctxl.formField($scope.cntx, 'desc', false, true);
+			ctxl.formField($scope.cntx, 'usua', false, true);
+			ctxl.formField($scope.cntx, 'pass', false, true);
+			ctxl.formField($scope.cntx, 'cpas', false, true);
+			ctxl.formBtn($scope.cntx, 'btRegi', true);
+			ctxl.formBtn($scope.cntx, 'btSoli', false);
+			ctxl.formBtn($scope.cntx, 'btCanc', true);
+		}
+
+		//El campo de descripción, se muestra según el parámetro DYNAMICFLD-REGINVDESC, con su texto asociado
+		if ($scope.cntx.form.get('desc').show) {
+			var prReginvdesc = $scope.cntx.data.get('prReginvdesc');
+			if (prReginvdesc.pval.show === 'S') {
+				$scope.cntx.form.get('ldes').data = prReginvdesc.pval.name;
+			} else {
+				ctxl.formField($scope.cntx, 'desc', false, true);
+				$scope.cntx.form.get('ldes').data = '';
+			}
+		}		
+	}
+	
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('invi').data = '';
+		$scope.cntx.form.get('mail').data = '';
+		$scope.cntx.form.get('desc').data = '';
+		$scope.cntx.form.get('usua').data = '';
+		$scope.cntx.form.get('pass').data = '';
+		$scope.cntx.form.get('cpas').data = '';
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de solicitud de invitación.                                                              //
+	//*************************************************************************************************************//
+	$scope.fnSoli = function() {
+		if ($scope.cntx.conf.get('mode') === 'S') {
 			var srv1 = comc.request('invi/soli', $scope.cntx);
 			$q.all([srv.stResp(true, srv1)]).then(function() {
-				$scope.cntx.form.invi = '';
-				$scope.cntx.form.mail = '';
-				$scope.cntx.form.desc = '';
-				$scope.cntx.form.ldes = '';
-				$scope.cntx.form.usua = '';
-				$scope.cntx.form.pass = '';
-				$scope.cntx.form.cpas = '';
-				$scope.cntx.conf.mode = '';
-				view();
+				inicForm();
 			});
 		}
 	};
 
-	//Captura el evento de registro
+	//*************************************************************************************************************//
+	// Captura del evento de registro.                                                                             //
+	//*************************************************************************************************************//
 	$scope.fnRegi = function() {
-		if ($scope.cntx.conf.mode === 'S') {
-			$scope.cntx.conf.invi = true;
-			$scope.cntx.conf.vali = false;
+		if ($scope.cntx.conf.get('mode') === 'S') {
+			$scope.cntx.conf.set('mode', 'I');
 			view();
-		} else if ($scope.cntx.conf.mode === 'I') {
+		} else if ($scope.cntx.conf.get('mode') === 'I') {
 			var srv1 = comc.request('invi/vali', $scope.cntx);
 			$q.all([srv.stResp(true, srv1)]).then(function() {
-				$scope.cntx.conf.invi = true;
-				$scope.cntx.conf.vali = true;
+				$scope.cntx.form.get('mail').data = $scope.cntx.data.get('invi').mail;
+				$scope.cntx.conf.set('mode', 'V');
 				view();
 			})
-		} else if ($scope.cntx.conf.mode === 'V') {
-			if ($scope.cntx.data.invi.tipo === 'I') {
+		} else if ($scope.cntx.conf.get('mode') === 'V') {
+			if ($scope.cntx.data.get('invi').tipo === 'I') {
 				var srv1 = comc.request('invi/proc', cntx);
 				$q.all([srv.stResp(true, srv1)]).then(function() {
-					//TODO
-					//Hacer login
+					var lgonCntx = srv.getCntx('/lgon');
+					lgonCntx.form.get('iden').data = $scope.cntx.form.get('usua').data;
+					lgonCntx.form.get('pass').data = $scope.cntx.form.get('pass').data;
+					alert(lgonCntx.form.get('iden').data);
+					srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
 				})
 			} else {
-				//TODO: login de usuario
+				//TODO: registros de usuario
 			}
 		}
+		//TODO: registro libre
 	}
-	
-	//Función de manejo de vista
-	function view() {
-		
-		//Tenemos 5 modos de vista:
-		// + I: Esperamos codigo de invitación para ser validada.
-		// + S: Solicitamos invitación.
-		// + V: Invitación validada, se permite registro
-		// + L: Se permite registro sin invitación
-		// + C: No se permite registro
-		if ($scope.cntx.data.prConfregist.pval.esta === 'C') {
-			$scope.cntx.conf.mode = 'C';
-		} else if ($scope.cntx.data.prConfregist.pval.esta === 'L') {
-			$scope.cntx.conf.mode = 'L';
-		} else if ($scope.cntx.data.prConfregist.pval.esta === 'I') {
-			if ($scope.cntx.conf.invi === true) {
-				if ($scope.cntx.conf.vali === true) {
-					$scope.cntx.conf.mode = 'V';
-				} else {
-					$scope.cntx.conf.mode = 'I';
-				}
-			} else {
-				$scope.cntx.conf.mode = 'S';
-			}
-		} else {
-			$scope.cntx.conf.mode = 'C';
-		}
-		
-		if ($scope.cntx.conf.mode === 'C') {
-			$scope.cntx.show.invi = false;
-			$scope.cntx.show.mail = false;
-			$scope.cntx.show.desc = false;
-			$scope.cntx.show.usua = false;
-			$scope.cntx.show.pass = false;
-			$scope.cntx.show.cpas = false;
-			$scope.cntx.show.regi = false;
-			$scope.cntx.show.soli = false;
-			
-			$scope.cntx.read.invi = false;
-			
-		} else if ($scope.cntx.conf.mode === 'L') {
-			$scope.cntx.show.invi = false;
-			$scope.cntx.show.mail = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.usua = true;
-			$scope.cntx.show.pass = true;
-			$scope.cntx.show.cpas = true;
-			$scope.cntx.show.regi = true;
-			$scope.cntx.show.soli = false;
-			
-			$scope.cntx.read.invi = false;
-			
-		} else if ($scope.cntx.conf.mode === 'V') {
-			$scope.cntx.show.invi = true;
-			$scope.cntx.show.mail = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.usua = true;
-			$scope.cntx.show.pass = true;
-			$scope.cntx.show.cpas = true;
-			$scope.cntx.show.regi = true;
-			$scope.cntx.show.soli = false;
-			
-			$scope.cntx.read.invi = true;
-			
-		} else if ($scope.cntx.conf.mode === 'S') {
-			$scope.cntx.show.invi = false;
-			$scope.cntx.show.mail = true;
-			$scope.cntx.show.desc = false;
-			$scope.cntx.show.usua = false;
-			$scope.cntx.show.pass = false;
-			$scope.cntx.show.cpas = false;
-			$scope.cntx.show.regi = true;
-			$scope.cntx.show.soli = true;
-			
-			$scope.cntx.read.invi = false;
-			
-		} else if ($scope.cntx.conf.mode === 'I') {
-			$scope.cntx.show.invi = true;
-			$scope.cntx.show.mail = false;
-			$scope.cntx.show.desc = false;
-			$scope.cntx.show.usua = false;
-			$scope.cntx.show.pass = false;
-			$scope.cntx.show.cpas = false;
-			$scope.cntx.show.regi = true;
-			$scope.cntx.show.soli = false;
-			
-			$scope.cntx.read.invi = false;
-			
-		}
 
-		//El campo se descripción, se muestra según el parámetro DYNAMICFLD-REGINVDESC, con su texto asociado
-		if ($scope.cntx.show.desc === true) {
-			if ($scope.cntx.data.prReginvdesc.pval.show === 'S') {
-				$scope.cntx.show.desc = true;
-				$scope.cntx.form.ldes = $scope.data.prReginvdesc.pval.name;
-			} else {
-				$scope.cntx.show.desc = false;
-				$scope.cntx.form.ldes = '';
-			}
-		}		
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
+	$scope.fnCanc = function() {
+		if ($scope.cntx.conf.get('mode') === 'V' || $scope.cntx.conf.get('mode') === 'I') {
+			$scope.cntx.conf.set('mode', 'S');
+			inicForm();
+			view();
+		}
 	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	//Generamos el contexto de la vista
+	$scope.cntx = srv.getCntx('usua/regi');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
+	}
+
 });

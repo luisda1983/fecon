@@ -1,3 +1,4 @@
+//Normalizado
 package es.ldrsoftware.core.oui.bs;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,29 +11,23 @@ import es.ldrsoftware.core.oui.entity.Usua;
 import es.ldrsoftware.core.oui.entity.UsuaDAO;
 
 @Component
-public class BsUsuaGet extends BaseBS {
+public class BsUsuaGetm extends BaseBS {
 
 	@Autowired
 	private UsuaDAO usuaDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsUsuaGetArea area = (BsUsuaGetArea)a;
+		BsUsuaGetmArea area = (BsUsuaGetmArea)a;
 		
-		Usua usua = null;
-		
-		if (testString(area.IN.iden)) {
-			usua = usuaDao.getByIden(area.IN.iden);
-		} else if (testString(area.IN.mail)) {
-			usua = usuaDao.getByMail(area.IN.mail);
-		} else {
-			notify(CoreNotify.USUA_GETU_ERRO);
-		}
+		Usua usua = usuaDao.getByMail(area.IN.mail);
 		
 		area.OUT.usua = usua;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		//BsUsuaGetArea area = (BsUsuaGetArea)a;
+		BsUsuaGetmArea area = (BsUsuaGetmArea)a;
+		
+		validateStringRequired(area.IN.mail, CoreNotify.USUA_GETM_MAIL_RQRD);
 		
 	}
 }

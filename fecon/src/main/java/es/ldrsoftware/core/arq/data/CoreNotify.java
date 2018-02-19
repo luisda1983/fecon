@@ -44,35 +44,65 @@ public class CoreNotify {
 	public final static String SESI_OPEN_USUA_RQRD         = "SESI-00008";
 	public final static String SESI_OPEN_PERF_RQRD         = "SESI-00009";
 	
+	//Notificaciones de módulo USUA
+
+	//Servicio de obtención de usuario por clave
+	public final static String USUA_GETK_IDEN_RQRD         = "USUA-01001";
+	
+	//Servicio de obtención de usuario por email
+	public final static String USUA_GETM_MAIL_RQRD         = "USUA-02001";
+	
+	//Servicio de login de usuario
+	public final static String USUA_LGON_IDEN_RQRD         = "USUA-03001";
+	public final static String USUA_LGON_PASS_RQRD         = "USUA-03002";
+	public final static String USUA_LGON_PASS_ERRO         = "USUA-03501";
+	public final static String USUA_LGON_ACTI_NO           = "USUA-03502";
+	public final static String USUA_LGON_INST_MLTI_NO      = "USUA-03503";
+	public final static String USUA_LGON_INST_ACTI_NO      = "USUA-03504";
+	public final static String USUA_LGON_USUA_NF           = "USUA-03901";
+	public final static String USUA_LGON_RELA_INST_NF      = "USUA-03902";
+	public final static String USUA_LGON_INST_NF           = "USUA-03903";
+	
+	//Servicio de grabado de usuario
+	public final static String USUA_SAVE_USUA_RQRD         = "USUA-04001";
+	public final static String USUA_SAVE_IDEN_RQRD         = "USUA-04701";
+	public final static String USUA_SAVE_PERF_RQRD         = "USUA-04702";
+	public final static String USUA_SAVE_MAIL_RQRD         = "USUA-04703";
+	public final static String USUA_SAVE_PASS_RQRD         = "USUA-04704";
+	public final static String USUA_SAVE_ACTI_RQRD         = "USUA-04705";
+	public final static String USUA_SAVE_FEAL_RQRD         = "USUA-04706";
+	public final static String USUA_SAVE_FEUL_RQRD         = "USUA-04707";
+	public final static String USUA_SAVE_IDEN_MAXL         = "USUA-04801";
+	public final static String USUA_SAVE_PERF_ERRO         = "USUA-04802";
+	public final static String USUA_SAVE_MAIL_MAXL         = "USUA-04803";
+	public final static String USUA_SAVE_PASS_MAXL         = "USUA-04804";
+	public final static String USUA_SAVE_ACTI_ERRO         = "USUA-04805";
+	public final static String USUA_SAVE_FEAL_RNGE         = "USUA-04806";
+	public final static String USUA_SAVE_HOAL_RNGE         = "USUA-04807";
+	public final static String USUA_SAVE_FEUL_RNGE         = "USUA-04808";
+	public final static String USUA_SAVE_HOUL_RNGE         = "USUA-04809";
+	
 	//Notificaciones del m�dulo USUA
 	public final static String USUA_EXIT_SESI_RQRD         = "USUA-00001";
 	public final static String USUA_GETU_IDEN_RQRD         = "USUA-00002"; //DESUSO
-	public final static String USUA_LGON_IDEN_RQRD         = "USUA-00003";
-	public final static String USUA_LGON_PASS_RQRD         = "USUA-00004";
-	public final static String USUA_LGON_USUA_NF           = "USUA-00005";
-	public final static String USUA_LGON_PASS_ERRO         = "USUA-00006";
-	public final static String USUA_LGON_ACTI_NO           = "USUA-00007";
-	public final static String USUA_LGON_INST_NO           = "USUA-00008";
-	public final static String USUA_LGON_INST_MLTI_NO      = "USUA-00009";
-	public final static String USUA_LGON_INST_NF           = "USUA-00010";
-	public final static String USUA_LGON_INST_ACTI_NO      = "USUA-00011";
-	public final static String USUA_SAVE_USUA_RQRD         = "USUA-00012";
-	public final static String USUA_SAVE_IDEN_RQRD         = "USUA-00013";
-	public final static String USUA_SAVE_IDEN_MAXL         = "USUA-00014";
-	public final static String USUA_SAVE_PERF_RQRD         = "USUA-00015";
-	public final static String USUA_SAVE_PERF_ERRO         = "USUA-00016";
-	public final static String USUA_SAVE_MAIL_RQRD         = "USUA-00017";
-	public final static String USUA_SAVE_MAIL_MAXL         = "USUA-00018";
-	public final static String USUA_SAVE_PASS_RQRD         = "USUA-00019";
-	public final static String USUA_SAVE_PASS_MAXL         = "USUA-00020";
-	public final static String USUA_SAVE_ACTI_RQRD         = "USUA-00021";
-	public final static String USUA_SAVE_ACTI_ERRO         = "USUA-00022";
-	public final static String USUA_SAVE_FEAL_RQRD         = "USUA-00023";
-	public final static String USUA_SAVE_FEAL_RNGE         = "USUA-00024";
-	public final static String USUA_SAVE_HOAL_RNGE         = "USUA-00025";
-	public final static String USUA_SAVE_FEUL_RQRD         = "USUA-00026";
-	public final static String USUA_SAVE_FEUL_RNGE         = "USUA-00027";
-	public final static String USUA_SAVE_HOUL_RNGE         = "USUA-00028";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public final static String USUA_REGI_IDEN_RQRD         = "USUA_00029";
 	public final static String USUA_REGI_PASS_RQRD         = "USUA-00030";
 	public final static String USUA_REGI_CPAS_RQRD         = "USUA-00031";
@@ -85,21 +115,34 @@ public class CoreNotify {
 	public final static String USUA_REGI_PERF_ERRO         = "USUA-00038";
 	public final static String USUA_GETU_ERRO              = "USUA-00039";
 	
-	//Notificaciones del m�dulo INST
-	public final static String INST_GETI_IDEN_RQRD         = "INST-00001";
-	public final static String INST_SAVE_INST_RQRD         = "INST-00002";
-	public final static String INST_SAVE_DESC_RQRD         = "INST-00003";
-	public final static String INST_SAVE_DESC_MAXL         = "INST-00004";
-	public final static String INST_SAVE_FEAL_RQRD         = "INST-00005";
-	public final static String INST_SAVE_FEAL_RNGE         = "INST_00006";
-	public final static String INST_SAVE_ESTA_RQRD         = "INST-00007";
-	public final static String INST_SAVE_ESTA_ERRO         = "INST-00008";
-	public final static String INST_SAVE_FEUL_RQRD         = "INST-00009";
-	public final static String INST_SAVE_FEUL_RNGE         = "INST-00010";
-	public final static String INST_SAVE_TIPO_RQRD         = "INST-00011";
-	public final static String INST_SAVE_TIPO_ERRO         = "INST-00012";
-	public final static String INST_SAVE_FECA_RQRD         = "INST-00013";
-	public final static String INST_SAVE_FECA_RNGE         = "INST-00014";
+	//Notificaciones del módulo INST
+	//OOTNN:
+	//OO=Operación
+	//T=Tipo
+	//   0-Validación de entrada
+	//   5-Validaciones funcionales
+	//   7-Validaciones de campos obligatorios en BB.DD.
+	//   8-Validaciones de dominio en BB.DD.
+	//   9-Validaciones de BB.DD.
+	//NN=Número
+	//Servicio de obtención de instalación por clav
+	public final static String INST_GETK_IDEN_RQRD         = "INST-01001";
+	
+	//Servicio de grabado de usuario
+	public final static String INST_SAVE_INST_RQRD         = "INST-02001";
+	public final static String INST_SAVE_DESC_RQRD         = "INST-02701";
+	public final static String INST_SAVE_FEAL_RQRD         = "INST-02702";
+	public final static String INST_SAVE_ESTA_RQRD         = "INST-02703";
+	public final static String INST_SAVE_FEUL_RQRD         = "INST-02704";
+	public final static String INST_SAVE_TIPO_RQRD         = "INST-02705";
+	public final static String INST_SAVE_FECA_RQRD         = "INST-02706";
+	public final static String INST_SAVE_DESC_MAXL         = "INST-02801";
+	public final static String INST_SAVE_FEAL_RNGE         = "INST_02802";
+	public final static String INST_SAVE_ESTA_ERRO         = "INST-02803";
+	public final static String INST_SAVE_FEUL_RNGE         = "INST-02804";
+	public final static String INST_SAVE_TIPO_ERRO         = "INST-02805";
+	public final static String INST_SAVE_FECA_RNGE         = "INST-02806";
+	
 	public final static String INST_REGI_MAIL_RQRD         = "INST-00015";
 	public final static String INST_REGI_USUA_RQRD         = "INST-00016";
 	public final static String INST_REGI_PASS_RQRD         = "INST-00017";
@@ -107,10 +150,21 @@ public class CoreNotify {
 	public final static String INST_REGI_CERR              = "INST-00019";
 	public final static String INST_REGI_INVI_RQRD         = "INST-00020";
 	
-	//Notificaciones del m�dulo RELA
-	public final static String RELA_LIST_RELA_ERRO         = "RELA-00001";
-	public final static String RELA_LIST_RELA_RQRD         = "RELA-00002";
-	public final static String RELA_LIST_CLCA_RQRD         = "RELA-00003";
+	//Notificaciones del módulo RELA
+	//OOTNN:
+	//OO=Operación
+	//T=Tipo
+	//   0-Validación de entrada
+	//   5-Validaciones funcionales
+	//   7-Validaciones de campos obligatorios en BB.DD.
+	//   8-Validaciones de dominio en BB.DD.
+	//   9-Validaciones de BB.DD.
+	//NN=Número
+	public final static String RELA_LIST_RELA_RQRD         = "RELA-01001";
+	public final static String RELA_LIST_CLCA_RQRD         = "RELA-01002";
+	public final static String RELA_LIST_RELA_ERRO         = "RELA-01003";
+	
+	
 	public final static String RELA_SAVE_RELA_RQRD         = "RELA-00004";
 	public final static String RELA_SAVE_CLN1_RQRD         = "RELA-00005";
 	public final static String RELA_SAVE_CLC2_RQRD         = "RELA-00006";
@@ -206,10 +260,11 @@ public class CoreNotify {
 	public final static String LITE_GETL_CLAV_RQRD         = "LITE-00002";
 	public final static String LITE_NF                     = "LITE-00003";
 	
-	//Notificaciones del m�dulo PARA
-	public final static String PARA_GETP_TBLA_RQRD         = "PARA-00001";
-	public final static String PARA_GETP_CLAV_RQRD         = "PARA-00002";
-	public final static String PARA_GETP_TBLA_ERRO         = "PARA_00003";
+	//Notificaciones del módulo PARA
+	public final static String PARA_GETP_TBLA_RQRD         = "PARA-01001";
+	public final static String PARA_GETP_CLAV_RQRD         = "PARA-01002";
+	public final static String PARA_GETP_PARA_NF           = "PARA-01901";
+	
 	public final static String PARA_NF                     = "PARA-00004";
 	public final static String PARA_GETP_FRNT_MSTR_NF      = "PARA-00005";
 	public final static String PARA_GETP_FRNT_CONS_NO      = "PARA-00006";

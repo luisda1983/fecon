@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad SESI - Información persistente de sesión
+ * Operaciones sobre entidad SESI - Informaciï¿½n persistente de sesiï¿½n
  * @author Luis David
  *
  */
@@ -49,7 +49,7 @@ public class SesiDAO extends BaseDAO {
 	}
 	
 	@Transactional(readOnly = false, propagation = Propagation.MANDATORY)
-	public void save(Sesi sesi) {
-		getEntityManager().merge(sesi);
+	public Sesi save(Sesi sesi) {
+		return getEntityManager().merge(sesi);
 	}
 }

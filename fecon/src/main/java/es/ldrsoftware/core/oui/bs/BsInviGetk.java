@@ -6,27 +6,27 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
-import es.ldrsoftware.core.oui.entity.Inst;
-import es.ldrsoftware.core.oui.entity.InstDAO;
+import es.ldrsoftware.core.oui.entity.Invi;
+import es.ldrsoftware.core.oui.entity.InviDAO;
 
 @Component
-public class BsInstGet extends BaseBS {
+public class BsInviGetk extends BaseBS {
 	
 	@Autowired
-	public InstDAO instDao;
+	public InviDAO inviDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsInstGetArea area = (BsInstGetArea)a;
+		BsInviGetkArea area = (BsInviGetkArea)a;
+	
+		Invi invi = inviDao.getByIden(area.IN.iden);
 		
-		Inst inst = instDao.getByIden(area.IN.iden);
-		
-		area.OUT.inst = inst;
+		area.OUT.invi = invi;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsInstGetArea area = (BsInstGetArea)a;
+		BsInviGetkArea area = (BsInviGetkArea)a;
 		
-		if (area.IN.iden == 0) { notify(CoreNotify.INST_GETI_IDEN_RQRD); }
-		
+		validateStringRequired(area.IN.iden, CoreNotify.INVI_GETI_IDEN_RQRD);
+
 	}
 }
