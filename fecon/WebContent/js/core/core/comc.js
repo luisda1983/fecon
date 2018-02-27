@@ -12,6 +12,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'menu/get' ) { return srvMenuGet(cntx);  }
 		else if (name === 'avis/list') { return srvAvisList(cntx); }
 		else if (name === 'invi/list') { return srvInviList(cntx); }
+		else if (name === 'invi/envi') { return srvInviEnvi(cntx); }
 		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
 		else if (name === 'invi/rech') { return srvInviRech(cntx); }
 		else if (name === 'invi/soli') { return srvInviSoli(cntx); }
@@ -50,8 +51,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		$q.all([srv1]).then(function() {
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
 			     if (tbla === 'BOOL')       { cntx.data.ltBool       = cntxLite.data.liteList; cntx.data.ltMBool       = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'INVIESTA')   { cntx.data.ltInviesta   = cntxLite.data.liteList; cntx.data.ltMInviesta   = cntxLite.data.liteMap; d.resolve(); }
-			else if (tbla === 'INVITIPO')   { cntx.data.ltInvitipo   = cntxLite.data.liteList; cntx.data.ltMInvitipo   = cntxLite.data.liteMap; d.resolve(); }
+			else if (tbla === 'INVIESTA')   { cntx.data.set('ltInviesta', cntxLite.data.liteMap); d.resolve(); }
+			else if (tbla === 'INVITIPO')   { cntx.data.set('ltInvitipo', cntxLite.data.liteMap); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -288,13 +289,13 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
-    ////////////////////////////////////////////////////////////////
-	// invi/list: Consulta de invitaciones                        //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvInviList: Servicio de consuta de invitaciones.                                                  //
+	//*************************************************************************************************************//
 	function srvInviList(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),
-			esta: cntx.form.esta
+			esta: cntx.form.get('esta').data
 		};
 	  
 		var d = $q.defer();
@@ -305,20 +306,44 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.inviList = data.OUTPUT['inviList'];
+				cntx.data.set('inviList', data.OUTPUT['inviList']);
 				d.resolve(data);
 			}
 		});
 		return d.promise;
 	}
 
-    ////////////////////////////////////////////////////////////////
-	// invi/acep: Aceptación de invitaciones                      //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvInviEnvi: Servicio de envío de invitaciones.                                                    //
+	//*************************************************************************************************************//
+	function srvInviEnvi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			mail: cntx.form.get('mail').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/invi/envi/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('invi', data.OUTPUT['invi']);
+				d.resolve(data);
+			}
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInviAcep: Servicio de aceptación de invitación.                                                 //
+	//*************************************************************************************************************//
 	function srvInviAcep(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),
-			iden: cntx.form.iden
+			iden: cntx.form.get('iden').data
 		};
 	  
 		var d = $q.defer();
@@ -329,29 +354,31 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				cntx.data.set('invi', data.OUTPUT['invi']);
 				d.resolve(data);
 			}
 		});
 		return d.promise;
 	}
 
-    ////////////////////////////////////////////////////////////////
-	// invi/rech: Rechazo de invitaciones                         //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvInviRech: Servicio de rechazo de invitación.                                                    //
+	//*************************************************************************************************************//
 	function srvInviRech(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi),
-			iden: cntx.form.iden
+			iden: cntx.form.get('iden').data
 		};
 	  
 		var d = $q.defer();
 		
-		var output = srv.call(targetHost + 'service/angular/invi/acep/', dataRequest);
+		var output = srv.call(targetHost + 'service/angular/invi/rech/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				cntx.data.set('invi', data.OUTPUT['invi']);
 				d.resolve(data);
 			}
 		});

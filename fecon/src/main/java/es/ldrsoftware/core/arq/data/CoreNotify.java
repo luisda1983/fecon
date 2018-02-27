@@ -8,7 +8,7 @@ public class CoreNotify {
 	
 	public final static String CORE_NOTF_NF                = "CORE-00002";
 	public final static String CORE_NOTF_NF_DESC           = "Notificaci�n inexistente.";
-	
+
 	public final static String CORE_CTRL_ESTA              = "CORE-00003";
 	public final static String CORE_CTRL_ESTA_DESC         = "Llamada incorrecta. Controlador deshabilitado.";
 	
@@ -210,6 +210,14 @@ public class CoreNotify {
 	public final static String INVI_SAVE_INST_RNGE         = "INVI-00037";
 	public final static String INVI_SAVE_USUA_RQRD         = "INVI-00038";
 	public final static String INVI_SAVE_USUA_MAXL         = "INVI-00039";
+	public final static String INVI_ENVI_MAIL_RQRD         = "INVI-00040";
+	public final static String INVI_ENVI_TIPO_RQRD         = "INVI-00041";
+	public final static String INVI_ENVI_TIPO_ERRO         = "INVI-00042";
+	public final static String INVI_ENVI_INVI_ENVI_EXIS    = "INVI-00043";
+	public final static String INVI_ENVI_INVI_SOLI_EXIS    = "INVI-00044";
+	public final static String INVI_ENVI_INVI_ACEP_EXIS    = "INVI-00045";
+	public final static String INVI_PROC_INST_NF           = "INVI-00046";
+	public final static String INVI_PROC_INST_ACTI_NO      = "INVI-00047";
 	
 	//Notificaciones del m�dulo STST
 	public final static String STST_SAVE_CTRL_RQRD         = "STST-00001";

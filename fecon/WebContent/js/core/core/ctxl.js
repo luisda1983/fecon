@@ -27,6 +27,7 @@ app.factory("ctxl", [function() {
 		var vXchg = new Map();
 		var vConf = new Map();
 		vConf.set('mode', '');
+		vConf.set('idx1', -1);
 		
 		cntx = {
 			form: vForm,

@@ -18,7 +18,7 @@ public class BsInviVali extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviValiArea area = (BsInviValiArea)a;
 	
-		//Obtenemos la invitaci�n
+		//Obtenemos la invitación
 		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
 		bsInviGetArea.IN.iden = area.IN.iden;
 		bsInviGet.executeBS(bsInviGetArea);
@@ -27,7 +27,8 @@ public class BsInviVali extends BaseBS {
 		
 		validateDto(invi, CoreNotify.INVI_VALI_NF);
 		
-		if (!LiteData.LT_EL_INVIESTA_ACEPTADA.equals(invi.getEsta())) {
+		if (!LiteData.LT_EL_INVIESTA_ACEPTADA.equals(invi.getEsta()) &&
+			!LiteData.LT_EL_INVIESTA_ENVIADA.equals(invi.getEsta())) {
 			notify(CoreNotify.INVI_VALI_ESTA_ERRO);
 		}
 		

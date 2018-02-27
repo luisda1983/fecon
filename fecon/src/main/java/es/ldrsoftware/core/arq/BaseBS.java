@@ -117,6 +117,12 @@ public abstract class BaseBS extends BaseNotifyManager {
 		}
 	}
 	
+	protected void validateListEmpty(@SuppressWarnings("rawtypes") List l, String notf) throws Exception {
+		if (!(l == null || l.size() == 0)) {
+			notify(notf);
+		}
+	}
+	
 	protected boolean testString(String s) {
 		if (s == null || "".equals(s)) {
 			return false;

@@ -167,18 +167,14 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 				view();
 			})
 		} else if ($scope.cntx.conf.get('mode') === 'V') {
-			if ($scope.cntx.data.get('invi').tipo === 'I') {
-				var srv1 = comc.request('invi/proc', cntx);
-				$q.all([srv.stResp(true, srv1)]).then(function() {
-					var lgonCntx = srv.getCntx('/lgon');
-					lgonCntx.form.get('iden').data = $scope.cntx.form.get('usua').data;
-					lgonCntx.form.get('pass').data = $scope.cntx.form.get('pass').data;
-					alert(lgonCntx.form.get('iden').data);
-					srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
-				})
-			} else {
-				//TODO: registros de usuario
-			}
+			var srv1 = comc.request('invi/proc', cntx);
+			$q.all([srv.stResp(true, srv1)]).then(function() {
+				var lgonCntx = srv.getCntx('/lgon');
+				lgonCntx.form.get('iden').data = $scope.cntx.form.get('usua').data;
+				lgonCntx.form.get('pass').data = $scope.cntx.form.get('pass').data;
+				alert(lgonCntx.form.get('iden').data);
+				srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
+			})
 		}
 		//TODO: registro libre
 	}

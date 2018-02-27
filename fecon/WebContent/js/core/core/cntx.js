@@ -13,6 +13,7 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		//Buscamos la vista para devolver su contexto.
 		     if (view === 'avis/list') { return getAvisListCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
+		else if (view === 'invi/envi') { return getInviEnviCntx(); }
 		else if (view === '/lgon')     { return getLgonCntx();     }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		else {
@@ -55,42 +56,25 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		return cntx;
 	}
 
-	//Contexto inviList
+	//*************************************************************************************************************//
+	// Contexto: invi/list - Lista de invitaciones.                                                                //
+	//*************************************************************************************************************//
 	function getInviListCntx() {
-		var vForm = {
-			esta: '',
-			iden: 0
-		};
-		var vShow = {
-			esta: false,
-			iden: false
-		};
-		var vRead = {
-			esta: false,
-			iden: false
-		};
-		var vData = {
-			inviList: null,
-			ltInviesta: null,
-			ltMInviesta: null,
-			ltInvitipo: null,
-			ltMInvitipo: null
-		};
-		var vConf = {
-			mode: '',
-			item: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('esta', ctxl.makeField(''));
+		cntx.form.set('iden', ctxl.makeField(0));
 		return cntx;
 	}
 
-	//Contexto usuaLgon
+	//*************************************************************************************************************//
+	// Contexto: invi/envi - Envío de invitaciones.                                                                //
+	//*************************************************************************************************************//
+	function getInviEnviCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('mail', ctxl.makeField(''));
+		return cntx;
+	}
+
 	//*************************************************************************************************************//
 	// Contexto: /lgon - Login de usuario.                                                                         //
 	//*************************************************************************************************************//
@@ -101,7 +85,9 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		return cntx;
 	}
 
-	//Contexto usuaRegi
+	//*************************************************************************************************************//
+	// Contexto: usua/regi - Registro de usuario.                                                                  //
+	//*************************************************************************************************************//
 	function getUsuaRegiCntx() {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('invi', ctxl.makeField(''));

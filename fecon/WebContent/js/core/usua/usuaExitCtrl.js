@@ -4,7 +4,7 @@
 // Version    | Fecha      | Comentarios de version                                                            //
 // v.01.00.00 | 12.02.2018 | Primera version del SW                                                            //
 //*************************************************************************************************************//
-app.controller('usuaExitCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+app.controller('usuaExitCtrl', function($rootScope, $q, srv, comc) {
 
 	//Realizamos el logout en BackEnd
 	var srv1 = comc.request('usua/exit', null);

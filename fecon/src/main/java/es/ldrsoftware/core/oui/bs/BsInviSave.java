@@ -36,9 +36,8 @@ public class BsInviSave extends BaseBS {
 		
 		validateStringRequired(invi.getTipo(), CoreNotify.INVI_SAVE_TIPO_RQRD);
 		
-		//if (!"I".equals(invi.getTipo()) &&
-		//	!"U".equals(invi.getTipo())) {
-		if (!LiteData.LT_EL_INVITIPO_INSTALACION.equals(invi.getTipo())) {
+		if (!LiteData.LT_EL_INVITIPO_INSTALACION.equals(invi.getTipo()) &&
+			!LiteData.LT_EL_INVITIPO_USUARIO.equals(invi.getTipo())) {
 			notify(CoreNotify.INVI_SAVE_TIPO_ERRO);
 		}
 		
@@ -52,6 +51,7 @@ public class BsInviSave extends BaseBS {
 //			!"F".equals(invi.getEsta())) {
 		if (!LiteData.LT_EL_INVIESTA_SOLICITADA.equals(invi.getEsta()) &&
 			!LiteData.LT_EL_INVIESTA_ACEPTADA.equals(invi.getEsta())   &&
+			!LiteData.LT_EL_INVIESTA_ENVIADA.equals(invi.getEsta())    &&
 			!LiteData.LT_EL_INVIESTA_RECHAZADA.equals(invi.getEsta())  &&
 			!LiteData.LT_EL_INVIESTA_FINALIZADA.equals(invi.getEsta())) {
 			notify(CoreNotify.INVI_SAVE_ESTA_ERRO);
@@ -60,6 +60,11 @@ public class BsInviSave extends BaseBS {
 		validateStringRequired(invi.getMail(), CoreNotify.INVI_SAVE_MAIL_RQRD);
 		validateStringMaxLength(invi.getMail(), 100, CoreNotify.INVI_SAVE_MAIL_MAXL);
 		
+		if (LiteData.LT_EL_INVITIPO_USUARIO.equals(invi.getTipo())) {
+			validateIntRequired(invi.getInst(), CoreNotify.INVI_SAVE_INST_RQRD);
+			validateIntRange(invi.getInst(), 1, 999999999, CoreNotify.INVI_SAVE_INST_RNGE);
+		}
+		
 		if (LiteData.LT_EL_INVIESTA_FINALIZADA.equals(invi.getEsta())) {
 			validateIntRequired(invi.getInst(), CoreNotify.INVI_SAVE_INST_RQRD);
 			//FIXME: Longitud del 99999...
@@ -67,10 +72,11 @@ public class BsInviSave extends BaseBS {
 			validateStringRequired(invi.getUsua(), CoreNotify.INVI_SAVE_USUA_RQRD);
 			validateStringMaxLength(invi.getUsua(), 30, CoreNotify.INVI_SAVE_USUA_MAXL);
 		} else {
-			validateIntEmpty(invi.getInst(), CoreNotify.INVI_SAVE_INST_MPTY);
+			if (LiteData.LT_EL_INVITIPO_INSTALACION.equals(invi.getTipo())) {
+				validateIntEmpty(invi.getInst(), CoreNotify.INVI_SAVE_INST_MPTY);
+			}
 			validateStringEmpty(invi.getUsua(), CoreNotify.INVI_SAVE_USUA_MPTY);
 		}
-		
 		
 //		if ("U".equals(invi.getTipo())) {
 //			validateIntRequired(invi.getInst(), CoreNotify.INVI_SAVE_INST_RQRD);
