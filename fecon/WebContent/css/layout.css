@@ -8,7 +8,21 @@
 	height: 3em;
 	min-height: 100%;
 }
- */	
+ */
+ 
+md-list-item, md-list-item .md-list-item-inner {
+	min-height: 25px;
+}	
+
+md-list.menu {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+md-list-item.dtmn {
+	min-height: 12px;
+}
+
 md-list-item-text {
 	max-width: 100%;
 }

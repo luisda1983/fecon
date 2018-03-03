@@ -25,9 +25,90 @@ public class CoreNotify {
 	public final static String CORE_CTRL_TIAC_DOMI_DESC    = "Error de aplicaci�n. Controlador mal configurado.";
 
 	public final static String CORE_BTCH_NO_IMPL           = "CORE-00008";
+
+	//*********************************************************************************************//
+	// Notificaciones del módulo MENU                                                              //
+	//*********************************************************************************************//
 	
-	//Notificaciones de m�dulo MENU
-	public final static String MENU_PERF_RQRD              = "MENU-00001";
+	//Servicio de consulta de categorías de menú
+	public final static String CTMN_LIST_PERF_RQRD         = "CTMN-01001";
+	public final static String CTMN_LIST_TIPO_RQRD         = "CTMN-01002";
+	public final static String CTMN_LIST_ACTI_RQRD         = "CTMN-01003";
+	public final static String CTMN_LIST_TIPO_ERRO         = "CTMN-01501";
+
+	//Servicio de consulta de una categoría de menú
+	public final static String CTMN_GETK_IDEN_RQRD         = "CTMN-02001";
+	
+	//Servicio de guardado de categoría de menú
+	public final static String CTMN_SAVE_CTMN_RQRD         = "CTMN-03001";
+	public final static String CTMN_SAVE_IDEN_RQRD         = "CTMN-03701";
+	public final static String CTMN_SAVE_PERF_RQRD         = "CTMN-03702";
+	public final static String CTMN_SAVE_DESC_RQRD         = "CTMN-03703";
+	public final static String CTMN_SAVE_ACTI_RQRD         = "CTMN-03704";
+	public final static String CTMN_SAVE_ORDE_RQRD         = "CTMN-03705";
+	public final static String CTMN_SAVE_IDEN_RNGE         = "CTMN-03801";
+	public final static String CTMN_SAVE_PERF_ERRO         = "CTMN-03802";
+	public final static String CTMN_SAVE_DESC_MAXL         = "CTMN-03803";
+	public final static String CTMN_SAVE_ACTI_ERRO         = "CTMN-03804";
+	public final static String CTMN_SAVE_ORDE_RNGE         = "CTMN-03805";
+	
+	//Servicio de activación de categoría de menú
+	public final static String CTMN_ACTI_IDEN_RQRD         = "CTMN-04001";
+	public final static String CTMN_ACTI_CTMN_DESA_NO      = "CTMN-04501";
+	public final static String CTMN_ACTI_CTMN_NF           = "CTMN-04901";
+	
+	//Servicio de desactivación de categoría de menú
+	public final static String CTMN_DESA_IDEN_RQRD         = "CTMN-05001";
+	public final static String CTMN_DESA_CTMN_ACTI_NO      = "CTMN-05501";
+	public final static String CTMN_DESA_CTMN_NF           = "CTMN-05901";
+	
+	//Servicio de tratamiento de formulario de categoría de menú
+	public final static String CTMN_FORM_IDEN_RQRD         = "CTMN-06001";
+	public final static String CTMN_FORM_CTMN_NF           = "CTMN-06901";
+
+	//Servicio de consulta de detalle de menú
+	public final static String DTMN_LIST_CTMN_RQRD         = "DTMN-01001";
+	public final static String DTMN_LIST_TIPO_RQRD         = "DTMN-01002";
+	public final static String DTMN_LIST_ACTI_RQRD         = "DTMN-01003";
+	public final static String DTMN_LIST_TIPO_ERRO         = "DTMN-01501";
+
+	//Servicio de consulta de un detalle de menú
+	public final static String DTMN_GETK_CTMN_RQRD         = "DTMN-02001";
+	public final static String DTMN_GETK_IDEN_RQRD         = "DTMN-02002";
+
+	//Servicio de guardado de detalle de menú
+	public final static String DTMN_SAVE_DTMN_RQRD         = "DTMN-03001";
+	public final static String DTMN_SAVE_CTMN_RQRD         = "DTMN-03701";
+	public final static String DTMN_SAVE_IDEN_RQRD         = "DTMN-03702";
+	public final static String DTMN_SAVE_DESC_RQRD         = "DTMN-03703";
+	public final static String DTMN_SAVE_ACTI_RQRD         = "DTMN-03704";
+	public final static String DTMN_SAVE_ORDE_RQRD         = "DTMN-03705";
+	public final static String DTMN_SAVE_PATH_RQRD         = "DTMN-03706";
+	public final static String DTMN_SAVE_ICON_RQRD         = "DTMN-03707";
+	public final static String DTMN_SAVE_CTMN_RNGE         = "DTMN-03801";
+	public final static String DTMN_SAVE_IDEN_RNGE         = "DTMN-03802";
+	public final static String DTMN_SAVE_DESC_MAXL         = "DTMN-03803";
+	public final static String DTMN_SAVE_ACTI_ERRO         = "DTMN-03804";
+	public final static String DTMN_SAVE_ORDE_RNGE         = "DTMN-03805";
+	public final static String DTMN_SAVE_PATH_MAXL         = "DTMN-04806";
+	public final static String DTMN_SAVE_ICON_MAXL         = "DTMN-04807";
+
+	//Servicio de activación de detalle de menú
+	public final static String DTMN_ACTI_CTMN_RQRD         = "DTMN-04001";
+	public final static String DTMN_ACTI_IDEN_RQRD         = "DTMN-04002";
+	public final static String DTMN_ACTI_DTMN_DESA_NO      = "DTMN-04501";
+	public final static String DTMN_ACTI_DTMN_NF           = "DTMN-04901";
+
+	//Servicio de desactivación de detalle de menú
+	public final static String DTMN_DESA_CTMN_RQRD         = "DTMN-05001";
+	public final static String DTMN_DESA_IDEN_RQRD         = "DTMN-05002";
+	public final static String DTMN_DESA_DTMN_ACTI_NO      = "DTMN-05501";
+	public final static String DTMN_DESA_DTMN_NF           = "DTMN-05901";
+
+	//Servicio de tratamiento de formulario de detalle de menú
+	public final static String DTMN_FORM_CTMN_RQRD         = "DTMN-06001";
+	public final static String DTMN_FORM_IDEN_RQRD         = "DTMN-06002";
+	public final static String DTMN_FORM_DTMN_NF           = "CTMN-06901";
 	
 	//Notificaciones de m�dulo CTRL
 	public final static String CTRL_IDEN_RQRD              = "CTRL-00001";

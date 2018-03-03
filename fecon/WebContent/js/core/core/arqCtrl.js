@@ -16,7 +16,7 @@
 app.controller('appCtrl', function($rootScope, $scope, $q, srv, comc) {
 
 	var srv1 = comc.requestLite('APPLITERAL', 'APPNOMBRE', null);
-	var srv2 = comc.request('menu/get', null);
+	var srv2 = comc.request('menu/make', null);
 	
 	$q.all([srv.stResp(true, srv1,srv2)]).then(function(){
 		srv.go(null, null, '/', null);
@@ -45,7 +45,7 @@ app.controller('secCtrl', function($rootScope, $scope, $http, $routeParams, $q, 
 		$rootScope.esta.lgonUsua = false;
 		$rootScope.esta.usua     = null;
 		
-		var srv1 = comc.request('menu/get', null);
+		var srv1 = comc.request('menu/make', null);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
 			srv.go(null, null, '/', null);

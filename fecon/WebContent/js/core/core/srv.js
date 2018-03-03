@@ -25,8 +25,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		lgonUsua: false,         //Indicador de que hay un usuario activo en la aplicación
 		usua    : null,          //Usuario activo en la aplicación
 		load    : false,         //Indicador de comunicación en curso. Sirve para mostrar la pantalla de espera
-		doingGo : false,         //Indicador de transición entre vistas activa
-		doingBack: false         //Indicador de retorno de vista
+		tran    : "",            //Indicador de transición de contexto
+		backPath: ""             //Url origen en un back
 	};
 
 	//*************************************************************************************************************//
@@ -47,6 +47,8 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		backPath: null    //Dirección de retorno de la transición
 	};
 
+	var cntxStack = new Array();
+
 	//*************************************************************************************************************//
 	// Area de respuesta de servicio.                                                                              //
 	//*************************************************************************************************************//
@@ -64,7 +66,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	//*************************************************************************************************************//
 	$rootScope.fnMenuGo = function(url) {
 		//Vamos a la URL
-		$location.url(url);
+		go(null, null, url, null);
 		//Cerramos el menú lateral
 		$mdSidenav('left').close();
 	};
@@ -88,21 +90,41 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 			if (data.EXEC_RC === 'V') {
 				$rootScope.notf.esta = data.EXEC_RC;
 				$rootScope.notf.void.push(data.EXEC_VOID);
-				console.log("VOID " + data.EXEC_VOID);
-				console.log(url + " Size: " + $rootScope.notf.void.length);
+				//console.log("VOID " + data.EXEC_VOID);
+				//console.log(url + " Size: " + $rootScope.notf.void.length);
 				//TODO: acumulación de informativos y autorizaciones
 			} else if (data.EXEC_RC === 'O') {
 					
 			} else if (data.EXEC_RC === 'I') {
-				console.log("INFO " + data.EXEC_INFO_LIST[0].iden);
+				//console.log("INFO " + data.EXEC_INFO_LIST[0].iden);
 				$rootScope.notf.esta = data.EXEC_RC;
 				//$rootScope.notf.info.push(data.EXEC_INFO_LIST);
 				addInfo(data.EXEC_INFO_LIST);
 			}
-				$rootScope.esta.load = false;
+			$rootScope.esta.load = false;
+		})
+		.error(function(data, status, headers, config, statusText, xhrStatus) {
+			outData = status;
+			$rootScope.esta.load = false;
 		});
 		return res;
 	};
+
+	//*************************************************************************************************************//
+	// PUBLIC: srv.frontNotify: Función de creación de notificación Front-End.                                     //
+	//*************************************************************************************************************//
+	function frontNotify(code, text) {
+		
+		var notf = {
+			iden: code,
+			tipo: 'V',
+			desc: text
+		};
+		
+		$rootScope.notf.esta = 'V';
+		$rootScope.notf.void.push(notf);
+
+	}
 	
 	//*************************************************************************************************************//
 	// PUBLIC: srv.stResp: Gestión de multirespuesta.                                                              //
@@ -152,37 +174,20 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	//                      datos o retornos.                                                                      //
 	//*************************************************************************************************************//
 	function getCntx(view) {
-		//Verificamos si estamos haciendo una transición con estado
-		if ($rootScope.esta.doingGo) {
-			//Verificamos que el goPath, es el mismo que para el que se pide el contexto
-			if (view === cntxData.goPath) {
-				//Verificamos que tenemos cargado el goData
-				if (cntxData.goData !== null) {
-					//En ese caso devolvemos el goData guardado
-					$rootScope.esta.doingGo = false;
-					return cntxData.goData;
+		
+		if ($rootScope.esta.tran === "G" || $rootScope.esta.tran === "B") {
+			
+			if (cntxStack.length > 0) {
+				var vCntx = cntxStack[cntxStack.length-1];
+
+				if (view === vCntx.goPath) {
+					if (vCntx.goData !== null) {
+						
+						return vCntx.goData;
+					}
 				}
 			}
 		}
-		//Verificamos si estamos haciendo un retorno
-		if ($rootScope.esta.doingBack) {
-			//Verificamos que el backPath, es el misma que para el que se pide el contexto
-			if (view === cntxData.backPath) {
-				//Verificamos que el backData está cargado
-				if (cntxData.backData !== null) {
-					//En ese caso devolvemos el backData guardado
-					$rootScope.esta.doingBack = false;
-					return cntxData.backData;
-				}
-			}
-		}
-		//En cualquier otro caso, inicializamos el estado y devolvemos un contexto inicializado
-		$rootScope.esta.doingGo = false;
-		$rootScope.esta.doingBack = false;
-		cntxData.goPath = '';
-		cntxData.goData = null;
-		cntxData.backPath = '';
-		cntxData.backData = null;
 		
 		return cntx.getCntx(view);
 	}
@@ -191,15 +196,40 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	// PUBLIC: srv.go: Función encargada de realizar la transición entre vistas.                                   //
 	//*************************************************************************************************************//
 	function go(currentPath, currentData, goPath, goData) {
-		//Activamos indicador de que estamos haciendo una transición con estado
-		$rootScope.esta.doingGo = true;
-	
-		//Guardamos el estado
-		cntxData.goPath   = goPath;
-		cntxData.goData   = goData;
-		cntxData.backPath = currentPath;
-		cntxData.backData = currentData;
+		
+		//Activamos el indicador de transición
+		$rootScope.esta.tran = "G";
+		//Limpiamos el path de retorno, ya que estamos haciendo un go
+		$rootScope.esta.backPath = "";
+		
+		//Si alguno de los datos actuales no viene informado, se trata de un nuevo flujo.
+		if (currentPath === null || currentData === null) {
+			cntxStack = new Array();
+		} else {
+			//Verificamos el último contexto almacenado
+			var currentState = cntxStack.pop();
+			
+			if (currentState.goPath === currentPath) {
+				//Si corresponde con el indicado de origen, machacamos los datos de contexto
+				currentState.goData = currentData;
+				cntxStack.push(currentState);
+			} else {
+				//Si no corresponde hay un error de diseño. Inicializamos la pila de contexto
+				cntxStack = new Array();
+			}
+		}
+		
+		//Guardamos en la pila de contextos el nuevo contexto
+		var state = {
+			currentPath: currentPath,
+			currentData: currentData,
+			goPath: goPath,
+			goData: goData
+		};
+		
+		cntxStack.push(state);
 
+		
 		//Vamos al path solicitado
 		$location.path(goPath);
 	}
@@ -207,12 +237,29 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	//*************************************************************************************************************//
 	// PUBLIC: srv.back: Función encargada de realizar la transición de retorno a la vista anterior.               //
 	//*************************************************************************************************************//
-	function back(keep) {
-		if (cntxData.backPath !== null) {
-			if (keep){
-				$rootScope.esta.doingBack = true;
+	function back(keep, xchg) {
+		//Activamos el indicador de transición
+		$rootScope.esta.tran = "B";
+		
+		//Para hacer un back, tenemos que tener más de un contexto en la pila
+		if (cntxStack.length > 1) {
+			//Extraemos el contexto actual
+			currentStack = cntxStack.pop();
+			//Extraemos el contexto al que regresamos
+			backStack    = cntxStack.pop();
+			//Cargamos el área de intercambio en el contexto de retorno, si la hemos recibido en la entrada
+			if (xchg !== null) {
+				backStack.goData.xchg = xchg;
 			}
-			$location.path(cntxData.backPath);
+			//Volvemos a restaurar el contexto
+			cntxStack.push(backStack);
+			//Nos guardamos la url desde la que hacemos el back
+			$rootScope.esta.backPath = currentStack.goPath;
+			
+			//Vamos al path de retorno
+			$location.path(backStack.goPath);
+		} else {
+			cntxStack = new Array();
 		}
 	}
 
@@ -220,28 +267,33 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	// PUBLIC: srv.goTran: Función que indica si hemos realizado una transición con estado.                        //
 	//*************************************************************************************************************//
 	function goTran() {
-		return cntxData.goData !== null;
+		return $rootScope.esta.tran === "G";
 	}
 
 	//*************************************************************************************************************//
 	// PUBLIC: srv.backTran: Función que indica si hemos realizado una transición de retorno con estado.           //
 	//*************************************************************************************************************//
 	function backTran() {
-		return cntxData.backData !== null;
+		return $rootScope.esta.tran === "B";
 	}
 
 	//*************************************************************************************************************//
 	// PUBLIC: srv.getOrigView: Función que devuelve el origen de una transición.                                  //
 	//*************************************************************************************************************//
 	function getOrigView() {
-		return cntxData.backPath;
+		if (cntxStack.length > 1) {
+			var vCntx = cntxStack[cntxStack.length-2];
+			return vCntx.goPath;
+		} else {
+			return '';
+		}
 	}
 
 	//*************************************************************************************************************//
 	// PUBLIC: srv.getDestView: Función que devuelve el origen de una transición de retorno.                       //
 	//*************************************************************************************************************//
 	function getDestView() {
-		return cntxData.goPath;
+		return $rootScope.esta.backPath;
 	}
 
 	//*************************************************************************************************************//
@@ -251,7 +303,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.55',
+					templateUrl: 'pages/core/notify.html?v.0.00.56',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -337,6 +389,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 	//*************************************************************************************************************//
 	return {
 		call       : call,
+		frontNotify: frontNotify,   //Gestión de notificaciones Front-End
 		stResp     : stResp,        //Gestión estándar de respuestas a servicios
 		getData    : getData,       //Obtención de los datos de respuesta del servicio
 		getCntx    : getCntx,       //Función encaargada de la gestión de contextos de vistas

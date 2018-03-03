@@ -11,6 +11,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_INSTESTA = "INSTESTA";
 	public final static String LT_EL_LITEMASTER_INSTTIPO = "INSTTIPO";
 	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
+	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
 	
 	public final static String LITE_TBLA_APPL      = "APPLITERAL";
 	public final static String LITE_TBLA_APPL_NOMB = "APPNOMBRE";
@@ -66,4 +67,14 @@ public class LiteData {
 	public final static String   LT_EL_RELAMAES_USUARIO     = "USUA";
 	public final static String[] LT_ST_RELAMAES             = {LT_EL_RELAMAES_INSTALACION,
 			                                                   LT_EL_RELAMAES_USUARIO};
+	
+	public final static String   LT_TB_MENUPERF             = "MENUPERF";
+	public final static String   LT_EL_MENUPERF_OFFLINE     = "OFF";
+	public final static String   LT_EL_MENUPERF_APP_MANAGER = "APM";
+	public final static String   LT_EL_MENUPERF_ADMIN       = "ADM";
+	public final static String   LT_EL_MENUPERF_USUARIO     = "USR";
+	public final static String[] LT_ST_MENUPERF             = {LT_EL_MENUPERF_OFFLINE,
+			                                                   LT_EL_MENUPERF_APP_MANAGER,
+			                                                   LT_EL_MENUPERF_ADMIN,
+			                                                   LT_EL_MENUPERF_USUARIO};
 }

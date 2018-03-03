@@ -5,16 +5,16 @@ import java.util.List;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.mnu.entity.Ctmn;
 
-public class BsMenuGetArea extends BaseBSArea {
+public class BsMenuMakeArea extends BaseBSArea {
 
-	public BsMenuGetAreaIn  IN  = new BsMenuGetAreaIn();
-	public BsMenuGetAreaOut OUT = new BsMenuGetAreaOut();
+	public BsMenuMakeAreaIn  IN  = new BsMenuMakeAreaIn();
+	public BsMenuMakeAreaOut OUT = new BsMenuMakeAreaOut();
 	
-	public class BsMenuGetAreaIn {
+	public class BsMenuMakeAreaIn {
 		public String perf;
 	}
 	
-	public class BsMenuGetAreaOut {
+	public class BsMenuMakeAreaOut {
 		public List<Ctmn> ctmnList;
 	}
 }

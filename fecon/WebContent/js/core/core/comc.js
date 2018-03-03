@@ -9,7 +9,15 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		     if (name === 'lite/list') { return srvLiteList(cntx); }
 		else if (name === 'lite/get' ) { return srvLiteGet(cntx);  } 
 		else if (name === 'para/get' ) { return srvParaGet(cntx);  }
-		else if (name === 'menu/get' ) { return srvMenuGet(cntx);  }
+		else if (name === 'menu/make') { return srvMenuMake(cntx); }
+		else if (name === 'ctmn/list') { return srvCtmnList(cntx); }
+		else if (name === 'ctmn/acti') { return srvCtmnActi(cntx); }
+		else if (name === 'ctmn/desa') { return srvCtmnDesa(cntx); }
+		else if (name === 'ctmn/form') { return srvCtmnForm(cntx); }
+		else if (name === 'dtmn/list') { return srvDtmnList(cntx); }
+		else if (name === 'dtmn/acti') { return srvDtmnActi(cntx); }
+		else if (name === 'dtmn/desa') { return srvDtmnDesa(cntx); }
+		else if (name === 'dtmn/form') { return srvDtmnForm(cntx); }
 		else if (name === 'avis/list') { return srvAvisList(cntx); }
 		else if (name === 'invi/list') { return srvInviList(cntx); }
 		else if (name === 'invi/envi') { return srvInviEnvi(cntx); }
@@ -50,9 +58,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var srv1 = request('lite/list', cntxLite);
 		$q.all([srv1]).then(function() {
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
-			     if (tbla === 'BOOL')       { cntx.data.ltBool       = cntxLite.data.liteList; cntx.data.ltMBool       = cntxLite.data.liteMap; d.resolve(); }
+			     if (tbla === 'BOOL')       { cntx.data.set('ltMBool'    , cntxLite.data.liteMap); cntx.data.set('ltLBool'    , cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'INVIESTA')   { cntx.data.set('ltInviesta', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'INVITIPO')   { cntx.data.set('ltInvitipo', cntxLite.data.liteMap); d.resolve(); }
+			else if (tbla === 'MENUPERF')   { cntx.data.set('ltMMenuperf', cntxLite.data.liteMap); cntx.data.set('ltLMenuperf', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -244,16 +253,16 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	}
 
 	//*************************************************************************************************************//
-	// menu/get: Consulta de menú.                                                                                 //
+	// menu/make: Generación de menú.                                                                              //
 	//*************************************************************************************************************//
-	function srvMenuGet(cntx) {
+	function srvMenuMake(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi)
 		};
 
 		var d = $q.defer();
 				
-		var output = srv.call(targetHost + 'service/angular/menu/get/', dataRequest);
+		var output = srv.call(targetHost + 'service/angular/menu/make/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
@@ -262,6 +271,242 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				$rootScope.data.menuList = data.OUTPUT['menu'];
 				d.resolve(data);
 			}
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCtmnList: Servicio de consuta de categoría de menú.                                             //
+	//*************************************************************************************************************//
+	function srvCtmnList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			perf: cntx.form.get('perf').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ctmn/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('ctmnList', data.OUTPUT['ctmnList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCtmnActi: Servicio de activación de categoría de menú.                                          //
+	//*************************************************************************************************************//
+	function srvCtmnActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ctmn/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('ctmn', data.OUTPUT['ctmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCtmnDesa: Servicio de desactivación de categoría de menú.                                       //
+	//*************************************************************************************************************//
+	function srvCtmnDesa(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ctmn/desa/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('ctmn', data.OUTPUT['ctmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCtmnForm: Servicio de gestión de formulario de categoría de menú.                               //
+	//*************************************************************************************************************//
+	function srvCtmnForm(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data,
+			perf: cntx.form.get('perf').data,
+			desc: cntx.form.get('desc').data,
+			acti: cntx.form.get('acti').data,
+			orde: cntx.form.get('orde').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ctmn/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('ctmn', data.OUTPUT['ctmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDtmnList: Servicio de consuta de detalle de menú.                                               //
+	//*************************************************************************************************************//
+	function srvDtmnList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			ctmn: cntx.form.get('ctmn').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dtmn/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('dtmnList', data.OUTPUT['dtmnList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDtmnActi: Servicio de activación de detalle de menú.                                            //
+	//*************************************************************************************************************//
+	function srvDtmnActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			ctmn: cntx.form.get('ctmn').data,
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dtmn/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('dtmn', data.OUTPUT['dtmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDtmnDesa: Servicio de desactivación de detalle de menú.                                         //
+	//*************************************************************************************************************//
+	function srvDtmnDesa(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			ctmn: cntx.form.get('ctmn').data,
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dtmn/desa/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('dtmn', data.OUTPUT['dtmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDtmnForm: Servicio de gestión de formulario de detalle de menú.                                 //
+	//*************************************************************************************************************//
+	function srvDtmnForm(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			ctmn: cntx.form.get('ctmn').data,
+			iden: cntx.form.get('iden').data,
+			desc: cntx.form.get('desc').data,
+			acti: cntx.form.get('acti').data,
+			orde: cntx.form.get('orde').data,
+			path: cntx.form.get('path').data,
+			icon: cntx.form.get('icon').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dtmn/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('dtmn', data.OUTPUT['dtmn']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}

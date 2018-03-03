@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad CTMN - Categoría de Menu.
+ * Operaciones sobre entidad CTMN - Categorï¿½a de Menu.
  * @author Luis David
  *
  */
@@ -28,5 +28,38 @@ public class CtmnDAO extends BaseDAO {
 				         , Ctmn.class);
 		List<Ctmn> resultList = typedQuery.getResultList();
 		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Ctmn> getListByPerfActi(String perf, String acti) {
+		TypedQuery<Ctmn> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT C FROM Ctmn C"
+				        + " WHERE C.perf = '" + perf + "'"
+				        + "   AND C.acti = '" + acti + "'"
+						+ " ORDER BY C.orde"
+				         , Ctmn.class);
+		List<Ctmn> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public Ctmn getByIden(long iden) {
+		TypedQuery<Ctmn> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT C FROM Ctmn C"
+				        + " WHERE C.iden = " + iden + " "
+				         , Ctmn.class);
+		List<Ctmn> resultList = typedQuery.getResultList();
+		if (resultList != null && resultList.size() > 0) {
+			return resultList.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.MANDATORY)
+	public Ctmn save(Ctmn ctmn) {
+		return getEntityManager().merge(ctmn);
 	}
 }

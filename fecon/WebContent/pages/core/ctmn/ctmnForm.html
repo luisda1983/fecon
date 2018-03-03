@@ -1,0 +1,52 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Categoría de menú</span>
+      			<div flex></div>
+      			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+        	<form name="ctmnForm" data-ng-submit="fnForm()">
+        		<div layout="row" layout-xs="column" layout-sm="column">
+        			<div layout="row" layout-xs="column" flex>
+        				<md-input-container class="md-block" flex data-ng-show="cntx.form.get('iden').show">
+	                		<label>Identificador</label>
+							<input type="text" ng-model="cntx.form.get('iden').data" ng-disabled="cntx.form.get('iden').read"/>
+	                    </md-input-container>
+	                    <md-input-container flex md-no-float class="md-block" data-ng-show="cntx.form.get('perf').show">
+	        				<label>Perfil</label>
+							<md-select ng-model="cntx.form.get('perf').data" ng-disabled="cntx.form.get('perf').read">
+	               				<md-option ng-repeat="perf in cntx.data.get('ltLMenuperf')" ng-value="perf.clav">{{perf.desc}}</md-option>
+	            			</md-select>
+	        			</md-input-container>
+	        			<md-input-container flex md-no-float class="md-block" data-ng-show="cntx.form.get('acti').show">
+	        				<label>Activo</label>
+							<md-select ng-model="cntx.form.get('acti').data" ng-disabled="cntx.form.get('acti').read">
+	               				<md-option ng-repeat="acti in cntx.data.get('ltLBool')" ng-value="acti.clav">{{acti.desc}}</md-option>
+	            			</md-select>
+	        			</md-input-container>
+	        			<md-input-container class="md-block" flex data-ng-show="cntx.form.get('orde').show">
+	                		<label>Orden</label>
+							<input type="text" ng-model="cntx.form.get('orde').data" ng-disabled="cntx.form.get('orde').read"/>
+	                    </md-input-container>
+        			</div>
+        		</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('desc').show">
+	                		<label>Descripción</label>
+							<input type="text" ng-model="cntx.form.get('desc').data" ng-disabled="cntx.form.get('desc').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
+                </div>
+        	</form>
+        </md-content>
+    </div>
+</div>

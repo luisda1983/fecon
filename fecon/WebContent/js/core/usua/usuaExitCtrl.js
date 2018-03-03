@@ -15,7 +15,7 @@ app.controller('usuaExitCtrl', function($rootScope, $q, srv, comc) {
 		$rootScope.esta.usua     = null;
 		
 		//Recargamos el menú
-		var srv1 = comc.request('menu/get', null);
+		var srv1 = comc.request('menu/make', null);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
 			//Home

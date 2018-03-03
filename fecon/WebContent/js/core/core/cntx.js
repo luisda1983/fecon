@@ -16,6 +16,10 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'invi/envi') { return getInviEnviCntx(); }
 		else if (view === '/lgon')     { return getLgonCntx();     }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
+		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
+		else if (view === 'ctmn/form') { return getCtmnFormCntx(); }
+		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
+		else if (view === 'dtmn/form') { return getDtmnFormCntx(); }
 		else {
 			//En caso de no encontrarla, buscamos entre las vistas de la aplicación
 			return ctxa.getCntx(view);
@@ -102,4 +106,53 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		cntx.form.set('btCanc', ctxl.makeBtn('Cancelar'));
 		return cntx;
 	}
+
+	//*************************************************************************************************************//
+	// Contexto: ctmn/list - Lista de categorías de menú.                                                          //
+	//*************************************************************************************************************//
+	function getCtmnListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('perf', ctxl.makeField(''));
+		cntx.form.set('iden', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: ctmn/form - Formulario de categorías de menú.                                                     //
+	//*************************************************************************************************************//
+	function getCtmnFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('perf', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('acti', ctxl.makeField(''));
+		cntx.form.set('orde', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: dtmn/list - Lista de detalle de menú.                                                             //
+	//*************************************************************************************************************//
+	function getDtmnListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('ctmn', ctxl.makeField(0));
+		cntx.form.set('iden', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: dtmn/form - Formulario de detalle de menú.                                                        //
+	//*************************************************************************************************************//
+	function getDtmnFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('ctmn', ctxl.makeField(0));
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('acti', ctxl.makeField(''));
+		cntx.form.set('orde', ctxl.makeField(0));
+		cntx.form.set('path', ctxl.makeField(''));
+		cntx.form.set('icon', ctxl.makeField(''));
+		return cntx;
+	}
+
 }]);
