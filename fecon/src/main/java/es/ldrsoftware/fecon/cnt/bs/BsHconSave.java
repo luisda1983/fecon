@@ -26,6 +26,6 @@ public class BsHconSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconSaveArea area = (BsHconSaveArea)a;
 		
-		validateDto(area.IN.hcon, AppNotify.HCON_SAVE_HCON_RQRD);
+		validateDtoRequired(area.IN.hcon, AppNotify.HCON_SAVE_HCON_RQRD);
 	}
 }

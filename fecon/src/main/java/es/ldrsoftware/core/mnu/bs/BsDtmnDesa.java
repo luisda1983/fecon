@@ -30,7 +30,7 @@ public class BsDtmnDesa extends BaseBS {
 		Dtmn dtmn = bsDtmnGetkArea.OUT.dtmn;
 		
 		//Validamos que exista el detalle de menú
-		validateDto(dtmn, CoreNotify.DTMN_DESA_DTMN_NF);
+		validateDtoRequired(dtmn, CoreNotify.DTMN_DESA_DTMN_NF);
 		
 		//Validamos que el detalle de menú se encuentre activado
 		validateStringEqual(dtmn.getActi(), LiteData.LT_EL_BOOL_SI, CoreNotify.DTMN_DESA_DTMN_ACTI_NO);

@@ -14,6 +14,8 @@ public class BsRelaSaveArea extends BaseBSArea {
 		public long   cln2;
 		public String clc1;
 		public String clc2;
+		
+		public String perf;
 	}
 	
 	public class BsRelaSaveAreaOut {

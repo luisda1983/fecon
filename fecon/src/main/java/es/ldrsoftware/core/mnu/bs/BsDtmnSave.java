@@ -31,7 +31,7 @@ public class BsDtmnSave extends BaseBS {
 		Dtmn dtmn = area.IN.dtmn;
 		
 		//Validamos que el detalle de menú esté informado
-		validateDto(dtmn, CoreNotify.DTMN_SAVE_DTMN_RQRD);
+		validateDtoRequired(dtmn, CoreNotify.DTMN_SAVE_DTMN_RQRD);
 		
 		//Se valida que el identificador de categoría de menú esté informado y dentro de rango
 		validateIntRequired(dtmn.getCtmn(), CoreNotify.DTMN_SAVE_CTMN_RQRD);

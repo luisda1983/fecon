@@ -29,7 +29,7 @@ public class BsHconModi extends BaseBS {
 		
 		Hcon hcon = bsHconGetArea.OUT.hcon;
 		
-		validateDto(hcon, AppNotify.HCON_MODI_HCON_NF);
+		validateDtoRequired(hcon, AppNotify.HCON_MODI_HCON_NF);
 		
 		if (LiteData.LT_EL_HCONMDTIPO_FECHA.equals(area.IN.tipo)) {
 			if (hcon.getFeva() == area.IN.feva) {

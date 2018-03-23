@@ -38,5 +38,6 @@ public class CtInviVali extends BaseController {
 	public void output(BaseBSArea a, ResponseArea response) {
 		BsInviValiArea area = (BsInviValiArea)a;
 		response.OUTPUT.put("invi", area.OUT.invi);
+		response.OUTPUT.put("exus", area.OUT.exus);
 	}
 }

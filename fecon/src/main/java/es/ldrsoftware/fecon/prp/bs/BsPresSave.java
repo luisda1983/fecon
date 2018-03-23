@@ -22,7 +22,7 @@ public class BsPresSave extends BaseBS {
 
 		Pres pres = area.IN.pres;
 		
-		//Si el estado es 'N', quiere decir que aún no está creado el registro, y debe pasar a 'A'-Abierto
+		//Si el estado es 'N', quiere decir que aï¿½n no estï¿½ creado el registro, y debe pasar a 'A'-Abierto
 		if (LiteData.LT_EL_PRESESTA_NO_CREADA.equals(pres.getEsta())) {
 			pres.setEsta(LiteData.LT_EL_PRESESTA_ABIERTA);
 		}
@@ -36,6 +36,6 @@ public class BsPresSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresSaveArea area = (BsPresSaveArea)a;
 		
-		validateDto(area.IN.pres, AppNotify.PRES_SAVE_PRES_RQRD);
+		validateDtoRequired(area.IN.pres, AppNotify.PRES_SAVE_PRES_RQRD);
 	}
 }

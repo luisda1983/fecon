@@ -13,33 +13,34 @@ import es.ldrsoftware.core.oui.entity.Invi;
 public class BsInviRech extends BaseBS {
 
 	@Autowired
-	private BsInviSave bsInviSave;
+	BsInviSave bsInviSave;
 	
 	@Autowired
-	private BsInviGetk  bsInviGet;
+	BsInviGetk  bsInviGet;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviRechArea area = (BsInviRechArea)a;
 	
-		//Consultamos la invitaci�n
+		//Consultamos la invitación
 		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
 		bsInviGetArea.IN.iden = area.IN.iden;
 		bsInviGet.executeBS(bsInviGetArea);
 		
 		Invi invi = bsInviGetArea.OUT.invi;
 		
-		if (invi == null) {
-			notify(CoreNotify.INVI_RECH_NF);
-		}
+		validateDtoRequired(invi, CoreNotify.INVI_RECH_INVI_NF);
 		
+		//La invitación debe estar en estado solicitado para poder ser rechazada
 		if (!LiteData.LT_EL_INVIESTA_SOLICITADA.equals(invi.getEsta())) {
 			notify(CoreNotify.INVI_RECH_ESTA_ERRO);
 		}
 		
+		//Rechazamos la invitación
 		invi.setEsta(LiteData.LT_EL_INVIESTA_RECHAZADA);
 		invi.setFemo(SESSION.get().feop);
 		invi.setHomo(SESSION.get().hoop);
 		
+		//Guardamos la invitación
 		BsInviSaveArea bsInviSaveArea = new BsInviSaveArea();
 		bsInviSaveArea.IN.invi = invi;
 		bsInviSave.executeBS(bsInviSaveArea);
@@ -49,7 +50,8 @@ public class BsInviRech extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviRechArea area = (BsInviRechArea)a;
-		
+
+		//Validamos que el identificador de invitación esté informado
 		validateStringRequired(area.IN.iden, CoreNotify.INVI_RECH_IDEN_RQRD);
 
 	}

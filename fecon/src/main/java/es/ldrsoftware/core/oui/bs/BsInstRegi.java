@@ -11,36 +11,41 @@ import es.ldrsoftware.core.fwk.bs.BsParaGetArea;
 import es.ldrsoftware.core.fwk.bs.BsRelaSave;
 import es.ldrsoftware.core.fwk.bs.BsRelaSaveArea;
 import es.ldrsoftware.core.fwk.data.LiteData;
+import es.ldrsoftware.core.fwk.data.PVConfigmlti;
 import es.ldrsoftware.core.fwk.data.PVConfregist;
+import es.ldrsoftware.core.fwk.data.PVDynamicfld;
 import es.ldrsoftware.core.fwk.data.ParaData;
 import es.ldrsoftware.core.oui.entity.Inst;
-import es.ldrsoftware.core.oui.entity.Invi;
 import es.ldrsoftware.core.oui.entity.Usua;
 
 @Component
 public class BsInstRegi extends BaseBS {
 	
 	@Autowired
-	public BsParaGet bsParaGet;
-	
-	@Autowired
-	public BsInviVali bsInviVali;
+	BsParaGet bsParaGet;
 
 	@Autowired
-	public BsInviSave bsInviSave;
+	BsInstGetd bsInstGetd;
 	
 	@Autowired
-	public BsInstSave bsInstSave;
-	
-	@Autowired
-	public BsUsuaRegi bsUsuaRegi;
+	BsInstSave bsInstSave;
 
 	@Autowired
-	public BsRelaSave bsRelaSave;
+	BsInstCodiGene bsInstCodiGene;
+	
+	@Autowired
+	BsUsuaRegi bsUsuaRegi;
+
+	@Autowired
+	BsUsuaVali bsUsuaVali;
+	
+	@Autowired
+	BsRelaSave bsRelaSave;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInstRegiArea area = (BsInstRegiArea)a;
 		
+		//Obtenemos la configuración del registro en la aplicación
 		BsParaGetArea bsParaGetArea = new BsParaGetArea();
 		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
 		bsParaGetArea.IN.clav = ParaData.PARA_ELEM_APCF_CFRG;
@@ -48,77 +53,144 @@ public class BsInstRegi extends BaseBS {
 		
 		PVConfregist pvConfregist = (PVConfregist)bsParaGetArea.OUT.para.getPval();
 		
-		//Variable para guardar la invitaci�n (en caso de ser necesaria)
-		Invi invi = null;
-		
-		if ("C".equals(pvConfregist.esta)) {
+		//Si el registro está cerrado, no lo permitimos
+		if (LiteData.LT_EL_CONFREGIST_CERRADO.equals(pvConfregist.esta)) {
 			notify(CoreNotify.INST_REGI_CERR);
-		} else if ("I".equals(pvConfregist.esta)) {
-			validateStringRequired(area.IN.invi, CoreNotify.INST_REGI_INVI_RQRD);
-			
-			BsInviValiArea bsInviValiArea = new BsInviValiArea();
-			bsInviValiArea.IN.iden = area.IN.invi;
-			bsInviVali.executeBS(bsInviValiArea);
-			
-			invi = bsInviValiArea.OUT.invi;
 		}
 		
+		//Si el registro está restringido por invitación, se debe indicar que la invitación está validada
+		if (LiteData.LT_EL_CONFREGIST_INVITACION.equals(pvConfregist.esta)) {
+			if (!area.IN.invi) {
+				notify(CoreNotify.INST_REGI_INVI_NO);
+			}
+		}
+
+		//Obtenemos la configuración de multiinstalación de la aplicación
+		bsParaGetArea = new BsParaGetArea();
+		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
+		bsParaGetArea.IN.clav = ParaData.PARA_ELEM_APCF_MLTI;
+		bsParaGet.executeBS(bsParaGetArea);
+		
+		PVConfigmlti pvConfigmlti = (PVConfigmlti)bsParaGetArea.OUT.para.getPval();
+		
+		//Si no está permitida la multiinstalación, no se permite el registro con usuario existente
+		if (LiteData.LT_EL_BOOL_NO.equals(pvConfigmlti.mlti)) {
+			if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
+				notify(CoreNotify.INST_REGI_MLTI_NO);
+			}
+		}
+		
+		//Generamos el código de instalación
+		BsInstCodiGeneArea bsInstCodiGeneArea = new BsInstCodiGeneArea();
+		bsInstCodiGene.executeBS(bsInstCodiGeneArea);
+		
+		String codi = bsInstCodiGeneArea.OUT.codi;
+		
+		//Obtenemos la configuración de la descripción de instalación
+		bsParaGetArea = new BsParaGetArea();
+		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_DYNF;
+		bsParaGetArea.IN.clav = ParaData.PARA_ELEM_DYNF_RIDE;
+		bsParaGet.executeBS(bsParaGetArea);
+		
+		PVDynamicfld pvDynamicfld = (PVDynamicfld)bsParaGetArea.OUT.para.getPval();
+		
+		String desc = "";
+
+		//Si está configurada para ser capturada, validamos que esté informada. En caso contrario, generamos la descripción
+		if (LiteData.LT_EL_BOOL_SI.equals(pvDynamicfld.show)) {
+			validateStringRequired(area.IN.desc, CoreNotify.INST_REGI_DESC_RQRD);
+			desc = area.IN.desc;
+		} else {
+			desc = "Instalación " + codi;
+		}
+		
+		//Validar que no exista la descripción
+		BsInstGetdArea bsInstGetdArea = new BsInstGetdArea();
+		bsInstGetdArea.IN.desc = desc;
+		bsInstGetd.executeBS(bsInstGetdArea);
+		
+		if (bsInstGetdArea.OUT.inst != null) {
+			notify(CoreNotify.INST_REGI_DESC_DP);
+		}
+		
+		//Generamos la instalación.
 		Inst inst = new Inst();
-		//TODO: La descripci�n depender� de si se toma por pantalla o no. Formar una descripci�n en caso de no ser campo de entrada.
-		inst.setDesc("Instalaci�n ");
-		inst.setEsta("A");
+		inst.setDesc(desc);
+		inst.setEsta(LiteData.LT_EL_INSTESTA_ACTIVA);
 		inst.setFeal(SESSION.get().feop);
 		inst.setFeul(SESSION.get().feop);
-		inst.setTipo("N");
+		inst.setTipo(LiteData.LT_EL_INSTTIPO_NORMAL);
+		inst.setCodi(codi);
 		
+		//Grabamos la instalación
 		BsInstSaveArea bsInstSaveArea = new BsInstSaveArea();
 		bsInstSaveArea.IN.inst = inst;
 		bsInstSave.executeBS(bsInstSaveArea);
 		
 		inst = bsInstSaveArea.OUT.inst;
 		
-		//Registramos el usuario
-		BsUsuaRegiArea bsUsuaRegiArea = new BsUsuaRegiArea();
-		bsUsuaRegiArea.IN.iden = area.IN.usua;
-		bsUsuaRegiArea.IN.pass = area.IN.pass;
-		bsUsuaRegiArea.IN.cpas = area.IN.cpas;
-		bsUsuaRegiArea.IN.mail = area.IN.mail;
-		bsUsuaRegiArea.IN.perf = "ADM";
-		bsUsuaRegi.executeBS(bsUsuaRegiArea);
+		Usua usua = new Usua();
 		
-		Usua usua = bsUsuaRegiArea.OUT.usua;
-		
-		//Asociamos el usuario y la instalaci�n
-		BsRelaSaveArea bsRelaSaveArea = new BsRelaSaveArea();
-		bsRelaSaveArea.IN.rela = BsRelaSave.RELA_REGI_INST_USUA;
-		bsRelaSaveArea.IN.cln1 = inst.getIden();
-		bsRelaSaveArea.IN.clc2 = usua.getIden();
-		bsRelaSave.executeBS(bsRelaSaveArea);
-
-		//En caso de tener invitaci�n, la finalizamos
-		if (invi != null) {
-			invi.setEsta(LiteData.LT_EL_INVIESTA_FINALIZADA);
-			invi.setFemo(SESSION.get().feop);
-			invi.setHomo(SESSION.get().hoop);
-			invi.setInst(inst.getIden());
-			invi.setUsua(usua.getIden());
+		//Si el tipo de registro indica que el usuario es nuevo, lo registramos (el registro ya lo asocia a la instalación)
+		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
+			//Registramos el usuario
+			BsUsuaRegiArea bsUsuaRegiArea = new BsUsuaRegiArea();
+			bsUsuaRegiArea.IN.inst = inst.getIden();
+			bsUsuaRegiArea.IN.invi = area.IN.invi;
+			bsUsuaRegiArea.IN.codi = null;
+			bsUsuaRegiArea.IN.numo = area.IN.numo;
+			bsUsuaRegiArea.IN.iden = area.IN.usua;
+			bsUsuaRegiArea.IN.pass = area.IN.pass;
+			bsUsuaRegiArea.IN.cpas = area.IN.cpas;
+			bsUsuaRegiArea.IN.mail = area.IN.mail;
+			bsUsuaRegiArea.IN.perf = LiteData.LT_EL_USUAPERF_ADM;
+			bsUsuaRegi.executeBS(bsUsuaRegiArea);
 			
-			BsInviSaveArea bsInviSaveArea = new BsInviSaveArea();
-			bsInviSaveArea.IN.invi = invi;
-			bsInviSave.executeBS(bsInviSaveArea);
+			usua = bsUsuaRegiArea.OUT.usua;
+		
+		//Si el tipo de registro indica que el usuario existe, lo validamos y lo asociamos a la instalación
+		} else if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
+			//Validamos credenciales del usuario
+			BsUsuaValiArea bsUsuaValiArea = new BsUsuaValiArea();
+			bsUsuaValiArea.IN.iden = area.IN.usua;
+			bsUsuaValiArea.IN.pass = area.IN.pass;
+			bsUsuaValiArea.IN.mail = area.IN.mail;
+			bsUsuaVali.executeBS(bsUsuaValiArea);
+			
+			usua = bsUsuaValiArea.OUT.usua;
+			
+			//Asociamos el usuario y la instalación
+			BsRelaSaveArea bsRelaSaveArea = new BsRelaSaveArea();
+			bsRelaSaveArea.IN.rela = BsRelaSave.RELA_REGI_INST_USUA;
+			bsRelaSaveArea.IN.cln1 = inst.getIden();
+			bsRelaSaveArea.IN.clc2 = usua.getIden();
+			bsRelaSaveArea.IN.perf = LiteData.LT_EL_USUAPERF_ADM;
+			bsRelaSave.executeBS(bsRelaSaveArea);
+
 		}
 		
 		area.OUT.inst = inst;
-		
+		area.OUT.usua = usua;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInstRegiArea area = (BsInstRegiArea)a;
 		
-		validateStringRequired(area.IN.mail, CoreNotify.INST_REGI_MAIL_RQRD);
-		validateStringRequired(area.IN.usua, CoreNotify.INST_REGI_USUA_RQRD);
-		validateStringRequired(area.IN.pass, CoreNotify.INST_REGI_PASS_RQRD);
-		validateStringRequired(area.IN.cpas, CoreNotify.INST_REGI_CPAS_RQRD);
+		//Validamos el tipo de usuario (nuevo, existente) en el registro)
+		validateStringRequired(area.IN.numo, CoreNotify.INST_REGI_NUMO_RQRD);
+		validateStringDomain(CoreNotify.INST_REGI_NUMO_ERRO, area.IN.numo, LiteData.LT_ST_REGTIPOUSU);
 		
+		//Si el usuario es nuevo, se validan mail, usuario, password y confirmación de password
+		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
+			validateStringRequired(area.IN.mail, CoreNotify.INST_REGI_MAIL_RQRD);
+			validateStringRequired(area.IN.usua, CoreNotify.INST_REGI_USUA_RQRD);
+			validateStringRequired(area.IN.pass, CoreNotify.INST_REGI_PASS_RQRD);
+			validateStringRequired(area.IN.cpas, CoreNotify.INST_REGI_CPAS_RQRD);
+		//Si el usuario es existente, validamos usuario y password
+		} else if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
+			validateStringRequired(area.IN.usua, CoreNotify.INST_REGI_USUA_RQRD);
+			validateStringRequired(area.IN.pass, CoreNotify.INST_REGI_PASS_RQRD);
+		}
+
 	}
 }

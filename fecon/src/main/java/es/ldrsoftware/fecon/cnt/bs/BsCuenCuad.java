@@ -26,9 +26,9 @@ public class BsCuenCuad extends BaseBS {
 		
 		Cuen cuen = bsCuenGetArea.OUT.cuen;
 		
-		validateDto(cuen, AppNotify.CUEN_CUAD_CUEN_NF);
+		validateDtoRequired(cuen, AppNotify.CUEN_CUAD_CUEN_NF);
 
-		//TODO: validación de concurrencia. No funciona por redondeo
+		//TODO: validaciï¿½n de concurrencia. No funciona por redondeo
 //		if (cuen.getSald() != area.IN.sald) {
 //			System.out.println(cuen.getSald() + " vs " + area.IN.sald);
 //			notify(AppNotify.CUEN_CUAD_CONCURREN);

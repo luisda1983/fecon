@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.RDInstUsua;
 import es.ldrsoftware.core.fwk.entity.Rela;
 import es.ldrsoftware.core.fwk.entity.RelaDAO;
 
@@ -36,6 +37,9 @@ public class BsRelaSave extends BaseBS {
 			rela.setCln2(0);
 			rela.setEsta("A");
 			rela.setFeal(SESSION.get().feop);
+			RDInstUsua data = new RDInstUsua();
+			data.perf = area.IN.perf;
+			rela.setData(data.format());
 			relaDao.save(rela);
 			break;
 		default:
@@ -54,6 +58,7 @@ public class BsRelaSave extends BaseBS {
 			case RELA_REGI_INST_USUA:
 				validateIntRequired(area.IN.cln1, CoreNotify.RELA_SAVE_CLN1_RQRD);
 				validateStringRequired(area.IN.clc2, CoreNotify.RELA_SAVE_CLC2_RQRD);
+				validateStringRequired(area.IN.perf, CoreNotify.RELA_SAVE_PERF_RQRD);
 				break;
 			default:
 				notify(CoreNotify.RELA_SAVE_RELA_ERRO);

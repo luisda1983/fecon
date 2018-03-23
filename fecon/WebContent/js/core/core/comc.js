@@ -9,25 +9,35 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		     if (name === 'lite/list') { return srvLiteList(cntx); }
 		else if (name === 'lite/get' ) { return srvLiteGet(cntx);  } 
 		else if (name === 'para/get' ) { return srvParaGet(cntx);  }
-		else if (name === 'menu/make') { return srvMenuMake(cntx); }
-		else if (name === 'ctmn/list') { return srvCtmnList(cntx); }
+		else if (name === 'avis/list') { return srvAvisList(cntx); }
 		else if (name === 'ctmn/acti') { return srvCtmnActi(cntx); }
 		else if (name === 'ctmn/desa') { return srvCtmnDesa(cntx); }
 		else if (name === 'ctmn/form') { return srvCtmnForm(cntx); }
-		else if (name === 'dtmn/list') { return srvDtmnList(cntx); }
+		else if (name === 'ctmn/list') { return srvCtmnList(cntx); }
 		else if (name === 'dtmn/acti') { return srvDtmnActi(cntx); }
 		else if (name === 'dtmn/desa') { return srvDtmnDesa(cntx); }
 		else if (name === 'dtmn/form') { return srvDtmnForm(cntx); }
-		else if (name === 'avis/list') { return srvAvisList(cntx); }
-		else if (name === 'invi/list') { return srvInviList(cntx); }
-		else if (name === 'invi/envi') { return srvInviEnvi(cntx); }
+		else if (name === 'dtmn/list') { return srvDtmnList(cntx); }
+		else if (name === 'inst/acti') { return srvInstActi(cntx); }
+		else if (name === 'inst/inac') { return srvInstInac(cntx); }
+		else if (name === 'inst/list') { return srvInstList(cntx); }
+		else if (name === 'inst/norm') { return srvInstNorm(cntx); }
+		else if (name === 'inst/prem') { return srvInstPrem(cntx); }
+		else if (name === 'inst/regi') { return srvInstRegi(cntx); }
 		else if (name === 'invi/acep') { return srvInviAcep(cntx); }
+		else if (name === 'invi/envi') { return srvInviEnvi(cntx); }
+		else if (name === 'invi/list') { return srvInviList(cntx); }
+		else if (name === 'invi/proc') { return srvInviProc(cntx); }
 		else if (name === 'invi/rech') { return srvInviRech(cntx); }
 		else if (name === 'invi/soli') { return srvInviSoli(cntx); }
 		else if (name === 'invi/vali') { return srvInviVali(cntx); }
-		else if (name === 'invi/proc') { return srvInviProc(cntx); }
-		else if (name === 'usua/lgon') { return srvUsuaLgon(cntx); }    //Login de Usuario
+		else if (name === 'menu/make') { return srvMenuMake(cntx); }
+		else if (name === 'usua/acti') { return srvUsuaActi(cntx); }
 		else if (name === 'usua/exit') { return srvUsuaExit(cntx); }
+		else if (name === 'usua/inac') { return srvUsuaInac(cntx); }     
+		else if (name === 'usua/lgon') { return srvUsuaLgon(cntx); }
+		else if (name === 'usua/list') { return srvUsuaList(cntx); }
+		else if (name === 'usua/regi') { return srvUsuaRegi(cntx); }
 		else {
 			return coma.request(name, cntx);
 		}
@@ -62,6 +72,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'INVIESTA')   { cntx.data.set('ltInviesta', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'INVITIPO')   { cntx.data.set('ltInvitipo', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'MENUPERF')   { cntx.data.set('ltMMenuperf', cntxLite.data.liteMap); cntx.data.set('ltLMenuperf', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'INSTESTA')   { cntx.data.set('ltMInstesta', cntxLite.data.liteMap); cntx.data.set('ltLInstesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'INSTTIPO')   { cntx.data.set('ltMInsttipo', cntxLite.data.liteMap); cntx.data.set('ltLInsttipo', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -150,6 +162,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		$q.all([srv1]).then(function() {
 			//Mapeamos el parámetro al campo asociado al mismo y resolvemos el promise
 			     if (tbla === 'APLICONFIG' && clav === 'CONFREGIST') { cntx.data.set('prConfregist', cntxPara.data.para); d.resolve(); }
+			else if (tbla === 'APLICONFIG' && clav === 'MULTIINSTA') { cntx.data.set('prMultiinsta', cntxPara.data.para); d.resolve(); }
 			else if (tbla === 'DYNAMICFLD' && clav === 'REGINVDESC') { cntx.data.set('prReginvdesc', cntxPara.data.para); d.resolve(); }
 			//else if
 			//Si no tenemos mapeado el parámetro, buscamos en el componente de aplicación
@@ -253,7 +266,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	}
 
 	//*************************************************************************************************************//
-	// menu/make: Generación de menú.                                                                              //
+	// PRIVATE: srvMenuMake: Servicio de generación de menú.                                                       //
 	//*************************************************************************************************************//
 	function srvMenuMake(cntx) {
 		var dataRequest = {
@@ -271,6 +284,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				$rootScope.data.menuList = data.OUTPUT['menu'];
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -511,6 +528,180 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstList: Servicio de consuta de instalaciones.                                                 //
+	//*************************************************************************************************************//
+	function srvInstList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			esta: cntx.form.get('esta').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('instList', data.OUTPUT['instList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstActi: Servicio de activación de instalación.                                                //
+	//*************************************************************************************************************//
+	function srvInstActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('inst', data.OUTPUT['inst']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstInac: Servicio de inactivación de instalación.                                              //
+	//*************************************************************************************************************//
+	function srvInstInac(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/inac/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('inst', data.OUTPUT['inst']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstPrem: Servicio de conversión de instalación en Premium.                                     //
+	//*************************************************************************************************************//
+	function srvInstPrem(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/prem/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('inst', data.OUTPUT['inst']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstNorm: Servicio de eliminación de Premium a instalación.                                     //
+	//*************************************************************************************************************//
+	function srvInstNorm(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/norm/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('inst', data.OUTPUT['inst']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvInstRegi: Servicio de registro de instalación.                                                  //
+	//*************************************************************************************************************//
+	function srvInstRegi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			desc: cntx.form.get('desc').data,
+			numo: cntx.form.get('numo').data,
+			mail: cntx.form.get('mail').data,
+			usua: cntx.form.get('usua').data,
+			pass: cntx.form.get('pass').data,
+			cpas: cntx.form.get('cpas').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/inst/regi/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('inst', data.OUTPUT['inst']);
+				cntx.data.set('usua', data.OUTPUT['usua']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
     ////////////////////////////////////////////////////////////////
 	// avis/list: Consulta de avisos                              //
 	////////////////////////////////////////////////////////////////
@@ -554,6 +745,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.set('inviList', data.OUTPUT['inviList']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -578,6 +773,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.set('invi', data.OUTPUT['invi']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -602,6 +801,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.set('invi', data.OUTPUT['invi']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -626,6 +829,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.set('invi', data.OUTPUT['invi']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -648,6 +855,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			} else {
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -669,8 +880,13 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.set('invi', data.OUTPUT['invi']);
+				cntx.data.set('exis', data.OUTPUT['exis']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -681,9 +897,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	function srvInviProc(cntx) {
 		var dataRequest = {
 			iden : cntx.form.get('invi').data,
+			desc : cntx.form.get('desc').data,
+			numo : cntx.form.get('numo').data,
 			mail : cntx.form.get('mail').data,
-			//FIXME
-			//desc : $scope.form.desc,
 			usua : cntx.form.get('usua').data,
 			pass : cntx.form.get('pass').data,
 			cpas : cntx.form.get('cpas').data
@@ -698,8 +914,14 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.set('invi', data.OUTPUT['invi']);
+				cntx.data.set('usua', data.OUTPUT['usua']);
+				cntx.data.set('inst', data.OUTPUT['inst']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -726,13 +948,17 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.set('usua', data.OUTPUT['usua']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-    ////////////////////////////////////////////////////////////////
-	// usua/exit: Logout de usuario                               //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvUsuaExit: Servicio de logout de usuario.                                                        //
+	//*************************************************************************************************************//
 	function srvUsuaExit(cntx) {
 		var dataRequest = {
 			sesi: parseInt($rootScope.esta.sesi)
@@ -748,7 +974,131 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			} else {
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvUsuaRegi: Servicio de registro de usuario.                                                      //
+	//*************************************************************************************************************//
+	function srvUsuaRegi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			codi: cntx.form.get('codi').data,
+			numo: cntx.form.get('numo').data,
+			mail: cntx.form.get('mail').data,
+			iden: cntx.form.get('usua').data,
+			pass: cntx.form.get('pass').data,
+			cpas: cntx.form.get('cpas').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/regi/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('usua', data.OUTPUT['usua']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvUsuaList: Servicio de consulta de usuarios.                                                     //
+	//*************************************************************************************************************//
+	function srvUsuaList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			inst: cntx.form.get('inst').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('usuaList', data.OUTPUT['usuaList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvUsuaActi: Servicio de activación de usuario.                                                    //
+	//*************************************************************************************************************//
+	function srvUsuaActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			inst: cntx.form.get('inst').data,
+			iden: cntx.form.get('usua').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('usua', data.OUTPUT['usua']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvUsuaInac: Servicio de inactivación de usuario.                                                  //
+	//*************************************************************************************************************//
+	function srvUsuaInac(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			inst: cntx.form.get('inst').data,
+			iden: cntx.form.get('usua').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/usua/inac/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('usua', data.OUTPUT['usua']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
 }]);

@@ -12,14 +12,16 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 
 		//Buscamos la vista para devolver su contexto.
 		     if (view === 'avis/list') { return getAvisListCntx(); }
-		else if (view === 'invi/list') { return getInviListCntx(); }
-		else if (view === 'invi/envi') { return getInviEnviCntx(); }
-		else if (view === '/lgon')     { return getLgonCntx();     }
-		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
-		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
 		else if (view === 'ctmn/form') { return getCtmnFormCntx(); }
-		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
+		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
 		else if (view === 'dtmn/form') { return getDtmnFormCntx(); }
+		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
+		else if (view === 'inst/list') { return getInstListCntx(); }
+		else if (view === 'invi/envi') { return getInviEnviCntx(); }
+		else if (view === 'invi/list') { return getInviListCntx(); }
+		else if (view === 'usua/list') { return getUsuaListCntx(); }
+		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
+		else if (view === '/lgon')     { return getLgonCntx();     }
 		else {
 			//En caso de no encontrarla, buscamos entre las vistas de la aplicación
 			return ctxa.getCntx(view);
@@ -95,15 +97,30 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	function getUsuaRegiCntx() {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('invi', ctxl.makeField(''));
-		cntx.form.set('mail', ctxl.makeField(''));
-		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('tipo', ctxl.makeField(''));
 		cntx.form.set('ldes', ctxl.makeLabel(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('codi', ctxl.makeField(''));
+		cntx.form.set('numo', ctxl.makeField(''));
+		cntx.form.set('mail', ctxl.makeField(''));
 		cntx.form.set('usua', ctxl.makeField(''));
 		cntx.form.set('pass', ctxl.makeField(''));
 		cntx.form.set('cpas', ctxl.makeField(''));
+
 		cntx.form.set('btRegi', ctxl.makeBtn('Registrar'));
 		cntx.form.set('btSoli', ctxl.makeBtn('Solicitar'));
 		cntx.form.set('btCanc', ctxl.makeBtn('Cancelar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: usua/list - Lista de usuarios.                                                                    //
+	//*************************************************************************************************************//
+	function getUsuaListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('inst', ctxl.makeField(0));
+		cntx.form.set('usua', ctxl.makeField(''));
+		cntx.form.set('srch', ctxl.makeField(''));
 		return cntx;
 	}
 
@@ -152,6 +169,17 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		cntx.form.set('orde', ctxl.makeField(0));
 		cntx.form.set('path', ctxl.makeField(''));
 		cntx.form.set('icon', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: inst/list - Lista de instalaciones.                                                               //
+	//*************************************************************************************************************//
+	function getInstListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('esta', ctxl.makeField(''));
+		cntx.form.set('srch', ctxl.makeField(''));
 		return cntx;
 	}
 

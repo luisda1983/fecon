@@ -6,78 +6,195 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.bs.BsParaGet;
+import es.ldrsoftware.core.fwk.bs.BsParaGetArea;
+import es.ldrsoftware.core.fwk.bs.BsRelaSave;
+import es.ldrsoftware.core.fwk.bs.BsRelaSaveArea;
+import es.ldrsoftware.core.fwk.data.LiteData;
+import es.ldrsoftware.core.fwk.data.PVConfigmlti;
+import es.ldrsoftware.core.fwk.data.PVConfregist;
+import es.ldrsoftware.core.fwk.data.ParaData;
+import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.Usua;
 
 @Component
 public class BsUsuaRegi extends BaseBS {
 
 	@Autowired
-	private BsUsuaGetk bsUsuaGet;
+	BsUsuaGetk bsUsuaGet;
 
 	@Autowired
-	private BsUsuaGetm bsUsuaGetm;
+	BsUsuaGetm bsUsuaGetm;
 	
 	@Autowired
-	private BsUsuaSave bsUsuaSave;
+	BsUsuaSave bsUsuaSave;
+
+	@Autowired
+	BsUsuaVali bsUsuaVali;
+	
+	@Autowired
+	BsInstGetk bsInstGetk;
+
+	@Autowired
+	BsInstGetc bsInstGetc;
+	
+	@Autowired
+	BsRelaSave bsRelaSave;
+	
+	@Autowired
+	BsParaGet bsParaGet;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsUsuaRegiArea area = (BsUsuaRegiArea)a;
-		
-		//Obtenemos el usuario de la BBDD
-		BsUsuaGetkArea bsUsuaGetkArea = new BsUsuaGetkArea();
-		bsUsuaGetkArea.IN.iden = area.IN.iden;
-		bsUsuaGet.executeBS(bsUsuaGetkArea);
-		
-		Usua usua = bsUsuaGetkArea.OUT.usua;
-		
-		//Validamos que no existe usuario con el mismo identificador
-		if (usua != null) { notify(CoreNotify.USUA_REGI_IDEN_DP); }
-		
-		BsUsuaGetmArea bsUsuaGetmArea = new BsUsuaGetmArea();
-		bsUsuaGetmArea.IN.mail = area.IN.mail;
-		bsUsuaGetm.executeBS(bsUsuaGetmArea);
-		
-		usua = bsUsuaGetmArea.OUT.usua;
-		
-		if (usua != null) { notify(CoreNotify.USUA_REGI_MAIL_DP); }
-		
-		//Validamos que el password introducido coindide
-		if (!area.IN.pass.equals(area.IN.cpas)) { notify(CoreNotify.USUA_REGI_PASS_CPAS_ERRO); }
 
-		//Validamos el perfil. No se permite el registro de usuarios con perfil APM
-		//TODO: validar contra referencial
-		if (area.IN.perf.equals("APM")) { notify(CoreNotify.USUA_REGI_PERF_APM); }
+		//Obtenemos la configuración del registro en la aplicación
+		BsParaGetArea bsParaGetArea = new BsParaGetArea();
+		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
+		bsParaGetArea.IN.clav = ParaData.PARA_ELEM_APCF_CFRG;
+		bsParaGet.executeBS(bsParaGetArea);
 		
-		if (!area.IN.perf.equals("ADM") && !area.IN.perf.equals("USR")) { notify(CoreNotify.USUA_REGI_PERF_ERRO); }
+		PVConfregist pvConfregist = (PVConfregist)bsParaGetArea.OUT.para.getPval();
 		
-		//Creamos el usuario
-		usua = new Usua();
-		usua.setIden(area.IN.iden);
-		usua.setMail(area.IN.mail);
-		usua.setPass(area.IN.pass);
-		usua.setPerf(area.IN.perf);
-		usua.setFeal(SESSION.get().feop);
-		usua.setHoal(SESSION.get().hoop);
-		usua.setFeul(SESSION.get().feop);
-		usua.setHoul(SESSION.get().hoop);
-		usua.setActi("S");
+		//Si el registro está cerrado, no lo permitimos
+		if (LiteData.LT_EL_CONFREGIST_CERRADO.equals(pvConfregist.esta)) {
+			notify(CoreNotify.USUA_REGI_CERR);
+		}
 		
-		//Guardamos el usuario en la BBDD
-		BsUsuaSaveArea bsUsuaSaveArea = new BsUsuaSaveArea();
-		bsUsuaSaveArea.IN.usua = usua;
-		bsUsuaSave.executeBS(bsUsuaSaveArea);
-				
+		//Si el registro está restringido por invitación, se debe indicar que la invitación está validada
+		if (LiteData.LT_EL_CONFREGIST_INVITACION.equals(pvConfregist.esta)) {
+			if (!area.IN.invi) {
+				notify(CoreNotify.USUA_REGI_INVI_NO);
+			}
+		}
+
+		//Obtenemos la configuración de multiinstalación de la aplicación
+		bsParaGetArea = new BsParaGetArea();
+		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
+		bsParaGetArea.IN.clav = ParaData.PARA_ELEM_APCF_MLTI;
+		bsParaGet.executeBS(bsParaGetArea);
+		
+		PVConfigmlti pvConfigmlti = (PVConfigmlti)bsParaGetArea.OUT.para.getPval();
+		
+		//Si no está permitida la multiinstalación, no se permite el registro con usuario existente
+		if (LiteData.LT_EL_BOOL_NO.equals(pvConfigmlti.mlti)) {
+			if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
+				notify(CoreNotify.USUA_REGI_MLTI_NO);
+			}
+		}
+
+		//Obtenemos la instalación (por identificador o por codigo)
+		Inst inst;
+		
+		if (area.IN.inst != 0) {
+			BsInstGetkArea bsInstGetkArea = new BsInstGetkArea();
+			bsInstGetkArea.IN.iden = area.IN.inst;
+			bsInstGetk.executeBS(bsInstGetkArea);
+			
+			inst = bsInstGetkArea.OUT.inst;
+		} else {
+			validateStringRequired(area.IN.codi, CoreNotify.USUA_REGI_INST_DATA_RQRD);
+			
+			BsInstGetcArea bsInstGetcArea = new BsInstGetcArea();
+			bsInstGetcArea.IN.codi = area.IN.codi;
+			bsInstGetc.executeBS(bsInstGetcArea);
+			
+			inst = bsInstGetcArea.OUT.inst;
+		}
+		validateDtoRequired(inst, CoreNotify.USUA_REGI_INST_NF);
+		
+		Usua usua;
+		
+		//Si el tipo de registro indica que el usuario es nuevo, hacemos las operaciones propias del registro
+		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
+			//Validamos si ya existe un usuario con el mismo identificador
+			BsUsuaGetkArea bsUsuaGetkArea = new BsUsuaGetkArea();
+			bsUsuaGetkArea.IN.iden = area.IN.iden;
+			bsUsuaGet.executeBS(bsUsuaGetkArea);
+		
+			usua = bsUsuaGetkArea.OUT.usua;
+		
+			validateDtoEmpty(usua, CoreNotify.USUA_REGI_IDEN_DP); 
+		
+			//Validamos si ya existe un usuario con el mismo email
+			BsUsuaGetmArea bsUsuaGetmArea = new BsUsuaGetmArea();
+			bsUsuaGetmArea.IN.mail = area.IN.mail;
+			bsUsuaGetm.executeBS(bsUsuaGetmArea);
+		
+			usua = bsUsuaGetmArea.OUT.usua;
+		
+			validateDtoEmpty(usua, CoreNotify.USUA_REGI_MAIL_DP);
+		
+			//Validamos que el password introducido coindide
+			validateStringEqual(area.IN.pass, area.IN.cpas, CoreNotify.USUA_REGI_PASS_CPAS_ERRO);
+		
+			//No se permite el registro de usuarios con perfil APM. Aunque queda cubierto por la siguiente validación,
+			//la hacemos a parte, para controlarlo
+			if (area.IN.perf.equals(LiteData.LT_EL_USUAPERF_APM)) { 
+				notify(CoreNotify.USUA_REGI_PERF_APM); 
+			}
+		
+			//Validamos los perfiles permitidos. 
+			validateStringDomain(CoreNotify.USUA_REGI_PERF_ERRO, area.IN.perf, LiteData.LT_EL_USUAPERF_ADM, LiteData.LT_EL_USUAPERF_USR);
+		
+			//Creamos el usuario
+			usua = new Usua();
+			usua.setIden(area.IN.iden);
+			usua.setMail(area.IN.mail);
+			usua.setPass(area.IN.pass);
+			usua.setFeal(SESSION.get().feop);
+			usua.setHoal(SESSION.get().hoop);
+			usua.setFeul(SESSION.get().feop);
+			usua.setHoul(SESSION.get().hoop);
+			usua.setActi("S");
+		
+			//Guardamos el usuario en la BBDD
+			BsUsuaSaveArea bsUsuaSaveArea = new BsUsuaSaveArea();
+			bsUsuaSaveArea.IN.usua = usua;
+			bsUsuaSave.executeBS(bsUsuaSaveArea);
+		
+			usua = bsUsuaSaveArea.OUT.usua;
+		
+		} else {
+			//Validamos credenciales del usuario
+			BsUsuaValiArea bsUsuaValiArea = new BsUsuaValiArea();
+			bsUsuaValiArea.IN.iden = area.IN.iden;
+			bsUsuaValiArea.IN.pass = area.IN.pass;
+			bsUsuaVali.executeBS(bsUsuaValiArea);
+			
+			usua = bsUsuaValiArea.OUT.usua;
+		}
+		
+		//Asociamos el usuario y la instalación
+		BsRelaSaveArea bsRelaSaveArea = new BsRelaSaveArea();
+		bsRelaSaveArea.IN.rela = BsRelaSave.RELA_REGI_INST_USUA;
+		bsRelaSaveArea.IN.cln1 = inst.getIden();
+		bsRelaSaveArea.IN.clc2 = usua.getIden();
+		bsRelaSaveArea.IN.perf = area.IN.perf;
+		bsRelaSave.executeBS(bsRelaSaveArea);
+		
 		area.OUT.usua = usua;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsUsuaRegiArea area = (BsUsuaRegiArea)a;
+
+		//Validamos el tipo de usuario (nuevo, existente) en el registro)
+		validateStringRequired(area.IN.numo, CoreNotify.USUA_REGI_NUMO_RQRD);
+		validateStringDomain(CoreNotify.USUA_REGI_NUMO_ERRO, area.IN.numo, LiteData.LT_ST_REGTIPOUSU);
 		
-		validateStringRequired(area.IN.iden, CoreNotify.USUA_REGI_IDEN_RQRD);
-		validateStringRequired(area.IN.pass, CoreNotify.USUA_REGI_PASS_RQRD);
-		validateStringRequired(area.IN.cpas, CoreNotify.USUA_REGI_CPAS_RQRD);
-		validateStringRequired(area.IN.mail, CoreNotify.USUA_REGI_MAIL_RQRD);
-		validateStringRequired(area.IN.perf, CoreNotify.USUA_REGI_PERF_RQRD);
+		//Si el usuario es nuevo, se validan mail, usuario, password y confirmación de password
+		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
+			validateStringRequired(area.IN.mail, CoreNotify.USUA_REGI_MAIL_RQRD);
+			validateStringRequired(area.IN.iden, CoreNotify.USUA_REGI_IDEN_RQRD);
+			validateStringRequired(area.IN.pass, CoreNotify.USUA_REGI_PASS_RQRD);
+			validateStringRequired(area.IN.cpas, CoreNotify.USUA_REGI_CPAS_RQRD);
+			validateStringRequired(area.IN.perf, CoreNotify.USUA_REGI_PERF_RQRD);
+		//Si el usuario es existente, validamos usuario y password
+		} else if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
+			validateStringRequired(area.IN.iden, CoreNotify.USUA_REGI_IDEN_RQRD);
+			validateStringRequired(area.IN.pass, CoreNotify.USUA_REGI_PASS_RQRD);
+			validateStringRequired(area.IN.perf, CoreNotify.USUA_REGI_PERF_RQRD);
+		}
 		
 	}
 }

@@ -29,7 +29,7 @@ public class BsDtmnForm extends BaseBS {
 		Dtmn dtmn = bsDtmnGetkArea.OUT.dtmn;
 		
 		//Validamos que exista el detalle de menú
-		validateDto(dtmn, CoreNotify.DTMN_FORM_DTMN_NF);
+		validateDtoRequired(dtmn, CoreNotify.DTMN_FORM_DTMN_NF);
 		
 		//Se permite modificar: descripción e icono
 		dtmn.setDesc(area.IN.desc);

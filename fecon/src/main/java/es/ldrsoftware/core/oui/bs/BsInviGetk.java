@@ -13,11 +13,12 @@ import es.ldrsoftware.core.oui.entity.InviDAO;
 public class BsInviGetk extends BaseBS {
 	
 	@Autowired
-	public InviDAO inviDao;
+	InviDAO inviDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviGetkArea area = (BsInviGetkArea)a;
 	
+		//Consultamos la invitación
 		Invi invi = inviDao.getByIden(area.IN.iden);
 		
 		area.OUT.invi = invi;
@@ -26,7 +27,8 @@ public class BsInviGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviGetkArea area = (BsInviGetkArea)a;
 		
-		validateStringRequired(area.IN.iden, CoreNotify.INVI_GETI_IDEN_RQRD);
+		//Validamos que el identificador de invitación esté informado
+		validateStringRequired(area.IN.iden, CoreNotify.INVI_GETK_IDEN_RQRD);
 
 	}
 }

@@ -14,5 +14,6 @@ public class BsInviValiArea extends BaseBSArea {
 	
 	public class BsInviValiAreaOut {
 		public Invi invi;
+		public boolean exus;
 	}
 }

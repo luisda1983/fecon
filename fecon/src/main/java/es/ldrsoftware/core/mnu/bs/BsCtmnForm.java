@@ -28,7 +28,7 @@ public class BsCtmnForm extends BaseBS {
 		Ctmn ctmn = bsCtmnGetkArea.OUT.ctmn;
 		
 		//Validamos que exista la categoria de menú
-		validateDto(ctmn, CoreNotify.CTMN_FORM_CTMN_NF);
+		validateDtoRequired(ctmn, CoreNotify.CTMN_FORM_CTMN_NF);
 		
 		//El único campo modificable es la descripción
 		ctmn.setDesc(area.IN.desc);

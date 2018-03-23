@@ -3,6 +3,7 @@ package es.ldrsoftware.core.fwk.bs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.data.LiteData;
+import es.ldrsoftware.core.fwk.data.RDParser;
 import es.ldrsoftware.core.fwk.entity.Rela;
 import es.ldrsoftware.core.fwk.entity.RelaDAO;
 
@@ -34,6 +36,11 @@ public class BsRelaList extends BaseBS {
 		default:
 			relaList = new ArrayList<Rela>();
 			break;
+		}
+		
+		ListIterator<Rela> it = relaList.listIterator();
+		while(it.hasNext()) {
+			RDParser.parse(it.next());
 		}
 		
 		area.OUT.relaList = relaList;

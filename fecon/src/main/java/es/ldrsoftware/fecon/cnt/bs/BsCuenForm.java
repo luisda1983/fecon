@@ -41,7 +41,7 @@ public class BsCuenForm extends BaseBS {
 			
 			area.OUT.cuen = bsCuenSaveArea.OUT.cuen;
 			
-		//Edición de cuenta
+		//Ediciï¿½n de cuenta
 		} else {
 			BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
 			bsCuenGetArea.IN.iden = area.IN.iden;
@@ -49,7 +49,7 @@ public class BsCuenForm extends BaseBS {
 			
 			Cuen cuen = bsCuenGetArea.OUT.cuen;
 			
-			validateDto(cuen, AppNotify.CUEN_FORM_CUEN_NF);
+			validateDtoRequired(cuen, AppNotify.CUEN_FORM_CUEN_NF);
 			
 			cuen.setTipo(area.IN.tipo);
 			cuen.setDesc(area.IN.desc);

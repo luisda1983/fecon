@@ -87,7 +87,7 @@ public class BsHconApunAnul extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconApunAnulArea area = (BsHconApunAnulArea)a;
 		
-		validateDto(area.IN.hcon, AppNotify.HCON_APUN_ANUL_HCON_RQRD);
+		validateDtoRequired(area.IN.hcon, AppNotify.HCON_APUN_ANUL_HCON_RQRD);
 		
 	}
 }

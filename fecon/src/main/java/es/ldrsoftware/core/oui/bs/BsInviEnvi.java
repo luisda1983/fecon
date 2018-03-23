@@ -16,10 +16,10 @@ import es.ldrsoftware.core.oui.entity.Invi;
 public class BsInviEnvi extends BaseBS {
 	
 	@Autowired
-	public BsInviSave bsInviSave;
+	BsInviSave bsInviSave;
 
 	@Autowired
-	public BsInviList bsInviList;
+	BsInviList bsInviList;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviEnviArea area = (BsInviEnviArea)a;
@@ -60,7 +60,8 @@ public class BsInviEnvi extends BaseBS {
 			
 			validateListEmpty(inviList, CoreNotify.INVI_ENVI_INVI_ACEP_EXIS);
 		}
-		
+
+		//Generamos la invitación
 		Invi invi = new Invi();
 		invi.setIden("INV" + DateTimeUtil.getNope());
 		invi.setTipo(area.IN.tipo);
@@ -79,6 +80,7 @@ public class BsInviEnvi extends BaseBS {
 			invi.setInst(SESSION.get().inst);
 		}
 		
+		//Guardamos la invitación
 		BsInviSaveArea bsInviSaveArea = new BsInviSaveArea();
 		bsInviSaveArea.IN.invi = invi;
 		bsInviSave.executeBS(bsInviSaveArea);
@@ -88,8 +90,11 @@ public class BsInviEnvi extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviEnviArea area = (BsInviEnviArea)a;
-		
+
+		//Validamos que el email esté informado
 		validateStringRequired(area.IN.mail, CoreNotify.INVI_ENVI_MAIL_RQRD);
+		
+		//Validamos que el tipo de invitación esté informado y dentro del dominio permitido
 		validateStringRequired(area.IN.tipo, CoreNotify.INVI_ENVI_TIPO_RQRD);
 		validateStringDomain(CoreNotify.INVI_ENVI_TIPO_ERRO, area.IN.tipo, LiteData.LT_ST_INVITIPO);
 		

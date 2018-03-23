@@ -22,7 +22,7 @@ public class BsLiteGet extends BaseBS {
 		Lite lite = liteDao.getByTblaClav(area.IN.tbla, area.IN.clav);
 		
 		//Validamos que el literal exista
-		validateDto(lite, CoreNotify.LITE_NF);
+		validateDtoRequired(lite, CoreNotify.LITE_NF);
 
 		//Devolemos el literal en la salida
 		area.OUT.lite = lite;

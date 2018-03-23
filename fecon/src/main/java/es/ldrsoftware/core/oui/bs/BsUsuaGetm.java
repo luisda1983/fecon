@@ -14,11 +14,12 @@ import es.ldrsoftware.core.oui.entity.UsuaDAO;
 public class BsUsuaGetm extends BaseBS {
 
 	@Autowired
-	private UsuaDAO usuaDao;
+	UsuaDAO usuaDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsUsuaGetmArea area = (BsUsuaGetmArea)a;
 		
+		//Obtenemos si existe un usuario con el email de entrada
 		Usua usua = usuaDao.getByMail(area.IN.mail);
 		
 		area.OUT.usua = usua;
@@ -27,6 +28,7 @@ public class BsUsuaGetm extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsUsuaGetmArea area = (BsUsuaGetmArea)a;
 		
+		//Validamos que el email está informado
 		validateStringRequired(area.IN.mail, CoreNotify.USUA_GETM_MAIL_RQRD);
 		
 	}

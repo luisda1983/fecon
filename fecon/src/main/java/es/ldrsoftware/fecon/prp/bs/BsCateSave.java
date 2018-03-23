@@ -29,6 +29,6 @@ public class BsCateSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCateSaveArea area = (BsCateSaveArea)a;
 		
-		validateDto(area.IN.cate, AppNotify.CATE_SAVE_CATE_RQRD);
+		validateDtoRequired(area.IN.cate, AppNotify.CATE_SAVE_CATE_RQRD);
 	}
 }

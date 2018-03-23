@@ -22,7 +22,7 @@ public class BsParaGet extends BaseBS {
 		
 		Para para = paraDao.getByTblaClav(area.IN.tbla, area.IN.clav);
 		
-		validateDto(para, CoreNotify.PARA_GETP_PARA_NF);
+		validateDtoRequired(para, CoreNotify.PARA_GETP_PARA_NF);
 		
 		PVParser.parse(para);
 		

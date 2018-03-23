@@ -13,33 +13,34 @@ import es.ldrsoftware.core.oui.entity.Invi;
 public class BsInviAcep extends BaseBS {
 
 	@Autowired
-	private BsInviSave bsInviSave;
+	BsInviSave bsInviSave;
 	
 	@Autowired
-	private BsInviGetk  bsInviGet;
+	BsInviGetk bsInviGetk;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviAcepArea area = (BsInviAcepArea)a;
 	
-		//Consultamos la invitaci�n
-		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
-		bsInviGetArea.IN.iden = area.IN.iden;
-		bsInviGet.executeBS(bsInviGetArea);
+		//Consultamos la invitación
+		BsInviGetkArea bsInviGetkArea = new BsInviGetkArea();
+		bsInviGetkArea.IN.iden = area.IN.iden;
+		bsInviGetk.executeBS(bsInviGetkArea);
 		
-		Invi invi = bsInviGetArea.OUT.invi;
+		Invi invi = bsInviGetkArea.OUT.invi;
 		
-		if (invi == null) {
-			notify(CoreNotify.INVI_ACEP_NF);
-		}
+		validateDtoRequired(invi, CoreNotify.INVI_ACEP_INVI_NF);
 		
+		//Si el estado de la invitación no es solicitada, no se puede aceptar
 		if (!LiteData.LT_EL_INVIESTA_SOLICITADA.equals(invi.getEsta())) {
 			notify(CoreNotify.INVI_ACEP_ESTA_ERRO);
 		}
 		
+		//Pasamos la invitación a estado aceptada
 		invi.setEsta(LiteData.LT_EL_INVIESTA_ACEPTADA);
 		invi.setFemo(SESSION.get().feop);
 		invi.setHomo(SESSION.get().hoop);
 		
+		//Guardamos la invitación
 		BsInviSaveArea bsInviSaveArea = new BsInviSaveArea();
 		bsInviSaveArea.IN.invi = invi;
 		bsInviSave.executeBS(bsInviSaveArea);
@@ -50,6 +51,7 @@ public class BsInviAcep extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviAcepArea area = (BsInviAcepArea)a;
 		
+		//Validamos que el identificador de invitación está informado
 		validateStringRequired(area.IN.iden, CoreNotify.INVI_ACEP_IDEN_RQRD);
 
 	}

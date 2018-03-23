@@ -12,7 +12,6 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		inicForm();
 		$scope.cntx.conf.set('mode', 'E');
 		view();
 	}

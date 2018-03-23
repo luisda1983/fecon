@@ -14,11 +14,12 @@ import es.ldrsoftware.core.oui.entity.InstDAO;
 public class BsInstGetk extends BaseBS {
 	
 	@Autowired
-	public InstDAO instDao;
+	InstDAO instDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInstGetkArea area = (BsInstGetkArea)a;
 		
+		//Obtenemos la instalación
 		Inst inst = instDao.getByIden(area.IN.iden);
 		
 		area.OUT.inst = inst;
@@ -27,6 +28,7 @@ public class BsInstGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInstGetkArea area = (BsInstGetkArea)a;
 		
+		//Validamos que el identificador de instalación esté informado
 		validateIntRequired(area.IN.iden, CoreNotify.INST_GETK_IDEN_RQRD);
 		
 	}

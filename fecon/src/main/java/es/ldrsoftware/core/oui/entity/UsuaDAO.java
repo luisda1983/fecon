@@ -11,12 +11,38 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad USUA - Información de usuario
+ * Operaciones sobre entidad USUA - Informaciï¿½n de usuario
  * @author Luis David
  *
  */
 @Repository(value = "usuaDao")
 public class UsuaDAO extends BaseDAO {
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Usua> getList() {
+		TypedQuery<Usua> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT U FROM Usua U"
+						+ " ORDER BY U.iden"
+				         , Usua.class);
+		List<Usua> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Usua> getListByInst(long inst) {
+		TypedQuery<Usua> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT U FROM Usua U, Rela R"
+						+ " WHERE R.mae1 = 'INST' "
+				        + "   AND R.mae2 = 'USUA' "
+						+ "   AND R.cln1 = " + inst + " "
+						+ "   AND R.clc2 = U.iden "
+						+ " ORDER BY U.iden"
+				         , Usua.class);
+		List<Usua> resultList = typedQuery.getResultList();
+		return resultList;
+	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Usua getByIden(String iden) {

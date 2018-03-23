@@ -1,0 +1,134 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Instalaciones</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+        	<form name="instList">
+        		<div layout="row" layout-xs="column" flex-xl="20" flex-lg="30" flex-md="40" flex-sm="60" flex-xs="100">
+        			<md-input-container flex md-no-float class="md-block" data-ng-show="cntx.form.get('esta').show">
+	        			<label>Estado</label>
+						<md-select ng-model="cntx.form.get('esta').data" ng-change="fnEstaChng()" ng-readonly="cntx.form.get('esta').read">
+							<md-option value="">Todos</md-option>
+	               			<md-option ng-repeat="esta in cntx.data.get('ltLInstesta')" ng-value="esta.clav">{{esta.desc}}</md-option>
+	            		</md-select>
+	        		</md-input-container>
+	        		<md-input-container flex md-no-float class="md-block" data-ng-show="cntx.form.get('srch').show">
+	        			<label>Ident.</label>
+						<input type="text" ng-model="cntx.form.get('srch').data" ng-disabled="cntx.form.get('srch').read"/>
+	        		</md-input-container>
+	        	</div>
+	        </form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="30"><b>Ident.</b></div>
+								<div flex="70"><b>Desc.</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="15"><b>Ident.</b></div>
+								<div flex="55"><b>Descripción</b></div>
+								<div flex="15"><b>Estado</b></div>
+								<div flex="15"><b>Tipo</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="10"><b>Ident.</b></div>
+								<div flex="40"><b>Descripción</b></div>
+								<div flex="15"><b>F.Alta</b></div>
+								<div flex="10"><b>Estado</b></div>
+								<div flex="10"><b>Tipo</b></div>
+								<div flex="15"><b>F.Ult.Act.</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="inst in cntx.data.get('instList') | filter:{iden:cntx.form.get('srch').data}" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="30">{{inst.iden}}</div>
+										<div flex="70">{{inst.desc}} [{{inst.esta}}] [{{inst.tipo}}]</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="15">{{inst.iden}}</div>
+										<div flex="55">{{inst.desc}}</div>
+										<div flex="15">{{cntx.data.get('ltMInstesta')[inst.esta].desc}}</div>
+										<div flex="15">{{cntx.data.get('ltMInsttipo')[inst.tipo].desc}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="10">{{inst.iden}}</div>
+										<div flex="40">{{inst.desc}}</div>
+										<div flex="15">{{inst.feal | yyyymmddFmt}}</div>
+										<div flex="10">{{cntx.data.get('ltMInstesta')[inst.esta].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMInsttipo')[inst.tipo].desc}}</div>
+										<div flex="15">{{inst.feul | yyyymmddFmt}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Identificador: </b>{{inst.iden}}</div>
+									<div flex><b>Descripción: </b>{{inst.desc}}</div>
+									<div flex><b>Fecha de alta: </b>{{inst.feal | yyyymmddFmt}}</div>
+									<div flex><b>Estado: </b>{{cntx.data.get('ltMInstesta')[inst.esta].desc}}</div>
+									<div flex><b>Fecha de última actividad: </b>{{inst.feul | yyyymmddFmt}}</div>
+									<div flex><b>Tipo: </b>{{cntx.data.get('ltMInsttipo')[inst.tipo].desc}}</div>
+									<div flex data-ng-show="{{inst.tipo !== 'N'}}"><b>Fecha de caducidad: </b>{{inst.feca | yyyymmddFmt}}</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="5">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">menu</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item data-ng-show="{{inst.esta === 'A'}}">
+										<md-button ng-click="fnInstInac($index)">
+											Inactivar
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="{{inst.esta === 'I'}}">
+										<md-button ng-click="fnInstActi($index)">
+											Activar
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="{{inst.tipo === 'N'}}">
+										<md-button ng-click="fnInstPrem($index)">
+											Hacer Premium
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="{{inst.tipo === 'P'}}">
+										<md-button ng-click="fnInstNorm($index)">
+											Quitar Premium
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnInstUsua($index)">
+											Usuarios
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

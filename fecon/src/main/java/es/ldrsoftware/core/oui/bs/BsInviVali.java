@@ -13,31 +13,46 @@ import es.ldrsoftware.core.oui.entity.Invi;
 public class BsInviVali extends BaseBS {
 	
 	@Autowired
-	private BsInviGetk bsInviGet;
+	BsInviGetk bsInviGetk;
+	
+	@Autowired
+	BsUsuaGetm bsUsuaGetm;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviValiArea area = (BsInviValiArea)a;
 	
 		//Obtenemos la invitación
-		BsInviGetkArea bsInviGetArea = new BsInviGetkArea();
-		bsInviGetArea.IN.iden = area.IN.iden;
-		bsInviGet.executeBS(bsInviGetArea);
+		BsInviGetkArea bsInviGetkArea = new BsInviGetkArea();
+		bsInviGetkArea.IN.iden = area.IN.iden;
+		bsInviGetk.executeBS(bsInviGetkArea);
 		
-		Invi invi = bsInviGetArea.OUT.invi;
+		Invi invi = bsInviGetkArea.OUT.invi;
 		
-		validateDto(invi, CoreNotify.INVI_VALI_NF);
+		validateDtoRequired(invi, CoreNotify.INVI_VALI_NF);
 		
+		//La invitación debe estar aceptada o enviada para poder ser procesada
 		if (!LiteData.LT_EL_INVIESTA_ACEPTADA.equals(invi.getEsta()) &&
 			!LiteData.LT_EL_INVIESTA_ENVIADA.equals(invi.getEsta())) {
 			notify(CoreNotify.INVI_VALI_ESTA_ERRO);
 		}
+
+		//Buscamos si el email ya está registrado para indicar si la invitación será de un nuevo usuario o de uno ya existente.
+		BsUsuaGetmArea bsUsuaGetmArea = new BsUsuaGetmArea();
+		bsUsuaGetmArea.IN.mail = invi.getMail();
+		bsUsuaGetm.executeBS(bsUsuaGetmArea);
 		
+		if (bsUsuaGetmArea.OUT.usua != null) {
+			area.OUT.exus = true;
+		} else {
+			area.OUT.exus = false;
+		}
 		area.OUT.invi = invi;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviValiArea area = (BsInviValiArea)a;
-		
+
+		//Validamos que el identificador de la invitación esté informado
 		validateStringRequired(area.IN.iden, CoreNotify.INVI_VALI_IDEN_RQRD);
 
 	}

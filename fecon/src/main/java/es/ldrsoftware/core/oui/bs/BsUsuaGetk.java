@@ -14,11 +14,12 @@ import es.ldrsoftware.core.oui.entity.UsuaDAO;
 public class BsUsuaGetk extends BaseBS {
 
 	@Autowired
-	private UsuaDAO usuaDao;
+	UsuaDAO usuaDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsUsuaGetkArea area = (BsUsuaGetkArea)a;
 		
+		//Obtenemos el usuario
 		Usua usua = usuaDao.getByIden(area.IN.iden);
 		
 		area.OUT.usua = usua;
@@ -27,6 +28,7 @@ public class BsUsuaGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsUsuaGetkArea area = (BsUsuaGetkArea)a;
 		
+		//Validamos que el identificador del usuario esté informado
 		validateStringRequired(area.IN.iden, CoreNotify.USUA_GETK_IDEN_RQRD);
 		
 	}

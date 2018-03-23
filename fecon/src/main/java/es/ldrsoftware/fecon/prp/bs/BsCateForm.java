@@ -29,7 +29,7 @@ public class BsCateForm extends BaseBS {
 		//Nueva categoria
 		if (!testInt(area.IN.iden)) {
 			
-			//Validamos si existe categoria con la misma descripción larga o corta
+			//Validamos si existe categoria con la misma descripciï¿½n larga o corta
 			BsCateGetdArea bsCateGetdArea = new BsCateGetdArea();
 			bsCateGetdArea.IN.desl = area.IN.desl;
 			bsCateGetdArea.IN.desc = area.IN.desc;
@@ -57,7 +57,7 @@ public class BsCateForm extends BaseBS {
 			
 			area.OUT.cate = bsCateSaveArea.OUT.cate;
 			
-		//Edición de categoria
+		//Ediciï¿½n de categoria
 		} else {
 			BsCateGetkArea bsCateGetkArea = new BsCateGetkArea();
 			bsCateGetkArea.IN.iden = area.IN.iden;
@@ -65,7 +65,7 @@ public class BsCateForm extends BaseBS {
 			
 			Cate cate = bsCateGetkArea.OUT.cate;
 			
-			validateDto(cate, AppNotify.CATE_FORM_CATE_NF);
+			validateDtoRequired(cate, AppNotify.CATE_FORM_CATE_NF);
 
 			cate.setDesl(area.IN.desl);
 			cate.setDesc(area.IN.desc);

@@ -39,6 +39,9 @@ public class Inst implements Serializable {
 	@Column(name = "INSTFECA", nullable = false)
 	private int    feca;
 
+	@Column(name = "INSTCODI", nullable = false)
+	private String codi;
+	
 	public long getIden() {
 		return iden;
 	}
@@ -94,5 +97,12 @@ public class Inst implements Serializable {
 	public void setFeca(int feca) {
 		this.feca = feca;
 	}
+
+	public String getCodi() {
+		return codi;
+	}
 	
+	public void setCodi(String codi) {
+		this.codi = codi;
+	}
 }

@@ -28,10 +28,12 @@ public class CtInviProc extends BaseController {
 	public ResponseArea ctInstRegi(HttpServletRequest servletRqt, @RequestBody CtInviProcRqt rqt) {
 		BsInviProcArea area = new BsInviProcArea();
 		area.IN.iden = rqt.iden;
+		area.IN.desc = rqt.desc;
+		area.IN.numo = rqt.numo;
+		area.IN.mail = rqt.mail;
 		area.IN.usua = rqt.usua;
 		area.IN.pass = rqt.pass;
 		area.IN.cpas = rqt.cpas;
-		area.IN.mail = rqt.mail;
 		return ctrl(servletRqt, rqt, area);
 	}
 	
@@ -42,5 +44,7 @@ public class CtInviProc extends BaseController {
 	public void output(BaseBSArea a, ResponseArea response) {
 		BsInviProcArea area = (BsInviProcArea)a;
 		response.OUTPUT.put("invi", area.OUT.invi);
+		response.OUTPUT.put("usua", area.OUT.usua);
+		response.OUTPUT.put("inst", area.OUT.inst);
 	}
 }

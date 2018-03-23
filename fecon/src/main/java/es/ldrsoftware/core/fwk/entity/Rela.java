@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import es.ldrsoftware.core.fwk.data.RD;
 
 @Entity	
 @Table(name = "RELA")
@@ -45,6 +48,12 @@ public class Rela implements Serializable {
 	@Column(name = "RELAFEAL", nullable = false)
 	private    int feal;
 
+	@Column(name = "RELADATA", nullable = false)
+	private String data;
+	
+	@Transient
+	private RD rdat;
+	
 	public String getMae1() {
 		return mae1;
 	}
@@ -109,6 +118,21 @@ public class Rela implements Serializable {
 		this.feal = feal;
 	}
 	
+	public String getData() {
+		return data;
+	}
+	
+	public void setData(String data) {
+		this.data = data;
+	}
+	
+	public RD getRdat() {
+		return rdat;
+	}
+	
+	public void setRdat(RD rdat) {
+		this.rdat = rdat;
+	}
 }
 
 class RelaPK implements Serializable {

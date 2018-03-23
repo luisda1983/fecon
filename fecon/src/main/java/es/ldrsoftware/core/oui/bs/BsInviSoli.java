@@ -7,38 +7,40 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.oui.entity.Invi;
 
 @Component
 public class BsInviSoli extends BaseBS {
 
 	@Autowired
-	private BsInviSave bsInviSave;
+	BsInviSave bsInviSave;
 	
 	@Autowired
-	private BsInviList bsInviList;
+	BsInviList bsInviList;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviSoliArea area = (BsInviSoliArea)a;
 	
-		//Verificamos que no existe ninguna invitaciÛn solicitada con el mismo email.
+		//Verificamos que no existe ninguna invitaci√≥n solicitada con el mismo email.
 		BsInviListArea bsInviListArea = new BsInviListArea();
-		bsInviListArea.IN.tipo = "I";
-		bsInviListArea.IN.esta = "S";
+		bsInviListArea.IN.tipo = LiteData.LT_EL_INVITIPO_INSTALACION;
+		bsInviListArea.IN.esta = LiteData.LT_EL_INVIESTA_SOLICITADA;
 		bsInviListArea.IN.mail = area.IN.mail;
 		bsInviList.executeBS(bsInviListArea);
 		
 		if (bsInviListArea.OUT.inviList != null && bsInviListArea.OUT.inviList.size() > 0) {
-			notify(CoreNotify.INVI_LIST_SOLI_PEND);
+			notify(CoreNotify.INVI_SOLI_INVI_PEND);
 		}
 		
-		//TODO: se deberÌa verificar que tampoco hay una solicitud aceptada o enviada...
-		//TODO: se podrÌa tambiÈn controlar unos limites de solicitudes rechazadas en un plazo de tiempo
+		//TODO: se deber√≠a verificar que tampoco hay una solicitud aceptada o enviada...
+		//TODO: se podr√° tambi√©n controlar unos limites de solicitudes rechazadas en un plazo de tiempo
 		
+		//Generamos la invitaci√≥n
 		Invi invi = new Invi();
 		invi.setIden("INV" + DateTimeUtil.getNope());
-		invi.setTipo("I");
-		invi.setEsta("S");
+		invi.setTipo(LiteData.LT_EL_INVITIPO_INSTALACION);
+		invi.setEsta(LiteData.LT_EL_INVIESTA_SOLICITADA);
 		invi.setMail(area.IN.mail);
 		invi.setInst(0);
 		invi.setUsua("");
@@ -47,6 +49,7 @@ public class BsInviSoli extends BaseBS {
 		invi.setFemo(0);
 		invi.setHomo(0);
 		
+		//Grabamos la invitaci√≥n
 		BsInviSaveArea bsInviSaveArea = new BsInviSaveArea();
 		bsInviSaveArea.IN.invi = invi;
 		bsInviSave.executeBS(bsInviSaveArea);
@@ -58,7 +61,8 @@ public class BsInviSoli extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviSoliArea area = (BsInviSoliArea)a;
-		
+
+		//Validamos que el email est√© informado
 		validateStringRequired(area.IN.mail, CoreNotify.INVI_SOLI_MAIL_RQRD);
 
 	}

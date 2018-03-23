@@ -18,8 +18,8 @@ public class Usua implements Serializable {
 	@Column(name = "USUAIDEN", nullable = false)
 	private String iden;
 
-	@Column(name = "USUAPERF", nullable = false)
-	private String perf;
+//	@Column(name = "USUAPERF", nullable = false)
+//	private String perf;
 
 	@Column(name = "USUAMAIL", nullable = false)
 	private String mail;
@@ -50,13 +50,13 @@ public class Usua implements Serializable {
 		this.iden = iden;
 	}
 
-	public String getPerf() {
-		return perf;
-	}
-
-	public void setPerf(String perf) {
-		this.perf = perf;
-	}
+//	public String getPerf() {
+//		return perf;
+//	}
+//
+//	public void setPerf(String perf) {
+//		this.perf = perf;
+//	}
 
 	public String getMail() {
 		return mail;

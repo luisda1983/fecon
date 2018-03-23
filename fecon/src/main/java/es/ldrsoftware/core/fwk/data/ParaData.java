@@ -12,6 +12,7 @@ public class ParaData {
 	public final static String PARA_TBLA_FPER      = "FECHPERIOD";
 	public final static String PARA_ELEM_FPER_RSES = "RENOSESION";
 	public final static String PARA_ELEM_FPER_RBTC = "RENPROCBTC";
+	public final static String PARA_ELEM_FPER_PREM = "RENPREMIUM";
 
 	public final static String PARA_TBLA_BTAV      = "BTCHAVANCE";
 	public final static String PARA_ELEM_BTAV_DIAR = "DI";

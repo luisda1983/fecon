@@ -29,6 +29,6 @@ public class BsConcSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsConcSaveArea area = (BsConcSaveArea)a;
 		
-		validateDto(area.IN.conc, AppNotify.CONC_SAVE_CONC_RQRD);
+		validateDtoRequired(area.IN.conc, AppNotify.CONC_SAVE_CONC_RQRD);
 	}
 }

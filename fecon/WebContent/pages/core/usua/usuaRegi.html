@@ -9,19 +9,45 @@
 			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I'">Registro solo permitido por invitación.</p> 
 			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'S'">Puede solicitar una introduciendo su email. Si ya dispone de invitación, pulse registrar.</p>
 			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'I'">Introduzca código de invitación.</p>
-			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'V'">Invitación correcta. Regístrese.</p>
-			<form name ="inviForm">
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'IIN'">Invitación correcta. Regístrese.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'IIE'">Invitación correcta. Regístrese con sus credenciales.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'IUN'">Invitación correcta. Regístrese para unirse a la instalación.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'I' && cntx.conf.get('mode') === 'IUE'">Invitación correcta. Regístrese con sus credenciales para unirse a la instalación.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'L'">Seleccione si desea crear una instalación o unirse a una ya existente.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LI'">Nueva instalación. Seleccione si ya tiene usuario o desea crear uno nuevo.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LIN'">Nueva instalación y nuevo usuario. Introduzca los datos.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LIE'">Nueva instalación con usuario existente. Introduzca sus datos de acceso.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LU'">Va a unirse a una instalación ya creada. Seleccione si ya tiene usuario o desea crear uno nuevo. Recuerde que necesita el código de instalación que debe proporcionarle el administrador.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LUN'">Va a unirse a una instalación ya creada con un usuario nuevo. Introduzca los datos.</p>
+			<p data-ng-show="cntx.data.get('prConfregist').pval.esta === 'L' && cntx.conf.get('mode') === 'LUE'">Va a unirse a una instalación ya creada con un usuario existente. Introduzca sus datos de acceso.</p>
+			<form name ="regiForm">
 				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('invi').show">
 					<label>Invitación:</label>
 					<input ng-model="cntx.form.get('invi').data" ng-readonly="cntx.form.get('invi').read">
 				</md-input-container>
-				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('mail').show">
-					<label>Email:</label>
-					<input ng-model="cntx.form.get('mail').data" ng-readonly="cntx.form.get('mail').read">
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('tipo').show">
+					<md-radio-group layout="row" layout-align="center center" ng-model="cntx.form.get('tipo').data" ng-change="fnTipoChng()">
+						<md-radio-button value="I" ng-disabled="cntx.form.get('tipo').read">Nueva</md-radio-button>
+						<md-radio-button value="U" ng-disabled="cntx.form.get('tipo').read">Existente</md-radio-button>
+					</md-radio-group>
+				</md-input-container>
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('codi').show">
+					<label>Código de instalación:</label>
+					<input ng-model="cntx.form.get('codi').data" ng-readonly="cntx.form.get('codi').read">
 				</md-input-container>
 				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('desc').show">
 					<label>{{cntx.form.get('ldes').data}}:</label>
 					<input ng-model="cntx.form.get('desc').data" ng-readonly="cntx.form.get('desc').read">
+				</md-input-container>
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('numo').show">
+					<md-radio-group layout="row" layout-align="center center" ng-model="cntx.form.get('numo').data" ng-change="fnNumoChng()">
+						<md-radio-button value="N" ng-disabled="cntx.form.get('numo').read" >Nuevo usuario</md-radio-button>
+						<md-radio-button value="E" ng-disabled="cntx.form.get('numo').read" >Usuario existente</md-radio-button>
+					</md-radio-group>
+				</md-input-container>
+				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('mail').show">
+					<label>Email:</label>
+					<input ng-model="cntx.form.get('mail').data" ng-readonly="cntx.form.get('mail').read">
 				</md-input-container>
 				<md-input-container md-no-float class="md-block" data-ng-show="cntx.form.get('usua').show">
 					<label>Usuario:</label>
@@ -41,6 +67,7 @@
                     <md-button ng-click="fnCanc()" class="md-raised md-primary" aria-label="Cancelar"  data-ng-show="cntx.form.get('btCanc').show">{{cntx.form.get('btCanc').data}}</md-button>
                 </div>
 			</form>
+			<span></span>
 		</md-content>
     </div>
 </div>

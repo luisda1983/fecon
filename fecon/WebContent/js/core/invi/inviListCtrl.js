@@ -1,4 +1,4 @@
-app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, $mdMenu, comc, ctxl) {
+app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
@@ -12,7 +12,6 @@ app.controller('inviListCtrl', function($rootScope, $scope, $http, $routeParams,
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		inicForm();
 		
 		var srv1 = comc.requestLiteList('INVIESTA', $scope.cntx);
 		var srv2 = comc.requestLiteList('INVITIPO', $scope.cntx);

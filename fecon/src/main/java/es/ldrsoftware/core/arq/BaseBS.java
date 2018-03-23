@@ -16,8 +16,14 @@ public abstract class BaseBS extends BaseNotifyManager {
 		execute(area);
 	}
 	
-	protected void validateDto(Object o, String notf) throws Exception {
+	protected void validateDtoRequired(Object o, String notf) throws Exception {
 		if (o == null) {
+			notify(notf);
+		}
+	}
+	
+	protected void validateDtoEmpty(Object o, String notf) throws Exception {
+		if (o != null) {
 			notify(notf);
 		}
 	}

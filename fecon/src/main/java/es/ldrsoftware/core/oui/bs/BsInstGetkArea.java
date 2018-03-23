@@ -5,14 +5,14 @@ import es.ldrsoftware.core.oui.entity.Inst;
 
 public class BsInstGetkArea extends BaseBSArea {
 
-	public BsInstGetAreaIn  IN  = new BsInstGetAreaIn();
-	public BsInstGetAreaOut OUT = new BsInstGetAreaOut();
+	public BsInstGetkAreaIn  IN  = new BsInstGetkAreaIn();
+	public BsInstGetkAreaOut OUT = new BsInstGetkAreaOut();
 	
-	public class BsInstGetAreaIn {
+	public class BsInstGetkAreaIn {
 		public long iden;
 	}
 	
-	public class BsInstGetAreaOut {
+	public class BsInstGetkAreaOut {
 		public Inst inst;
 	}
 }

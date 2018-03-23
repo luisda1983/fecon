@@ -26,6 +26,6 @@ public class BsCuenSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCuenSaveArea area = (BsCuenSaveArea)a;
 		
-		validateDto(area.IN.cuen, AppNotify.CUEN_SAVE_CUEN_RQRD);
+		validateDtoRequired(area.IN.cuen, AppNotify.CUEN_SAVE_CUEN_RQRD);
 	}
 }

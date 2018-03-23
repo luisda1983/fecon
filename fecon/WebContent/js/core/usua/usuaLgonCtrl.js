@@ -32,7 +32,14 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 		
 		//Si venimos del registro, hacemos login automático
 		if (view === 'usua/regi') {
-			$scope.fnLgon();
+			var usua = $scope.cntx.xchg.get('usua');
+			if (usua !== 'undefined' && usua !== null) {
+				$scope.cntx.form.get('iden').data = usua.iden;
+				$scope.cntx.form.get('pass').data = usua.pass;
+				$scope.fnLgon();
+			} else {
+				loadView();
+			}
 		} else {
 			loadView();
 		}

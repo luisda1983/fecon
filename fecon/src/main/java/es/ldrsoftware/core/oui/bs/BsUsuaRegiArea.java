@@ -9,6 +9,10 @@ public class BsUsuaRegiArea extends BaseBSArea {
 	public BsUsuaRegiAreaOut OUT = new BsUsuaRegiAreaOut();
 	
 	public class BsUsuaRegiAreaIn {
+		public boolean invi;
+		public long   inst;
+		public String codi;
+		public String numo;
 		public String iden;
 		public String pass;
 		public String cpas;

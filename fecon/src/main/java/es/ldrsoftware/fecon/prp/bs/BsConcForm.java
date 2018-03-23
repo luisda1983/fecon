@@ -79,7 +79,7 @@ public class BsConcForm extends BaseBS {
 			
 			Conc conc = bsConcGetkArea.OUT.conc;
 			
-			validateDto(conc, AppNotify.CONC_FORM_CONC_NF);
+			validateDtoRequired(conc, AppNotify.CONC_FORM_CONC_NF);
 
 			if (area.IN.cate != conc.getCate()) {
 				notify(AppNotify.CONC_FORM_CATE_DIFF);

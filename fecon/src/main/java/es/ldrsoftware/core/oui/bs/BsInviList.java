@@ -13,15 +13,17 @@ import es.ldrsoftware.core.oui.entity.InviDAO;
 
 @Component
 public class BsInviList extends BaseBS {
-	
+
+	//TODO: implementar opciones de consulta explícitas.
 	@Autowired
-	public InviDAO inviDao;
+	InviDAO inviDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInviListArea area = (BsInviListArea)a;
 	
 		List<Invi> inviList;
 		
+		//Consultamos las invitaciones.
 		if (testString(area.IN.esta) && testString(area.IN.mail)) {
 			inviList = inviDao.getListByTipoEstaMail(area.IN.tipo, area.IN.esta, area.IN.mail);
 		} else {
@@ -46,6 +48,7 @@ public class BsInviList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsInviListArea area = (BsInviListArea)a;
 		
+		//Validamos que el tipo de invitación está informado
 		validateStringRequired(area.IN.tipo, CoreNotify.INVI_LIST_TIPO_RQRD);
 
 	}

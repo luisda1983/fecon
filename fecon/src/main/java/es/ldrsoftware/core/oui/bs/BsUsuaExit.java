@@ -13,11 +13,12 @@ import es.ldrsoftware.core.fwk.bs.BsSesiExitArea;
 public class BsUsuaExit extends BaseBS {
 
 	@Autowired
-	private BsSesiExit bsSesiExit;
+	BsSesiExit bsSesiExit;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsUsuaExitArea area = (BsUsuaExitArea)a;
 		
+		//Cerramos la sesisón
 		BsSesiExitArea bsSesiExitArea = new BsSesiExitArea();
 		bsSesiExitArea.IN.iden = area.IN.sesi;
 		bsSesiExit.executeBS(bsSesiExitArea);
@@ -25,8 +26,9 @@ public class BsUsuaExit extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsUsuaExitArea area = (BsUsuaExitArea)a;
-		
-		if (area.IN.sesi == 0) { notify(CoreNotify.USUA_EXIT_SESI_RQRD); }
+
+		//Validamos que el identificador de sesión está informado
+		validateIntRequired(area.IN.sesi, CoreNotify.USUA_EXIT_SESI_RQRD);
 		
 	}
 }

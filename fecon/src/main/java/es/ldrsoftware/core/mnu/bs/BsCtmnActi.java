@@ -29,7 +29,7 @@ public class BsCtmnActi extends BaseBS {
 		Ctmn ctmn = bsCtmnGetkArea.OUT.ctmn;
 		
 		//Validamos que exista la categoria de menú
-		validateDto(ctmn, CoreNotify.CTMN_ACTI_CTMN_NF);
+		validateDtoRequired(ctmn, CoreNotify.CTMN_ACTI_CTMN_NF);
 		
 		//Validamos que la categoría de menú se encuentre desactivada
 		validateStringEqual(ctmn.getActi(), LiteData.LT_EL_BOOL_NO, CoreNotify.CTMN_ACTI_CTMN_DESA_NO);
