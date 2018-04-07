@@ -24,6 +24,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		sesi    : 0,             //Identificador de sesión activa
 		lgonUsua: false,         //Indicador de que hay un usuario activo en la aplicación
 		usua    : null,          //Usuario activo en la aplicación
+		diip    : '',            //Dirección IP del cliente
 		load    : false,         //Indicador de comunicación en curso. Sirve para mostrar la pantalla de espera
 		tran    : "",            //Indicador de transición de contexto
 		backPath: ""             //Url origen en un back
@@ -303,7 +304,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.57',
+					templateUrl: 'pages/core/notify.html?v.0.00.58',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -438,6 +439,9 @@ app.filter('extendList', function() {
 //C-En uso en CORE
 app.filter('yyyymmddFmt', function() {
 	return function(yyyymmdd) {
+		if (yyyymmdd === undefined) {
+			return '';
+		}
 		if (yyyymmdd.toString().length < 8) {
 			return '00/00/0001';
 		}
@@ -451,6 +455,9 @@ app.filter('yyyymmddFmt', function() {
 //C-En uso en CORE
 app.filter('hhmmssFmt', function() {
 	return function(hhmmss) {
+		if (hhmmss === 'undefined') {
+			return '';
+		}
 		var s = hhmmss.toString();
 		while (s.length < 6) {
 			s = '0' + s;

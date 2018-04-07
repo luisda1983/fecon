@@ -19,6 +19,7 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'inst/list') { return getInstListCntx(); }
 		else if (view === 'invi/envi') { return getInviEnviCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
+		else if (view === 'sesi/list') { return getSesiListCntx(); }
 		else if (view === 'usua/list') { return getUsuaListCntx(); }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		else if (view === '/lgon')     { return getLgonCntx();     }
@@ -178,6 +179,17 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	function getInstListCntx() {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('esta', ctxl.makeField(''));
+		cntx.form.set('srch', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: sesi/list - Lista de sesiones.                                                                    //
+	//*************************************************************************************************************//
+	function getSesiListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(''));
 		cntx.form.set('esta', ctxl.makeField(''));
 		cntx.form.set('srch', ctxl.makeField(''));
 		return cntx;

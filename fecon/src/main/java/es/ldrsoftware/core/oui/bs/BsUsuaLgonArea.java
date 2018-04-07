@@ -16,5 +16,6 @@ public class BsUsuaLgonArea extends BaseBSArea {
 	public class BsUsuaLgonAreaOut {
 		public long sesi;
 		public Usua usua;
+		public String diip;
 	}
 }

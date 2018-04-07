@@ -40,5 +40,6 @@ public class CtUsuaLgon extends BaseController {
 		BsUsuaLgonArea area = (BsUsuaLgonArea)a;
 		response.OUTPUT.put("sesi", area.OUT.sesi);
 		response.OUTPUT.put("usua", area.OUT.usua);
+		response.OUTPUT.put("diip", area.OUT.diip);
 	}
 }

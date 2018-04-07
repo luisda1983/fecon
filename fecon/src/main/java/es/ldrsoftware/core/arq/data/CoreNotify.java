@@ -322,7 +322,16 @@ public class CoreNotify {
 	public final static String INVI_VALI_IDEN_RQRD         = "INVI-09001";
 	public final static String INVI_VALI_ESTA_ERRO         = "INVI-09501";
 	public final static String INVI_VALI_NF                = "INVI-09901";
-	
+
+
+	//*********************************************************************************************//
+	// Notificaciones del módulo FWK                                                               //
+	//*********************************************************************************************//
+
+	//Servicio de consulta de sesiones
+	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
+	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
+
 	
 
 	//Notificaciones del m�dulo INVI

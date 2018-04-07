@@ -19,6 +19,18 @@ import es.ldrsoftware.core.arq.BaseDAO;
 public class SesiDAO extends BaseDAO {
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Sesi> getListByEsta(String esta) {
+		TypedQuery<Sesi> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT S FROM Sesi S"
+					    + " WHERE S.esta = '" + esta + "' "
+						+ " ORDER BY S.feap ASC, S.hoap ASC"
+				         , Sesi.class);
+		List<Sesi> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Sesi getByIden(long iden) {
 		TypedQuery<Sesi> typedQuery = 
 				this.getEntityManager().createQuery(

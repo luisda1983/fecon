@@ -32,6 +32,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'invi/soli') { return srvInviSoli(cntx); }
 		else if (name === 'invi/vali') { return srvInviVali(cntx); }
 		else if (name === 'menu/make') { return srvMenuMake(cntx); }
+		else if (name === 'sesi/list') { return srvSesiList(cntx); }
 		else if (name === 'usua/acti') { return srvUsuaActi(cntx); }
 		else if (name === 'usua/exit') { return srvUsuaExit(cntx); }
 		else if (name === 'usua/inac') { return srvUsuaInac(cntx); }     
@@ -74,6 +75,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'MENUPERF')   { cntx.data.set('ltMMenuperf', cntxLite.data.liteMap); cntx.data.set('ltLMenuperf', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'INSTESTA')   { cntx.data.set('ltMInstesta', cntxLite.data.liteMap); cntx.data.set('ltLInstesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'INSTTIPO')   { cntx.data.set('ltMInsttipo', cntxLite.data.liteMap); cntx.data.set('ltLInsttipo', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'USUAPERF')   { cntx.data.set('ltMUsuaperf', cntxLite.data.liteMap); cntx.data.set('ltLUsuaperf', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'SESIESTA')   { cntx.data.set('ltMSesiesta', cntxLite.data.liteMap); cntx.data.set('ltLSesiesta', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -927,6 +930,34 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	}
 
 	//*************************************************************************************************************//
+	// PRIVATE: srvSesiList: Servicio de consulta de sesiones.                                                     //
+	//*************************************************************************************************************//
+	function srvSesiList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			esta: cntx.form.get('esta').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/sesi/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('sesiList', data.OUTPUT['sesiList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
 	// PRIVATE: srvUsuaLgon: Servicio de login de usuario.                                                         //
 	//*************************************************************************************************************//
 	function srvUsuaLgon(cntx) {
@@ -946,6 +977,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			} else {
 				cntx.data.set('sesi', data.OUTPUT['sesi']);
 				cntx.data.set('usua', data.OUTPUT['usua']);
+				cntx.data.set('diip', data.OUTPUT['diip']);
 				d.resolve(data);
 			}
 		}, function() {

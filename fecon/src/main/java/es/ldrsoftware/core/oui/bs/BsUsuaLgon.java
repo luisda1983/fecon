@@ -20,6 +20,7 @@ import es.ldrsoftware.core.fwk.data.ParaData;
 import es.ldrsoftware.core.fwk.data.RDInstUsua;
 import es.ldrsoftware.core.fwk.entity.Para;
 import es.ldrsoftware.core.fwk.entity.Rela;
+import es.ldrsoftware.core.fwk.entity.Sesi;
 import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.Usua;
 
@@ -134,8 +135,17 @@ public class BsUsuaLgon extends BaseBS {
 		bsSesiOpenArea.IN.inst = instIden;
 		bsSesiOpen.executeBS(bsSesiOpenArea);
 		
+		Sesi sesi = bsSesiOpenArea.OUT.sesi;
+		
 		area.OUT.usua = usua;
-		area.OUT.sesi = bsSesiOpenArea.OUT.sesi.getIden();
+		area.OUT.sesi = sesi.getIden();
+		
+		if (LiteData.LT_EL_USUAPERF_APM.equals(sesi.getPerf())) {
+			area.OUT.diip = sesi.getDiip();
+		} else {
+			area.OUT.diip = "";
+		}
+		
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {

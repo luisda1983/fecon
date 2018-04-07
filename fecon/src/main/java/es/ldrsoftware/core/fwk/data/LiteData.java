@@ -12,6 +12,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_INSTTIPO = "INSTTIPO";
 	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
 	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
+	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
 	
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
@@ -96,4 +97,10 @@ public class LiteData {
 	public final static String[] LT_ST_CONFREGIST            = {LT_EL_CONFREGIST_CERRADO,
                                                                 LT_EL_CONFREGIST_INVITACION,
                                                                 LT_EL_CONFREGIST_LIBRE};
+	
+	public final static String   LT_TB_SESIESTA         = "SESIESTA";
+	public final static String   LT_EL_SESIESTA_ABIERTA = "A";
+	public final static String   LT_EL_SESIESTA_CERRADA = "C";
+	public final static String[] LT_ST_SESIESTA         = {LT_EL_SESIESTA_ABIERTA,
+														   LT_EL_SESIESTA_CERRADA};
 }

@@ -86,6 +86,7 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 			$rootScope.esta.sesi     = $scope.cntx.data.get('sesi');
 			$rootScope.esta.lgonUsua = true;
 			$rootScope.esta.usua     = $scope.cntx.data.get('usua');
+			$rootScope.esta.diip     = $scope.cntx.data.get('diip');
 			
 			//Volvemos a solicitar el menú, para obtener el correspondiente al usuario activo
 			var srv2 = comc.request('menu/make', null);
