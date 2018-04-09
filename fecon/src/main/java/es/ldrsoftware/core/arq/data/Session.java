@@ -24,16 +24,16 @@ public class Session {
 	public List<Notf> EXEC_OVER_LIST;
 	public List<Notf> EXEC_INFO_LIST;
 
-	//Variables de identificación de ejecución
+	//Variables de identificaciï¿½n de ejecuciï¿½n
 	public int    feop;
 	public int    hoop;
 	public String diip;
 	
-	//Variable de perfil de sesión
+	//Variable de perfil de sesiï¿½n
 	public String perf;
-	//Variable de código de instalación
+	//Variable de cï¿½digo de instalaciï¿½n
 	public long   inst;
-	//Variable de usuario de sesión
+	//Variable de usuario de sesiï¿½n
 	public String usua;
 
 	//Variables de uso Batch
@@ -48,16 +48,16 @@ public class Session {
 		EXEC_OVER_LIST = new ArrayList<Notf>();
 		EXEC_INFO_LIST = new ArrayList<Notf>();
 	
-		//Inicializa la identificación de ejecución
+		//Inicializa la identificaciï¿½n de ejecuciï¿½n
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
 		diip = servletRqt.getRemoteAddr();
 		
-		//Inicializa perfil de sesión
+		//Inicializa perfil de sesiï¿½n
 		perf = "OFF";
-		//Inicializa código de instalación
+		//Inicializa cï¿½digo de instalaciï¿½n
 		inst = 0;
-		//Inicializa usuario de sesión
+		//Inicializa usuario de sesiï¿½n
 		usua = "";
 		
 		//Inicializamos la fecha Batch
@@ -71,16 +71,16 @@ public class Session {
 		EXEC_OVER_LIST = new ArrayList<Notf>();
 		EXEC_INFO_LIST = new ArrayList<Notf>();
 			
-		//Inicializa la identificación de ejecución
+		//Inicializa la identificaciï¿½n de ejecuciï¿½n
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
 		diip = "";
 				
-		//Inicializa perfil de sesión
+		//Inicializa perfil de sesiï¿½n
 		perf = "";
-		//Inicializa código de instalación
+		//Inicializa cï¿½digo de instalaciï¿½n
 		inst = 0;
-		//Inicializa usuario de sesión
+		//Inicializa usuario de sesiï¿½n
 		usua = "BATCH";
 		
 		//Inicializamos la fecha Batch
@@ -96,12 +96,12 @@ public class Session {
 		EXEC_OVER_LIST = new ArrayList<Notf>();
 		EXEC_INFO_LIST = new ArrayList<Notf>();
 	
-		//Inicializa la identificación de ejecución
+		//Inicializa la identificaciï¿½n de ejecuciï¿½n
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
 		diip = ip;
 		
-		//Inicializa perfil de sesión
+		//Inicializa perfil de sesiï¿½n
 		perf = "OFF";
 
 	}
