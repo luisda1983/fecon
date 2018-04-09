@@ -41,7 +41,6 @@ public abstract class BaseController extends BaseNotifyManager {
 	private void inicSession(HttpServletRequest servletRqt) {
 		SESSION.set(new Session());
 		SESSION.get().initializeSession(servletRqt);
-		System.out.println(servletRqt.getHeader("X-FORWARDED-FOR"));
 	}
 	
 	//Finalizamos la sesi�n

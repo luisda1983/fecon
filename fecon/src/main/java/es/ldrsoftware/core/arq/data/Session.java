@@ -51,7 +51,7 @@ public class Session {
 		//Inicializa la identificaci�n de ejecuci�n
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
-		diip = servletRqt.getRemoteAddr();
+		diip = servletRqt.getHeader("X-FORWARDED-FOR");
 		
 		//Inicializa perfil de sesi�n
 		perf = "OFF";

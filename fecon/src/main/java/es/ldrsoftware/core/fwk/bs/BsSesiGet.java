@@ -45,7 +45,6 @@ public class BsSesiGet extends BaseBS {
 		
 		//Validamos la direcci�n IP desde la que nos llega la petici�n
 		if (!sesi.getDiip().equals(SESSION.get().diip)) {
-			System.out.println(sesi.getDiip() + " " + SESSION.get().diip);
 			notify(CoreNotify.SESI_DIIP_DIFE);
 		}
 		
