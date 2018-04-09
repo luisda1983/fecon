@@ -26,38 +26,39 @@ public class BsSesiGet extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsSesiGetArea area = (BsSesiGetArea)a;
 		
-		//Obtenemos la sesión por clave única de usuario y validamos su existencia
+		//Obtenemos la sesiï¿½n por clave ï¿½nica de usuario y validamos su existencia
 		Sesi sesi = sesiDao.getByIden(area.IN.iden);
 		
 		if (sesi == null) {
 			notify(CoreNotify.SESI_IDEN_NF);
 		}
 		
-		//Validamos la clave externa de la sesión
+		//Validamos la clave externa de la sesiï¿½n
 		if (sesi.getClav() != area.IN.clav) {
 			notify(CoreNotify.SESI_CLAV_DIFE);
 		}
 		
-		//Validamos que la sesión esté abierta
+		//Validamos que la sesiï¿½n estï¿½ abierta
 		if (!"A".equals(sesi.getEsta())) {
 			notify(CoreNotify.SESI_ESTA_NO_ABIE);
 		}
 		
-		//Validamos la dirección IP desde la que nos llega la petición
+		//Validamos la direcciï¿½n IP desde la que nos llega la peticiï¿½n
 		if (!sesi.getDiip().equals(SESSION.get().diip)) {
+			System.out.println(sesi.getDiip() + " " + SESSION.get().diip);
 			notify(CoreNotify.SESI_DIIP_DIFE);
 		}
 		
-		//Validamos que la sessión no haya caducado
+		//Validamos que la sessiï¿½n no haya caducado
 		if (!SesiUtil.isSesiActi(sesi)) {
 			notify(CoreNotify.SESI_CADU);
 		}
 		
-		//Actualizamos la ultima operación de la sesión
+		//Actualizamos la ultima operaciï¿½n de la sesiï¿½n
 		sesi.setFeul(SESSION.get().feop);
 		sesi.setHoul(SESSION.get().hoop);
 	
-		//Recuperamos el parámetro de configuración de periodo de renovación de sesión
+		//Recuperamos el parï¿½metro de configuraciï¿½n de periodo de renovaciï¿½n de sesiï¿½n
 		BsParaGetArea paraGetArea = new BsParaGetArea();
 		paraGetArea.IN.tbla = ParaData.PARA_TBLA_FPER;
 		paraGetArea.IN.clav = ParaData.PARA_ELEM_FPER_RSES;
@@ -72,9 +73,9 @@ public class BsSesiGet extends BaseBS {
 		sesi.setFeca(dataOut.fech);
 		sesi.setHoca(dataOut.hora);
 				
-		//TODO: renovacion de la clave externa, con su propio parámetro
+		//TODO: renovacion de la clave externa, con su propio parï¿½metro
 		
-		//Guardamos la sesión
+		//Guardamos la sesiï¿½n
 		sesiDao.save(sesi);
 		
 		area.OUT.sesi = sesi;
