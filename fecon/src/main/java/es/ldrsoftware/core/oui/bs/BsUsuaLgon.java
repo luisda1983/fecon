@@ -141,7 +141,7 @@ public class BsUsuaLgon extends BaseBS {
 		area.OUT.sesi = sesi.getIden();
 		
 		if (LiteData.LT_EL_USUAPERF_APM.equals(sesi.getPerf())) {
-			area.OUT.diip = sesi.getDiip();
+			area.OUT.diip = SESSION.get().diip;
 		} else {
 			area.OUT.diip = "";
 		}
