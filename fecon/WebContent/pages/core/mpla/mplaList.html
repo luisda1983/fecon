@@ -1,0 +1,73 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Maestro de Planificación</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+						<div layout="row" flex>
+							<div flex hide show-xs><b>Hora</b></div>
+							<div flex hide show-gt-xs layout="row">
+								<div flex="60"><b>Hora</b></div>
+								<div flex="40"><b>Activo</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="mpla in cntx.data.get('mplaList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs>{{mpla.hora | hhmmFmt}} [{{mpla.esta}}]</div>
+									<div flex hide show-gt-xs layout="row">
+										<div flex="60">{{mpla.hora | hhmmFmt}}</div>
+										<div flex="40">{{cntx.data.get('ltMMplaesta')[mpla.esta].desc}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Hora: </b>{{mpla.hora | hhmmFmt}}</div>
+									<div flex><b>Estado: </b>{{cntx.data.get('ltMMplaesta')[mpla.esta].desc}}</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="5">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">menu</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item data-ng-show="mpla.esta !== 'A'">
+										<md-button ng-click="fnMplaActi($index)">
+											Activar
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="mpla.esta === 'A'">
+										<md-button ng-click="fnMplaDesa($index)">
+											Desactivar
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

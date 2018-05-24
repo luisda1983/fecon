@@ -20,6 +20,10 @@ public class Ejec implements Serializable {
 	private    int fech;
 
 	@Id
+	@Column(name = "EJECHORA", unique = true, nullable = false)
+	private    int hora;
+	
+	@Id
 	@Column(name = "EJECBTCH", unique = true, nullable = false)
 	private String btch;
 
@@ -36,6 +40,9 @@ public class Ejec implements Serializable {
 	@Column(name = "EJECNOTF", nullable = false)
 	private String notf;
 	
+	@Column(name = "EJECFBTC", nullable = false)
+	private    int fbtc;
+	
 	@Column(name = "EJECFEIN", nullable = false)
 	private    int fein;
 
@@ -51,12 +58,26 @@ public class Ejec implements Serializable {
 	@Column(name = "EJECTIEJ", nullable = false)
 	private    int tiej;
 
+	@Column(name = "EJECFEPL", nullable = false)
+	private    int fepl;
+	
+	@Column(name = "EJECHOPL", nullable = false)
+	private    int hopl;
+	
 	public int getFech() {
 		return fech;
 	}
 
 	public void setFech(int fech) {
 		this.fech = fech;
+	}
+
+	public int getHora() {
+		return hora;
+	}
+
+	public void setHora(int hora) {
+		this.hora = hora;
 	}
 
 	public String getBtch() {
@@ -99,6 +120,14 @@ public class Ejec implements Serializable {
 		this.notf = notf;
 	}
 
+	public int getFbtc() {
+		return fbtc;
+	}
+
+	public void setFbtc(int fbtc) {
+		this.fbtc = fbtc;
+	}
+
 	public int getFein() {
 		return fein;
 	}
@@ -138,6 +167,22 @@ public class Ejec implements Serializable {
 	public void setTiej(int tiej) {
 		this.tiej = tiej;
 	}
+
+	public int getFepl() {
+		return fepl;
+	}
+
+	public void setFepl(int fepl) {
+		this.fepl = fepl;
+	}
+
+	public int getHopl() {
+		return hopl;
+	}
+
+	public void setHopl(int hopl) {
+		this.hopl = hopl;
+	}
 }
 
 class EjecPK implements Serializable {
@@ -147,6 +192,10 @@ class EjecPK implements Serializable {
 	@Id
 	@Column(name = "EJECFECH", unique = true, nullable = false)
 	private    int fech;
+
+	@Id
+	@Column(name = "EJECHORA", unique = true, nullable = false)
+	private    int hora;
 
 	@Id
 	@Column(name = "EJECBTCH", unique = true, nullable = false)
@@ -160,7 +209,7 @@ class EjecPK implements Serializable {
 	public boolean equals(Object o) {
 		if (o instanceof EjecPK) {
 			EjecPK obj = (EjecPK)o;
-			if (obj.fech == this.fech && obj.btch.equals(this.btch) && obj.secu == this.secu) {
+			if (obj.fech == this.fech && obj.hora == this.hora && obj.btch.equals(this.btch) && obj.secu == this.secu) {
 				return true;
 			}
 		}

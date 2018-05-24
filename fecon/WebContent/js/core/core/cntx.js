@@ -12,13 +12,18 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 
 		//Buscamos la vista para devolver su contexto.
 		     if (view === 'avis/list') { return getAvisListCntx(); }
+		else if (view === 'btch/list') { return getBtchListCntx(); }
 		else if (view === 'ctmn/form') { return getCtmnFormCntx(); }
 		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
 		else if (view === 'dtmn/form') { return getDtmnFormCntx(); }
 		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
+		else if (view === 'ejec/list') { return getEjecListCntx(); }
 		else if (view === 'inst/list') { return getInstListCntx(); }
 		else if (view === 'invi/envi') { return getInviEnviCntx(); }
 		else if (view === 'invi/list') { return getInviListCntx(); }
+		else if (view === 'logp/list') { return getLogpListCntx(); }
+		else if (view === 'mpla/list') { return getMplaListCntx(); }
+		else if (view === 'plan/list') { return getPlanListCntx(); }
 		else if (view === 'sesi/list') { return getSesiListCntx(); }
 		else if (view === 'usua/list') { return getUsuaListCntx(); }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
@@ -192,6 +197,58 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		cntx.form.set('iden', ctxl.makeField(''));
 		cntx.form.set('esta', ctxl.makeField(''));
 		cntx.form.set('srch', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: mpla/list - Lista de maestro de planificación.                                                    //
+	//*************************************************************************************************************//
+	function getMplaListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('hora', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: btch/list - Lista de procesos Batch.                                                              //
+	//*************************************************************************************************************//
+	function getBtchListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: ejec/list - Lista de ejecuciones.                                                                 //
+	//*************************************************************************************************************//
+	function getEjecListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('fech', ctxl.makeField(new Date()));
+		cntx.form.set('hora', ctxl.makeField(0));
+		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: plan/list - Lista de pases Batch.                                                                 //
+	//*************************************************************************************************************//
+	function getPlanListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('fech', ctxl.makeField(new Date()));
+		cntx.form.set('proc', ctxl.makeField(true));
+		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: logp/list - Lista de Log.                                                                         //
+	//*************************************************************************************************************//
+	function getLogpListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('iden', ctxl.makeField(''));
+		cntx.form.set('fech', ctxl.makeField(0));
+		cntx.form.set('hora', ctxl.makeField(0));
 		return cntx;
 	}
 

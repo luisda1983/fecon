@@ -1,0 +1,39 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Log</span>
+      			<div flex></div>
+      			<md-button ng-click="fnBack()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item data-ng-repeat="logp in cntx.data.get('logpList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex>
+							<div layout="row" layout-xs="column" flex>
+								<div flex layout="row">
+									<div flex="5" data-ng-show="logp.tabs>=9"></div>
+									<div flex="5" data-ng-show="logp.tabs>=8"></div>
+									<div flex="5" data-ng-show="logp.tabs>=7"></div>
+									<div flex="5" data-ng-show="logp.tabs>=6"></div>
+									<div flex="5" data-ng-show="logp.tabs>=5"></div>
+									<div flex="5" data-ng-show="logp.tabs>=4"></div>
+									<div flex="5" data-ng-show="logp.tabs>=3"></div>
+									<div flex="5" data-ng-show="logp.tabs>=2"></div>
+									<div flex="5" data-ng-show="logp.tabs>=1"></div>
+									<div flex layout="row">
+										<div flex>{{logp.dato}}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

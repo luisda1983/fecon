@@ -1,0 +1,143 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Procesos</span>
+      			<div flex></div>
+      			<md-button data-ng-show="cntx.conf.get('back')" ng-click="fnBack()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+  			<form name="ejecList" data-ng-submit="fnForm()">
+  				<div layout="row" layout-xs="column" layout-sm="column">
+  					<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('fech').show">
+	        			<label>Fecha</label>
+						<input type="date" ng-model="cntx.form.get('fech').data" ng-disabled="cntx.form.get('fech').read"/>
+	        		</md-input-container>
+	        		<md-input-container class="md-block" flex-xl="10" flex-lg="15" flex-md="15" flex-sm="15" flex-xs="30" data-ng-show="cntx.form.get('hora').show">
+	        			<label>Hora</label>
+						<md-select ng-model="cntx.form.get('hora').data" ng-disabled="cntx.form.get('hora').read">
+	               			<md-option ng-repeat="mpla in cntx.data.get('mplaList')" ng-value="mpla.hora">{{mpla.hora | hhmmFmt}}</md-option>
+	            		</md-select>
+	        		</md-input-container>
+	        	</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar" data-ng-show="cntx.form.get('btAcep').show">Aceptar</md-button> 
+                </div>
+        	</form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="30"><b>Hora</b></div>
+								<div flex="70"><b>Batch</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="20"><b>Hora</b></div>
+								<div flex="30"><b>Batch</b></div>
+								<div flex="15"><b>Secuencia</b></div>
+								<div flex="15"><b>Orden</b></div>
+								<div flex="20"><b>Estado</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="10"><b>Hora</b></div>
+								<div flex="30"><b>Batch</b></div>
+								<div flex="10"><b>Secuencia</b></div>
+								<div flex="10"><b>Orden</b></div>
+								<div flex="15"><b>Estado</b></div>
+								<div flex="10"><b>Tiempo</b></div>
+								<div flex="15"><b>Notif.</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="ejec in cntx.data.get('ejecList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="30">{{ejec.hora | hhmmFmt}}</div>
+										<div flex="70">{{ejec.btch}} [{{ejec.esta}}]</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="20">{{ejec.hora | hhmmFmt}}</div>
+										<div flex="30">{{ejec.btch}}</div>
+										<div flex="15">{{ejec.secu}}</div>
+										<div flex="15">{{ejec.orde}}</div>
+										<div flex="20">{{cntx.data.get('ltMEjecesta')[ejec.esta].desc}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="10">{{ejec.hora | hhmmFmt}}</div>
+										<div flex="30">{{ejec.btch}}</div>
+										<div flex="10">{{ejec.secu}}</div>
+										<div flex="10">{{ejec.orde}}</div>
+										<div flex="15">{{cntx.data.get('ltMEjecesta')[ejec.esta].desc}}</div>
+										<div flex="10">{{ejec.tiej}}</div>
+										<div flex="15">{{ejec.notf}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Fecha: </b>{{ejec.fech | yyyymmddFmt}}</div>
+									<div flex><b>Hora: </b>{{ejec.hora | hhmmFmt}}</div>
+									<div flex><b>Batch: </b>{{ejec.btch}}</div>
+									<div flex><b>Secuencia: </b>{{ejec.secu}}</div>
+									<div flex><b>Orden: </b>{{ejec.orde}}</div>
+									<div flex><b>Estado: </b>{{cntx.data.get('ltMEjecesta')[ejec.esta].desc}}</div>
+									<div flex><b>Notificación: </b>{{ejec.notf}}</div>
+									<div flex><b>Fecha de inicio de ejecución: </b>{{ejec.fein | yyyymmddFmt}}</div>
+									<div flex><b>Hora de inicio de ejecución: </b>{{ejec.hoin | hhmmssFmt}}</div>
+									<div flex><b>Fecha de fin de ejecución: </b>{{ejec.fefi | yyyymmddFmt}}</div>
+									<div flex><b>Hora de fin de ejecución: </b>{{ejec.hofi | hhmmssFmt}}</div>
+									<div flex><b>Tiempo de ejecución (ms): </b>{{ejec.tiej}}</div>
+									<div flex><b>Fecha de planif. ejecutada: </b>{{ejec.fepl | yyyymmddFmt}}</div>
+									<div flex><b>Hora de planif. ejecutada: </b>{{ejec.hopl | hhmmFmt}}</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="5">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">menu</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item data-ng-show="ejec.esta !== 'P'">
+										<md-button ng-click="fnLogpList($index)">
+											Log
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="ejec.esta === 'V'">
+										<md-button ng-click="fnEjecRepr($index)">
+											Reprocesar
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnEjecBtch($index)">
+											Detalle Batch
+										</md-button>
+									</md-menu-item>
+									<md-menu-item>
+										<md-button ng-click="fnEjecDeta($index)">
+											Detalle Ejecución
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

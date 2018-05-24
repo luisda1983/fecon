@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad BTCH - Configuración de procesos Batch
+ * Operaciones sobre entidad BTCH - Configuraciï¿½n de procesos Batch
  * @author Luis David
  *
  */
@@ -32,13 +32,26 @@ public class BtchDAO extends BaseDAO {
 			return null;
 		}
 	}
-	
+
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<Btch> getListByPlan(String plan) {
+	public List<Btch> getList() {
 		TypedQuery<Btch> typedQuery = 
 				this.getEntityManager().createQuery(
 				          "SELECT B FROM Btch B"
-				        + " WHERE B.plan = '" + plan + "'"
+				        + " ORDER BY B.iden"
+				         , Btch.class);
+		List<Btch> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Btch> getListByEstaAuto(String esta, String auto) {
+		TypedQuery<Btch> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT B FROM Btch B"
+				        + " WHERE B.esta = '" + esta + "' "
+				        + "   AND B.auto = '" + auto + "' "
+				        + " ORDER BY B.orde"
 				         , Btch.class);
 		List<Btch> resultList = typedQuery.getResultList();
 		return resultList;

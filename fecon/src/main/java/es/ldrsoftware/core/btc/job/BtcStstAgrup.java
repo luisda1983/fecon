@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.ldrsoftware.core.arq.Btc;
+import es.ldrsoftware.core.arq.LoggerManager;
 import es.ldrsoftware.core.sts.entity.Stdi;
 import es.ldrsoftware.core.sts.entity.StdiDao;
 import es.ldrsoftware.core.sts.entity.Stst;
@@ -18,16 +19,27 @@ import es.ldrsoftware.core.sts.entity.StstDao;
 public class BtcStstAgrup extends Btc {
 
 	@Autowired
+	LoggerManager logger;
+
+	@Autowired
 	public StstDao ststDao;
 
 	@Autowired
 	public StdiDao stdiDao;
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
-	public void executeBtc(int fech) {
+	public void executeBtc() throws Exception {
 
+		logger.logProc("StstAgrup", 0, "EJECUCION DE PROCESO: FbtcAvance");
+		logger.logProc("StstAgrup", 4, "Fecha de ejecución: " + SESSION.get().feop);
+		logger.logProc("StstAgrup", 4, "Hora de ejecución: " + SESSION.get().hoop);
+		logger.logProc("StstAgrup", 4, "Fecha de proceso: " + SESSION.get().fbtc);
+		
+		int fech = SESSION.get().fbtc;
 		
 		List<Stst> ststList = ststDao.getListByFeej(fech);
+		logger.logProc("StstAgrup", 1, "Estadísticas totales registradas: " + ststList.size());
+		
 		ListIterator<Stst> it = ststList.listIterator();
 		
 		Stdi stdi = new Stdi();
@@ -66,7 +78,14 @@ public class BtcStstAgrup extends Btc {
 					stdi.setNuer(nuer);
 				
 					stdiDao.save(stdi);
+					
+					logger.logProc("StstAgrup", 2, "Ejecuciones: " + stdi.getTota());
+					logger.logProc("StstAgrup", 2, "Tiempo medio: " + stdi.getTime());
+					logger.logProc("StstAgrup", 2, "Tiempo mínimo: " + stdi.getTimi());
+					logger.logProc("StstAgrup", 2, "Tiempo máximo: " + stdi.getTima());
 				}
+				
+				logger.logProc("StstAgrup", 1, "Tratando estadísticas de Controlador : " + stst.getCtrl());
 				
 				ctrl = stst.getCtrl();
 				stdi = new Stdi();
@@ -95,6 +114,13 @@ public class BtcStstAgrup extends Btc {
 			stdi.setNuer(nuer);
 		
 			stdiDao.save(stdi);
+			
+			logger.logProc("StstAgrup", 2, "Ejecuciones: " + stdi.getTota());
+			logger.logProc("StstAgrup", 2, "Tiempo medio: " + stdi.getTime());
+			logger.logProc("StstAgrup", 2, "Tiempo mínimo: " + stdi.getTimi());
+			logger.logProc("StstAgrup", 2, "Tiempo máximo: " + stdi.getTima());
 		}
+		
+		logger.logProc("StstAgrup", 0, "FIN DE EJECUCION DE PROCESO: StstAgrup");
 	}
 }

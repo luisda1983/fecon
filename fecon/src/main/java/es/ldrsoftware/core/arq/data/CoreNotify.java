@@ -332,8 +332,185 @@ public class CoreNotify {
 	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
 	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
 
-	
+	//Servicio de grabado de sesiones
+	public final static String SESI_SAVE_SESI_RQRD         = "SESI-02001";
+	public final static String SESI_SAVE_USUA_RQRD         = "SESI-02701";
+	public final static String SESI_SAVE_DIIP_RQRD         = "SESI-02702";
+	public final static String SESI_SAVE_PERF_RQRD         = "SESI-02703";
+	public final static String SESI_SAVE_INST_RQRD         = "SESI-02704";
+	public final static String SESI_SAVE_FEAP_RQRD         = "SESI-02705";
+	public final static String SESI_SAVE_ESTA_RQRD         = "SESI-02706";
+	public final static String SESI_SAVE_FEUL_RQRD         = "SESI-02707";
+	public final static String SESI_SAVE_FECA_RQRD         = "SESI-02708";
+	public final static String SESI_SAVE_USUA_MAXL         = "SESI-02801";
+	public final static String SESI_SAVE_DIIP_MAXL         = "SESI-02802";
+	public final static String SESI_SAVE_PERF_ERRO         = "SESI-02803";
+	public final static String SESI_SAVE_INST_RNGE         = "SESI-02804";
+	public final static String SESI_SAVE_FEAP_RNGE         = "SESI-02805";
+	public final static String SESI_SAVE_HOAP_RNGE         = "SESI-02806";
+	public final static String SESI_SAVE_ESTA_ERRO         = "SESI-02807";
+	public final static String SESI_SAVE_FEUL_RNGE         = "SESI-02808";
+	public final static String SESI_SAVE_HOUL_RNGE         = "SESI-02809";
+	public final static String SESI_SAVE_FECA_RNGE         = "SESI-02810";
+	public final static String SESI_SAVE_HOCA_RNGE         = "SESI-02811";
 
+	
+	//*********************************************************************************************//
+	// Notificaciones del módulo BTC                                                               //
+	//*********************************************************************************************//
+
+	//Proceso gestor del Batch
+	public final static String BTC_CTRL_PLAN_ERRO          = "BTC-00001";
+	public final static String BTC_CTRL_BTCH_NF            = "BTC-00002";
+	
+	//Servicio de grabado de maestro de planificación
+	public final static String MPLA_SAVE_MPLA_RQRD         = "MPLA-01001";
+	public final static String MPLA_SAVE_ESTA_RQRD         = "MPLA-01701";
+	public final static String MPLA_SAVE_HORA_RNGE         = "MPLA-01801";
+	public final static String MPLA_SAVE_ESTA_ERRO         = "MPLA-01802";
+
+	//Servicio de activación de maestro de planificación
+	public final static String MPLA_ACTI_ESTA_ERRO         = "MPLA-02501";
+	public final static String MPLA_ACTI_MPLA_NF           = "MPLA-02901";
+	
+	//Servicio de desactivación de maestro de planificación
+	public final static String MPLA_DESA_ESTA_ERRO         = "MPLA-03501";
+	public final static String MPLA_DESA_MPLA_NF           = "MPLA-03901";
+	
+	//Servicio de cálculo de ventana de ejecución
+	public final static String MPLA_VENT_ACTI_ERRO         = "MPLA-04501";
+	
+	//Servicio de grabado de planificación
+	public final static String PLAN_SAVE_PLAN_RQRD         = "PLAN-01001";
+	public final static String PLAN_SAVE_FECH_RQRD         = "PLAN-01701";
+	public final static String PLAN_SAVE_ESTA_RQRD         = "PLAN-01702";
+	public final static String PLAN_SAVE_FEIN_NPER         = "PLAN-01703";
+	public final static String PLAN_SAVE_HOIN_NPER         = "PLAN-01704";
+	public final static String PLAN_SAVE_FEIN_RQRD         = "PLAN-01705";
+	public final static String PLAN_SAVE_FEFI_RQRD         = "PLAN-01706";
+	public final static String PLAN_SAVE_FEFI_NPER         = "PLAN-01707";
+	public final static String PLAN_SAVE_HOFI_NPER         = "PLAN-01708";
+	public final static String PLAN_SAVE_PROC_NPER         = "PLAN-01709";
+	public final static String PLAN_SAVE_VENT_RQRD         = "PLAN-01710";
+	public final static String PLAN_SAVE_PORC_RQRD         = "PLAN-01711";
+	public final static String PLAN_SAVE_PORC_NPER         = "PLAN-01712";
+	public final static String PLAN_SAVE_FBTC_RQRD         = "PLAN-01713";
+	public final static String PLAN_SAVE_FECH_RNGE         = "PLAN-01801";
+	public final static String PLAN_SAVE_HORA_RNGE         = "PLAN-01802";
+	public final static String PLAN_SAVE_ESTA_ERRO         = "PLAN-01803";
+	public final static String PLAN_SAVE_FEIN_RNGE         = "PLAN-01804";
+	public final static String PLAN_SAVE_HOIN_RNGE         = "PLAN-01805";
+	public final static String PLAN_SAVE_FEFI_RNGE         = "PLAN-01806";
+	public final static String PLAN_SAVE_HOFI_RNGE         = "PLAN-01807";
+	public final static String PLAN_SAVE_PROC_RNGE         = "PLAN-01808";
+	public final static String PLAN_SAVE_VENT_RNGE         = "PLAN-01809";
+	public final static String PLAN_SAVE_PORC_RNGE         = "PLAN-01810";
+	public final static String PLAN_SAVE_FBTC_RNGE         = "PLAN-01811";
+	
+	//Servicio de creación de planificación
+	public final static String PLAN_NUEV_FECH_RQRD         = "PLAN-02001";
+
+	//Servicio de consulta de planificaciones
+	public final static String PLAN_LIST_TIPO_RQRD         = "PLAN-03001";
+	public final static String PLAN_LIST_FECH_RQRD         = "PLAN-03002";
+	public final static String PLAN_LIST_TIPO_ERRO         = "PLAN-03003";
+	
+	//Servicio de grabado de Batch
+	public final static String BTCH_SAVE_BTCH_RQRD         = "BTCH-01001";
+	public final static String BTCH_SAVE_IDEN_RQRD         = "BTCH-01002";
+	public final static String BTCH_SAVE_DESC_RQRD         = "BTCH-01003";
+	public final static String BTCH_SAVE_FEAL_RQRD         = "BTCH-01004";
+	public final static String BTCH_SAVE_ESTA_RQRD         = "BTCH-01005";
+	public final static String BTCH_SAVE_AUTO_RQRD         = "BTCH-01006";
+	public final static String BTCH_SAVE_DEPE_RQRD         = "BTCH-01007";
+	public final static String BTCH_SAVE_TIPO_RQRD         = "BTCH-01008";
+	public final static String BTCH_SAVE_TIPO_NPER         = "BTCH-01009";
+	public final static String BTCH_SAVE_ORDE_RQRD         = "BTCH-01010";
+	public final static String BTCH_SAVE_DBTC_RQRD         = "BTCH-01011";
+	public final static String BTCH_SAVE_DBTC_NPER         = "BTCH-01012";
+	public final static String BTCH_SAVE_IDEN_MAXL         = "BTCH-01501";
+	public final static String BTCH_SAVE_DESC_MAXL         = "BTCH-01502";
+	public final static String BTCH_SAVE_FEAL_RNGE         = "BTCH-01503";
+	public final static String BTCH_SAVE_ESTA_ERRO         = "BTCH-01504";
+	public final static String BTCH_SAVE_AUTO_ERRO         = "BTCH-01505";
+	public final static String BTCH_SAVE_DEPE_ERRO         = "BTCH-01506";
+	public final static String BTCH_SAVE_TIPO_ERRO         = "BTCH-01507";
+	public final static String BTCH_SAVE_ORDE_RNGE         = "BTCH-01508";
+	public final static String BTCH_SAVE_DBTC_MAXL         = "BTCH-01509";
+	
+	//Servicio de consulta de Batch por clave (identificador)
+	public final static String BTCH_GETK_IDEN_RQRD         = "BTCH-02001";
+	
+	//Servicio de consultas de Batchs
+	public final static String BTCH_LIST_TIPO_RQRD         = "BTCH-03001";
+	public final static String BTCH_LIST_TIPO_ERRO         = "BTCH-03501";
+	
+	//Servicio de grabado de Ejecución
+	public final static String EJEC_SAVE_EJEC_RQRD         = "EJEC-01001";
+	public final static String EJEC_SAVE_FECH_RQRD         = "EJEC-01701";
+	public final static String EJEC_SAVE_BTCH_RQRD         = "EJEC-01702";
+	public final static String EJEC_SAVE_SECU_RQRD         = "EJEC-01703";
+	public final static String EJEC_SAVE_ORDE_RQRD         = "EJEC-01704";
+	public final static String EJEC_SAVE_ESTA_RQRD         = "EJEC-01705";
+	public final static String EJEC_SAVE_FEIN_RQRD         = "EJEC-01706";
+	public final static String EJEC_SAVE_FEIN_NPER         = "EJEC-01707";
+	public final static String EJEC_SAVE_HOIN_NPER         = "EJEC-01708";
+	public final static String EJEC_SAVE_FEFI_RQRD         = "EJEC-01709";
+	public final static String EJEC_SAVE_FEFI_NPER         = "EJEC-01710";
+	public final static String EJEC_SAVE_HOFI_NPER         = "EJEC-01711";
+	public final static String EJEC_SAVE_TIEJ_RQRD         = "EJEC-01712";
+	public final static String EJEC_SAVE_TIEJ_NPER         = "EJEC-01713";
+	public final static String EJEC_SAVE_NOTF_RQRD         = "EJEC-01714";
+	public final static String EJEC_SAVE_NOTF_NPER         = "EJEC-01715";
+	public final static String EJEC_SAVE_FEPL_RQRD         = "EJEC-01716";
+	public final static String EJEC_SAVE_FEPL_NPER         = "EJEC-01717";
+	public final static String EJEC_SAVE_HOPL_NPER         = "EJEC-01718";
+	public final static String EJEC_SAVE_FBTC_RQRD         = "EJEC-01719";
+	public final static String EJEC_SAVE_FBTC_NPER         = "EJEC-01720";
+	public final static String EJEC_SAVE_FECH_RNGE         = "EJEC-01801";
+	public final static String EJEC_SAVE_HORA_RNGE         = "EJEC-01802";
+	public final static String EJEC_SAVE_BTCH_MAXL         = "EJEC-01803";
+	public final static String EJEC_SAVE_SECU_RNGE         = "EJEC-01804";
+	public final static String EJEC_SAVE_ORDE_RNGE         = "EJEC-01805";
+	public final static String EJEC_SAVE_ESTA_ERRO         = "EJEC-01806";
+	public final static String EJEC_SAVE_FEIN_RNGE         = "EJEC-01807";
+	public final static String EJEC_SAVE_HOIN_RNGE         = "EJEC-01808";
+	public final static String EJEC_SAVE_FEFI_RNGE         = "EJEC-01809";
+	public final static String EJEC_SAVE_HOFI_RNGE         = "EJEC-01810";
+	public final static String EJEC_SAVE_TIEJ_RNGE         = "EJEC-01811";
+	public final static String EJEC_SAVE_NOTF_MAXL         = "EJEC-01812";
+	public final static String EJEC_SAVE_FEPL_RNGE         = "EJEC-01813";
+	public final static String EJEC_SAVE_HOPL_RNGE         = "EJEC-01814";
+	public final static String EJEC_SAVE_FBTC_RNGE         = "EJEC-01815";
+	
+	//Servicio de consulta de ejecuciones
+	public final static String EJEC_LIST_TIPO_RQRD         = "EJEC-02001";
+	public final static String EJEC_LIST_FECH_RQRD         = "EJEC-02002";
+	public final static String EJEC_LIST_ESTA_RQRD         = "EJEC-02003";
+	public final static String EJEC_LIST_TIPO_ERRO         = "EJEC-02004";
+	
+	//Servicio de planificación de ejecuciones
+	public final static String EJEC_PLAN_BTCH_RQRD         = "EJEC-03001";
+	public final static String EJEC_PLAN_FECH_RQRD         = "EJEC-03002";
+	public final static String EJEC_PLAN_SECU_RQRD         = "EJEC-03003";
+	public final static String EJEC_PLAN_MPLA_ACTI_NO      = "EJEC-03501";
+	public final static String EJEC_PLAN_BTCH_ACTI_NO      = "EJEC-03502";
+	public final static String EJEC_PLAN_MPLA_NF           = "EJEC-03901";
+	public final static String EJEC_PLAN_BTCH_NF           = "EJEC-03902";
+
+	//Servicio de grabado de log de procesos
+	public final static String LOGP_SAVE_LOGP_RQRD         = "LOGP-01001";
+	public final static String LOGP_SAVE_TIPO_RQRD         = "LOGP-01701";
+	public final static String LOGP_SAVE_IDEN_RQRD         = "LOGP-01702";
+	public final static String LOGP_SAVE_FECH_RQRD         = "LOGP-01703";
+	public final static String LOGP_SAVE_DATO_RQRD         = "LOGP-01704";
+	public final static String LOGP_SAVE_TIPO_ERRO         = "LOGP-01801";
+	public final static String LOGP_SAVE_IDEN_MAXL         = "LOGP-01802";
+	public final static String LOGP_SAVE_FECH_RNGE         = "LOGP-01803";
+	public final static String LOGP_SAVE_HORA_RNGE         = "LOGP-01804";
+	public final static String LOGP_SAVE_DATO_MAXL         = "LOGP-01805";
+	public final static String LOGP_SAVE_TABS_RNGE         = "LOGP-01806";
+	
 	//Notificaciones del m�dulo INVI
 	
 	public final static String INVI_PROC_INST_NF           = "INVI-00046";
@@ -387,35 +564,8 @@ public class CoreNotify {
 	public final static String STDI_SAVE_FECH_RQRD         = "STDI-00001";
 	public final static String STDI_SAVE_CTRL_RQRD         = "STDI-00002";
 
-	//Notificaciones del modulo EJEC
-	public final static String EJEC_SAVE_RQRD              = "EJEC-00001";
-	public final static String EJEC_SAVE_BTCH_RQRD         = "EJEC-00002";
-	public final static String EJEC_SAVE_FECH_RQRD         = "EJEC-00003";
-	public final static String EJEC_SAVE_ORDE_RQRD         = "EJEC-00004";
-	public final static String EJEC_SAVE_NOTP_FEIN_RQRD    = "EJEC-00005";
-	public final static String EJEC_SAVE_NOTP_FEFI_RQRD    = "EJEC-00006";
-	public final static String EJEC_SAVE_NOTP_TIEJ_RQRD    = "EJEC-00007";
-	public final static String EJEC_SAVE_NOTP_HOIN_RQRD    = "EJEC-00008";
-	public final static String EJEC_SAVE_NOTP_HOFI_RQRD    = "EJEC-00009";
-	public final static String EJEC_SAVE_VOID_NOTF_RQRD    = "EJEC-00010";
-	public final static String EJEC_SAVE_ESTA_ERRO         = "EJEC-00011";
-	public final static String EJEC_PLAN_BTCH_RQRD         = "EJEC-00012";
-	public final static String EJEC_PLAN_FECH_RQRD         = "EJEC-00013";
-	public final static String EJEC_PLAN_ORDE_RQRD         = "EJEC-00014";
 	public final static String EJEC_GETL_FECH_RQRD         = "EJEC-00015";
 	
-	//Notificaciones del modulo BTCH
-	public final static String BTCH_SAVE_RQRD              = "BTCH-00001";
-	public final static String BTCH_SAVE_IDEN_RQRD         = "BTCH-00002";
-	public final static String BTCH_SAVE_DESC_RQRD         = "BTCH-00003";
-	public final static String BTCH_SAVE_FEAL_RQRD         = "BTCH-00004";
-	public final static String BTCH_SAVE_ORDE_RQRD         = "BTCH-00005";
-	public final static String BTCH_SAVE_TIPO_RQRD         = "BTCH-00006";
-	public final static String BTCH_SAVE_TIPO_ERRO         = "BTCH-00007";
-	public final static String BTCH_SAVE_PLAN_RQRD         = "BTCH-00008";
-	public final static String BTCH_SAVE_PLAN_ERRO         = "BTCH-00009";
-	public final static String BTCH_SAVE_PLAN_FEIN_RQRD    = "BTCH-00010";
-	public final static String BTCH_SAVE_PERI_FEPR_RQRD    = "BTCH-00011";
 	public final static String BTCH_GETB_IDEN_RQRD         = "BTCH-00012";
 	public final static String BTCH_NF                     = "BTCH-00013";
 	public final static String BTCH_TIPO_ERRO              = "BTCH-00014";

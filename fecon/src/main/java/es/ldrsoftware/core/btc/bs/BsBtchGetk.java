@@ -10,13 +10,13 @@ import es.ldrsoftware.core.btc.entity.Btch;
 import es.ldrsoftware.core.btc.entity.BtchDAO;
 
 @Component
-public class BsBtchGet extends BaseBS {
+public class BsBtchGetk extends BaseBS {
 
 	@Autowired
 	BtchDAO btchDao;
 		
 	protected void execute(BaseBSArea a) throws Exception {
-		BsBtchGetArea area = (BsBtchGetArea)a;
+		BsBtchGetkArea area = (BsBtchGetkArea)a;
 		
 		Btch btch = btchDao.getByIden(area.IN.iden);
 		
@@ -24,9 +24,9 @@ public class BsBtchGet extends BaseBS {
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsBtchGetArea area = (BsBtchGetArea)a;
-		
-		if (area.IN.iden == null || "".equals(area.IN.iden)) { notify(CoreNotify.BTCH_GETB_IDEN_RQRD); }
+		BsBtchGetkArea area = (BsBtchGetkArea)a;
+
+		validateStringRequired(area.IN.iden, CoreNotify.BTCH_GETK_IDEN_RQRD); 
 	}
 
 }

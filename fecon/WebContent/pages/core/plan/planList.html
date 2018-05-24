@@ -1,0 +1,130 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Pases Batch</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+  			<form name="planList" data-ng-submit="fnForm()">
+  				<div layout="row" layout-xs="column">
+  					<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('fech').show">
+	        			<label>Fecha</label>
+						<input type="date" ng-model="cntx.form.get('fech').data" ng-disabled="cntx.form.get('fech').read"/>
+	        		</md-input-container>
+	        		<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('proc').show">
+	        			<md-checkbox ng-model="cntx.form.get('proc').data" data-ng-disabled="cntx.form.get('proc').read">
+	        				Con ejecuciones
+	        			</md-checkbox>
+	        		</md-input-container>
+	        	</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar" data-ng-show="cntx.form.get('btAcep').show">Aceptar</md-button> 
+                </div>
+        	</form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="30"><b>Hora</b></div>
+								<div flex="70"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="20"><b>Hora</b></div>
+								<div flex="30"><b>Estado</b></div>
+								<div flex="15"><b>Proc.</b></div>
+								<div flex="15"><b>Vent.</b></div>
+								<div flex="20"><b>Porc.</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="15"><b>Fech</b></div>
+								<div flex="10"><b>Hora</b></div>
+								<div flex="10"><b>Estado</b></div>
+								<div flex="10"><b>H.Inicio</b></div>
+								<div flex="15"><b>H.Fin</b></div>
+								<div flex="10"><b>Procesos</b></div>
+								<div flex="15"><b>Vetana</b></div>
+								<div flex="15"><b>Porcentaje</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="plan in cntx.data.get('planList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="30">{{plan.hora | hhmmFmt}}</div>
+										<div flex="70">{{cntx.data.get('ltMPlanesta')[plan.esta].desc}}</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="20">{{plan.hora | hhmmFmt}}</div>
+										<div flex="30">{{cntx.data.get('ltMPlanesta')[plan.esta].desc}}</div>
+										<div flex="15">{{plan.proc}}</div>
+										<div flex="15">{{plan.vent}}</div>
+										<div flex="20">{{plan.porc}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="15">{{plan.fech | yyyymmddFmt}}</div>
+										<div flex="10">{{plan.hora | hhmmFmt}}</div>
+										<div flex="10">{{cntx.data.get('ltMPlanesta')[plan.esta].desc}}</div>
+										<div flex="10">{{plan.hoin | hhmmssFmt}}</div>
+										<div flex="15">{{plan.hofi | hhmmssFmt}}</div>
+										<div flex="10">{{plan.proc}}</div>
+										<div flex="15">{{plan.vent | hhmmFmt}}</div>
+										<div flex="15">{{plan.porc}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Fecha: </b>{{plan.fech | yyyymmddFmt}}</div>
+									<div flex><b>Hora: </b>{{plan.hora | hhmmFmt}}</div>
+									<div flex><b>Fecha Batch: </b>{{plan.fbtc | yyyymmddFmt}}</div>
+									<div flex><b>Estado: </b>{{cntx.data.get('ltMPlanesta')[plan.esta].desc}}</div>
+									<div flex><b>Fecha de inicio de pase: </b>{{plan.fein | yyyymmddFmt}}</div>
+									<div flex><b>Hora de inicio de pase: </b>{{plan.hoin | hhmmssFmt}}</div>
+									<div flex><b>Fecha de fin de pase: </b>{{plan.fefi | yyyymmddFmt}}</div>
+									<div flex><b>Hora de fin de pase: </b>{{plan.hofi | hhmmssFmt}}</div>
+									<div flex><b>Procesos ejecutados: </b>{{plan.proc}}</div>
+									<div flex><b>Ventana de ejecuci�n: </b>{{plan.vent | hhmmFmt}}</div>
+									<div flex><b>Porcentaje de uso de ventana: </b>{{plan.porc}}</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="5">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">menu</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item>
+										<md-button ng-click="fnLogpList($index)">
+											Log
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="plan.proc !== 0">
+										<md-button ng-click="fnEjecList($index)">
+											Procesos
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

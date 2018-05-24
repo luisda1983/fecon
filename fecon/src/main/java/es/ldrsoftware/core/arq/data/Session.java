@@ -39,6 +39,10 @@ public class Session {
 	//Variables de uso Batch
 	//Fecha Batch
 	public int    fbtc;
+	//Fecha batch de operación
+	public int    fbop;
+	//Hora batch de operación
+	public int    hbop;
 	
 	public void initializeSession(HttpServletRequest servletRqt) {
 		
@@ -51,7 +55,14 @@ public class Session {
 		//Inicializa la identificaci�n de ejecuci�n
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
-		diip = servletRqt.getHeader("X-FORWARDED-FOR");
+		String proxyIp   = servletRqt.getHeader("X-FORWARDED-FOR");
+		String noProxyIp = servletRqt.getRemoteAddr();
+		
+		if (proxyIp == null) {
+			diip = noProxyIp;
+		} else {
+			diip = proxyIp;
+		}
 		
 		//Inicializa perfil de sesi�n
 		perf = "OFF";
@@ -60,7 +71,9 @@ public class Session {
 		//Inicializa usuario de sesi�n
 		usua = "";
 		
-		//Inicializamos la fecha Batch
+		//Inicializamos datos de ejecución Batch
+		fbop = 0;
+		hbop = 0;
 		fbtc = 0;
 	}
 	
@@ -83,7 +96,9 @@ public class Session {
 		//Inicializa usuario de sesi�n
 		usua = "BATCH";
 		
-		//Inicializamos la fecha Batch
+		//Inicializamos datos de ejecución Batch
+		fbop = 0;
+		hbop = 0;
 		fbtc = 0;
 	}
 	

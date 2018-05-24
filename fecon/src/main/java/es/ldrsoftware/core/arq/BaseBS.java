@@ -111,6 +111,12 @@ public abstract class BaseBS extends BaseNotifyManager {
 		}
 	}
 	
+	protected void validateDecRange(double d, double min, double max, String notf) throws Exception {
+		if (d < min || d > max) {
+			notify(notf);
+		}
+	}
+	
 	protected void validateListRequired(@SuppressWarnings("rawtypes") List l, String notf) throws Exception {
 		if (l == null || l.size() == 0) {
 			notify(notf);

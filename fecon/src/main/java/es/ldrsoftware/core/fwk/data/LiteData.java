@@ -13,6 +13,11 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
 	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
 	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
+	public final static String LT_EL_LITEMASTER_MPLAESTA = "MPLAESTA";
+	public final static String LT_EL_LITEMASTER_PLANESTA = "PLANESTA";
+	public final static String LT_EL_LITEMASTER_BTCHESTA = "BTCHESTA";
+	public final static String LT_EL_LITEMASTER_EJECESTA = "EJECESTA";
+	public final static String LT_EL_LITEMASTER_LOGPTIPO = "LOGPTIPO";
 	
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
@@ -103,4 +108,42 @@ public class LiteData {
 	public final static String   LT_EL_SESIESTA_CERRADA = "C";
 	public final static String[] LT_ST_SESIESTA         = {LT_EL_SESIESTA_ABIERTA,
 														   LT_EL_SESIESTA_CERRADA};
+
+	public final static String   LT_TB_MPLAESTA             = "MPLAESTA";
+	public final static String   LT_EL_MPLAESTA_ACTIVADO    = "A";
+	public final static String   LT_EL_MPLAESTA_DESACTIVADO = "D";
+	public final static String[] LT_ST_MPLAESTA             = {LT_EL_MPLAESTA_ACTIVADO,
+			                                                   LT_EL_MPLAESTA_DESACTIVADO};
+	
+	public final static String   LT_TB_PLANESTA             = "PLANESTA";
+	public final static String   LT_EL_PLANESTA_PENDIENTE   = "P";
+	public final static String   LT_EL_PLANESTA_EN_CURSO    = "X";
+	public final static String   LT_EL_PLANESTA_ERROR       = "E";
+	public final static String   LT_EL_PLANESTA_FINALIZADO  = "F";
+	public final static String[] LT_ST_PLANESTA             = {LT_EL_PLANESTA_PENDIENTE,
+			                                                   LT_EL_PLANESTA_EN_CURSO,
+			                                                   LT_EL_PLANESTA_ERROR,
+			                                                   LT_EL_PLANESTA_FINALIZADO};
+	
+	public final static String   LT_TB_BTCHESTA             = "BTCHESTA";
+	public final static String   LT_EL_BTCHESTA_ACTIVO      = "A";
+	public final static String   LT_EL_BTCHESTA_SUSPENDIDO  = "S";
+	public final static String   LT_EL_BTCHESTA_CANCELADO   = "C";
+	public final static String[] LT_ST_BTCHESTA             = {LT_EL_BTCHESTA_ACTIVO,
+			                                                   LT_EL_BTCHESTA_SUSPENDIDO,
+			                                                   LT_EL_BTCHESTA_CANCELADO};
+	
+	public final static String   LT_TB_EJECESTA             = "EJECESTA";
+	public final static String   LT_EL_EJECESTA_PENDIENTE   = "P";
+	public final static String   LT_EL_EJECESTA_VOID        = "V";
+	public final static String   LT_EL_EJECESTA_FINALIZADA  = "F";
+	public final static String[] LT_ST_EJECESTA             = {LT_EL_EJECESTA_PENDIENTE,
+			                                                   LT_EL_EJECESTA_VOID,
+			                                                   LT_EL_EJECESTA_FINALIZADA};
+
+	public final static String   LT_TB_LOGPTIPO             = "LOGPTIPO";
+	public final static String   LT_EL_LOGPTIPO_PASE        = "P";
+	public final static String   LT_EL_LOGPTIPO_PROCESO     = "B";
+	public final static String[] LT_ST_LOGPTIPO             = {LT_EL_LOGPTIPO_PASE,
+			                                                   LT_EL_LOGPTIPO_PROCESO};
 }

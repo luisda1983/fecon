@@ -1,0 +1,108 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Procesos Batch</span>
+      			<div flex></div>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+						<div layout="row" flex>
+							<div flex hide show-xs><b>Proceso</b></div>
+							<div flex hide show-sm layout="row">
+								<div flex="20"><b>Proceso</b></div>
+								<div flex="40"><b>Descripción</b></div>
+								<div flex="20"><b>Estado</b></div>
+								<div flex="20"><b>Tipo</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="15"><b>Proceso</b></div>
+								<div flex="35"><b>Descripción</b></div>
+								<div flex="15"><b>Estado</b></div>
+								<div flex="15"><b>Tipo</b></div>
+								<div flex="10"><b>Auto.</b></div>
+								<div flex="10"><b>Orden</b></div>
+							</div>
+						</div>
+					</div>
+					<div flex></div>
+					<div flex="10"></div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="btch in cntx.data.get('btchList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs>{{btch.iden}} [{{btch.esta}}][{{btch.tipo}}]</div>
+									<div flex hide show-sm layout="row">
+										<div flex="20">{{btch.iden}}</div>
+										<div flex="40">{{btch.desc}}</div>
+										<div flex="20">{{cntx.data.get('ltMBtchesta')[btch.esta].desc}}</div>
+										<div flex="20">{{cntx.data.get('ltMBtchtipo')[btch.tipo].desc}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="15">{{btch.iden}}</div>
+										<div flex="35">{{btch.desc}}</div>
+										<div flex="15">{{cntx.data.get('ltMBtchesta')[btch.esta].desc}}</div>
+										<div flex="15">{{cntx.data.get('ltMBtchtipo')[btch.tipo].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMBool')[btch.auto].desc}}</div>
+										<div flex="10">{{btch.orde}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Identificador: </b>{{btch.iden}}</div>
+									<div flex><b>Descripción: </b>{{btch.desc}}</div>
+									<div flex><b>Fecha de Alta: </b>{{btch.feal | yyyymmddFmt}}</div>
+									<div flex><b>Automático: </b>{{cntx.data.get('ltMBool')[btch.auto].desc}}</div>
+									<div flex><b>Dependencia: </b>{{cntx.data.get('ltMBool')[btch.depe].desc}}</div>
+									<div flex><b>Depende de: </b>{{btch.dbtc}}</div>
+									<div flex><b>Tipo: </b>{{cntx.data.get('ltMBtchtipo')[btch.tipo].desc}}</div>
+									<div flex><b>Franja de planificación: </b>{{btch.aux1 | hhmmFmt}}</div>
+									<div flex><b>Día de planificación: </b>{{btch.aux2}}</div>
+									<div flex><b>Mes de planificación: </b>{{btch.aux3}}</div>
+									<div flex><b>Orden de ejecución: </b>{{btch.orde}}</div>
+									<div flex><b>Fecha de primera ejecución: </b>{{btch.fein | yyyymmddFmt}}</div>
+									<div flex><b>Hora de primera ejecución: </b>{{btch.hoin | hhmmssFmt}}</div>
+									<div flex><b>Fecha de última ejecución: </b>{{btch.feul | yyyymmddFmt}}</div>
+									<div flex><b>Hora de última ejecución: </b>{{btch.houl | hhmmssFmt}}</div>
+									<div flex><b>Fecha de última planificación: </b>{{btch.fupl | yyyymmddFmt}}</div>
+									<div flex><b>Hora de última planificación: </b>{{btch.hupl | hhmmFmt}}</div>
+								</div>
+							</div>
+						</div>
+						<div flex></div>
+						<div flex="5">
+							<md-menu md-position-mode="target-right target">
+								<md-button aria-label="Acciones" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+									<md-icon md-font-set="material-icons">menu</md-icon>
+								</md-button>
+								<md-menu-content width="4">
+									<md-menu-item data-ng-show="btch.esta !== 'A'">
+										<md-button ng-click="fnBtchActi($index)">
+											Activar
+										</md-button>
+									</md-menu-item>
+									<md-menu-item data-ng-show="btch.esta === 'A'">
+										<md-button ng-click="fnBtchSusp($index)">
+											Suspender
+										</md-button>
+									</md-menu-item>
+								</md-menu-content>
+							</md-menu>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+        </md-content>
+    </div>
+</div>

@@ -10,6 +10,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'lite/get' ) { return srvLiteGet(cntx);  } 
 		else if (name === 'para/get' ) { return srvParaGet(cntx);  }
 		else if (name === 'avis/list') { return srvAvisList(cntx); }
+		else if (name === 'btch/acti') { return srvBtchActi(cntx); }
+		else if (name === 'btch/list') { return srvBtchList(cntx); }
+		else if (name === 'btch/susp') { return srvBtchSusp(cntx); }
 		else if (name === 'ctmn/acti') { return srvCtmnActi(cntx); }
 		else if (name === 'ctmn/desa') { return srvCtmnDesa(cntx); }
 		else if (name === 'ctmn/form') { return srvCtmnForm(cntx); }
@@ -18,6 +21,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'dtmn/desa') { return srvDtmnDesa(cntx); }
 		else if (name === 'dtmn/form') { return srvDtmnForm(cntx); }
 		else if (name === 'dtmn/list') { return srvDtmnList(cntx); }
+		else if (name === 'ejec/list') { return srvEjecList(cntx); }
 		else if (name === 'inst/acti') { return srvInstActi(cntx); }
 		else if (name === 'inst/inac') { return srvInstInac(cntx); }
 		else if (name === 'inst/list') { return srvInstList(cntx); }
@@ -31,7 +35,12 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'invi/rech') { return srvInviRech(cntx); }
 		else if (name === 'invi/soli') { return srvInviSoli(cntx); }
 		else if (name === 'invi/vali') { return srvInviVali(cntx); }
+		else if (name === 'logp/list') { return srvLogpList(cntx); }
 		else if (name === 'menu/make') { return srvMenuMake(cntx); }
+		else if (name === 'mpla/acti') { return srvMplaActi(cntx); }
+		else if (name === 'mpla/desa') { return srvMplaDesa(cntx); }
+		else if (name === 'mpla/list') { return srvMplaList(cntx); }
+		else if (name === 'plan/list') { return srvPlanList(cntx); }
 		else if (name === 'sesi/list') { return srvSesiList(cntx); }
 		else if (name === 'usua/acti') { return srvUsuaActi(cntx); }
 		else if (name === 'usua/exit') { return srvUsuaExit(cntx); }
@@ -77,6 +86,11 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'INSTTIPO')   { cntx.data.set('ltMInsttipo', cntxLite.data.liteMap); cntx.data.set('ltLInsttipo', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'USUAPERF')   { cntx.data.set('ltMUsuaperf', cntxLite.data.liteMap); cntx.data.set('ltLUsuaperf', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'SESIESTA')   { cntx.data.set('ltMSesiesta', cntxLite.data.liteMap); cntx.data.set('ltLSesiesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'MPLAESTA')   { cntx.data.set('ltMMplaesta', cntxLite.data.liteMap); cntx.data.set('ltLMplaesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'BTCHESTA')   { cntx.data.set('ltMBtchesta', cntxLite.data.liteMap); cntx.data.set('ltLBtchesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'BTCHTIPO')   { cntx.data.set('ltMBtchtipo', cntxLite.data.liteMap); cntx.data.set('ltLBtchtipo', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'EJECESTA')   { cntx.data.set('ltMEjecesta', cntxLite.data.liteMap); cntx.data.set('ltLEjecesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'PLANESTA')   { cntx.data.set('ltMPlanesta', cntxLite.data.liteMap); cntx.data.set('ltLPlanesta', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -1123,6 +1137,288 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.set('usua', data.OUTPUT['usua']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvMplaList: Servicio de consuta de maestro de planificación.                                      //
+	//*************************************************************************************************************//
+	function srvMplaList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/mpla/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('mplaList', data.OUTPUT['mplaList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvMplaActi: Servicio de activación de maestro de planificación.                                   //
+	//*************************************************************************************************************//
+	function srvMplaActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			hora: cntx.form.get('hora').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/mpla/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('mpla', data.OUTPUT['mpla']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvMplaDesa: Servicio de desactivación de maestro de planificación.                                //
+	//*************************************************************************************************************//
+	function srvMplaDesa(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			hora: cntx.form.get('hora').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/mpla/desa/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('mpla', data.OUTPUT['mpla']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvBtchList: Servicio de consuta de procesos Batch.                                                //
+	//*************************************************************************************************************//
+	function srvBtchList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi)
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/btch/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('btchList', data.OUTPUT['btchList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvBtchActi: Servicio de activación de proceso Batch.                                              //
+	//*************************************************************************************************************//
+	function srvBtchActi(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/btch/acti/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('btch', data.OUTPUT['btch']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvBtchSusp: Servicio de suspensión de proceso Batch.                                              //
+	//*************************************************************************************************************//
+	function srvBtchSusp(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			iden: cntx.form.get('iden').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/btch/susp/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('btch', data.OUTPUT['btch']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvEjecList: Servicio de consuta de ejecuciones.                                                   //
+	//*************************************************************************************************************//
+	function srvEjecList(cntx) {
+		var fmtFech;
+		var fech = cntx.form.get('fech').data;
+		if (fech === undefined || fech === '' || fech === null) {
+			fmtFech = 0;
+		} else {
+			var yf=fech.getFullYear();           
+			var mf=fech.getMonth() + 1;
+			var df=fech.getDate();
+			fmtFech = (yf*10000)+(mf*100)+df;
+		}
+		//Es necesario indicar que consultamos por hora (por que el 0, es una hora válida)
+		var inpl = false;
+		if (cntx.conf.get('mode') === 'P') {
+			inpl = true;
+		}
+		
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			fech: fmtFech,
+			hora: cntx.form.get('hora').data,
+			inpl: inpl
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ejec/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('ejecList', data.OUTPUT['ejecList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvPlanList: Servicio de consuta de pases Batch.                                                   //
+	//*************************************************************************************************************//
+	function srvPlanList(cntx) {
+		var fmtFech;
+		var fech = cntx.form.get('fech').data;
+		if (fech === undefined || fech === '' || fech === null) {
+			fmtFech = 0;
+		} else {
+			var yf=fech.getFullYear();           
+			var mf=fech.getMonth() + 1;
+			var df=fech.getDate();
+			fmtFech = (yf*10000)+(mf*100)+df;
+		}
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			fech: fmtFech,
+			proc: cntx.form.get('proc').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/plan/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('planList', data.OUTPUT['planList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvLogpList: Servicio de consuta de Log.                                                           //
+	//*************************************************************************************************************//
+	function srvLogpList(cntx) {
+		var dataRequest = {
+			sesi: parseInt($rootScope.esta.sesi),
+			tipo: cntx.form.get('tipo').data,
+			iden: cntx.form.get('iden').data,
+			fech: cntx.form.get('fech').data,
+			hora: cntx.form.get('hora').data
+		};
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/logp/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('logpList', data.OUTPUT['logpList']);
 				d.resolve(data);
 			}
 		}, function() {
