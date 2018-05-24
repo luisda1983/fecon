@@ -304,7 +304,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.58',
+					templateUrl: 'pages/core/notify.html?v.0.00.59',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,
@@ -467,4 +467,19 @@ app.filter('hhmmssFmt', function() {
 		var ss = s.substring(4, 6);
 		return hh + ':' + mm + ':' + ss;
 	};
+});
+
+app.filter('hhmmFmt', function() {
+	return function(hhmm) {
+		if (hhmm === 'undefined') {
+			return '';
+		}
+		var s = hhmm.toString();
+		while(s.length < 4) {
+			s = '0' + s;
+		}
+		var hh = s.substring(0, 2);
+		var mm = s.substring(2, 4);
+		return hh + ':' + mm;
+	}
 });
