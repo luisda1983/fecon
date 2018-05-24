@@ -37,8 +37,8 @@ public class JobPlan extends BaseNotifyManager {
 	 */
 	//@Scheduled(cron = "0 39 00 * * *") /* Para pruebas en desarrollo */
 	//@Scheduled(cron = "0 00 21 * * *") /* Posible valor para producci�n (-6H = 3H-SPAIN) */
-	//@Scheduled(cron = "0 0,15,30,45 * * * *")
-	@Scheduled(cron = "0 * * * * *")
+	@Scheduled(cron = "0 0 * * * *")
+	//@Scheduled(cron = "0 * * * * *")
 	public void planificador() {
 
 		try {
