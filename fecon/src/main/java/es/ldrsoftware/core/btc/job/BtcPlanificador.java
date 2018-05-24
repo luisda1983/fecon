@@ -117,8 +117,12 @@ public class BtcPlanificador extends Btc {
 		if (btch.getFupl() < dtdRefe.fech) {
 			//Planificamos hasta alcanzar la fecha de referencia
 			while (dtdRefe.fech > btch.getFupl()) {
+
+				//FIXME: nuevos procesos, parece que se planifican un día después de lo que debieran. 
+				
 				//Avanzamos un día
 				dtdProc = DateTimeUtil.fechPeriod(dtdProc, pv);
+				
 				//Realizamos el ajuste a la hora parametrizada
 				dtdProc.hora = btch.getAux1();
 				
@@ -137,6 +141,7 @@ public class BtcPlanificador extends Btc {
 				logger.logProc("Planificador", 3, "Planificación de proceso: " + btch.getIden() + " [" + ejec.getFech() + "][" + ejec.getHora() + "]");
 				
 				_cont++;
+
 			}
 		} else {
 			logger.logProc("Planificador", 3, "No es necesario realizar ninguna planificación.");
@@ -187,7 +192,7 @@ public class BtcPlanificador extends Btc {
 		if (btch.getFupl() < dtdRefe.fech) {
 			//Planificamos hasta alcanzar la fecha de referencia
 			while (dtdRefe.fech > btch.getFupl()) {
-				//Avanzamos un día
+				//Avanzamos un mes
 				dtdProc = DateTimeUtil.fechPeriod(dtdProc, pv);
 				//Realizamos el ajuste al día y hora parametrizados
 				dtdProc.hora = btch.getAux1();
