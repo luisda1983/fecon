@@ -4,10 +4,10 @@ public class CoreNotify {
 	
 	//Notificaciones de arquitectura
 	public final static String CORE_NOTF_IDEN_RQRD         = "CORE-00001";
-	public final static String CORE_NOTF_IDEN_RQRD_DESC    = "C�digo de notificaci�n obligatorio.";
+	public final static String CORE_NOTF_IDEN_RQRD_DESC    = "Código de notificación obligatorio.";
 	
 	public final static String CORE_NOTF_NF                = "CORE-00002";
-	public final static String CORE_NOTF_NF_DESC           = "Notificaci�n inexistente.";
+	public final static String CORE_NOTF_NF_DESC           = "Notificación inexistente.";
 
 	public final static String CORE_CTRL_ESTA              = "CORE-00003";
 	public final static String CORE_CTRL_ESTA_DESC         = "Llamada incorrecta. Controlador deshabilitado.";
@@ -19,12 +19,15 @@ public class CoreNotify {
 	public final static String CORE_CTRL_TIAC_NO_SESI_DESC = "Acceso no permitido. Usuario registrado no permitido.";
 
 	public final static String CORE_CTRL_TIAC_PERF         = "CORE-00006";
-	public final static String CORE_CTRL_TIAC_PERF_DESC    = "Acceso no permitido. Acci�n restringida por perfil.";
+	public final static String CORE_CTRL_TIAC_PERF_DESC    = "Acceso no permitido. Acción restringida por perfil.";
 	
 	public final static String CORE_CTRL_TIAC_DOMI         = "CORE-00007";
-	public final static String CORE_CTRL_TIAC_DOMI_DESC    = "Error de aplicaci�n. Controlador mal configurado.";
+	public final static String CORE_CTRL_TIAC_DOMI_DESC    = "Error de aplicación. Controlador mal configurado.";
 
 	public final static String CORE_BTCH_NO_IMPL           = "CORE-00008";
+	
+	public final static String CORE_CTRL_CONT_NREG         = "CORE-00009";
+	public final static String CORE_CTRL_CONT_NREG_DESC    = "Configuración incorrecta en Controlador.";
 
 	//*********************************************************************************************//
 	// Notificaciones del módulo MNU                                                               //
@@ -510,6 +513,84 @@ public class CoreNotify {
 	public final static String LOGP_SAVE_HORA_RNGE         = "LOGP-01804";
 	public final static String LOGP_SAVE_DATO_MAXL         = "LOGP-01805";
 	public final static String LOGP_SAVE_TABS_RNGE         = "LOGP-01806";
+
+	//*********************************************************************************************//
+	// Notificaciones del módulo STS                                                               //
+	//*********************************************************************************************//
+
+	//Servicio de grabado de estadística
+	public final static String STST_SAVE_STST_RQRD         = "STST-01001";
+	public final static String STST_SAVE_CTRL_RQRD         = "STST-01701";
+	public final static String STST_SAVE_USUA_RQRD         = "STST-01702";
+	public final static String STST_SAVE_FEEJ_RQRD         = "STST-01703";
+	public final static String STST_SAVE_TIEJ_RQRD         = "STST-01704";
+	public final static String STST_SAVE_NOTF_RQRD         = "STST-01705";
+	public final static String STST_SAVE_CTRL_MAXL         = "STST-01801";
+	public final static String STST_SAVE_INST_RNGE         = "STST-01802";
+	public final static String STST_SAVE_USUA_MAXL         = "STST-01803";
+	public final static String STST_SAVE_FEEJ_RNGE         = "STST-01804";
+	public final static String STST_SAVE_HOEJ_RNGE         = "STST-01805";
+	public final static String STST_SAVE_TIEJ_RNGE         = "STST-01806";
+	public final static String STST_SAVE_REEJ_ERRO         = "STST-01807";
+	public final static String STST_SAVE_NOTF_MAXL         = "STST-01808";
+	
+	//Servicio de registro de estadística
+	public final static String STST_REGI_CTRL_RQRD         = "STST-02001";
+	public final static String STST_REGI_INEJ_RQRD         = "STST-02002";
+	public final static String STST_REGI_FIEJ_RQRD         = "STST-02003";
+	
+	//Servicio de consulta de estadísticas
+	public final static String STST_LIST_TIPO_RQRD         = "STST-03001";
+	public final static String STST_LIST_FECH_RQRD         = "STST-03002";
+	public final static String STST_LIST_TIPO_ERRO         = "STST-03003";
+
+	//Servicio de grabado de estadística diaria
+	public final static String STDI_SAVE_STDI_RQRD         = "STDI-01001";
+	public final static String STDI_SAVE_FECH_RQRD         = "STDI-01701";
+	public final static String STDI_SAVE_CTRL_RQRD         = "STDI-01702";
+	public final static String STDI_SAVE_TOTA_RQRD         = "STDI-01703";
+	public final static String STDI_SAVE_TIME_RQRD         = "STDI-01704";
+	public final static String STDI_SAVE_TIMA_RQRD         = "STDI-01705";
+	public final static String STDI_SAVE_TIMI_RQRD         = "STDI-01706";
+	public final static String STDI_SAVE_FECH_RNGE         = "STDI-01801";
+	public final static String STDI_SAVE_CTRL_MAXL         = "STDI-01802";
+	public final static String STDI_SAVE_TOTA_RNGE         = "STDI-01803";
+	public final static String STDI_SAVE_TIME_RNGE         = "STDI-01804";
+	public final static String STDI_SAVE_TIMA_RNGE         = "STDI-01805";
+	public final static String STDI_SAVE_TIMI_RNGE         = "STDI-01806";
+	public final static String STDI_SAVE_NUER_RNGE         = "STDI-01807";
+	
+	//Servicio de consulta de estadísticas diarias
+	public final static String STDI_LIST_TIPO_RQRD         = "STDI-02001";
+	public final static String STDI_LIST_FECH_RQRD         = "STDI-02002";
+	public final static String STDI_LIST_FEIN_RQRD         = "STDI-02003";
+	public final static String STDI_LIST_FEFI_RQRD         = "STDI-02004";
+	public final static String STDI_LIST_TIPO_ERRO         = "STDI-02501";
+
+	//Servicio de grabado de estadísticas mensuales
+	public final static String STME_SAVE_STME_RQRD         = "STME-01001";
+	public final static String STME_SAVE_ANYO_RQRD         = "STDI-01701";
+	public final static String STME_SAVE_MESS_RQRD         = "STDI-01702";
+	public final static String STME_SAVE_CTRL_RQRD         = "STDI-01703";
+	public final static String STME_SAVE_TOTA_RQRD         = "STDI-01704";
+	public final static String STME_SAVE_TIME_RQRD         = "STDI-01705";
+	public final static String STME_SAVE_TIMA_RQRD         = "STDI-01706";
+	public final static String STME_SAVE_TIMI_RQRD         = "STDI-01707";
+	public final static String STME_SAVE_ANYO_RNGE         = "STDI-01801";
+	public final static String STME_SAVE_MESS_RNGE         = "STDI-01802";
+	public final static String STME_SAVE_CTRL_MAXL         = "STDI-01803";
+	public final static String STME_SAVE_TOTA_RNGE         = "STDI-01804";
+	public final static String STME_SAVE_TIME_RNGE         = "STDI-01805";
+	public final static String STME_SAVE_TIMA_RNGE         = "STDI-01806";
+	public final static String STME_SAVE_TIMI_RNGE         = "STDI-01807";
+	public final static String STME_SAVE_NUER_RNGE         = "STDI-01808";
+	
+	//Servicio de consulta de estadísticas mensuales
+	public final static String STME_LIST_TIPO_RQRD         = "STME-02001";
+	public final static String STME_LIST_ANYO_RQRD         = "STME-02002";
+	public final static String STME_LIST_MESS_RQRD         = "STME-02003";
+	public final static String STME_LIST_TIPO_ERRO         = "STME-02501";
+	
 	
 	//Notificaciones del m�dulo INVI
 	
@@ -521,7 +602,7 @@ public class CoreNotify {
 	public final static String CTRL_IDEN_RQRD              = "CTRL-00001";
 	public final static String CTRL_NF                     = "CTRL-00002";
 	
-	//Notificaciones de m�dulo SESI
+	//Notificaciones de módulo SESI
 	public final static String SESI_IDEN_RQRD              = "SESI-00001";
 	public final static String SESI_CLAV_RQRD              = "SESI-00002";
 	public final static String SESI_IDEN_NF                = "SESI-00003";
@@ -552,17 +633,6 @@ public class CoreNotify {
 	public final static String RELA_SAVE_CLC2_RQRD         = "RELA-00006";
 	public final static String RELA_SAVE_RELA_ERRO         = "RELA-00007";
 	public final static String RELA_SAVE_PERF_RQRD         = "RELA-00008";
-		
-	//Notificaciones del m�dulo STST
-	public final static String STST_SAVE_CTRL_RQRD         = "STST-00001";
-	public final static String STST_SAVE_INEJ_RQRD         = "STST-00002";
-	public final static String STST_SAVE_FIEJ_RQRD         = "STST-00003";
-	public final static String STST_SAVE_INEJ_GT_FIEJ      = "STST-00004";
-	public final static String STST_SAVE_NOTF_RQRD         = "STST-00005";
-	
-	//Notificaciones del m�dulo STDI
-	public final static String STDI_SAVE_FECH_RQRD         = "STDI-00001";
-	public final static String STDI_SAVE_CTRL_RQRD         = "STDI-00002";
 
 	public final static String EJEC_GETL_FECH_RQRD         = "EJEC-00015";
 	

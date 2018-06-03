@@ -1,0 +1,105 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Estadísticas</span>
+      			<div flex></div>
+      			<md-button data-ng-show="cntx.conf.get('back')" ng-click="fnBack()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+  			<form name="ststList" data-ng-submit="fnForm()">
+  				<div layout="row" layout-xs="column" layout-sm="column">
+  					<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('fech').show">
+	        			<label>Fecha</label>
+						<input type="date" ng-model="cntx.form.get('fech').data" ng-disabled="cntx.form.get('fech').read"/>
+	        		</md-input-container>
+	        	</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar" data-ng-show="cntx.form.get('btAcep').show">Aceptar</md-button> 
+                </div>
+        	</form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex>
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="70"><b>Control.</b></div>
+								<div flex="30"><b>Result.</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="30"><b>Controlador</b></div>
+								<div flex="15"><b>Resultado</b></div>
+								<div flex="20"><b>Notificación</b></div>
+								<div flex="15"><b>Tiempo</b></div>
+								<div flex="20"><b>Usuario</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="20"><b>Controlador</b></div>
+								<div flex="10"><b>Resultado</b></div>
+								<div flex="10"><b>Notificación</b></div>
+								<div flex="10"><b>Fecha</b></div>
+								<div flex="10"><b>Hora</b></div>
+								<div flex="10"><b>Tiempo</b></div>
+								<div flex="10"><b>Usuario</b></div>
+								<div flex="10"><b>Instalación</b></div>
+							</div>
+						</div>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="stst in cntx.data.get('ststList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex>
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="70"><span data-ng-show="stst.reej !== ' '">[{{stst.reej}}]</span>{{stst.ctrl}}</div>
+										<div flex="30">{{stst.tiej}} ms.</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="30">{{stst.ctrl}}</div>
+										<div flex="15">{{cntx.data.get('ltMStstreej')[stst.reej].desc}}</div>
+										<div flex="20">{{stst.notf}}</div>
+										<div flex="15">{{stst.tiej}} ms.</div>
+										<div flex="20">{{stst.usua}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="20">{{stst.ctrl}}</div>
+										<div flex="10">{{cntx.data.get('ltMStstreej')[stst.reej].desc}}</div>
+										<div flex="10">{{stst.notf}}</div>
+										<div flex="10">{{stst.feej | yyyymmddFmt}}</div>
+										<div flex="10">{{stst.hoej | hhmmssFmt}}</div>
+										<div flex="10">{{stst.tiej}} ms.</div>
+										<div flex="10">{{stst.usua}}</div>
+										<div flex="10">{{stst.inst}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Identificador: </b>{{stst.iden}}</div>
+									<div flex><b>Controlador: </b>{{stst.ctrl}}</div>
+									<div flex><b>Instalación: </b>{{stst.inst}}</div>
+									<div flex><b>Usuario: </b>{{stst.usua}}</div>
+									<div flex><b>Fecha de ejecución: </b>{{stst.feej | yyyymmddFmt}}</div>
+									<div flex><b>Hora de ejecución: </b>{{stst.hoej | hhmmssFmt}}</div>
+									<div flex><b>Tiempo de ejecución: </b>{{ejec.tiej}} ms.</div>
+									<div flex><b>Resultado de ejecución: </b>{{cntx.data.get('ltMStstreej')[stst.reej].desc}}</div>
+									<div flex><b>Notificación: </b>{{ejec.notf}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+			<div layout="row" layout-align="center center" data-ng-show="cntx.conf.get('MORE_DATA')">
+            	<md-button ng-click="fnCont()" class="md-raised md-primary" aria-label="Más Datos">Más Datos</md-button> 
+            </div>
+        </md-content>
+    </div>
+</div>

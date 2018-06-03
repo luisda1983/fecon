@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.sts.entity.Stst;
 import es.ldrsoftware.core.sts.entity.StstDao;
 
@@ -18,35 +19,41 @@ public class BsStstSave extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsStstSaveArea area = (BsStstSaveArea)a;
 		
-		Stst stst = new Stst();
-		stst.setCtrl(area.IN.ctrl);
-		stst.setInst(SESSION.get().inst);
-		stst.setUsua(SESSION.get().usua);
-		stst.setFeej(SESSION.get().feop);
-		stst.setHoej(SESSION.get().hoop);
-		stst.setTiej(new Long(area.IN.fiej - area.IN.inej).intValue());
-		stst.setReej(area.IN.reej);
-		stst.setNotf(area.IN.notf);
+		Stst stst = area.IN.stst;
 		
-		ststDao.save(stst);
+		stst = ststDao.save(stst);
 		
 		area.OUT.stst = stst;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStstSaveArea area = (BsStstSaveArea)a;
+
+		validateDtoRequired(area.IN.stst, CoreNotify.STST_SAVE_STST_RQRD);
 		
-		if (area.IN.ctrl == null || "".equals(area.IN.ctrl)) { notify(CoreNotify.STST_SAVE_CTRL_RQRD); }
-		if (area.IN.inej == 0) { notify(CoreNotify.STST_SAVE_INEJ_RQRD); }
-		if (area.IN.fiej == 0) { notify(CoreNotify.STST_SAVE_FIEJ_RQRD); }
-		if (area.IN.inej > area.IN.fiej) { notify(CoreNotify.STST_SAVE_INEJ_GT_FIEJ); }
+		Stst stst = area.IN.stst;
 		
-		if (area.IN.reej == null ) { area.IN.reej = ""; }
+		validateStringRequired(stst.getCtrl(), CoreNotify.STST_SAVE_CTRL_RQRD);
+		validateStringMaxLength(stst.getCtrl(), 30, CoreNotify.STST_SAVE_CTRL_MAXL);
 		
-		if ("".equals(area.IN.reej)) {
-			if (area.IN.notf == null || "".equals(area.IN.notf)) {
-				notify(CoreNotify.STST_SAVE_NOTF_RQRD); 
-			}
+		validateIntRange(stst.getInst(), 0, 999999999, CoreNotify.STST_SAVE_INST_RNGE);
+		
+		validateStringRequired(stst.getUsua(), CoreNotify.STST_SAVE_USUA_RQRD);
+		validateStringMaxLength(stst.getUsua(), 30, CoreNotify.STST_SAVE_USUA_MAXL);
+		
+		validateIntRequired(stst.getFeej(), CoreNotify.STST_SAVE_FEEJ_RQRD);
+		validateIntRange(stst.getFeej(), 19000101, 29991231, CoreNotify.STST_SAVE_FEEJ_RNGE);
+		
+		validateIntRange(stst.getHoej(), 000000, 235900, CoreNotify.STST_SAVE_HOEJ_RNGE);
+		
+		validateIntRequired(stst.getTiej(), CoreNotify.STST_SAVE_TIEJ_RQRD);
+		validateIntRange(stst.getTiej(), 0, 99999999, CoreNotify.STST_SAVE_TIEJ_RNGE);
+		
+		validateStringDomain(CoreNotify.STST_SAVE_REEJ_ERRO, stst.getReej(), LiteData.LT_ST_STSTREEJ);
+		
+		if (!LiteData.LT_EL_STSTREEJ_OK.equals(stst.getReej())) {
+			validateStringRequired(stst.getNotf(), CoreNotify.STST_SAVE_NOTF_RQRD);
+			validateStringMaxLength(stst.getNotf(), 10, CoreNotify.STST_SAVE_NOTF_MAXL);
 		}
 	}
 

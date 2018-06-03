@@ -9,11 +9,7 @@ public class BsStstSaveArea extends BaseBSArea {
 	public BsStstSaveAreaOut OUT = new BsStstSaveAreaOut();
 	
 	public class BsStstSaveAreaIn {
-		public String ctrl;
-		public long inej;
-		public long fiej;
-		public String reej;
-		public String notf;
+		public Stst stst;
 	}
 	
 	public class BsStstSaveAreaOut {

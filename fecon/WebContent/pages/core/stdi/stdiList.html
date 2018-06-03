@@ -1,0 +1,99 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Estadísticas Diarias</span>
+      			<div flex></div>
+      			<md-button data-ng-show="cntx.conf.get('back')" ng-click="fnBack()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+  			<form name="stdiList" data-ng-submit="fnForm()">
+  				<div layout="row" layout-xs="column" layout-sm="column">
+  					<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('fech').show">
+	        			<label>Fecha</label>
+						<input type="date" ng-model="cntx.form.get('fech').data" ng-disabled="cntx.form.get('fech').read"/>
+	        		</md-input-container>
+	        	</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar" data-ng-show="cntx.form.get('btAcep').show">Aceptar</md-button> 
+                </div>
+        	</form>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex>
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="70"><b>Control.</b></div>
+								<div flex="30"><b>T.Medio</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="30"><b>Controlador</b></div>
+								<div flex="10"><b>Total</b></div>
+								<div flex="20"><b>T.Medio</b></div>
+								<div flex="20"><b>T.Máximo</b></div>
+								<div flex="20"><b>T.Mínimo</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="20"><b>Controlador</b></div>
+								<div flex="10"><b>Total</b></div>
+								<div flex="15"><b>T.Medio</b></div>
+								<div flex="15"><b>T.Máximo</b></div>
+								<div flex="15"><b>T.Mínimo</b></div>
+								<div flex="15"><b>Errores</b></div>
+							</div>
+						</div>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="stdi in cntx.data.get('stdiList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex>
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="70">{{stdi.ctrl}}</div>
+										<div flex="30">{{stdi.time}} ms.</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="30">{{stdi.ctrl}}</div>
+										<div flex="10">{{stdi.tota}}</div>
+										<div flex="20">{{stdi.time}} ms.</div>
+										<div flex="20">{{stdi.tima}} ms.</div>
+										<div flex="20">{{stdi.timi}} ms.</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="20">{{stdi.ctrl}}</div>
+										<div flex="10">{{stdi.tota}}</div>
+										<div flex="15">{{stdi.time}} ms.</div>
+										<div flex="15">{{stdi.tima}} ms.</div>
+										<div flex="15">{{stdi.timi}} ms.</div>
+										<div flex="15">{{stdi.nuer}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Fecha: </b>{{stdi.fech}}</div>
+									<div flex><b>Controlador: </b>{{stdi.ctrl}}</div>
+									<div flex><b>Total ejecuciones: </b>{{stdi.tota}}</div>
+									<div flex><b>Tiempo Medio: </b>{{stdi.time}} ms.</div>
+									<div flex><b>Tiempo Máximo: </b>{{stdi.tima}} ms.</div>
+									<div flex><b>Tiempo Mínimo: </b>{{stdi.timi}} ms.</div>
+									<div flex><b>Ejecuciones erróneas: </b>{{stdi.nuer}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+			<div layout="row" layout-align="center center" data-ng-show="cntx.conf.get('MORE_DATA')">
+            	<md-button ng-click="fnCont()" class="md-raised md-primary" aria-label="Más Datos">Más Datos</md-button> 
+            </div>
+        </md-content>
+    </div>
+</div>

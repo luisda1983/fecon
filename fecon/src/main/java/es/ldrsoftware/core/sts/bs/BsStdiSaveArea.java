@@ -9,13 +9,7 @@ public class BsStdiSaveArea extends BaseBSArea {
 	public BsStdiSaveAreaOut OUT = new BsStdiSaveAreaOut();
 	
 	public class BsStdiSaveAreaIn {
-		public int fech;
-		public String ctrl;
-		public int tota;
-		public float time;
-		public int tima;
-		public int timi;
-		public int nuer;
+		public Stdi stdi;
 	}
 	
 	public class BsStdiSaveAreaOut {

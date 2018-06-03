@@ -1,6 +1,5 @@
 package es.ldrsoftware.core.arq;
 
-
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,7 @@ import es.ldrsoftware.core.arq.data.Session;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
 import es.ldrsoftware.core.fwk.bs.BsCtrlGet;
 import es.ldrsoftware.core.fwk.bs.BsCtrlGetArea;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.entity.Ctrl;
 import es.ldrsoftware.core.fwk.entity.Notf;
 
@@ -78,7 +78,30 @@ public abstract class BaseController extends BaseNotifyManager {
 			//Capturamos el indicador de estadisticas en la variable local (fuera del try/catch)
 			stst = ctrl.getStst();
 			
-			//Validamos que el controlador est� activo
+			//Cargamos la admisión de continuación del controlador
+			//SESSION.get().cont = ctrl.getCont();
+			SESSION.get().AREA_CONT.CONT_GRTN = ctrl.getCont();
+			
+			//Verificamos si el Controlador admite continuaciones para su configuración
+			if (LiteData.LT_EL_BOOL_SI.equals(ctrl.getCont())) {
+				//Cargamos el número máximo de registros. Si por error de configuración no está cargado, cargamos 50
+				//y elevamos un informativo
+				if (ctrl.getNreg() <= 0) {
+					ctrlInfoNotify(CoreNotify.CORE_CTRL_CONT_NREG, CoreNotify.CORE_CTRL_CONT_NREG_DESC);
+					SESSION.get().AREA_CONT.MAXM_REGS = 50;
+				} else {
+					SESSION.get().AREA_CONT.MAXM_REGS = ctrl.getNreg();
+				}
+				//Cargamos el identificador del DAO sobre el que aplica la continuación
+				SESSION.get().AREA_CONT.CONT_DAO = ctrl.getIdao();
+				//Verificamos si estamos ante una continuación
+				if (rqt.CONT_NUMB > 0) {
+					SESSION.get().AREA_CONT.CONT_NUMB = rqt.CONT_NUMB;
+					SESSION.get().AREA_CONT.ACTV_CONT = LiteData.LT_EL_BOOL_SI;
+				}
+			}
+			
+			//Validamos que el controlador está activo
 			if (!"A".equals(ctrl.getEsta())) {
 				ctrlNotify(CoreNotify.CORE_CTRL_ESTA, CoreNotify.CORE_CTRL_ESTA_DESC);
 			}
@@ -122,8 +145,14 @@ public abstract class BaseController extends BaseNotifyManager {
 				break;
 			}
 			
-			//Ejecucui�n del servicio asociado al controlador
+			//Ejecucuión del servicio asociado al controlador
 			txCtrl.execute(this, a);
+
+			//Si se ha activado continuación, enviamos la información necesaria
+			if (LiteData.LT_EL_BOOL_SI.equals(SESSION.get().AREA_CONT.MORE_DATA)) {
+				response.OUTPUT.put("MORE_DATA", true);
+				response.OUTPUT.put("CONT_NUMB", SESSION.get().AREA_CONT.CONT_NUMB);
+			}
 			
 			//Gestionamos la salida hacia el front
 			output(a, response);
@@ -180,7 +209,7 @@ public abstract class BaseController extends BaseNotifyManager {
 		return response;
 	}
 
-	//M�todo encargado de articular notificaciones de error de arquitectura
+	//Método encargado de articular notificaciones de error de arquitectura
 	private void ctrlNotify(String iden, String desc) throws Exception {
 		SESSION.get().EXEC_STATE = Session.EXEC_STATE_VOID;
 		Notf notf = new Notf();
@@ -191,5 +220,15 @@ public abstract class BaseController extends BaseNotifyManager {
 		
 		//FIXME: implementar CtrlException
 		throw new Exception();
+	}
+	
+	//Método encargado de registrar notificaciones de información de arquitectura
+	private void ctrlInfoNotify(String iden, String desc) throws Exception {
+		SESSION.get().EXEC_STATE = Session.EXEC_STATE_INFO;
+		Notf notf = new Notf();
+		notf.setIden(iden);
+		notf.setTipo(Session.EXEC_STATE_INFO);
+		notf.setDesc(desc);
+		SESSION.get().EXEC_INFO_LIST.add(notf);
 	}
 }

@@ -25,6 +25,9 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'mpla/list') { return getMplaListCntx(); }
 		else if (view === 'plan/list') { return getPlanListCntx(); }
 		else if (view === 'sesi/list') { return getSesiListCntx(); }
+		else if (view === 'stdi/list') { return getStdiListCntx(); }
+		else if (view === 'stme/list') { return getStmeListCntx(); }
+		else if (view === 'stst/list') { return getStstListCntx(); }
 		else if (view === 'usua/list') { return getUsuaListCntx(); }
 		else if (view === 'usua/regi') { return getUsuaRegiCntx(); }
 		else if (view === '/lgon')     { return getLgonCntx();     }
@@ -249,6 +252,37 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		cntx.form.set('iden', ctxl.makeField(''));
 		cntx.form.set('fech', ctxl.makeField(0));
 		cntx.form.set('hora', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: stst/list - Lista de Estadísticas.                                                                //
+	//*************************************************************************************************************//
+	function getStstListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('fech', ctxl.makeField(new Date()));
+		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: stdi/list - Lista de Estadísticas Diarias.                                                        //
+	//*************************************************************************************************************//
+	function getStdiListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('fech', ctxl.makeField(new Date()));
+		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: stme/list - Lista de Estadísticas Mensuales.                                                      //
+	//*************************************************************************************************************//
+	function getStmeListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('anyo', ctxl.makeField((new Date()).getFullYear()));
+		cntx.form.set('mess', ctxl.makeField((new Date()).getMonth() + 1));
+		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
 		return cntx;
 	}
 

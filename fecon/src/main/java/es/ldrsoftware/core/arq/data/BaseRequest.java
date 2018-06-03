@@ -2,7 +2,10 @@ package es.ldrsoftware.core.arq.data;
 
 public class BaseRequest {
 
-	//C�digo de sesion
+	//Código de sesion
 	public long sesi;
-
+	//Indice de continuación
+	public int  CONT_NUMB;
+	//Dispositivo
+	public String DEVICE;
 }

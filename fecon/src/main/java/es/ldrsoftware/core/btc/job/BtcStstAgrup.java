@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.ldrsoftware.core.arq.Btc;
 import es.ldrsoftware.core.arq.LoggerManager;
+import es.ldrsoftware.core.sts.bs.BsStdiSave;
+import es.ldrsoftware.core.sts.bs.BsStdiSaveArea;
+import es.ldrsoftware.core.sts.bs.BsStstList;
+import es.ldrsoftware.core.sts.bs.BsStstListArea;
 import es.ldrsoftware.core.sts.entity.Stdi;
-import es.ldrsoftware.core.sts.entity.StdiDao;
 import es.ldrsoftware.core.sts.entity.Stst;
-import es.ldrsoftware.core.sts.entity.StstDao;
 
 @Component
 public class BtcStstAgrup extends Btc {
@@ -22,10 +24,10 @@ public class BtcStstAgrup extends Btc {
 	LoggerManager logger;
 
 	@Autowired
-	public StstDao ststDao;
+	public BsStstList bsStstList;
 
 	@Autowired
-	public StdiDao stdiDao;
+	public BsStdiSave bsStdiSave;
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void executeBtc() throws Exception {
@@ -37,7 +39,13 @@ public class BtcStstAgrup extends Btc {
 		
 		int fech = SESSION.get().fbtc;
 		
-		List<Stst> ststList = ststDao.getListByFeej(fech);
+		BsStstListArea bsStstListArea = new BsStstListArea();
+		bsStstListArea.IN.tipo = BsStstList.STST_LIST_FECH_BTCH;
+		bsStstListArea.IN.fech = fech;
+		bsStstList.executeBS(bsStstListArea);
+		
+		List<Stst> ststList = bsStstListArea.OUT.ststList;
+		
 		logger.logProc("StstAgrup", 1, "Estadísticas totales registradas: " + ststList.size());
 		
 		ListIterator<Stst> it = ststList.listIterator();
@@ -77,7 +85,9 @@ public class BtcStstAgrup extends Btc {
 					stdi.setTime(new Float(new Float(acum) / new Float(tota)).floatValue());
 					stdi.setNuer(nuer);
 				
-					stdiDao.save(stdi);
+					BsStdiSaveArea bsStdiSaveArea = new BsStdiSaveArea();
+					bsStdiSaveArea.IN.stdi = stdi;
+					bsStdiSave.executeBS(bsStdiSaveArea);
 					
 					logger.logProc("StstAgrup", 2, "Ejecuciones: " + stdi.getTota());
 					logger.logProc("StstAgrup", 2, "Tiempo medio: " + stdi.getTime());
@@ -113,7 +123,9 @@ public class BtcStstAgrup extends Btc {
 			stdi.setTime(new Float(new Float(acum) / new Float(tota)).floatValue());
 			stdi.setNuer(nuer);
 		
-			stdiDao.save(stdi);
+			BsStdiSaveArea bsStdiSaveArea = new BsStdiSaveArea();
+			bsStdiSaveArea.IN.stdi = stdi;
+			bsStdiSave.executeBS(bsStdiSaveArea);
 			
 			logger.logProc("StstAgrup", 2, "Ejecuciones: " + stdi.getTota());
 			logger.logProc("StstAgrup", 2, "Tiempo medio: " + stdi.getTime());

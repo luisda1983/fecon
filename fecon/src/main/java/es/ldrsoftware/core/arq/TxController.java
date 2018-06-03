@@ -10,8 +10,8 @@ import es.ldrsoftware.core.arq.data.Session;
 import es.ldrsoftware.core.fwk.bs.BsSesiGet;
 import es.ldrsoftware.core.fwk.bs.BsSesiGetArea;
 import es.ldrsoftware.core.fwk.entity.Sesi;
-import es.ldrsoftware.core.sts.bs.BsStstSave;
-import es.ldrsoftware.core.sts.bs.BsStstSaveArea;
+import es.ldrsoftware.core.sts.bs.BsStstRegi;
+import es.ldrsoftware.core.sts.bs.BsStstRegiArea;
 
 @Component
 public class TxController extends BaseNotifyManager {
@@ -20,7 +20,7 @@ public class TxController extends BaseNotifyManager {
 	private BsSesiGet bsSesiGet;
 
 	@Autowired
-	private BsStstSave bsStstSave;
+	private BsStstRegi bsStstRegi;
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseController ctrl, BaseBSArea a) throws Exception {
@@ -41,7 +41,7 @@ public class TxController extends BaseNotifyManager {
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void doStst(String ctrl, long inej, long fiej) throws Exception {
-		BsStstSaveArea area = new BsStstSaveArea();
+		BsStstRegiArea area = new BsStstRegiArea();
 		area.IN.ctrl = ctrl;
 		area.IN.inej = inej;
 		area.IN.fiej = fiej;
@@ -57,6 +57,6 @@ public class TxController extends BaseNotifyManager {
 			area.IN.notf = "";
 		}
 			
-		bsStstSave.executeBS(area);
+		bsStstRegi.executeBS(area);
 	}
 }

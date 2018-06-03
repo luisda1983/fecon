@@ -87,7 +87,7 @@ public abstract class BaseBS extends BaseNotifyManager {
 		}
 	}
 	
-	protected void validateIntRange(long i, int min, int max, String notf) throws Exception {
+	protected void validateIntRange(long i, long min, long max, String notf) throws Exception {
 		if (i < min || i > max) {
 			notify(notf);
 		}

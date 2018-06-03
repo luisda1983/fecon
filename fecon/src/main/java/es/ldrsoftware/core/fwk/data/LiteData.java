@@ -18,6 +18,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_BTCHESTA = "BTCHESTA";
 	public final static String LT_EL_LITEMASTER_EJECESTA = "EJECESTA";
 	public final static String LT_EL_LITEMASTER_LOGPTIPO = "LOGPTIPO";
+	public final static String LT_EL_LITEMASTER_STSTREEJ = "STSTREEJ";
 	
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
@@ -146,4 +147,12 @@ public class LiteData {
 	public final static String   LT_EL_LOGPTIPO_PROCESO     = "B";
 	public final static String[] LT_ST_LOGPTIPO             = {LT_EL_LOGPTIPO_PASE,
 			                                                   LT_EL_LOGPTIPO_PROCESO};
+	
+	public final static String   LT_TB_STSTREEJ             = "STSTREEJ";
+	public final static String   LT_EL_STSTREEJ_OK          = " ";
+	public final static String   LT_EL_STSTREEJ_VOID        = "V";
+	public final static String   LT_EL_STSTREEJ_INFORMATIVO = "I";
+	public final static String[] LT_ST_STSTREEJ             = {LT_EL_STSTREEJ_OK,
+			                                                   LT_EL_STSTREEJ_VOID,
+			                                                   LT_EL_STSTREEJ_INFORMATIVO};
 }

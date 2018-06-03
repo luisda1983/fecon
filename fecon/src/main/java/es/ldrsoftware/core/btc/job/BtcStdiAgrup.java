@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.ldrsoftware.core.arq.Btc;
 import es.ldrsoftware.core.arq.LoggerManager;
+import es.ldrsoftware.core.sts.bs.BsStdiList;
+import es.ldrsoftware.core.sts.bs.BsStdiListArea;
+import es.ldrsoftware.core.sts.bs.BsStmeSave;
+import es.ldrsoftware.core.sts.bs.BsStmeSaveArea;
 import es.ldrsoftware.core.sts.entity.Stdi;
-import es.ldrsoftware.core.sts.entity.StdiDao;
 import es.ldrsoftware.core.sts.entity.Stme;
-import es.ldrsoftware.core.sts.entity.StmeDao;
 
 @Component
 public class BtcStdiAgrup extends Btc {
@@ -22,10 +24,10 @@ public class BtcStdiAgrup extends Btc {
 	LoggerManager logger;
 
 	@Autowired
-	public StdiDao stdiDao;
+	public BsStdiList bsStdiList;
 	
 	@Autowired
-	public StmeDao stmeDao;
+	public BsStmeSave bsStmeSave;
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void executeBtc() throws Exception {
@@ -48,7 +50,13 @@ public class BtcStdiAgrup extends Btc {
 		
 		logger.logProc("StdiAgrup", 4, "Periodo de proceso: " + fein + " - " + fefi);
 		
-		List<Stdi> stdiList = stdiDao.getListBetweenFech(fein, fefi);
+		BsStdiListArea bsStdiListArea = new BsStdiListArea();
+		bsStdiListArea.IN.tipo = BsStdiList.STDI_LIST_BTWN_FECH;
+		bsStdiListArea.IN.fein = fein;
+		bsStdiListArea.IN.fefi = fefi;
+		bsStdiList.executeBS(bsStdiListArea);
+		
+		List<Stdi> stdiList = bsStdiListArea.OUT.stdiList;
 		logger.logProc("StdiAgrup", 1, "Estadísticas diarias totales registradas: " + stdiList.size());
 		
 		ListIterator<Stdi> it = stdiList.listIterator();
@@ -88,7 +96,9 @@ public class BtcStdiAgrup extends Btc {
 					stme.setTime(time);
 					stme.setNuer(nuer);
 				
-					stmeDao.save(stme);
+					BsStmeSaveArea bsStmeSaveArea = new BsStmeSaveArea();
+					bsStmeSaveArea.IN.stme = stme;
+					bsStmeSave.executeBS(bsStmeSaveArea);
 					
 					logger.logProc("StdiAgrup", 2, "Ejecuciones: " + stme.getTota());
 					logger.logProc("StdiAgrup", 2, "Tiempo medio: " + stme.getTime());
@@ -121,7 +131,9 @@ public class BtcStdiAgrup extends Btc {
 			stme.setTime(time);
 			stme.setNuer(nuer);
 		
-			stmeDao.save(stme);
+			BsStmeSaveArea bsStmeSaveArea = new BsStmeSaveArea();
+			bsStmeSaveArea.IN.stme = stme;
+			bsStmeSave.executeBS(bsStmeSaveArea);
 			
 			logger.logProc("StdiAgrup", 2, "Ejecuciones: " + stme.getTota());
 			logger.logProc("StdiAgrup", 2, "Tiempo medio: " + stme.getTime());

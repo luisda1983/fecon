@@ -38,6 +38,15 @@ public class Ctrl implements Serializable {
 	@Column(name = "CTRLFEAL", nullable = false)
 	private     int feal;
 
+	@Column(name = "CTRLCONT", nullable = false)
+	private String cont;
+	
+	@Column(name = "CTRLNREG", nullable = false)
+	private    int nreg;
+	
+	@Column(name = "CTRLIDAO", nullable = false)
+	private String idao;
+	
 	public String getIden() {
 		return iden;
 	}
@@ -101,5 +110,28 @@ public class Ctrl implements Serializable {
 	public void setFeal(int feal) {
 		this.feal = feal;
 	}
-	
+
+	public String getCont() {
+		return cont;
+	}
+
+	public void setCont(String cont) {
+		this.cont = cont;
+	}
+
+	public int getNreg() {
+		return nreg;
+	}
+
+	public void setNreg(int nreg) {
+		this.nreg = nreg;
+	}
+
+	public String getIdao() {
+		return idao;
+	}
+
+	public void setIdao(String idao) {
+		this.idao = idao;
+	}
 }

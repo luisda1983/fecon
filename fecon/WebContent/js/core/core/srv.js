@@ -16,11 +16,12 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		auto: new Array(),
 		info: new Array()
 	};
-	
+
 	//*************************************************************************************************************//
 	// Area de estado de aplicación.                                                                               //
 	//*************************************************************************************************************//
 	$rootScope.esta = {
+		DEVICE  : '',            //Identifica el dispositivo desde el que se accede a la aplicación
 		sesi    : 0,             //Identificador de sesión activa
 		lgonUsua: false,         //Indicador de que hay un usuario activo en la aplicación
 		usua    : null,          //Usuario activo en la aplicación
@@ -304,7 +305,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.60',
+					templateUrl: 'pages/core/notify.html?v.0.00.61',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,

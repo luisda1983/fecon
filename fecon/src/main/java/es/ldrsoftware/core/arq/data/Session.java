@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.entity.Notf;
 
 @Component
@@ -24,18 +25,42 @@ public class Session {
 	public List<Notf> EXEC_OVER_LIST;
 	public List<Notf> EXEC_INFO_LIST;
 
-	//Variables de identificaci�n de ejecuci�n
+	//Variables de identificación de ejecución
 	public int    feop;
 	public int    hoop;
 	public String diip;
 	
-	//Variable de perfil de sesi�n
+	//Variable de perfil de sesión
 	public String perf;
-	//Variable de c�digo de instalaci�n
+	//Variable de código de instalación
 	public long   inst;
-	//Variable de usuario de sesi�n
+	//Variable de usuario de sesión
 	public String usua;
 
+	public AreaCont AREA_CONT = new AreaCont();
+	
+	public class AreaCont {
+		public String CONT_GRTN = LiteData.LT_EL_BOOL_NO;
+		public int    MAXM_REGS = 0;
+		public String CONT_DAO  = "";
+		
+		public String MORE_DATA = LiteData.LT_EL_BOOL_NO;
+		
+		public String ACTV_CONT = LiteData.LT_EL_BOOL_NO;
+		public int    CONT_NUMB = 0;
+	}
+	
+	//Variable para indicar que el controlador admite continuación
+	//public String cont;
+	//Variable para indicar que se ha activado una continuación
+	//public String acco;
+	//Variable para indicar el número de continuación procesada
+	//public int    ixco;
+	//Variable para indicar el máximo número de registros a tratar
+	//public int    nreg;
+	//Variable para indicar el DAO al que aplica la continuación
+	//public String idao;
+	
 	//Variables de uso Batch
 	//Fecha Batch
 	public int    fbtc;
@@ -52,7 +77,7 @@ public class Session {
 		EXEC_OVER_LIST = new ArrayList<Notf>();
 		EXEC_INFO_LIST = new ArrayList<Notf>();
 	
-		//Inicializa la identificaci�n de ejecuci�n
+		//Inicializa la identificación de ejecución
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
 		String proxyIp   = servletRqt.getHeader("X-FORWARDED-FOR");
@@ -64,12 +89,19 @@ public class Session {
 			diip = proxyIp;
 		}
 		
-		//Inicializa perfil de sesi�n
+		//Inicializa perfil de sesión
 		perf = "OFF";
-		//Inicializa c�digo de instalaci�n
+		//Inicializa código de instalación
 		inst = 0;
-		//Inicializa usuario de sesi�n
+		//Inicializa usuario de sesión
 		usua = "";
+		
+		//Inicializa datos de continuación
+		//cont = LiteData.LT_EL_BOOL_NO;
+		//acco = LiteData.LT_EL_BOOL_NO;
+		//nreg = 0;
+		//idao = "";
+		//ixco = 0;
 		
 		//Inicializamos datos de ejecución Batch
 		fbop = 0;
@@ -84,40 +116,28 @@ public class Session {
 		EXEC_OVER_LIST = new ArrayList<Notf>();
 		EXEC_INFO_LIST = new ArrayList<Notf>();
 			
-		//Inicializa la identificaci�n de ejecuci�n
+		//Inicializa la identificación de ejecución
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
 		diip = "";
 				
-		//Inicializa perfil de sesi�n
+		//Inicializa perfil de sesión
 		perf = "";
-		//Inicializa c�digo de instalaci�n
+		//Inicializa código de instalación
 		inst = 0;
-		//Inicializa usuario de sesi�n
+		//Inicializa usuario de sesión
 		usua = "BATCH";
+		
+		//Inicializa datos de continuación
+		//cont = LiteData.LT_EL_BOOL_NO;
+		//acco = LiteData.LT_EL_BOOL_NO;
+		//nreg = 0;
+		//idao = "";
+		//ixco = 0;
 		
 		//Inicializamos datos de ejecución Batch
 		fbop = 0;
 		hbop = 0;
 		fbtc = 0;
-	}
-	
-	//Convivencia para ejecutar servicios nuevos desde servicios antiguos
-	public void initializeSession(String ip) {
-		
-		//Inicializa estado de ejecucion
-		EXEC_STATE     = " ";
-		EXEC_VOID      = new Notf();
-		EXEC_OVER_LIST = new ArrayList<Notf>();
-		EXEC_INFO_LIST = new ArrayList<Notf>();
-	
-		//Inicializa la identificaci�n de ejecuci�n
-		feop = DateTimeUtil.getFeop();
-		hoop = DateTimeUtil.getHoop();
-		diip = ip;
-		
-		//Inicializa perfil de sesi�n
-		perf = "OFF";
-
 	}
 }

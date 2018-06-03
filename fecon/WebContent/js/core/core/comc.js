@@ -42,6 +42,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'mpla/list') { return srvMplaList(cntx); }
 		else if (name === 'plan/list') { return srvPlanList(cntx); }
 		else if (name === 'sesi/list') { return srvSesiList(cntx); }
+		else if (name === 'stdi/list') { return srvStdiList(cntx); }
+		else if (name === 'stme/list') { return srvStmeList(cntx); }
+		else if (name === 'stst/list') { return srvStstList(cntx); }
 		else if (name === 'usua/acti') { return srvUsuaActi(cntx); }
 		else if (name === 'usua/exit') { return srvUsuaExit(cntx); }
 		else if (name === 'usua/inac') { return srvUsuaInac(cntx); }     
@@ -78,7 +81,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var srv1 = request('lite/list', cntxLite);
 		$q.all([srv1]).then(function() {
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
-			     if (tbla === 'BOOL')       { cntx.data.set('ltMBool'    , cntxLite.data.liteMap); cntx.data.set('ltLBool'    , cntxLite.data.liteList); d.resolve(); }
+			     if (tbla === 'BOOL')       { cntx.data.set('ltMBool'   , cntxLite.data.liteMap); cntx.data.set('ltLBool'     , cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'ANYO')       { cntx.data.set('ltMAnyo'   , cntxLite.data.liteMap); cntx.data.set('ltLAnyo'     , cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'MES')        { cntx.data.set('ltMMes'    , cntxLite.data.liteMap); cntx.data.set('ltLMes'      , cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'INVIESTA')   { cntx.data.set('ltInviesta', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'INVITIPO')   { cntx.data.set('ltInvitipo', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'MENUPERF')   { cntx.data.set('ltMMenuperf', cntxLite.data.liteMap); cntx.data.set('ltLMenuperf', cntxLite.data.liteList); d.resolve(); }
@@ -91,6 +96,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'BTCHTIPO')   { cntx.data.set('ltMBtchtipo', cntxLite.data.liteMap); cntx.data.set('ltLBtchtipo', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'EJECESTA')   { cntx.data.set('ltMEjecesta', cntxLite.data.liteMap); cntx.data.set('ltLEjecesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'PLANESTA')   { cntx.data.set('ltMPlanesta', cntxLite.data.liteMap); cntx.data.set('ltLPlanesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'STSTREEJ')   { cntx.data.set('ltMStstreej', cntxLite.data.liteMap); cntx.data.set('ltLStstreej', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -1429,4 +1435,162 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//*************************************************************************************************************//
+	// PRIVATE: srvStstList: Servicio de consuta de Estadísticas.                                                  //
+	//*************************************************************************************************************//
+	function srvStstList(cntx) {
+		var fmtFech;
+		var fech = cntx.form.get('fech').data;
+		if (fech === undefined || fech === '' || fech === null) {
+			fmtFech = 0;
+		} else {
+			var yf=fech.getFullYear();           
+			var mf=fech.getMonth() + 1;
+			var df=fech.getDate();
+			fmtFech = (yf*10000)+(mf*100)+df;
+		}
+		var dataRequest = {
+			fech: fmtFech
+		};
+		setBase(dataRequest, cntx);
+		setCont(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/stst/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				lookCont(data, cntx);
+				if (cntx.conf.get('CONT_ACTV')) {
+					cntx.data.set('ststList', cntx.data.get('ststList').concat(data.OUTPUT['ststList']));
+				} else {
+					cntx.data.set('ststList', data.OUTPUT['ststList']);
+				}
+				endCont(data, cntx);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvStdiList: Servicio de consuta de Estadísticas Diarias.                                          //
+	//*************************************************************************************************************//
+	function srvStdiList(cntx) {
+		var fmtFech;
+		var fech = cntx.form.get('fech').data;
+		if (fech === undefined || fech === '' || fech === null) {
+			fmtFech = 0;
+		} else {
+			var yf=fech.getFullYear();           
+			var mf=fech.getMonth() + 1;
+			var df=fech.getDate();
+			fmtFech = (yf*10000)+(mf*100)+df;
+		}
+		var dataRequest = {
+			fech: fmtFech
+		};
+		setBase(dataRequest, cntx);
+		setCont(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/stdi/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				lookCont(data, cntx);
+				if (cntx.conf.get('CONT_ACTV')) {
+					cntx.data.set('stdiList', cntx.data.get('stdiList').concat(data.OUTPUT['stdiList']));
+				} else {
+					cntx.data.set('stdiList', data.OUTPUT['stdiList']);
+				}
+				endCont(data, cntx);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvStmeList: Servicio de consuta de Estadísticas Mensuales.                                        //
+	//*************************************************************************************************************//
+	function srvStmeList(cntx) {
+		var dataRequest = {
+			anyo: cntx.form.get('anyo').data,
+			mess: cntx.form.get('mess').data
+		};
+		setBase(dataRequest, cntx);
+		setCont(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/stme/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				lookCont(data, cntx);
+				alert(data.OUTPUT['stmeList']);
+				if (cntx.conf.get('CONT_ACTV')) {
+					cntx.data.set('stmeList', cntx.data.get('stmeList').concat(data.OUTPUT['stmeList']));
+				} else {
+					cntx.data.set('stmeList', data.OUTPUT['stmeList']);
+				}
+				endCont(data, cntx);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	function setBase(request, cntx) {
+		request.DEVICE = $rootScope.DEVICE;
+		request.sesi   = parseInt($rootScope.esta.sesi);
+	}
+	
+	function setCont(request, cntx) {
+		if (cntx.conf.get('CONT_ACTV')) {
+			var CONT_NUMB = cntx.conf.get('CONT_NUMB');
+			if (CONT_NUMB !== 'undefined' && CONT_NUMB > 0) {
+				console.log('Continuación: ' + CONT_NUMB);
+				request.CONT_NUMB = CONT_NUMB;
+			}
+		}
+	}
+	
+	function lookCont(data, cntx) {
+		var MORE_DATA = data.OUTPUT['MORE_DATA'];
+		if (MORE_DATA !== 'undefined' && MORE_DATA === true) {
+			cntx.conf.set('MORE_DATA', true);
+			var CONT_NUMB = data.OUTPUT['CONT_NUMB'];
+			if (CONT_NUMB !== 'undefined' && CONT_NUMB > 0) {
+				cntx.conf.set('CONT_NUMB', CONT_NUMB);
+			}
+		} else {
+			cntx.conf.set('MORE_DATA', false);
+		}
+	}
+	
+	function endCont(data, cntx) {
+		cntx.conf.set('CONT_ACTV', false);
+	}
 }]);
