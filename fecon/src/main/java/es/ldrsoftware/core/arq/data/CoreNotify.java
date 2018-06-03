@@ -345,6 +345,7 @@ public class CoreNotify {
 	public final static String SESI_SAVE_ESTA_RQRD         = "SESI-02706";
 	public final static String SESI_SAVE_FEUL_RQRD         = "SESI-02707";
 	public final static String SESI_SAVE_FECA_RQRD         = "SESI-02708";
+	public final static String SESI_SAVE_DVCE_RQRD         = "SESI-02709";
 	public final static String SESI_SAVE_USUA_MAXL         = "SESI-02801";
 	public final static String SESI_SAVE_DIIP_MAXL         = "SESI-02802";
 	public final static String SESI_SAVE_PERF_ERRO         = "SESI-02803";
@@ -356,6 +357,7 @@ public class CoreNotify {
 	public final static String SESI_SAVE_HOUL_RNGE         = "SESI-02809";
 	public final static String SESI_SAVE_FECA_RNGE         = "SESI-02810";
 	public final static String SESI_SAVE_HOCA_RNGE         = "SESI-02811";
+	public final static String SESI_SAVE_DVCE_ERRO         = "SESI-02812";
 
 	
 	//*********************************************************************************************//

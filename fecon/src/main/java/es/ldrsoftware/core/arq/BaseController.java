@@ -37,18 +37,18 @@ public abstract class BaseController extends BaseNotifyManager {
 		this.iden = iden;
 	}
 	
-	//Inicializamos la sesi�n
+	//Inicializamos la sesión
 	private void inicSession(HttpServletRequest servletRqt) {
 		SESSION.set(new Session());
 		SESSION.get().initializeSession(servletRqt);
 	}
 	
-	//Finalizamos la sesi�n
+	//Finalizamos la sesión
 	private void endSession() {
 		SESSION.remove();
 	}
 		
-	//Metodo encargado de la ejecuci�n del servicio asociado al controlador 
+	//Metodo encargado de la ejecucion del servicio asociado al controlador 
 	public abstract void execute(BaseBSArea a) throws Exception;
 	//Metodo encargado de gestionar la salida hacia el Front
 	public abstract void output(BaseBSArea a, ResponseArea response);
@@ -65,9 +65,12 @@ public abstract class BaseController extends BaseNotifyManager {
 		inej = DateTimeUtil.getTime();
 		
 		try {
-				
+
 			//Inicializamos la sesion
 			inicSession(servletRqt);
+
+			//Cargamos en Sesión el dispositivo
+			SESSION.get().AREA_SRCE.DEVICE = rqt.DEVICE;
 			
 			//Recuperamos la configuracion del controlador
 			BsCtrlGetArea ctrlGetArea = new BsCtrlGetArea();

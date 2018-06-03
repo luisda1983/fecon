@@ -7,19 +7,21 @@ public class LiteData {
 	public final static String LITE_ELEM_MSTR_INVIESTA = "INVIESTA";
 	public final static String LITE_ELEM_MSTR_INVITIPO = "INVITIPO";
 	public final static String LITE_ELEM_MSTR_BOOL     = "BOOL";
-	public final static String LT_EL_LITEMASTER_USUAPERF = "USUAPERF";
-	public final static String LT_EL_LITEMASTER_INSTESTA = "INSTESTA";
-	public final static String LT_EL_LITEMASTER_INSTTIPO = "INSTTIPO";
-	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
-	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
-	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
-	public final static String LT_EL_LITEMASTER_MPLAESTA = "MPLAESTA";
-	public final static String LT_EL_LITEMASTER_PLANESTA = "PLANESTA";
+	
 	public final static String LT_EL_LITEMASTER_BTCHESTA = "BTCHESTA";
 	public final static String LT_EL_LITEMASTER_EJECESTA = "EJECESTA";
+	public final static String LT_EL_LITEMASTER_INSTESTA = "INSTESTA";
+	public final static String LT_EL_LITEMASTER_INSTTIPO = "INSTTIPO";
 	public final static String LT_EL_LITEMASTER_LOGPTIPO = "LOGPTIPO";
+	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
+	public final static String LT_EL_LITEMASTER_MPLAESTA = "MPLAESTA";
+	public final static String LT_EL_LITEMASTER_PLANESTA = "PLANESTA";
+	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
+	public final static String LT_EL_LITEMASTER_SESIDVCE = "SESIDVCE";
+	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
 	public final static String LT_EL_LITEMASTER_STSTREEJ = "STSTREEJ";
-	
+	public final static String LT_EL_LITEMASTER_USUAPERF = "USUAPERF";
+
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
 	
@@ -155,4 +157,10 @@ public class LiteData {
 	public final static String[] LT_ST_STSTREEJ             = {LT_EL_STSTREEJ_OK,
 			                                                   LT_EL_STSTREEJ_VOID,
 			                                                   LT_EL_STSTREEJ_INFORMATIVO};
+	
+	public final static String   LT_TB_SESIDVCE        = "SESIDVCE";
+	public final static String   LT_EL_SESIDVCE_PC     = "PC";
+	public final static String   LT_EL_SESIDVCE_MOVIL  = "MB";
+	public final static String[] LT_ST_SESIDVCE       = {LT_EL_SESIDVCE_PC,
+			                                             LT_EL_SESIDVCE_MOVIL};
 }

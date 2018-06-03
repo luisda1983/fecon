@@ -17,9 +17,10 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 		
 		var srv1 = comc.requestLiteList('USUAPERF', $scope.cntx);
 		var srv2 = comc.requestLiteList('SESIESTA', $scope.cntx);
-		var srv3 = comc.request('sesi/list', $scope.cntx);
+		var srv3 = comc.requestLiteList('SESIDVCE', $scope.cntx);
+		var srv4 = comc.request('sesi/list', $scope.cntx);
 		
-		$q.all([srv.stResp(true, srv1, srv2, srv3)]).then(function(){
+		$q.all([srv.stResp(true, srv1, srv2, srv3, srv4)]).then(function(){
 			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});

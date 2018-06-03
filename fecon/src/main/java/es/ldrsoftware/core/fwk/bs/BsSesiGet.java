@@ -43,8 +43,8 @@ public class BsSesiGet extends BaseBS {
 			notify(CoreNotify.SESI_ESTA_NO_ABIE);
 		}
 		
-		//Validamos la direcci�n IP desde la que nos llega la petici�n
-		if (!sesi.getDiip().equals(SESSION.get().diip)) {
+		//Validamos la dirección IP desde la que nos llega la petición
+		if (!sesi.getDiip().equals(SESSION.get().AREA_SRCE.DIIP)) {
 			notify(CoreNotify.SESI_DIIP_DIFE);
 		}
 		

@@ -47,6 +47,10 @@ public class BsSesiSave extends BaseBS {
 		//Validamos que el perfil esté informado y tengo un valor dentro del dominio permitido
 		validateStringRequired(sesi.getPerf(), CoreNotify.SESI_SAVE_PERF_RQRD);
 		validateStringDomain(CoreNotify.SESI_SAVE_PERF_ERRO, sesi.getPerf(), LiteData.LT_ST_USUAPERF);
+
+		//Validamos que el dispotivio esté informado y tenga un valor dentro del dominio permitido
+		validateStringRequired(sesi.getDvce(), CoreNotify.SESI_SAVE_DVCE_RQRD);
+		validateStringDomain(CoreNotify.SESI_SAVE_DVCE_ERRO, sesi.getDvce(), LiteData.LT_ST_SESIDVCE);
 		
 		//Validamos que la instalación esté informada y dentro de rango, salvo para el perfil APM
 		if (!LiteData.LT_EL_USUAPERF_APM.equals(sesi.getPerf())) {

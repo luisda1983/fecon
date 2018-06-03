@@ -18,24 +18,24 @@ public class BsSesiExit extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsSesiExitArea area = (BsSesiExitArea)a;
 		
-		//Obtenemos la sesión por clave única de usuario y validamos su existencia
+		//Obtenemos la sesiï¿½n por clave ï¿½nica de usuario y validamos su existencia
 		Sesi sesi = sesiDao.getByIden(area.IN.iden);
 		
 		if (sesi == null) {
 			notify(CoreNotify.SESI_IDEN_NF);
 		}
 		
-		//Validamos la clave externa de la sesión
+		//Validamos la clave externa de la sesiï¿½n
 		if (sesi.getClav() != area.IN.clav) {
 			notify(CoreNotify.SESI_CLAV_DIFE);
 		}
 		
-		//Validamos la dirección IP desde la que nos llega la petición
-		if (!sesi.getDiip().equals(SESSION.get().diip)) {
+		//Validamos la direcciÃ³n IP desde la que nos llega la peticiÃ³n
+		if (!sesi.getDiip().equals(SESSION.get().AREA_SRCE.DIIP)) {
 			notify(CoreNotify.SESI_DIIP_DIFE);
 		}
 
-		//Validamos que la sesión esté abierta
+		//Validamos que la sesiï¿½n estï¿½ abierta
 		if ("A".equals(sesi.getEsta())) {
 			sesi.setEsta("C");
 		}

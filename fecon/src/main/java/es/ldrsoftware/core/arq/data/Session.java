@@ -28,7 +28,7 @@ public class Session {
 	//Variables de identificación de ejecución
 	public int    feop;
 	public int    hoop;
-	public String diip;
+//	public String diip;
 	
 	//Variable de perfil de sesión
 	public String perf;
@@ -50,16 +50,12 @@ public class Session {
 		public int    CONT_NUMB = 0;
 	}
 	
-	//Variable para indicar que el controlador admite continuación
-	//public String cont;
-	//Variable para indicar que se ha activado una continuación
-	//public String acco;
-	//Variable para indicar el número de continuación procesada
-	//public int    ixco;
-	//Variable para indicar el máximo número de registros a tratar
-	//public int    nreg;
-	//Variable para indicar el DAO al que aplica la continuación
-	//public String idao;
+	public AreaSrce AREA_SRCE = new AreaSrce();
+	
+	public class AreaSrce {
+		public String DEVICE = "";
+		public String DIIP   = "";
+	}
 	
 	//Variables de uso Batch
 	//Fecha Batch
@@ -84,9 +80,9 @@ public class Session {
 		String noProxyIp = servletRqt.getRemoteAddr();
 		
 		if (proxyIp == null) {
-			diip = noProxyIp;
+			AREA_SRCE.DIIP = noProxyIp;
 		} else {
-			diip = proxyIp;
+			AREA_SRCE.DIIP = proxyIp;
 		}
 		
 		//Inicializa perfil de sesión
@@ -119,7 +115,6 @@ public class Session {
 		//Inicializa la identificación de ejecución
 		feop = DateTimeUtil.getFeop();
 		hoop = DateTimeUtil.getHoop();
-		diip = "";
 				
 		//Inicializa perfil de sesión
 		perf = "";
@@ -127,14 +122,7 @@ public class Session {
 		inst = 0;
 		//Inicializa usuario de sesión
 		usua = "BATCH";
-		
-		//Inicializa datos de continuación
-		//cont = LiteData.LT_EL_BOOL_NO;
-		//acco = LiteData.LT_EL_BOOL_NO;
-		//nreg = 0;
-		//idao = "";
-		//ixco = 0;
-		
+
 		//Inicializamos datos de ejecución Batch
 		fbop = 0;
 		hbop = 0;

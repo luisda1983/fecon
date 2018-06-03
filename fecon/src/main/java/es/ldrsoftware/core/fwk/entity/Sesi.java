@@ -32,6 +32,9 @@ public class Sesi implements Serializable {
 	
 	@Column(name = "SESIPERF", nullable = false)
 	private String perf;
+
+	@Column(name = "SESIDVCE", nullable = false)
+	private String dvce;
 	
 	@Column(name = "SESIINST", nullable = false)
 	private long   inst;
@@ -101,6 +104,14 @@ public class Sesi implements Serializable {
 
 	public void setPerf(String perf) {
 		this.perf = perf;
+	}
+
+	public String getDvce() {
+		return dvce;
+	}
+
+	public void setDvce(String dvce) {
+		this.dvce = dvce;
 	}
 
 	public long getInst() {

@@ -97,6 +97,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'EJECESTA')   { cntx.data.set('ltMEjecesta', cntxLite.data.liteMap); cntx.data.set('ltLEjecesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'PLANESTA')   { cntx.data.set('ltMPlanesta', cntxLite.data.liteMap); cntx.data.set('ltLPlanesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'STSTREEJ')   { cntx.data.set('ltMStstreej', cntxLite.data.liteMap); cntx.data.set('ltLStstreej', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'SESIDVCE')   { cntx.data.set('ltMSesidvce', cntxLite.data.liteMap); cntx.data.set('ltLSesidvce', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -217,9 +218,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvLiteList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			tbla: cntx.form.tbla
 		};
+		setBase(dataRequest, cntx);
 
 		var d = $q.defer();
 				
@@ -242,10 +243,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvLiteGet(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			tbla: cntx.form.tbla,
 			clav: cntx.form.clav
 		};
+		setBase(dataRequest, cntx);
 
 		var d = $q.defer();
 				
@@ -267,11 +268,11 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	////////////////////////////////////////////////////////////////
 	function srvParaGet(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			tipo: cntx.form.tipo,
 			tbla: cntx.form.tbla,
 			clav: cntx.form.clav
 		};
+		setBase(dataRequest, cntx);
 
 		var d = $q.defer();
 				
@@ -293,8 +294,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvMenuMake(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+				
 		};
+		setBase(dataRequest, cntx);
 
 		var d = $q.defer();
 				
@@ -320,9 +322,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvCtmnList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			perf: cntx.form.get('perf').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -348,9 +350,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvCtmnActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -376,9 +378,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvCtmnDesa(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -404,13 +406,13 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvCtmnForm(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data,
 			perf: cntx.form.get('perf').data,
 			desc: cntx.form.get('desc').data,
 			acti: cntx.form.get('acti').data,
 			orde: cntx.form.get('orde').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -436,9 +438,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvDtmnList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			ctmn: cntx.form.get('ctmn').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -464,10 +466,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvDtmnActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			ctmn: cntx.form.get('ctmn').data,
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -493,10 +495,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvDtmnDesa(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			ctmn: cntx.form.get('ctmn').data,
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -522,7 +524,6 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvDtmnForm(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			ctmn: cntx.form.get('ctmn').data,
 			iden: cntx.form.get('iden').data,
 			desc: cntx.form.get('desc').data,
@@ -531,6 +532,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			path: cntx.form.get('path').data,
 			icon: cntx.form.get('icon').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -556,9 +558,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			esta: cntx.form.get('esta').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -584,9 +586,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -612,9 +614,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstInac(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -640,9 +642,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstPrem(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -668,9 +670,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstNorm(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -696,7 +698,6 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInstRegi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			desc: cntx.form.get('desc').data,
 			numo: cntx.form.get('numo').data,
 			mail: cntx.form.get('mail').data,
@@ -704,6 +705,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			pass: cntx.form.get('pass').data,
 			cpas: cntx.form.get('cpas').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -730,8 +732,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	////////////////////////////////////////////////////////////////
 	function srvAvisList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -753,9 +756,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInviList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			esta: cntx.form.get('esta').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -781,9 +784,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInviEnvi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			mail: cntx.form.get('mail').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -809,9 +812,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInviAcep(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -837,9 +840,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvInviRech(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -867,6 +870,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var dataRequest = {
 			mail: cntx.form.get('mail').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -893,6 +897,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		var dataRequest = {
 			iden: cntx.form.get('invi').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -927,6 +932,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			pass : cntx.form.get('pass').data,
 			cpas : cntx.form.get('cpas').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -954,9 +960,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvSesiList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			esta: cntx.form.get('esta').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -982,10 +988,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaLgon(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data,
 			pass: cntx.form.get('pass').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1013,8 +1019,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaExit(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1039,7 +1046,6 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaRegi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			codi: cntx.form.get('codi').data,
 			numo: cntx.form.get('numo').data,
 			mail: cntx.form.get('mail').data,
@@ -1047,6 +1053,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			pass: cntx.form.get('pass').data,
 			cpas: cntx.form.get('cpas').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1072,9 +1079,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			inst: cntx.form.get('inst').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1100,10 +1107,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			inst: cntx.form.get('inst').data,
 			iden: cntx.form.get('usua').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1129,10 +1136,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvUsuaInac(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			inst: cntx.form.get('inst').data,
 			iden: cntx.form.get('usua').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1158,8 +1165,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvMplaList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1185,10 +1193,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvMplaActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			hora: cntx.form.get('hora').data
 		};
-	  
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/mpla/acti/', dataRequest);
@@ -1213,10 +1221,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvMplaDesa(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			hora: cntx.form.get('hora').data
 		};
-	  
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/mpla/desa/', dataRequest);
@@ -1241,9 +1249,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvBtchList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
-	  
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/btch/list/', dataRequest);
@@ -1268,10 +1277,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvBtchActi(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
-	  
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/btch/acti/', dataRequest);
@@ -1296,9 +1305,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvBtchSusp(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			iden: cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1340,11 +1349,11 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		}
 		
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			fech: fmtFech,
 			hora: cntx.form.get('hora').data,
 			inpl: inpl
 		};
+		setBase(dataRequest, cntx);
 	  
 		var d = $q.defer();
 		
@@ -1380,11 +1389,11 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			fmtFech = (yf*10000)+(mf*100)+df;
 		}
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			fech: fmtFech,
 			proc: cntx.form.get('proc').data
 		};
-	  
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/plan/list/', dataRequest);
@@ -1409,13 +1418,12 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	//*************************************************************************************************************//
 	function srvLogpList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
 			tipo: cntx.form.get('tipo').data,
 			iden: cntx.form.get('iden').data,
 			fech: cntx.form.get('fech').data,
 			hora: cntx.form.get('hora').data
 		};
-	  
+		setBase(dataRequest, cntx);
 		var d = $q.defer();
 		
 		var output = srv.call(targetHost + 'service/angular/logp/list/', dataRequest);
@@ -1545,7 +1553,6 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				d.reject();
 			} else {
 				lookCont(data, cntx);
-				alert(data.OUTPUT['stmeList']);
 				if (cntx.conf.get('CONT_ACTV')) {
 					cntx.data.set('stmeList', cntx.data.get('stmeList').concat(data.OUTPUT['stmeList']));
 				} else {
@@ -1563,7 +1570,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 	}
 
 	function setBase(request, cntx) {
-		request.DEVICE = $rootScope.DEVICE;
+		request.DEVICE = $rootScope.esta.DEVICE;
 		request.sesi   = parseInt($rootScope.esta.sesi);
 	}
 	

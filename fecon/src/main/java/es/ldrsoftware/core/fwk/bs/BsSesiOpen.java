@@ -35,8 +35,9 @@ public class BsSesiOpen extends BaseBS {
 		
 		//TODO: claves externas
 		sesi.setClav(0);
-		sesi.setDiip(SESSION.get().diip);
+		sesi.setDiip(SESSION.get().AREA_SRCE.DIIP);
 		sesi.setPerf(area.IN.perf);
+		sesi.setDvce(SESSION.get().AREA_SRCE.DEVICE);
 		sesi.setInst(area.IN.inst);
 		sesi.setFeap(SESSION.get().feop);
 		sesi.setHoap(SESSION.get().hoop);
