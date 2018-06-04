@@ -9,55 +9,62 @@ import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.arq.util.DateTimeData;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
 import es.ldrsoftware.core.arq.util.SesiUtil;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.PVFechperiod;
 import es.ldrsoftware.core.fwk.data.ParaData;
 import es.ldrsoftware.core.fwk.entity.Sesi;
-import es.ldrsoftware.core.fwk.entity.SesiDAO;
 
 @Component
-public class BsSesiGet extends BaseBS {
+public class BsSesiVali extends BaseBS {
 
 	@Autowired
-	SesiDAO sesiDao;
+	BsSesiGetk bsSesiGetk;
 
+	@Autowired
+	BsSesiSave bsSesiSave;
+	
 	@Autowired
 	BsParaGet bsParaGet;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsSesiGetArea area = (BsSesiGetArea)a;
+		BsSesiValiArea area = (BsSesiValiArea)a;
 		
-		//Obtenemos la sesi�n por clave �nica de usuario y validamos su existencia
-		Sesi sesi = sesiDao.getByIden(area.IN.iden);
+		//Obtenemos la sesión
+		BsSesiGetkArea bsSesiGetkArea = new BsSesiGetkArea();
+		bsSesiGetkArea.IN.iden = area.IN.iden;
+		bsSesiGetk.executeBS(bsSesiGetkArea);
+		
+		Sesi sesi = bsSesiGetkArea.OUT.sesi;
 		
 		if (sesi == null) {
-			notify(CoreNotify.SESI_IDEN_NF);
+			notify(CoreNotify.SESI_VALI_SESI_NF);
 		}
 		
-		//Validamos la clave externa de la sesi�n
+		//Validamos la clave externa de la sesión
 		if (sesi.getClav() != area.IN.clav) {
-			notify(CoreNotify.SESI_CLAV_DIFE);
+			notify(CoreNotify.SESI_VALI_CLAV_DIFE);
 		}
 		
-		//Validamos que la sesi�n est� abierta
-		if (!"A".equals(sesi.getEsta())) {
-			notify(CoreNotify.SESI_ESTA_NO_ABIE);
+		//Validamos que la sesión está abierta
+		if (!LiteData.LT_EL_SESIESTA_ABIERTA.equals(sesi.getEsta())) {
+			notify(CoreNotify.SESI_VALI_ESTA_NO_ABIE);
 		}
 		
 		//Validamos la dirección IP desde la que nos llega la petición
 		if (!sesi.getDiip().equals(SESSION.get().AREA_SRCE.DIIP)) {
-			notify(CoreNotify.SESI_DIIP_DIFE);
+			notify(CoreNotify.SESI_VALI_DIIP_DIFE);
 		}
 		
-		//Validamos que la sessi�n no haya caducado
+		//Validamos que la sessión no haya caducado
 		if (!SesiUtil.isSesiActi(sesi)) {
-			notify(CoreNotify.SESI_CADU);
+			notify(CoreNotify.SESI_VALI_SESI_CADU);
 		}
 		
-		//Actualizamos la ultima operaci�n de la sesi�n
+		//Actualizamos la ultima operación de la sesión
 		sesi.setFeul(SESSION.get().feop);
 		sesi.setHoul(SESSION.get().hoop);
 	
-		//Recuperamos el par�metro de configuraci�n de periodo de renovaci�n de sesi�n
+		//Recuperamos el parámetro de configuración de periodo de renovación de sesión
 		BsParaGetArea paraGetArea = new BsParaGetArea();
 		paraGetArea.IN.tbla = ParaData.PARA_TBLA_FPER;
 		paraGetArea.IN.clav = ParaData.PARA_ELEM_FPER_RSES;
@@ -72,18 +79,21 @@ public class BsSesiGet extends BaseBS {
 		sesi.setFeca(dataOut.fech);
 		sesi.setHoca(dataOut.hora);
 				
-		//TODO: renovacion de la clave externa, con su propio par�metro
+		//TODO: renovacion de la clave externa, con su propio parámetro
 		
-		//Guardamos la sesi�n
-		sesiDao.save(sesi);
+		//Guardamos la sesión
+		BsSesiSaveArea bsSesiSaveArea = new BsSesiSaveArea();
+		bsSesiSaveArea.IN.sesi = sesi;
+		bsSesiSave.executeBS(bsSesiSaveArea);
 		
-		area.OUT.sesi = sesi;
+		area.OUT.sesi = bsSesiSaveArea.OUT.sesi;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsSesiGetArea area = (BsSesiGetArea)a;
+		BsSesiValiArea area = (BsSesiValiArea)a;
 		
-		if (area.IN.iden == 0) { notify(CoreNotify.SESI_IDEN_RQRD); }
+		validateIntRequired(area.IN.iden, CoreNotify.SESI_VALI_IDEN_RQRD);
+		
 		//TODO: clave externa dinamica
 		//if (area.IN.clav == 0) { notify(CoreNotify.SESI_CLAV_RQRD); }
 	}

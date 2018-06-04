@@ -359,7 +359,27 @@ public class CoreNotify {
 	public final static String SESI_SAVE_HOCA_RNGE         = "SESI-02811";
 	public final static String SESI_SAVE_DVCE_ERRO         = "SESI-02812";
 
+	//Servicio de apertura de Sesión
+	public final static String SESI_OPEN_USUA_RQRD         = "SESI-03001";
+	public final static String SESI_OPEN_PERF_RQRD         = "SESI-03002";
 	
+	//Servicio de consulta de Sesión, por Usuario
+	public final static String SESI_GETU_USUA_RQRD         = "SESI-04001";
+	
+	//Servicio de consulta de Sesión, por clave (identificador)
+	public final static String SESI_GETK_IDEN_RQRD         = "SESI-05001";
+	
+	//Servicio de validación de Sesión
+	public final static String SESI_VALI_IDEN_RQRD         = "SESI-06001";
+	public final static String SESI_VALI_CLAV_DIFE         = "SESI-06501";
+	public final static String SESI_VALI_ESTA_NO_ABIE      = "SESI-06502";
+	public final static String SESI_VALI_DIIP_DIFE         = "SESI-06503";
+	public final static String SESI_VALI_SESI_CADU         = "SESI-06504";
+	public final static String SESI_VALI_SESI_NF           = "SESI-06901";
+
+	//Servicio de cierre de sesión
+	public final static String SESI_EXIT_IDEN_RQRD         = "SESI-07001";
+	public final static String SESI_EXIT_SESI_NF           = "SESI-07901";
 	//*********************************************************************************************//
 	// Notificaciones del módulo BTC                                                               //
 	//*********************************************************************************************//
@@ -603,17 +623,6 @@ public class CoreNotify {
 	//Notificaciones de m�dulo CTRL
 	public final static String CTRL_IDEN_RQRD              = "CTRL-00001";
 	public final static String CTRL_NF                     = "CTRL-00002";
-	
-	//Notificaciones de módulo SESI
-	public final static String SESI_IDEN_RQRD              = "SESI-00001";
-	public final static String SESI_CLAV_RQRD              = "SESI-00002";
-	public final static String SESI_IDEN_NF                = "SESI-00003";
-	public final static String SESI_CLAV_DIFE              = "SESI-00004";
-	public final static String SESI_ESTA_NO_ABIE           = "SESI-00005";
-	public final static String SESI_DIIP_DIFE              = "SESI-00006";
-	public final static String SESI_CADU                   = "SESI-00007";
-	public final static String SESI_OPEN_USUA_RQRD         = "SESI-00008";
-	public final static String SESI_OPEN_PERF_RQRD         = "SESI-00009";
 	
 	//Notificaciones del módulo RELA
 	//OOTNN:

@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.Session;
-import es.ldrsoftware.core.fwk.bs.BsSesiGet;
-import es.ldrsoftware.core.fwk.bs.BsSesiGetArea;
+import es.ldrsoftware.core.fwk.bs.BsSesiVali;
+import es.ldrsoftware.core.fwk.bs.BsSesiValiArea;
 import es.ldrsoftware.core.fwk.entity.Sesi;
 import es.ldrsoftware.core.sts.bs.BsStstRegi;
 import es.ldrsoftware.core.sts.bs.BsStstRegiArea;
@@ -17,7 +17,7 @@ import es.ldrsoftware.core.sts.bs.BsStstRegiArea;
 public class TxController extends BaseNotifyManager {
 
 	@Autowired
-	private BsSesiGet bsSesiGet;
+	private BsSesiVali bsSesiGet;
 
 	@Autowired
 	private BsStstRegi bsStstRegi;
@@ -30,10 +30,12 @@ public class TxController extends BaseNotifyManager {
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void loadSession(long iden) throws Exception {
 		
-		BsSesiGetArea area = new BsSesiGetArea();
-		area.IN.iden = iden;
-		bsSesiGet.executeBS(area);
-		Sesi sesi = area.OUT.sesi;
+		BsSesiValiArea bsSesiValiArea = new BsSesiValiArea();
+		bsSesiValiArea.IN.iden = iden;
+		bsSesiGet.executeBS(bsSesiValiArea);
+		
+		Sesi sesi = bsSesiValiArea.OUT.sesi;
+		
 		SESSION.get().perf = sesi.getPerf();
 		SESSION.get().inst = sesi.getInst();
 		SESSION.get().usua = sesi.getUsua();

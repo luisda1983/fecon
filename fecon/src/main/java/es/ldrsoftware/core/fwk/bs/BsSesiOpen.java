@@ -1,6 +1,5 @@
 package es.ldrsoftware.core.fwk.bs;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,21 +11,27 @@ import es.ldrsoftware.core.arq.util.DateTimeUtil;
 import es.ldrsoftware.core.fwk.data.PVFechperiod;
 import es.ldrsoftware.core.fwk.data.ParaData;
 import es.ldrsoftware.core.fwk.entity.Sesi;
-import es.ldrsoftware.core.fwk.entity.SesiDAO;
 
 @Component
 public class BsSesiOpen extends BaseBS {
 
 	@Autowired
-	private SesiDAO sesiDao;
-
+	BsSesiGetu bsSesiGetu;
+	
+	@Autowired
+	BsSesiSave bsSesiSave;
+	
 	@Autowired
 	private BsParaGet bsParaGet;
 		
 	protected void execute(BaseBSArea a) throws Exception {
 		BsSesiOpenArea area = (BsSesiOpenArea)a;
+	
+		BsSesiGetuArea bsSesiGetuArea = new BsSesiGetuArea();
+		bsSesiGetuArea.IN.usua = area.IN.usua;
+		bsSesiGetu.executeBS(bsSesiGetuArea);
 		
-		Sesi sesi = sesiDao.getByUsua(area.IN.usua);
+		Sesi sesi = bsSesiGetuArea.OUT.sesi;
 		
 		if (sesi == null) {
 			sesi = new Sesi();
@@ -45,7 +50,7 @@ public class BsSesiOpen extends BaseBS {
 		sesi.setFeul(SESSION.get().feop);
 		sesi.setHoul(SESSION.get().hoop);
 		
-		//Recuperamos el par�metro de configuraci�n de periodo de renovaci�n de sesi�n
+		//Recuperamos el parámetro de configuración de periodo de renovación de sesión
 		BsParaGetArea paraGetArea = new BsParaGetArea();
 		paraGetArea.IN.tbla = ParaData.PARA_TBLA_FPER;
 		paraGetArea.IN.clav = ParaData.PARA_ELEM_FPER_RSES;
@@ -60,20 +65,22 @@ public class BsSesiOpen extends BaseBS {
 		sesi.setFeca(dataOut.fech);
 		sesi.setHoca(dataOut.hora);
 				
-		//TODO: renovaci�n de clave externa con su propio par�metro
+		//TODO: renovación de clave externa con su propio parámetro
 		
-		sesi = sesiDao.save(sesi);
+		BsSesiSaveArea bsSesiSaveArea = new BsSesiSaveArea();
+		bsSesiSaveArea.IN.sesi = sesi;
+		bsSesiSave.executeBS(bsSesiSaveArea);
 		
-		area.OUT.sesi = sesi;
+		area.OUT.sesi = bsSesiSaveArea.OUT.sesi;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsSesiOpenArea area = (BsSesiOpenArea)a;
+
+		validateStringRequired(area.IN.usua, CoreNotify.SESI_OPEN_USUA_RQRD);
+		validateStringRequired(area.IN.perf, CoreNotify.SESI_OPEN_PERF_RQRD);
 		
-		if (area.IN.usua == null || "".equals(area.IN.usua)) { notify(CoreNotify.SESI_OPEN_USUA_RQRD); }
-		if (area.IN.perf == null || "".equals(area.IN.perf)) { notify(CoreNotify.SESI_OPEN_PERF_RQRD); }
-		
-		//No se valida el campo de entrada inst, porque se permite abrir sesi�n sin instalaci�n asignada en multi-instalaci�n
+		//No se valida el campo de entrada inst, porque se permite abrir sesión sin instalación asignada en multi-instalación
 	}
 
 }
