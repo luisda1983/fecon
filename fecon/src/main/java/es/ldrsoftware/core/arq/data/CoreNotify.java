@@ -380,6 +380,15 @@ public class CoreNotify {
 	//Servicio de cierre de sesión
 	public final static String SESI_EXIT_IDEN_RQRD         = "SESI-07001";
 	public final static String SESI_EXIT_SESI_NF           = "SESI-07901";
+
+	//Servicio de consulta de Controlador
+	public final static String CTRL_GETK_IDEN_RQRD         = "CTRL-01001";
+	public final static String CTRL_GETK_CTRL_NF           = "CTRL-01901";
+	
+	//Servicio de consulta de Controladores
+	public final static String CTRL_LIST_TIPO_RQRD         = "CTRL-02001";
+	public final static String CTRL_LIST_TIPO_ERRO         = "CTRL-02501";
+	
 	//*********************************************************************************************//
 	// Notificaciones del módulo BTC                                                               //
 	//*********************************************************************************************//

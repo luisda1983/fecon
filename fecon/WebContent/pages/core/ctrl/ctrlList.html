@@ -1,0 +1,96 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Controladores</span>
+      			<div flex></div>
+      			<md-button data-ng-show="cntx.conf.get('back')" ng-click="fnBack()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+        <md-content>
+			<md-list class="md-dense" flex>
+				<md-list-item>
+					<div layout="row" layout-xs="column" layout-sm="column" flex>
+						<div layout="row" flex>
+							<div flex hide show-xs layout="row">
+								<div flex="70"><b>Control.</b></div>
+								<div flex="30"><b>Estado</b></div>
+							</div>
+							<div flex hide show-sm layout="row">
+								<div flex="20"><b>Controlador</b></div>
+								<div flex="40"><b>Descripción</b></div>
+								<div flex="10"><b>Estado</b></div>
+								<div flex="20"><b>Tipo Acceso</b></div>
+								<div flex="10"><b>Perfil</b></div>
+							</div>
+							<div flex hide show-gt-sm layout="row">
+								<div flex="15"><b>Controlador</b></div>
+								<div flex="25"><b>Descripción</b></div>
+								<div flex="10"><b>Estado</b></div>
+								<div flex="10"><b>Tipo Acceso</b></div>
+								<div flex="10"><b>Perfil</b></div>
+								<div flex="10"><b>Estadísticas</b></div>
+								<div flex="10"><b>Continuación</b></div>
+								<div flex="10"><b>Registros</b></div>
+							</div>
+						</div>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+				
+				<md-list-item data-ng-repeat="ctrl in cntx.data.get('ctrlList')" ng-click="xpnd($index)">
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+						<div layout="row" layout-xs="column" layout-sm="column" flex>
+							<div layout="row" layout-xs="column" flex>
+								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
+									<div flex hide show-xs layout="row">
+										<div flex="70">{{ctrl.iden}}</div>
+										<div flex="30">{{cntx.data.get('ltMCtrlesta')[ctrl.esta].desc}}</div>
+									</div>
+									<div flex hide show-sm layout="row">
+										<div flex="20">{{ctrl.iden}}</div>
+										<div flex="40">{{ctrl.desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMCtrlesta')[ctrl.esta].desc}}</div>
+										<div flex="20">{{cntx.data.get('ltMCtrltiac')[ctrl.tiac].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMUsuaperf')[ctrl.perf].desc}}</div>
+									</div>
+									<div flex hide show-gt-sm layout="row">
+										<div flex="15">{{ctrl.iden}}</div>
+										<div flex="25">{{ctrl.desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMCtrlesta')[ctrl.esta].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMCtrltiac')[ctrl.tiac].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMUsuaperf')[ctrl.perf].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMBool')[ctrl.stst].desc}}</div>
+										<div flex="10">{{cntx.data.get('ltMBool')[ctrl.cont].desc}}</div>
+										<div flex="10">{{ctrl.nreg}}</div>
+									</div>
+								</div>
+								<!--  Detalle -->
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
+									<div flex><b>Identificador: </b>{{ctrl.iden}}</div>
+									<div flex><b>Descripción: </b>{{ctrl.desc}}</div>
+									<div flex><b>Estado: </b>{{cntx.data.get('ltMCtrlesta')[ctrl.esta].desc}}</div>
+									<div flex><b>Motivo: </b>{{ctrl.moti}}</div>
+									<div flex><b>Tipo de Acceso: </b>{{cntx.data.get('ltMCtrltiac')[ctrl.tiac].desc}}</div>
+									<div flex><b>Perfil: </b>{{cntx.data.get('ltMUsuaperf')[ctrl.perf].desc}}</div>
+									<div flex><b>Estadísticas: </b>{{cntx.data.get('ltMBool')[ctrl.stst].desc}}</div>
+									<div flex><b>Fecha de Alta: </b>{{ctrl.feal | yyyymmddFmt}}</div>
+									<div flex><b>Continuaciones: </b>{{cntx.data.get('ltMBool')[ctrl.cont].desc}}</div>
+									<div flex><b>Número de registros: </b>{{ctrl.nreg}}</div>
+									<div flex><b>DAO: </b>{{ctrl.idao}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<md-divider ng-if="!$last"></md-divider>
+				</md-list-item>
+			</md-list>
+			<div layout="row" layout-align="center center" data-ng-show="cntx.conf.get('MORE_DATA')">
+            	<md-button ng-click="fnCont()" class="md-raised md-primary" aria-label="Más Datos">Más Datos</md-button> 
+            </div>
+        </md-content>
+    </div>
+</div>

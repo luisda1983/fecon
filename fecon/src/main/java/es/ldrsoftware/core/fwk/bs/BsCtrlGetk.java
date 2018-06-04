@@ -10,27 +10,27 @@ import es.ldrsoftware.core.fwk.entity.Ctrl;
 import es.ldrsoftware.core.fwk.entity.CtrlDAO;
 
 @Component
-public class BsCtrlGet extends BaseBS {
+public class BsCtrlGetk extends BaseBS {
 
 	@Autowired
 	CtrlDAO ctrlDao;
 		
 	protected void execute(BaseBSArea a) throws Exception {
-		BsCtrlGetArea area = (BsCtrlGetArea)a;
+		BsCtrlGetkArea area = (BsCtrlGetkArea)a;
 		
 		Ctrl ctrl = ctrlDao.getByIden(area.IN.iden);
 		
 		if (ctrl == null) {
-			notify(CoreNotify.CTRL_NF);
+			notify(CoreNotify.CTRL_GETK_CTRL_NF);
 		}
 		
 		area.OUT.ctrl = ctrl;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsCtrlGetArea area = (BsCtrlGetArea)a;
+		BsCtrlGetkArea area = (BsCtrlGetkArea)a;
 		
-		if (area.IN.iden == null || "".equals(area.IN.iden)) { notify(CoreNotify.CTRL_IDEN_RQRD); }
+		validateStringRequired(area.IN.iden, CoreNotify.CTRL_GETK_IDEN_RQRD);
 		
 	}
 

@@ -13,8 +13,8 @@ import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.arq.data.ResponseArea;
 import es.ldrsoftware.core.arq.data.Session;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
-import es.ldrsoftware.core.fwk.bs.BsCtrlGet;
-import es.ldrsoftware.core.fwk.bs.BsCtrlGetArea;
+import es.ldrsoftware.core.fwk.bs.BsCtrlGetk;
+import es.ldrsoftware.core.fwk.bs.BsCtrlGetkArea;
 import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.entity.Ctrl;
 import es.ldrsoftware.core.fwk.entity.Notf;
@@ -31,7 +31,7 @@ public abstract class BaseController extends BaseNotifyManager {
 	
 	//Servicio para obtener la configuraci�n del controlador
 	@Autowired
-	private BsCtrlGet bsCtrlGet;
+	private BsCtrlGetk bsCtrlGetk;
 	
 	public BaseController(String iden) {
 		this.iden = iden;
@@ -73,10 +73,10 @@ public abstract class BaseController extends BaseNotifyManager {
 			SESSION.get().AREA_SRCE.DEVICE = rqt.DEVICE;
 			
 			//Recuperamos la configuracion del controlador
-			BsCtrlGetArea ctrlGetArea = new BsCtrlGetArea();
-			ctrlGetArea.IN.iden = iden;
-			bsCtrlGet.executeBS(ctrlGetArea);
-			Ctrl ctrl = ctrlGetArea.OUT.ctrl;
+			BsCtrlGetkArea ctrlGetkArea = new BsCtrlGetkArea();
+			ctrlGetkArea.IN.iden = iden;
+			bsCtrlGetk.executeBS(ctrlGetkArea);
+			Ctrl ctrl = ctrlGetkArea.OUT.ctrl;
 			
 			//Capturamos el indicador de estadisticas en la variable local (fuera del try/catch)
 			stst = ctrl.getStst();
@@ -105,32 +105,32 @@ public abstract class BaseController extends BaseNotifyManager {
 			}
 			
 			//Validamos que el controlador está activo
-			if (!"A".equals(ctrl.getEsta())) {
+			if (!LiteData.LT_EL_CTRLESTA_ACTIVO.equals(ctrl.getEsta())) {
 				ctrlNotify(CoreNotify.CORE_CTRL_ESTA, CoreNotify.CORE_CTRL_ESTA_DESC);
 			}
 				
 			//Validamos el tipo de acceso del controlador
 			switch (ctrl.getTiac()) {
-			case "U":
+			case LiteData.LT_EL_CTRLTIAC_USUARIO:
 				//Acceso con usuario registrado. Validamos el identificador de sesion en la llamada
 				if (rqt.sesi == 0) {
 					ctrlNotify(CoreNotify.CORE_CTRL_TIAC_SESI, CoreNotify.CORE_CTRL_TIAC_SESI_DESC);
 				}
 				txCtrl.loadSession(rqt.sesi);
 				break;
-			case "O":
+			case LiteData.LT_EL_CTRLTIAC_LOGOFF:
 				//Acceso sin usuario registrado. Validamos el identificador de sesion en la llamada a cero.
 				if (rqt.sesi != 0) {
 					ctrlNotify(CoreNotify.CORE_CTRL_TIAC_NO_SESI, CoreNotify.CORE_CTRL_TIAC_NO_SESI_DESC);
 				}
 				break;
-			case "L":
+			case LiteData.LT_EL_CTRLTIAC_LIBRE:
 				//Acceso libre
 				if (rqt.sesi != 0) {
 					txCtrl.loadSession(rqt.sesi);
 				}
 				break;
-			case "P":
+			case LiteData.LT_EL_CTRLTIAC_USUARIO_PERFIL:
 				//Acceso con usuario registrado y perfil determinado. 
 				//Validamos el identificador de sesion en la llamada
 				if (rqt.sesi == 0) {

@@ -9,6 +9,8 @@ public class LiteData {
 	public final static String LITE_ELEM_MSTR_BOOL     = "BOOL";
 	
 	public final static String LT_EL_LITEMASTER_BTCHESTA = "BTCHESTA";
+	public final static String LT_EL_LITEMASTER_CTRLESTA = "CTRLESTA";
+	public final static String LT_EL_LITEMASTER_CTRLTIAC = "CTRLTIAC";
 	public final static String LT_EL_LITEMASTER_EJECESTA = "EJECESTA";
 	public final static String LT_EL_LITEMASTER_INSTESTA = "INSTESTA";
 	public final static String LT_EL_LITEMASTER_INSTTIPO = "INSTTIPO";
@@ -158,9 +160,25 @@ public class LiteData {
 			                                                   LT_EL_STSTREEJ_VOID,
 			                                                   LT_EL_STSTREEJ_INFORMATIVO};
 	
-	public final static String   LT_TB_SESIDVCE        = "SESIDVCE";
-	public final static String   LT_EL_SESIDVCE_PC     = "PC";
-	public final static String   LT_EL_SESIDVCE_MOVIL  = "MB";
+	public final static String   LT_TB_SESIDVCE       = "SESIDVCE";
+	public final static String   LT_EL_SESIDVCE_PC    = "PC";
+	public final static String   LT_EL_SESIDVCE_MOVIL = "MB";
 	public final static String[] LT_ST_SESIDVCE       = {LT_EL_SESIDVCE_PC,
 			                                             LT_EL_SESIDVCE_MOVIL};
+	
+	public final static String   LT_TB_CTRLESTA             = "CTRLESTA";
+	public final static String   LT_EL_CTRLESTA_ACTIVO      = "A";
+	public final static String   LT_EL_CTRLESTA_DESACTIVADO = "D";
+	public final static String[] LT_ST_CTRLESTA             = {LT_EL_CTRLESTA_ACTIVO,
+			                                                   LT_EL_CTRLESTA_DESACTIVADO};
+	
+	public final static String   LT_TB_CTRLTIAC                = "CTRLTIAC";
+	public final static String   LT_EL_CTRLTIAC_USUARIO        = "U";
+	public final static String   LT_EL_CTRLTIAC_LOGOFF         = "O";
+	public final static String   LT_EL_CTRLTIAC_LIBRE          = "L";
+	public final static String   LT_EL_CTRLTIAC_USUARIO_PERFIL = "P";
+	public final static String[] LT_ST_CTRLTIAC                = {LT_EL_CTRLTIAC_USUARIO,
+			                                                      LT_EL_CTRLTIAC_LOGOFF,
+			                                                      LT_EL_CTRLTIAC_LIBRE,
+			                                                      LT_EL_CTRLTIAC_USUARIO_PERFIL};
 }

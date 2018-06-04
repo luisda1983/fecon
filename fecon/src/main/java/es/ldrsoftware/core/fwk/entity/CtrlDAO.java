@@ -11,12 +11,33 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad CTRL - Configuración de controladores
+ * Operaciones sobre entidad CTRL - Configuraciï¿½n de controladores
  * @author Luis David
  *
  */
 @Repository(value = "ctrlDao")
 public class CtrlDAO extends BaseDAO {
+
+	public final static String ORDER_IDEN      = "ORD-01";
+	
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Ctrl> getList(String orde) {
+		String q = "SELECT C FROM Ctrl C ";
+		q = setOrderBy(orde, q);
+		
+		TypedQuery<Ctrl> typedQuery = this.getEntityManager().createQuery(q, Ctrl.class);
+		
+		daoSetCont("ctrlDao", typedQuery);
+		List<Ctrl> resultList = typedQuery.getResultList();
+		return resultList.subList(0, daoListLength("ctrlDao", resultList));
+	}
+
+	private String setOrderBy(String orde, String q) {
+		if (ORDER_IDEN.equals(orde)) {
+			q = q + "ORDER BY C.iden ASC ";
+		}
+		return q;
+	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Ctrl getByIden(String iden) {

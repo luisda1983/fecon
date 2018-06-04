@@ -96,6 +96,10 @@ app.config(function($routeProvider) {
 			templateUrl : 'pages/core/stme/stmeList.html?v.0.00.61',
 			controller  : 'stmeListCtrl'
 		})
+		.when('/ctrl/list', {
+			templateUrl : 'pages/core/ctrl/ctrlList.html?v.0.00.61',
+			controller  : 'ctrlListCtrl'
+		})
 		.otherwise({
 	        redirectTo: '/'
 	    });

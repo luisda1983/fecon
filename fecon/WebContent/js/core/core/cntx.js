@@ -15,6 +15,7 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'btch/list') { return getBtchListCntx(); }
 		else if (view === 'ctmn/form') { return getCtmnFormCntx(); }
 		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
+		else if (view === 'ctrl/list') { return getCtrlListCntx(); }
 		else if (view === 'dtmn/form') { return getDtmnFormCntx(); }
 		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
 		else if (view === 'ejec/list') { return getEjecListCntx(); }
@@ -283,6 +284,14 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		cntx.form.set('anyo', ctxl.makeField((new Date()).getFullYear()));
 		cntx.form.set('mess', ctxl.makeField((new Date()).getMonth() + 1));
 		cntx.form.set('btAcep', ctxl.makeBtn('Aceptar'));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: ctrl/list - Lista de Controladores.                                                               //
+	//*************************************************************************************************************//
+	function getCtrlListCntx() {
+		var cntx = ctxl.baseCntx();
 		return cntx;
 	}
 

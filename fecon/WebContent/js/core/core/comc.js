@@ -17,6 +17,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		else if (name === 'ctmn/desa') { return srvCtmnDesa(cntx); }
 		else if (name === 'ctmn/form') { return srvCtmnForm(cntx); }
 		else if (name === 'ctmn/list') { return srvCtmnList(cntx); }
+		else if (name === 'ctrl/list') { return srvCtrlList(cntx); }
 		else if (name === 'dtmn/acti') { return srvDtmnActi(cntx); }
 		else if (name === 'dtmn/desa') { return srvDtmnDesa(cntx); }
 		else if (name === 'dtmn/form') { return srvDtmnForm(cntx); }
@@ -98,6 +99,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			else if (tbla === 'PLANESTA')   { cntx.data.set('ltMPlanesta', cntxLite.data.liteMap); cntx.data.set('ltLPlanesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'STSTREEJ')   { cntx.data.set('ltMStstreej', cntxLite.data.liteMap); cntx.data.set('ltLStstreej', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'SESIDVCE')   { cntx.data.set('ltMSesidvce', cntxLite.data.liteMap); cntx.data.set('ltLSesidvce', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'CTRLESTA')   { cntx.data.set('ltMCtrlesta', cntxLite.data.liteMap); cntx.data.set('ltLCtrlesta', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'CTRLTIAC')   { cntx.data.set('ltMCtrltiac', cntxLite.data.liteMap); cntx.data.set('ltLCtrltiac', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -1557,6 +1560,40 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 					cntx.data.set('stmeList', cntx.data.get('stmeList').concat(data.OUTPUT['stmeList']));
 				} else {
 					cntx.data.set('stmeList', data.OUTPUT['stmeList']);
+				}
+				endCont(data, cntx);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCtrlList: Servicio de consuta de Controladores.                                                 //
+	//*************************************************************************************************************//
+	function srvCtrlList(cntx) {
+		var dataRequest = {
+		};
+		setBase(dataRequest, cntx);
+		setCont(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/ctrl/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				lookCont(data, cntx);
+				if (cntx.conf.get('CONT_ACTV')) {
+					cntx.data.set('ctrlList', cntx.data.get('ctrlList').concat(data.OUTPUT['ctrlList']));
+				} else {
+					cntx.data.set('ctrlList', data.OUTPUT['ctrlList']);
 				}
 				endCont(data, cntx);
 				d.resolve(data);
