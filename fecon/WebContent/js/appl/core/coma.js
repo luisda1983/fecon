@@ -45,7 +45,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		else if (cntxLite.form.tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'HCONMDTIPO') { cntx.data.ltHconmdtipo = cntxLite.data.liteList; cntx.data.ltMHconmdtipo = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; cntx.data.ltMAnualidad  = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'MES')        { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
+		else if (cntxLite.form.tbla === 'MES2')       { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
 		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.ltPresesta   = cntxLite.data.liteList; cntx.data.ltMPresesta   = cntxLite.data.liteMap; d.resolve(); }
 		//else if
 		//Si no tenemos mapeada la tabla de literales, rechazamos el promise

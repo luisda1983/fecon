@@ -4,7 +4,7 @@ app.controller('hconListCtrl', function($rootScope, $scope, $http, $routeParams,
 		
 	var srv1 = comc.requestLiteList('HCONLTTIPO', $scope.cntx);
 	var srv2 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
-	var srv3 = comc.requestLiteList('MES', $scope.cntx);
+	var srv3 = comc.requestLiteList('MES2', $scope.cntx); //Parche, pendiente normalización
 	var srv4 = comc.request('cate/list', $scope.cntx);
 	var srv5 = comc.request('conc/full', $scope.cntx); 
 

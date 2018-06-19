@@ -3,7 +3,7 @@ app.controller('presMespCtrl', function($rootScope, $scope, $http, $routeParams,
 	$scope.cntx = srv.getCntx('pres/mesp');
 		
 	var srv1 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
-	var srv2 = comc.requestLiteList('MES', $scope.cntx);
+	var srv2 = comc.requestLiteList('MES2', $scope.cntx); //Parche pendiente norlización
 	var srv3 = comc.requestLiteList('PRESESTA', $scope.cntx);
 	var srv4 = comc.request('cate/list', $scope.cntx);
 	var srv5 = comc.request('conc/full', $scope.cntx);
