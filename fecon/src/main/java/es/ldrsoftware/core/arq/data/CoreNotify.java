@@ -388,6 +388,35 @@ public class CoreNotify {
 	//Servicio de consulta de Controladores
 	public final static String CTRL_LIST_TIPO_RQRD         = "CTRL-02001";
 	public final static String CTRL_LIST_TIPO_ERRO         = "CTRL-02501";
+
+	//Servicio de consulta de relaciones
+	public final static String RELA_LIST_RELA_RQRD         = "RELA-01001";
+	public final static String RELA_LIST_CLC2_RQRD         = "RELA-01002";
+	public final static String RELA_LIST_RELA_ERRO         = "RELA-01003";
+
+	//Servicio de grabado de Relación
+	public final static String RELA_SAVE_RELA_RQRD         = "RELA-02001";
+	public final static String RELA_SAVE_MAE1_RQRD         = "RELA-02701";
+	public final static String RELA_SAVE_CLC1_NULL         = "RELA-02702";
+	public final static String RELA_SAVE_MAE2_RQRD         = "RELA-02703";
+	public final static String RELA_SAVE_CLC2_NULL         = "RELA-02704";
+	public final static String RELA_SAVE_ESTA_RQRD         = "RELA-02705";
+	public final static String RELA_SAVE_FEAL_RQRD         = "RELA-02706";
+	public final static String RELA_SAVE_DATA_NULL         = "RELA-02707";
+	public final static String RELA_SAVE_MAE1_ERRO         = "RELA-02801";
+	public final static String RELA_SAVE_CLN1_RNGE         = "RELA-02802";
+	public final static String RELA_SAVE_CLC1_MAXL         = "RELA-02803";
+	public final static String RELA_SAVE_MAE2_ERRO         = "RELA-02804";
+	public final static String RELA_SAVE_CLN2_RNGE         = "RELA-02805";
+	public final static String RELA_SAVE_CLC2_MAXL         = "RELA-02806";
+	public final static String RELA_SAVE_ESTA_ERRO         = "RELA-02807";
+	public final static String RELA_SAVE_FEAL_RNGE         = "RELA-02808";
+	public final static String RELA_SAVE_DATA_MAXL         = "RELA-02809";
+
+	//Servicio de establecimiento de relación Instalación-Usuario
+	public final static String RELA_INST_USUA_INST_RQRD    = "RELA-03001";
+	public final static String RELA_INST_USUA_USUA_RQRD    = "RELA-03002";
+	public final static String RELA_INST_USUA_PERF_RQRD    = "RELA-03003";
 	
 	//*********************************************************************************************//
 	// Notificaciones del módulo BTC                                                               //
@@ -643,12 +672,7 @@ public class CoreNotify {
 	//   8-Validaciones de dominio en BB.DD.
 	//   9-Validaciones de BB.DD.
 	//NN=Número
-	public final static String RELA_LIST_RELA_RQRD         = "RELA-01001";
-	public final static String RELA_LIST_CLCA_RQRD         = "RELA-01002";
-	public final static String RELA_LIST_RELA_ERRO         = "RELA-01003";
 	
-	
-	public final static String RELA_SAVE_RELA_RQRD         = "RELA-00004";
 	public final static String RELA_SAVE_CLN1_RQRD         = "RELA-00005";
 	public final static String RELA_SAVE_CLC2_RQRD         = "RELA-00006";
 	public final static String RELA_SAVE_RELA_ERRO         = "RELA-00007";

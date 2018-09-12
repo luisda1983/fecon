@@ -18,6 +18,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_MENUPERF = "MENUPERF";
 	public final static String LT_EL_LITEMASTER_MPLAESTA = "MPLAESTA";
 	public final static String LT_EL_LITEMASTER_PLANESTA = "PLANESTA";
+	public final static String LT_EL_LITEMASTER_RELAESTA = "RELAESTA";
 	public final static String LT_EL_LITEMASTER_RELAMAES = "RELAMAES";
 	public final static String LT_EL_LITEMASTER_SESIDVCE = "SESIDVCE";
 	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
@@ -76,6 +77,12 @@ public class LiteData {
 	public final static String   LT_EL_INSTTIPO_PREMIUM     = "P";
 	public final static String[] LT_ST_INSTTIPO             = {LT_EL_INSTTIPO_NORMAL,
 			                                                   LT_EL_INSTTIPO_PREMIUM};
+	
+	public final static String   LT_TB_RELAESTA             = "RELAESTA";
+	public final static String   LT_EL_RELAESTA_ACTIVA      = "ACTIVA";
+	public final static String   LT_EL_RELAESTA_INACTIVA    = "INACTIVA";
+	public final static String[] LT_ST_RELAESTA             = {LT_EL_RELAESTA_ACTIVA,
+			                                                   LT_EL_RELAESTA_INACTIVA};
 	
 	public final static String   LT_TB_RELAMAES             = "RELAMAES";
 	public final static String   LT_EL_RELAMAES_INSTALACION = "INST";

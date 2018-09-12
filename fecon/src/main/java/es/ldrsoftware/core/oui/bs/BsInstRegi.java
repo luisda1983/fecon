@@ -8,8 +8,8 @@ import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.bs.BsParaGet;
 import es.ldrsoftware.core.fwk.bs.BsParaGetArea;
-import es.ldrsoftware.core.fwk.bs.BsRelaSave;
-import es.ldrsoftware.core.fwk.bs.BsRelaSaveArea;
+import es.ldrsoftware.core.fwk.bs.BsRelaInstUsua;
+import es.ldrsoftware.core.fwk.bs.BsRelaInstUsuaArea;
 import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.PVConfigmlti;
 import es.ldrsoftware.core.fwk.data.PVConfregist;
@@ -40,7 +40,7 @@ public class BsInstRegi extends BaseBS {
 	BsUsuaVali bsUsuaVali;
 	
 	@Autowired
-	BsRelaSave bsRelaSave;
+	BsRelaInstUsua bsRelaInstUsua;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsInstRegiArea area = (BsInstRegiArea)a;
@@ -160,12 +160,11 @@ public class BsInstRegi extends BaseBS {
 			usua = bsUsuaValiArea.OUT.usua;
 			
 			//Asociamos el usuario y la instalación
-			BsRelaSaveArea bsRelaSaveArea = new BsRelaSaveArea();
-			bsRelaSaveArea.IN.rela = BsRelaSave.RELA_REGI_INST_USUA;
-			bsRelaSaveArea.IN.cln1 = inst.getIden();
-			bsRelaSaveArea.IN.clc2 = usua.getIden();
-			bsRelaSaveArea.IN.perf = LiteData.LT_EL_USUAPERF_ADM;
-			bsRelaSave.executeBS(bsRelaSaveArea);
+			BsRelaInstUsuaArea bsRelaInstUsuaArea = new BsRelaInstUsuaArea();
+			bsRelaInstUsuaArea.IN.inst = inst.getIden();
+			bsRelaInstUsuaArea.IN.usua = usua.getIden();
+			bsRelaInstUsuaArea.IN.perf = LiteData.LT_EL_USUAPERF_ADM;
+			bsRelaInstUsua.executeBS(bsRelaInstUsuaArea);
 
 		}
 		

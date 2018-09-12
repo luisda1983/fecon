@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ldrsoftware.core.arq.BaseDAO;
 
 /**
- * Operaciones sobre entidad RELA - Información de relaciones
+ * Operaciones sobre entidad RELA - Informaciï¿½n de relaciones
  * @author Luis David
  *
  */
@@ -19,7 +19,7 @@ import es.ldrsoftware.core.arq.BaseDAO;
 public class RelaDAO extends BaseDAO {
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public List<Rela> getListByMae1Mae1Clc2(String mae1, String mae2, String clc2) {
+	public List<Rela> getListByMae1Mae2Clc2(String mae1, String mae2, String clc2) {
 		TypedQuery<Rela> typedQuery = 
 				this.getEntityManager().createQuery(
 				          "SELECT R FROM Rela R"

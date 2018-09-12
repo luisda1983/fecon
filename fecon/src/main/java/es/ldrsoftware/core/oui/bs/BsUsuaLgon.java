@@ -73,7 +73,7 @@ public class BsUsuaLgon extends BaseBS {
 		//Consultamos las relaciones INST-USUA
 		BsRelaListArea bsRelaListArea = new BsRelaListArea();
 		bsRelaListArea.IN.rela = BsRelaList.RELA_LIST_INST_BY_USUA;
-		bsRelaListArea.IN.clca = usua.getIden();
+		bsRelaListArea.IN.clc2 = usua.getIden();
 		bsRelaList.executeBS(bsRelaListArea);
 			
 		List<Rela> relaList = bsRelaListArea.OUT.relaList;

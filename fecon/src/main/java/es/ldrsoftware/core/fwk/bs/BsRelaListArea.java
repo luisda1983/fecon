@@ -12,8 +12,10 @@ public class BsRelaListArea extends BaseBSArea {
 	
 	public class BsRelaListAreaIn {
 		public String rela;
-		public long   clnu;
-		public String clca;
+		public long   cln1;
+		public long   cln2;
+		public String clc1;
+		public String clc2;
 	}
 	
 	public class BsRelaListAreaOut {

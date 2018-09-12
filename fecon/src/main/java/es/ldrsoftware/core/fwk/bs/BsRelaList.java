@@ -31,7 +31,7 @@ public class BsRelaList extends BaseBS {
 		
 		switch(area.IN.rela) {
 		case RELA_LIST_INST_BY_USUA:
-			relaList = relaDao.getListByMae1Mae1Clc2(LiteData.LT_EL_RELAMAES_INSTALACION, LiteData.LT_EL_RELAMAES_USUARIO, area.IN.clca);
+			relaList = relaDao.getListByMae1Mae2Clc2(LiteData.LT_EL_RELAMAES_INSTALACION, LiteData.LT_EL_RELAMAES_USUARIO, area.IN.clc2);
 			break;
 		default:
 			relaList = new ArrayList<Rela>();
@@ -53,7 +53,7 @@ public class BsRelaList extends BaseBS {
 		
 		switch(area.IN.rela) {
 			case RELA_LIST_INST_BY_USUA:
-				validateStringRequired(area.IN.clca, CoreNotify.RELA_LIST_CLCA_RQRD);
+				validateStringRequired(area.IN.clc2, CoreNotify.RELA_LIST_CLC2_RQRD);
 				break;
 			default:
 				notify(CoreNotify.RELA_LIST_RELA_ERRO);

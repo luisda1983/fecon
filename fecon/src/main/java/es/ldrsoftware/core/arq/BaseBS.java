@@ -34,6 +34,12 @@ public abstract class BaseBS extends BaseNotifyManager {
 		}
 	}
 	
+	protected void validateStringNotNull(String s, String notf) throws Exception {
+		if (s == null) {
+			notify(notf);
+		}
+	}
+	
 	protected void validateStringMaxLength(String s, int length, String notf) throws Exception {
 		if (s.length() > length) {
 			notify(notf);
