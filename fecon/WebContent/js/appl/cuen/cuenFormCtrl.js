@@ -1,63 +1,135 @@
-app.controller('cuenFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cuenFormCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cuen/form');
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	if ($scope.cntx.form.iden === 0) {
-		$scope.cntx.conf.mode = 'N';
-	} else {
-		$scope.cntx.conf.mode = 'E';
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.requestLiteList('CUENTIPO', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});
 	}
-	
-	var srv1 = comc.requestLiteList('CUENTIPO', $scope.cntx);	
-	$q.all([srv.stResp(true, srv1)]).then(function() {
-		view();
-	});
 
-	//Función que captura la cancelación de la vista
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'N');
+		
+		if (view === 'cuen/list') {
+			var cuen = $scope.cntx.xchg.get('cuen');
+
+			if (cuen === undefined) {
+				$scope.cntx.conf.set('mode', 'N');
+			} else {
+				$scope.cntx.conf.set('mode', 'E');
+				
+				$scope.cntx.form.get('iden').data = cuen.iden;
+				$scope.cntx.form.get('desc').data = cuen.desc;
+				$scope.cntx.form.get('tipo').data = cuen.tipo;
+				$scope.cntx.form.get('sald').data = cuen.sald;
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'N': Nueva cuenta.                                                                                        //
+	// - 'E': Edición de cuenta.                                                                                   //
+	//*************************************************************************************************************//
+	function view() {
+		//Nueva cuenta
+		if ($scope.cntx.conf.get('mode') === 'N') {
+			ctxl.formField($scope.cntx, 'iden', false, true);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'sald', true, false);
+		//Edición de cuenta
+		} else if ($scope.cntx.conf.get('mode') === 'E') {
+			ctxl.formField($scope.cntx, 'iden', true, true);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'sald', true, true);
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('iden').data = 0;
+		$scope.cntx.form.get('tipo').data = '';
+		$scope.cntx.form.get('desc').data = '';
+		$scope.cntx.form.get('sald').data = 0;
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
 	$scope.fnCanc = function() {
-		srv.back(true);
+		srv.back(true, null);
 	}
 
-	//Function que captura el submit del formulario
+	//*************************************************************************************************************//
+	// Captura del evento de envío de formulario de cuenta.                                                        //
+	//*************************************************************************************************************//
 	$scope.fnForm = function() {
 		var srv1 = comc.request('cuen/form', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			$scope.fnCanc();
+			$scope.cntx.xchg.set('cuen', $scope.cntx.data.get('cuen'));
+			srv.back(true, $scope.cntx.xchg);
 		});
 	};
 
-	//Función encargada de manejar la vista, y sus modos de presentación
-	function view() {
-		//Nueva cuenta
-		if ($scope.cntx.conf.mode === 'N') {
-			$scope.cntx.form.iden = 0;
-			$scope.cntx.form.tipo = '';
-			$scope.cntx.form.desc = '';
-			$scope.cntx.form.sald = 0;
-			
-			$scope.cntx.show.iden = false;
-			$scope.cntx.show.tipo = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.sald = true;
-			
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.tipo = false;
-			$scope.cntx.read.desc = false;
-			$scope.cntx.read.sald = false;
-			
-		//Edición de cuenta
-		} else if ($scope.cntx.conf.mode === 'E') {
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 	
-			$scope.cntx.show.iden = true;
-			$scope.cntx.show.tipo = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.sald = true;
-			
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.tipo = false;
-			$scope.cntx.read.desc = false;
-			$scope.cntx.read.sald = true;
-		} 
+	$scope.cntx = srv.getCntx('cuen/form');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

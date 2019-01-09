@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,15 +15,11 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('EJECESTA', $scope.cntx);
 		var srv2 = comc.request('ejec/list', $scope.cntx);
 		var srv3 = comc.request('mpla/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2, srv3)]).then(function(){
-			if ($scope.cntx.conf.get('mode') !== 'P') {
-				$scope.cntx.conf.set('mode', 'L');
-			}
 			view();
 		});
 	}
@@ -30,6 +29,8 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -37,14 +38,20 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		if (view === 'plan/list') {
 			var fech = $scope.cntx.xchg.get('fech');
 			var hora = $scope.cntx.xchg.get('hora');
+			
 			$scope.cntx.form.get('fech').data = $scope.cntx.xchg.get('fech');
 			$scope.cntx.form.get('hora').data = $scope.cntx.xchg.get('hora');
+			
 			$scope.cntx.conf.set('mode', 'P');
 			$scope.cntx.conf.set('back', true);
 		}
+		
 		loadView();
 	}
 
@@ -107,10 +114,12 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnLogpList = function(i) {
 		var cntx = srv.getCntx('logp/list');
+		
 		var ejec = $scope.cntx.data.get('ejecList')[i];
 		cntx.xchg.set('btch', ejec.btch);
 		cntx.xchg.set('fepl', ejec.fepl);
 		cntx.xchg.set('hopl', ejec.hopl);
+		
 		srv.go('ejec/list', $scope.cntx, 'logp/list', cntx);
 	}
 
@@ -123,6 +132,7 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 		$scope.cntx.form.get('hora').data = ejec.hora;
 		$scope.cntx.form.get('btch').data = ejec.btch;
 		$scope.cntx.form.get('secu').data = ejec.secu;
+		
 		var srv1 = comc.request('ejec/susp', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -176,5 +186,4 @@ app.controller('ejecListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

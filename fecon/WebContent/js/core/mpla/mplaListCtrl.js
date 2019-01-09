@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,12 +15,10 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('MPLAESTA', $scope.cntx);
 		var srv2 = comc.request('mpla/list', $scope.cntx);
 		
 		$q.all([srv.stResp(false, srv1, srv2)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -27,6 +28,8 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -34,6 +37,9 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -70,6 +76,7 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnMplaDesa = function(i) {
 		var mpla = $scope.cntx.data.get('mplaList')[i];
 		$scope.cntx.form.get('hora').data = mpla.hora;
+		
 		var srv1 = comc.request('mpla/desa', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -83,6 +90,7 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnMplaActi = function(i) {
 		var mpla = $scope.cntx.data.get('mplaList')[i];
 		$scope.cntx.form.get('hora').data = mpla.hora;
+		
 		var srv1 = comc.request('mpla/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -136,5 +144,4 @@ app.controller('mplaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

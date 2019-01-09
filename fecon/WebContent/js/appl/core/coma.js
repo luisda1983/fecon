@@ -1,5 +1,9 @@
-//Factory que encapsula la comunicación con BackEnd, para los servicios de aplicación
-app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
+//*****************************************************************************************************************//
+//Factory de comunicación con BackEnd, para los servicios de aplicación.                                           //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q, srv, form) {
 	
 	//Función por la que pasarán todas las llamadas a BackEnd.
 	//La entrada es un identificador de llamada y un contexto.
@@ -41,12 +45,11 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		var d = $q.defer();
 
 		//Mapeamos la lista de literales de aplicación al campo asociado al mismo y resolvemos el promise
-		     if (cntxLite.form.tbla === 'CUENTIPO')   { cntx.data.ltCuentipo   = cntxLite.data.liteList; cntx.data.ltMCuentipo   = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'HCONLTTIPO') { cntx.data.ltHconlttipo = cntxLite.data.liteList; cntx.data.ltMHconlttipo = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'HCONMDTIPO') { cntx.data.ltHconmdtipo = cntxLite.data.liteList; cntx.data.ltMHconmdtipo = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.ltAnualidad  = cntxLite.data.liteList; cntx.data.ltMAnualidad  = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'MES2')       { cntx.data.ltMes        = cntxLite.data.liteList; cntx.data.ltMMes        = cntxLite.data.liteMap; d.resolve(); }
-		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.ltPresesta   = cntxLite.data.liteList; cntx.data.ltMPresesta   = cntxLite.data.liteMap; d.resolve(); }
+		     if (cntxLite.form.tbla === 'CUENTIPO')   { cntx.data.set('ltCuentipo'  , cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'HCONLTTIPO') { cntx.data.set('ltHconlttipo', cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'HCONMDTIPO') { cntx.data.set('ltHconmdtipo', cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.set('ltAnualidad' , cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.set('ltPresesta'  , cntxLite.data.liteMap); d.resolve(); }
 		//else if
 		//Si no tenemos mapeada la tabla de literales, rechazamos el promise
 		else { d.reject(); }
@@ -79,7 +82,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		var d = $q.defer();
 		
 		//Mapeamos el parámetro de aplicación al campo asociado al mismo y resolvemos el promise
-		if (cntxPara.form.tbla === 'PERIPRESUP') { cntx.data.prPeripresup = cntxPara.data.para; d.resolve(); }
+		if (cntxPara.form.tbla === 'PERIPRESUP') { cntx.data.set('prPeripresup', cntxPara.data.para); d.resolve(); }
 		//else if
 		//Si no tenemos mapeado el parámetro, rechazamos el promise
 		else { d.reject(); }
@@ -95,18 +98,18 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 		requestParaGet : requestParaGet      //Mapeado de parámetros de aplicación
 	};
 
-	////////////////////////////////////////////////////////////////
-	// cate/form: edición/alta de categorías                      //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvCateForm: Servicio de grabado de categorías.                                                    //
+	//*************************************************************************************************************//
 	function srvCateForm(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: cntx.form.iden,
-			desl: cntx.form.desl,
-			desc: cntx.form.desc,
-			pres: cntx.form.pres
+			iden: cntx.form.get('iden').data,
+			desl: cntx.form.get('desl').data,
+			desc: cntx.form.get('desc').data,
+			pres: cntx.form.get('pres').data
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/cate/form/', dataRequest);
@@ -115,22 +118,26 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.cate = data.OUTPUT['cate'];
+				cntx.data.set('cate', data.OUTPUT['cate']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	//FIXME: cambiar cateMap por cateListMap
-	////////////////////////////////////////////////////////////////
-	// cate/list: lista de categorías                             //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvCateList: Servicio de consulta de categorías.                                                   //
+	//*************************************************************************************************************//
 	function srvCateList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/cate/list/', dataRequest);
@@ -139,27 +146,31 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.cateList = data.OUTPUT['cateList'];
-				cntx.data.cateMap  = data.OUTPUT['cateListMap'];
+				//TODO: ver si realmente era necesario el map
+				cntx.data.set('cateList', data.OUTPUT['cateListMap']);
+				cntx.data.set('cateListMap', data.OUTPUT['cateListMap']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// conc/form: edición/alta de conceptos                       //
-	////////////////////////////////////////////////////////////////
-
+	//*************************************************************************************************************//
+	// PRIVATE: srvConcForm: Servicio de grabado de conceptos.                                                     //
+	//*************************************************************************************************************//
 	function srvConcForm(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			iden: cntx.form.iden,
-			cate: cntx.form.cate,
-			desl: cntx.form.desl,
-			desc: cntx.form.desc
+			iden: cntx.form.get('iden').data,
+			cate: cntx.form.get('cate').data,
+			desl: cntx.form.get('desl').data,
+			desc: cntx.form.get('desc').data
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/conc/form/', dataRequest);
@@ -168,20 +179,26 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.conc = data.OUTPUT['conc'];
+				cntx.data.set('conc', data.OUTPUT['conc']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
+		
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// conc/full: lista de conceptos (completa)                   //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvConcFull: Servicio de consulta completa de conceptos.                                           //
+	//*************************************************************************************************************//
 	function srvConcFull(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
+		setBase(dataRequest, cntx);
 
 		var d = $q.defer();
 
@@ -191,23 +208,26 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.concFullList = data.OUTPUT['concList'];
-				cntx.data.concFullMap  = data.OUTPUT['concListMap'];
+				cntx.data.set('concFullList', data.OUTPUT['concListMap']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// conc/list: lista de conceptos                              //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvConcList: Servicio de consulta de conceptos.                                                    //
+	//*************************************************************************************************************//
 	function srvConcList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			cate: parseInt(cntx.form.cate)
+			cate: cntx.form.get('cate').data
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/conc/list/', dataRequest);
@@ -216,26 +236,31 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.concList = data.OUTPUT['concList'];
+				//TODO: ver si realmente era necesario el map
+				cntx.data.set('concList', data.OUTPUT['concList']);
+				cntx.data.set('concListMap', data.OUTPUT['concListMap']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// cuen/form: edición/alta de cuentas                         //
-	////////////////////////////////////////////////////////////////
-
+	//*************************************************************************************************************//
+	// PRIVATE: srvCuenForm: Servicio de grabado de cuenta.                                                        //
+	//*************************************************************************************************************//
 	function srvCuenForm(cntx) {
 		var dataRequest = {
-				sesi: parseInt($rootScope.esta.sesi),
-				iden: cntx.form.iden,
-				tipo: cntx.form.tipo,
-				desc: cntx.form.desc,
-				sald: cntx.form.sald
+			iden: cntx.form.get('iden').data,
+			tipo: cntx.form.get('tipo').data,
+			desc: cntx.form.get('desc').data,
+			sald: cntx.form.get('sald').data
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/cuen/form/', dataRequest);
@@ -244,21 +269,27 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.cuen = data.OUTPUT['cuen'];
+				cntx.data.set('cuen', data.OUTPUT['cuen']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
+		
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// cuen/list: lista de cuentas                                //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvCuenList: Servicio de consulta de cuentas.                                                      //
+	//*************************************************************************************************************//
 	function srvCuenList(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi)
+			
 		};
-
+		setBase(dataRequest, cntx);
+		
 		var d = $q.defer();
 
 		var output = srv.call(targetHost + 'service/angular/cuen/list/', dataRequest);
@@ -267,64 +298,62 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.cuenList = data.OUTPUT['cuenList'];
+				cntx.data.set('cuenList', data.OUTPUT['cuenList']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// cuen/tras: traspaso entre cuentas                          //
-	////////////////////////////////////////////////////////////////
-	function srvCuenTras(cntx) {
-		var impo = cntx.form.impo;
-		impo = impo.toString().replace(',', '.');
-		
-		var fmtFeva;
-		if (cntx.form.feva === undefined || cntx.form.feva === '' || cntx.form.feva === null) {
-			fmtFeva = 0;
-		} else {
-			var yf=cntx.form.feva.getFullYear();           
-			var mf=cntx.form.feva.getMonth() + 1;
-			var df=cntx.form.feva.getDate();
-			fmtFeva = (yf*10000)+(mf*100)+df;
-		}
-		
+	//*************************************************************************************************************//
+	// PRIVATE: srvCuenTras: Servicio de traspaso de cuentas.                                                      //
+	//*************************************************************************************************************//
+	function srvCuenTras(cntx) {		
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
-			ctor : cntx.form.ctor,
-			ctde : cntx.form.ctde,
-			impo : parseFloat(impo),
-			feva : parseInt(fmtFeva),
+			ctor: cntx.form.get('ctor').data,
+			ctde: cntx.form.get('ctde').data,
+			impo: form.impo(cntx.form.get('impo').data),
+			feva: form.date(cntx.form.get('feva').data)
 		};
-		
+		setBase(dataRequest, cntx);
+			
 		var d = $q.defer();
-		
+
 		var output = srv.call(targetHost + 'service/angular/cuen/tras/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				cntx.data.set('ctor', data.OUTPUT['ctor']);
+				cntx.data.set('ctde', data.OUTPUT['ctde']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
+			
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// cuen/cuad: cuadre de cuentas                               //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvCuenCuad: Servicio de cuadre de cuentas.                                                        //
+	//*************************************************************************************************************//
 	function srvCuenCuad(cntx) {
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			cate: parseInt(cntx.form.cate),
-			conc: parseInt(cntx.form.conc),
-			impo: parseFloat(cntx.form.impo),
-			sald: parseFloat(cntx.form.cuen.sald).toFixed(2), //TODO: validación de concurrencia. No funciona por redondeo en backend
-			cuen: parseInt(cntx.form.cuen.iden)
+			cate: cntx.form.get('cate').data,
+			conc: cntx.form.get('conc').data,
+			impo: cntx.form.get('impo').data,
+			sald: cntx.form.get('cuen').data.sald.toFixed(2), //TODO: validación de concurrencia. No funciona por redondeo en backend
+			cuen: cntx.form.get('cuen').data.iden
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -336,18 +365,22 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			} else {
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// hcon/anul: anulación de apuntes                            //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvHconAnul: Servicio de anulación de apunte.                                                      //
+	//*************************************************************************************************************//
 	function srvHconAnul(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
-			iden : parseInt(cntx.conf.iden)
+			iden : cntx.form.get('iden').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -359,63 +392,62 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			} else {
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// hcon/form: alta/modificación de apuntes                    //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvHconForm: Servicio de grabado de apunte.                                                        //
+	//*************************************************************************************************************//
 	function srvHconForm(cntx) {
-		var fmtFeva;
-		if (cntx.form.feva === undefined || cntx.form.feva === '' || cntx.form.feva === null) {
-			fmtFeva = 0;
-		} else {
-			var yf=cntx.form.feva.getFullYear();           
-			var mf=cntx.form.feva.getMonth() + 1;
-			var df=cntx.form.feva.getDate();
-			fmtFeva = (yf*10000)+(mf*100)+df;
-		}
-		
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			tipo: cntx.form.tipo,
-			iden: parseInt(cntx.form.iden),
-			cuen: parseInt(cntx.form.cuen),
-			cate: parseInt(cntx.form.cate),
-			conc: parseInt(cntx.form.conc),
-			impo: parseFloat(cntx.form.impo),
-			feva: parseInt(fmtFeva),
-			desc: cntx.form.desc
+			tipo: cntx.form.get('tipo').data,
+			iden: cntx.form.get('iden').data,
+			cuen: cntx.form.get('cuen').data,
+			cate: cntx.form.get('cate').data,
+			conc: cntx.form.get('conc').data,
+			impo: cntx.form.get('impo').data,
+			feva: form.date(cntx.form.get('feva').data),
+			desc: cntx.form.get('desc').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
-		
-		//FIXME: homogeneizar la llamada a backend como hcon-form
+
 		var output = srv.call(targetHost + 'service/angular/hcon/apun/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				cntx.data.set('cuen', data.OUTPUT['cuen']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
+		
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// hcon/list: lista de apuntes                                //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvHconList: Servicio de consulta de apuntes.                                                      //
+	//*************************************************************************************************************//
 	function srvHconList(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
-			tipo : cntx.form.tipo,
-			anua : parseInt(cntx.form.anua),
-			mesh : parseInt(cntx.form.mesh),
-			cate : parseInt(cntx.form.cate),
-			conc : parseInt(cntx.form.conc)
+			tipo : cntx.form.get('tipo').data,
+			anua : cntx.form.get('anua').data,
+			mesh : cntx.form.get('mesh').data,
+			cate : cntx.form.get('cate').data,
+			conc : cntx.form.get('conc').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -425,24 +457,27 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.hconList = data.OUTPUT['hconList'];
+				cntx.data.set('hconList', data.OUTPUT['hconList']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
+		
 		return d.promise;
 	}
 
-	//TODO: probablemente sea mejor tener en front-end dos servicios, con la acción a huevo... y aunque quedara
-	//      como está, la acción e identificador no deben estar en el área de configuración
-	////////////////////////////////////////////////////////////////
-	// hcon/pres/gest: gestión de apuntes respecto al presupuesto //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvHconPresGest: Servicio de gestión de apunte respecto al presupuesto.                            //
+	//*************************************************************************************************************//
 	function srvHconPresGest(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
-			iden : parseInt(cntx.conf.iden),
-			acci : cntx.conf.acci
+			iden : cntx.form.get('iden').data,
+			acci : cntx.form.get('acci').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -452,21 +487,26 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
+				cntx.data.set('hcon', data.OUTPUT['hcon']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// pres/anua: consulta de presupuesto anual                   //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresAnua: Servicio de consulta de presupuesto anual.                                            //
+	//*************************************************************************************************************//
 	function srvPresAnua(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
 			tipo: 'LT02',
-			anua: parseInt(cntx.form.anua)
+			anua: cntx.form.get('anua').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -476,61 +516,60 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.presList = data.OUTPUT['presList'];
-				cntx.data.presListAnua = data.OUTPUT['presListAnua'];
+				cntx.data.set('presList', data.OUTPUT['presList']);
+				cntx.data.set('presListAnua', data.OUTPUT['presListAnua']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// pres/conc: consulta de presupuesto anual por conceptos     //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresConc: Servicio de consulta de presupuesto anual por conceptos.                              //
+	//*************************************************************************************************************//
 	function srvPresConc(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
 			tipo: 'LT04',
-			anua: parseInt(cntx.form.anua)
+			anua: cntx.form.get('anua').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
-		
+
 		var output = srv.call(targetHost + 'service/angular/pres/list/', dataRequest);
 		output.then(function() {
 			var data = srv.getData();
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.presCateList = data.OUTPUT['presList'];
-				cntx.data.presListMap  = data.OUTPUT['presListMap'];
+				cntx.data.set('presCateList', data.OUTPUT['presList']);
+				cntx.data.set('presListMap', data.OUTPUT['presListMap']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// pres/esta: cambio de estado de partida presupuestaria      //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresEsta: Servicio de cambio de estado de partida presupuestaria.                               //
+	//*************************************************************************************************************//
 	function srvPresEsta(cntx) {
-
-		var esta = "";
-		
-		if (cntx.data.pres.esta === 'A') {
-			esta = 'C';
-		} else {
-			esta = 'A';
-		}
-
 		var dataRequest = {
-			sesi: parseInt($rootScope.esta.sesi),
-			anua: parseInt(cntx.data.pres.anua),
-			mesp: parseInt(cntx.data.pres.mesp),
-			cate: parseInt(cntx.data.pres.cate),
-			conc: parseInt(cntx.data.pres.conc),
-			esta: esta
+			anua: cntx.form.get('anua').data,
+			mesp: cntx.form.get('mesp').data,
+			cate: cntx.form.get('cate').data,
+			conc: cntx.form.get('conc').data,
+			esta: cntx.form.get('esta').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -540,23 +579,27 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.pres = data.OUTPUT['pres'];
+				cntx.data.set('pres', data.OUTPUT['pres']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// pres/mesp: consulta de presupuesto mensual                 //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresMesp: Servicio de consulta de presupuesto mensual.                                          //
+	//*************************************************************************************************************//
 	function srvPresMesp(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
 			tipo: 'LT03',
-			anua: parseInt(cntx.form.anua),
-			mesp: parseInt(cntx.form.mesp)
+			anua: cntx.form.get('anua').data,
+			mesp: cntx.form.get('mesp').data
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -566,22 +609,26 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.presCateList = data.OUTPUT['presList'];
-				cntx.data.presListMap  = data.OUTPUT['presListMap'];
+				cntx.data.set('presCateList', data.OUTPUT['presList']);
+				cntx.data.set('presListMap', data.OUTPUT['presListMap']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
-	////////////////////////////////////////////////////////////////
-	// pres/resu: consulta de resumen de presupuesto              //
-	////////////////////////////////////////////////////////////////
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresResu: Servicio de consulta de resumen de presupuesto.                                       //
+	//*************************************************************************************************************//
 	function srvPresResu(cntx) {
 		var dataRequest = {
-			sesi : parseInt($rootScope.esta.sesi),
 			tipo: 'LT01'
 		};
+		setBase(dataRequest, cntx);
 		
 		var d = $q.defer();
 		
@@ -591,11 +638,47 @@ app.factory("coma", ['$rootScope', '$q', 'srv', function($rootScope, $q, srv) {
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.presList = data.OUTPUT['presList'];
+				cntx.data.set('presList', data.OUTPUT['presList']);
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
 
+	//FIXME: código duplicado en comc. Adaptar una solución similar a la generación del contexto (cntx/ctxa/ctxl)
+	function setBase(request, cntx) {
+		request.DEVICE = $rootScope.esta.DEVICE;
+		request.sesi   = parseInt($rootScope.esta.sesi);
+	}
+
+	function setCont(request, cntx) {
+		if (cntx.conf.get('CONT_ACTV')) {
+			var CONT_NUMB = cntx.conf.get('CONT_NUMB');
+			if (CONT_NUMB !== 'undefined' && CONT_NUMB > 0) {
+				console.log('Continuación: ' + CONT_NUMB);
+				request.CONT_NUMB = CONT_NUMB;
+			}
+		}
+	}
+	
+	function lookCont(data, cntx) {
+		var MORE_DATA = data.OUTPUT['MORE_DATA'];
+		if (MORE_DATA !== 'undefined' && MORE_DATA === true) {
+			cntx.conf.set('MORE_DATA', true);
+			var CONT_NUMB = data.OUTPUT['CONT_NUMB'];
+			if (CONT_NUMB !== 'undefined' && CONT_NUMB > 0) {
+				cntx.conf.set('CONT_NUMB', CONT_NUMB);
+			}
+		} else {
+			cntx.conf.set('MORE_DATA', false);
+		}
+	}
+	
+	function endCont(data, cntx) {
+		cntx.conf.set('CONT_ACTV', false);
+	}
 }]);

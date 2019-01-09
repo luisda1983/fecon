@@ -1,56 +1,160 @@
-app.controller('cateListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cate/list');
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	var srv1 = comc.request('cate/list', $scope.cntx);
-	$q.all([srv.stResp(true, srv1)]).then(function() {
-		view();
-	});	
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.request('cate/list', $scope.cntx);
 
-	//Función que pasa a la creación de una nueva categoría
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});	
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		//Si venimos del formulario de categorías y tenemos una categoría en el área de intercambio, lo cargamos en la lista
+		if (view === 'cate/form') {
+			var cate = $scope.cntx.xchg.get('cate');
+
+			if (cate !== undefined) {
+				var indx = $scope.cntx.xchg.get('indx');
+				if (indx >= 0) {
+					$scope.cntx.data.get('cateList')[indx] = cate;
+				} else {
+					$scope.cntx.data.get('cateList').push(cate);
+				}
+			}
+		}
+		
+		ctxl.clearXchg($scope.cntx);
+	}
+	
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'L': Lista de categorias.                                                                                 //
+	//*************************************************************************************************************//
+	function view() {
+		if ($scope.cntx.conf.get('mode') === 'L') {
+			
+		} else {
+			
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************                                           *********************************//
+	//*********************************  FUNCIONES AUXILIARES DE MANEJO DE VISTA  *********************************//
+	//*********************************               (LISTAS)                    *********************************//
+	//*********************************                                           *********************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de crear nueva categoría.                                                                //
+	//*************************************************************************************************************//
 	$scope.fnNuev = function() {
 		var cntx = srv.getCntx('cate/form');
+		
+		cntx.xchg.set('indx', -1);
+		
+		srv.go('cate/list', $scope.cntx, 'cate/form', cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de edición de categoría.                                                                 //
+	//*************************************************************************************************************//
+	$scope.fnEdit = function(i) {
+		var cntx = srv.getCntx('cate/form');
+		
+		var cate = $scope.cntx.data.get('cateList')[i];
+		cntx.xchg.set('cate', cate);
+		cntx.xchg.set('indx', i);
+		
 		srv.go('cate/list', $scope.cntx, 'cate/form', cntx);
 	}
 	
-	//Función que carga el modo de edición de cuenta
-	$scope.fnEdit = function(i) {
-		var cate = $scope.cntx.data.cateList[i];
-		var cntx = srv.getCntx('cate/form');
-		cntx.form.iden = cate.iden;
-		cntx.form.desl = cate.desl;
-		cntx.form.desc = cate.desc;
-		cntx.form.orde = cate.orde;
-		cntx.form.pres = cate.pres;
-		srv.go('cate/list', $scope.cntx, 'cate/form', cntx);
-	}
-
-	//Función que pasa a los conceptos de la categoría
+	//*************************************************************************************************************//
+	// Captura del evento de consulta de conceptos de una categoría.                                               //
+	//*************************************************************************************************************//
 	$scope.fnConc = function(i) {
-		var cate = $scope.cntx.data.cateList[i];
 		var cntx = srv.getCntx('conc/list');
-		cntx.form.cate = cate.iden;
+		
+		var cate = $scope.cntx.data.get('cateList')[i];
+		cntx.xchg.set('cate', cate);
+		
 		srv.go('cate/list', $scope.cntx, 'conc/list', cntx);
 	}
 	
-	//Función que despliega el menú de acciones
+	//*************************************************************************************************************//
+	// Despliegue de menú de acciones.                                                                             //
+	//*************************************************************************************************************//
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
 		$mdOpenMenu(ev);
 	};
-	
-	//Función que amplia un registro de la lista
+
+	//*************************************************************************************************************//
+	// Despliegue de registro de una lista.                                                                        //
+	//*************************************************************************************************************//
 	$scope.xpnd = function(i) {
-		if ($scope.cntx.conf.item === i) {
-			$scope.cntx.conf.item = -1;
+		if ($scope.cntx.conf.get('idx1') === i) {
+			$scope.cntx.conf.set('idx1', -1);
 		} else {
-			$scope.cntx.conf.item = i;
+			$scope.cntx.conf.set('idx1', i);
 		}
 	}
 
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
-	function view() {
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	//Generamos el contexto de la vista
+	$scope.cntx = srv.getCntx('cate/list');
 
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

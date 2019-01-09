@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('ctmnFormCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,12 +15,10 @@ app.controller('ctmnFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-
 		var srv1 = comc.requestLiteList('MENUPERF', $scope.cntx);
 		var srv2 = comc.requestLiteList('BOOL'    , $scope.cntx);
 		
 		$q.all([srv.stResp(false, srv1)]).then(function(){
-			$scope.cntx.conf.set('mode', 'M');
 			view();
 		});
 	}
@@ -26,7 +27,9 @@ app.controller('ctmnFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
-		//Sin acciones adicionales
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -35,16 +38,19 @@ app.controller('ctmnFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	function loadViewGo() {
 		var view = srv.getOrigView();
 		
-		loadView();
+		$scope.cntx.conf.set('mode', 'M');
 		
 		if (view === 'ctmn/list') {
 			var ctmn = $scope.cntx.xchg.get('ctmn');
+			
 			$scope.cntx.form.get('iden').data = ctmn.iden;
 			$scope.cntx.form.get('perf').data = ctmn.perf;
 			$scope.cntx.form.get('desc').data = ctmn.desc;
 			$scope.cntx.form.get('acti').data = ctmn.acti;
 			$scope.cntx.form.get('orde').data = ctmn.orde;
 		}
+		
+		loadView();
 	}
 
 	//*************************************************************************************************************//
@@ -123,5 +129,4 @@ app.controller('ctmnFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

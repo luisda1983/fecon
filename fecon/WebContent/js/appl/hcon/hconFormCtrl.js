@@ -1,111 +1,181 @@
-app.controller('hconFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 
-	$scope.cntx = srv.getCntx('hcon/form');
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	
-	if ($scope.cntx.form.iden === 0) {
-		$scope.cntx.conf.mode = 'N';
-	} else {
-		$scope.cntx.conf.mode = 'E';
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.request('cate/list', $scope.cntx);
+		var srv2 = comc.request('cuen/list', $scope.cntx);
+		var srv3 = comc.requestLiteList('HCONMDTIPO', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1, srv2, srv3)]).then(function() {
+			view();
+		});
 	}
 
-	var srv1 = comc.request('cate/list', $scope.cntx);
-	var srv2 = comc.request('cuen/list', $scope.cntx);
-	var srv3 = comc.requestLiteList('HCONMDTIPO', $scope.cntx);
-	$q.all([srv.stResp(true, srv1, srv2, srv3)]).then(function() {
-		view();
-	});
-	
-	//Función que captura el camio de categoria
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'N');
+		
+		if (view === 'hcon/list') {
+			var hcon = $scope.cntx.xchg.get('hcon');
+
+			if (hcon === undefined) {
+				$scope.cntx.conf.set('mode', 'N');
+			} else {
+				$scope.cntx.conf.set('mode', 'E');
+
+				$scope.cntx.form.get('iden').data = hcon.iden;
+				$scope.cntx.form.get('cate').data = hcon.cate;
+				$scope.cntx.form.get('conc').data = hcon.conc;
+				$scope.cntx.form.get('cuen').data = hcon.cuen;
+				$scope.cntx.form.get('impo').data = hcon.impo;
+				$scope.cntx.form.get('feva').data = form.toDate(hcon.feva);
+				$scope.cntx.form.get('desc').data = hcon.desc;
+				
+				$scope.fnConcChng();
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'N': Nuevo apunte.                                                                                        //
+	// - 'E': Edición de apunte.                                                                                   //
+	//*************************************************************************************************************//
+	function view() {
+		//Nuevo apunte
+		if ($scope.cntx.conf.get('mode') === 'N') {
+			ctxl.formField($scope.cntx, 'tipo', false, true);
+			ctxl.formField($scope.cntx, 'iden', false, true);
+			ctxl.formField($scope.cntx, 'cate', true, false);
+			ctxl.formField($scope.cntx, 'conc', true, false);
+			ctxl.formField($scope.cntx, 'cuen', true, false);
+			ctxl.formField($scope.cntx, 'impo', true, false);
+			ctxl.formField($scope.cntx, 'feva', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+		//Edición de apunte
+		} else if ($scope.cntx.conf.get('mode') === 'E') {
+			ctxl.formField($scope.cntx, 'tipo', true, false);
+			ctxl.formField($scope.cntx, 'iden', false, true);
+			ctxl.formField($scope.cntx, 'cate', true, true);
+			ctxl.formField($scope.cntx, 'conc', true, true);
+			ctxl.formField($scope.cntx, 'cuen', true, true);
+			ctxl.formField($scope.cntx, 'impo', true, true);
+			ctxl.formField($scope.cntx, 'feva', true, true);
+			ctxl.formField($scope.cntx, 'desc', true, true);
+			
+			if ($scope.cntx.form.get('tipo').data === 'MD01') {
+				//Cambio de fecha
+				ctxl.formField($scope.cntx, 'feva', true, false);
+			} else if ($scope.cntx.form.get('tipo').data === 'MD02') {
+				//Cambio de descripción
+			} else if ($scope.cntx.form.get('tipo').data === 'MD03') {
+				//Cambio de importe
+			} else if ($scope.cntx.form.get('tipo').data === 'MD04') {
+				//Cambio de categoría
+			}
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('tipo').data = '';
+		$scope.cntx.form.get('iden').data = 0;
+		$scope.cntx.form.get('cate').data = 0;
+		$scope.cntx.form.get('conc').data = 0;
+		$scope.cntx.form.get('cuen').data = 0;
+		$scope.cntx.form.get('impo').data = 0;
+		$scope.cntx.form.get('feva').data = new Date();
+		$scope.cntx.form.get('desc').data = '';
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
+	$scope.fnCanc = function() {
+		srv.back(true, null);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de cambio de categoria.                                                                  //
+	//*************************************************************************************************************//
 	$scope.fnConcChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	};
 
-	//Función que captura el cambio de tipo de modificación
+	//*************************************************************************************************************//
+	// Captura del evento de cambio de tipo de modificación.                                                       //
+	//*************************************************************************************************************//
 	$scope.fnTipoChng = function() {
 		view();
 	};
 
-	//Funcion que captura la solicitud de guardar un nuevo apunte
+	//*************************************************************************************************************//
+	// Captura del evento de envío de formulario de apunte.                                                        //
+	//*************************************************************************************************************//
 	$scope.fnForm = function() {
 		var srv1 = comc.request('hcon/form', $scope.cntx);
+		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			$scope.cntx.form.iden = 0;
-			$scope.cntx.form.cate = 0;
-			$scope.cntx.form.conc = 0;
-			$scope.cntx.form.cuen = 0;
-			$scope.cntx.form.impo = 0;
-			$scope.cntx.form.feva = 0;
-			$scope.cntx.form.desc = '';
+			inicForm();
+			srv.back(true, null);
 		});
 	};
 
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - Modo "N": Nuevo apunte
-	function view() {
-		//Nuevo apunte
-		if ($scope.cntx.conf.mode === 'N') {
-			$scope.cntx.form.tipo = '';
-			$scope.cntx.form.iden = 0;
-			$scope.cntx.form.cate = 0;
-			$scope.cntx.form.conc = 0;
-			$scope.cntx.form.cuen = 0;
-			$scope.cntx.form.impo = 0;
-			$scope.cntx.form.feva = 0;
-			$scope.cntx.form.desc = '';
-			
-			$scope.cntx.show.tipo = false;
-			$scope.cntx.show.iden = false;
-			$scope.cntx.show.cate = true;
-			$scope.cntx.show.conc = true;
-			$scope.cntx.show.cuen = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.feva = true;
-			$scope.cntx.show.desc = true;
-			
-			$scope.cntx.read.tipo = false;
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.cate = false;
-			$scope.cntx.read.conc = false;
-			$scope.cntx.read.cuen = false;
-			$scope.cntx.read.impo = false;
-			$scope.cntx.read.feva = false;
-			$scope.cntx.read.desc = false;
-			
-		//Edición de apunte
-		} else if ($scope.cntx.conf.mode === 'E') {
-			$scope.cntx.show.tipo = true;
-			$scope.cntx.show.iden = false;
-			$scope.cntx.show.cate = true;
-			$scope.cntx.show.conc = true;
-			$scope.cntx.show.cuen = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.feva = true;
-			$scope.cntx.show.desc = true;
-			
-			$scope.cntx.read.tipo = false;
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.cate = true;
-			$scope.cntx.read.conc = true;
-			$scope.cntx.read.cuen = true;
-			$scope.cntx.read.impo = true;
-			$scope.cntx.read.feva = true;
-			$scope.cntx.read.desc = true;
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	$scope.cntx = srv.getCntx('hcon/form');
 
-			//Cambiar fecha
-			if ($scope.cntx.form.tipo = 'MD01') {
-				$scope.cntx.read.feva = false;
-			//Cambiar descripción
-			} else if ($scope.cntx.form.tipo = 'MD02') {
-				
-			//Cambiar importe
-			} else if ($scope.cntx.form.tipo = 'MD03') {
-			
-			//Cambiar categoría
-			} else if ($scope.cntx.form.tipo = 'MD04') {
-			
-			}
-		} 
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

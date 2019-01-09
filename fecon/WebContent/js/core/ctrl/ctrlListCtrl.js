@@ -12,7 +12,6 @@ app.controller('ctrlListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.request('ctrl/list', $scope.cntx);
 		var srv2 = comc.requestLiteList('BOOL', $scope.cntx);
 		var srv3 = comc.requestLiteList('USUAPERF', $scope.cntx);
@@ -20,7 +19,6 @@ app.controller('ctrlListCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv5 = comc.requestLiteList('CTRLTIAC', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2, srv3, srv4, srv5)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -30,6 +28,8 @@ app.controller('ctrlListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -37,6 +37,9 @@ app.controller('ctrlListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -132,5 +135,4 @@ app.controller('ctrlListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

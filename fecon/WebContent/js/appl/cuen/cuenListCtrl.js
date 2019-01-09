@@ -1,57 +1,175 @@
-app.controller('cuenListCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cuenListCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cuen/list');
-	
-	var srv1 = comc.request('cuen/list', $scope.cntx);
-	var srv2 = comc.requestLiteList('CUENTIPO', $scope.cntx);
-	
-	$q.all([srv.stResp(true, srv1,srv2)]).then(function() {
-		view();
-	});
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	//Función que captura la entrada en modo alta de cuenta
-	$scope.fnNuev = function() {
-		var cntx = srv.getCntx('cuen/form');
-		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+
+		var srv1 = comc.request('cuen/list', $scope.cntx);
+		var srv2 = comc.requestLiteList('CUENTIPO', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1,srv2)]).then(function() {
+			view();
+		});	
 	}
 
-	//Función que carga el modo de edición de cuenta
-	$scope.fnEdit = function(i) {
-		var cntx = srv.getCntx('cuen/form');
-		var cuen = $scope.cntx.data.cuenList[i];
-		cntx.form.iden = cuen.iden;
-		cntx.form.tipo = cuen.tipo;
-		cntx.form.desc = cuen.desc;
-		cntx.form.sald = cuen.sald;
-		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		//Si venimos del formulario de cuentas y tenemos una cuenta en el área de intercambio, lo cargamos en la lista
+		if (view === 'cuen/form') {
+			var cuen = $scope.cntx.xchg.get('cuen');
+
+			if (cuen !== undefined) {
+				var indx = $scope.cntx.xchg.get('indx');
+				if (indx >= 0) {
+					$scope.cntx.data.get('cuenList')[indx] = cuen;
+				} else {
+					$scope.cntx.data.get('cuenList').push(cuen);
+				}
+			}
+		}
+		
+		//Si venismo del traspaso y tenemos una cuenta en el área de intercambio, volvemos a consultar las cuentas (en un 
+		// traspaso cambian dos y no tenemos el indice de la segunda)
+		if (view === 'cuen/tras') {
+			var cuen = $scope.cntx.xchg.get('cuen');
+			
+			if (cuen !== undefined) {
+				var srv1 = comc.request('cuen/list', $scope.cntx);
+				
+				$q.all([srv.stResp(true, srv1)]).then(function() {
+					
+				});
+			}
+		}
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 
-	//Función que viaja al traspaso de cuenta
-	$scope.fnTras = function(i) {
-		var cntx = srv.getCntx('cuen/tras');
-		var cuen = $scope.cntx.data.cuenList[i];
-		cntx.form.ctor = cuen.iden;
-		srv.go('cuen/list', $scope.cntx, 'cuen/tras', cntx);
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
+		loadView();
 	}
-	
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'L': Lista de cuentas.                                                                                    //
+	//*************************************************************************************************************//
 	function view() {
+		if ($scope.cntx.conf.get('mode') === 'L') {
+			
+		} else {
+			
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
 		
 	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************                                           *********************************//
+	//*********************************  FUNCIONES AUXILIARES DE MANEJO DE VISTA  *********************************//
+	//*********************************               (LISTAS)                    *********************************//
+	//*********************************                                           *********************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de crear nueva cuenta.                                                                   //
+	//*************************************************************************************************************//
+	$scope.fnNuev = function() {
+		var cntx = srv.getCntx('cuen/form');
+		
+		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
+	}
 	
-	//Función que despliega el menú de acciones
+	//*************************************************************************************************************//
+	// Captura del evento de edición de cuenta.                                                                    //
+	//*************************************************************************************************************//
+	$scope.fnEdit = function(i) {
+		var cntx = srv.getCntx('cuen/form');
+		
+		var cuen = $scope.cntx.data.get('cuenList')[i];
+		cntx.xchg.set('cuen', cuen);
+		cntx.xchg.set('indx', i);
+		
+		srv.go('cuen/list', $scope.cntx, 'cuen/form', cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de traspaso de cuenta.                                                                   //
+	//*************************************************************************************************************//
+	$scope.fnTras = function(i) {
+		var cntx = srv.getCntx('cuen/tras');
+		
+		var cuen = $scope.cntx.data.get('cuenList')[i];
+		cntx.xchg.set('cuen', cuen);
+		cntx.xchg.set('indx', i);
+		
+		srv.go('cuen/list', $scope.cntx, 'cuen/tras', cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Despliegue de menú de acciones.                                                                             //
+	//*************************************************************************************************************//
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
 		$mdOpenMenu(ev);
 	};
 	
-	//Función que amplia un registro de la lista
+	//*************************************************************************************************************//
+	// Despliegue de registro de una lista.                                                                        //
+	//*************************************************************************************************************//
 	$scope.xpnd = function(i) {
-		if ($scope.cntx.conf.item === i) {
-			$scope.cntx.conf.item = -1;
+		if ($scope.cntx.conf.get('idx1') === i) {
+			$scope.cntx.conf.set('idx1', -1);
 		} else {
-			$scope.cntx.conf.item = i;
+			$scope.cntx.conf.set('idx1', i);
 		}
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	//Generamos el contexto de la vista
+	$scope.cntx = srv.getCntx('cuen/list');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

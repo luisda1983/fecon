@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,14 +15,13 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('INVIESTA', $scope.cntx);
 		var srv2 = comc.requestLiteList('INVITIPO', $scope.cntx);
 		
 		$q.all([srv.stResp(false, srv1, srv2)]).then(function(){
 			var srv3 = comc.request('invi/list', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv3)]).then(function(){
-				$scope.cntx.conf.set('mode', 'L');
 				view();
 			});
 		});
@@ -29,7 +31,9 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
-		//Sin acciones adicionales
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -37,6 +41,9 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -75,6 +82,7 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnNuev = function() {
 		var cntx = srv.getCntx('invi/envi');
+		
 		srv.go('invi/list', $scope.cntx, 'invi/envi', cntx);
 	}
 	
@@ -84,6 +92,7 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInviAcep = function(i) {
 		var invi = $scope.cntx.data.get('inviList')[i];
 		$scope.cntx.form.get('iden').data = invi.iden;
+		
 		var srv1 = comc.request('invi/acep', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -97,6 +106,7 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInviRech = function(i) {
 		var invi = $scope.cntx.data.get('inviList')[i];
 		$scope.cntx.form.get('iden').data = invi.iden;
+		
 		var srv1 = comc.request('invi/rech', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -109,6 +119,7 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnEstaChng = function() {
 		var srv1 = comc.request('invi/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
@@ -158,5 +169,4 @@ app.controller('inviListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

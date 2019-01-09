@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -11,16 +14,15 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
-	function loadView() {
-		
+	function loadView() {		
 		var srv1 = comc.requestLiteList('MENUPERF', $scope.cntx);
 		var srv2 = comc.requestLiteList('BOOL'    , $scope.cntx);
 		
 		$q.all([srv.stResp(false, srv1)]).then(function(){
 			$scope.cntx.form.get('perf').data = $scope.cntx.data.get('ltLMenuperf')[0].clav;
-			var srv2 = comc.request('ctmn/list', $scope.cntx);
-			$q.all([srv.stResp(true, srv2)]).then(function(){
-				$scope.cntx.conf.set('mode', 'L');
+			var srv3 = comc.request('ctmn/list', $scope.cntx);
+			
+			$q.all([srv.stResp(true, srv3)]).then(function(){
 				view();
 			});
 		});
@@ -40,6 +42,8 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 				$scope.cntx.data.get('ctmnList')[indx] = ctmn;
 			}
 		}
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -47,6 +51,9 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -82,6 +89,7 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnPerfChng = function() {
 		var srv1 = comc.request('ctmn/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
@@ -90,8 +98,10 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnCtmnDtmn = function(i) {
 		var cntx = srv.getCntx('dtmn/list');
+		
 		cntx.xchg.set('ctmn', $scope.cntx.data.get('ctmnList')[i]);
 		cntx.xchg.set('ctmnList', $scope.cntx.data.get('ctmnList'));
+		
 		srv.go('ctmn/list', $scope.cntx, 'dtmn/list', cntx);
 	}
 	
@@ -100,9 +110,11 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnCtmnModi = function(i) {
 		var cntx = srv.getCntx('ctmn/form');
+		
 		var ctmn = $scope.cntx.data.get('ctmnList')[i];
 		cntx.xchg.set('ctmn', ctmn);
 		cntx.xchg.set('indx', i);
+		
 		srv.go('ctmn/list', $scope.cntx, 'ctmn/form', cntx);
 	}
 	
@@ -112,6 +124,7 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnCtmnDesa = function(i) {
 		var ctmn = $scope.cntx.data.get('ctmnList')[i];
 		$scope.cntx.form.get('iden').data = ctmn.iden;
+		
 		var srv1 = comc.request('ctmn/desa', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -125,6 +138,7 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnCtmnActi = function(i) {
 		var ctmn = $scope.cntx.data.get('ctmnList')[i];
 		$scope.cntx.form.get('iden').data = ctmn.iden;
+		
 		var srv1 = comc.request('ctmn/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -178,5 +192,4 @@ app.controller('ctmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

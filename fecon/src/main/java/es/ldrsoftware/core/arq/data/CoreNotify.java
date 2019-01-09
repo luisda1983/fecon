@@ -417,7 +417,15 @@ public class CoreNotify {
 	public final static String RELA_INST_USUA_INST_RQRD    = "RELA-03001";
 	public final static String RELA_INST_USUA_USUA_RQRD    = "RELA-03002";
 	public final static String RELA_INST_USUA_PERF_RQRD    = "RELA-03003";
+
+	//Servicio de consulta de tabla de literales
+	public final static String LITE_LIST_TBLA_RQRD         = "LITE-01001";
 	
+	//Servicio de consulta de un literal
+	public final static String LITE_GETK_TBLA_RQRD         = "LITE-02001";
+	public final static String LITE_GETK_CLAV_RQRD         = "LITE-02002";
+	public final static String LITE_GETK_LITE_NF           = "LITE-02901";
+
 	//*********************************************************************************************//
 	// Notificaciones del módulo BTC                                                               //
 	//*********************************************************************************************//
@@ -650,18 +658,7 @@ public class CoreNotify {
 	public final static String STME_LIST_ANYO_RQRD         = "STME-02002";
 	public final static String STME_LIST_MESS_RQRD         = "STME-02003";
 	public final static String STME_LIST_TIPO_ERRO         = "STME-02501";
-	
-	
-	//Notificaciones del m�dulo INVI
-	
-	public final static String INVI_PROC_INST_NF           = "INVI-00046";
-	public final static String INVI_PROC_INST_ACTI_NO      = "INVI-00047";
-
-	
-	//Notificaciones de m�dulo CTRL
-	public final static String CTRL_IDEN_RQRD              = "CTRL-00001";
-	public final static String CTRL_NF                     = "CTRL-00002";
-	
+		
 	//Notificaciones del módulo RELA
 	//OOTNN:
 	//OO=Operación
@@ -672,23 +669,7 @@ public class CoreNotify {
 	//   8-Validaciones de dominio en BB.DD.
 	//   9-Validaciones de BB.DD.
 	//NN=Número
-	
-	public final static String RELA_SAVE_CLN1_RQRD         = "RELA-00005";
-	public final static String RELA_SAVE_CLC2_RQRD         = "RELA-00006";
-	public final static String RELA_SAVE_RELA_ERRO         = "RELA-00007";
-	public final static String RELA_SAVE_PERF_RQRD         = "RELA-00008";
-
-	public final static String EJEC_GETL_FECH_RQRD         = "EJEC-00015";
-	
-	public final static String BTCH_GETB_IDEN_RQRD         = "BTCH-00012";
-	public final static String BTCH_NF                     = "BTCH-00013";
-	public final static String BTCH_TIPO_ERRO              = "BTCH-00014";
-	
-	//Notificaciones del modulo LITE
-	public final static String LITE_GETL_TBLA_RQRD         = "LITE-00001";
-	public final static String LITE_GETL_CLAV_RQRD         = "LITE-00002";
-	public final static String LITE_NF                     = "LITE-00003";
-	
+		
 	//Notificaciones del módulo PARA
 	public final static String PARA_GETP_TBLA_RQRD         = "PARA-01001";
 	public final static String PARA_GETP_CLAV_RQRD         = "PARA-01002";

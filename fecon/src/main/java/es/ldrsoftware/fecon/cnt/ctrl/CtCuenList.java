@@ -24,6 +24,7 @@ import es.ldrsoftware.fecon.cnt.entity.Cuen;
 @RestController
 public class CtCuenList extends BaseController {
 
+	//TODO: revisar tarea pendiente del cuenListCtrl.js
 	@Autowired
 	public BsCuenList bsCuenList;
 

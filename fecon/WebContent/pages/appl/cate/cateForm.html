@@ -13,34 +13,34 @@
         	<form name="cateForm" data-ng-submit="fnForm()">
         		<div layout="row" layout-xs="column" layout-sm="column">
         			<div layout="row" layout-xs="column" flex>
-        				<md-input-container class="md-block" flex data-ng-show="cntx.show.iden">
+        				<md-input-container class="md-block" flex data-ng-show="cntx.form.get('iden').show">
 	                		<label>Identificador</label>
-							<input type="text" ng-model="cntx.form.iden" ng-disabled="cntx.read.iden"/>
+							<input type="text" ng-model="cntx.form.get('iden').data" ng-disabled="cntx.form.get('iden').read"/>
 	                    </md-input-container>
         			</div>
         		</div>
         		<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.desl">
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('desl').show">
 	                		<label>Desc. Larga</label>
-							<input type="text" ng-model="cntx.form.desl" ng-disabled="cntx.read.desl"/>
+							<input type="text" ng-model="cntx.form.get('desl').data" ng-disabled="cntx.form.get('desl').read"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.desc">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('desc').show">
 	                    	<label>Desc. Corta</label>
-	                        <input type="text" ng-model="cntx.form.desc" ng-disabled="cntx.read.desc"/>
+	                        <input type="text" ng-model="cntx.form.get('desc').data" ng-disabled="cntx.form.get('desc').read"/>
 	                    </md-input-container>
 					</div>
 				</div>
 				<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.orde">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('orde').show">
 	                    	<label>Orden</label>
-	                        <input type="text" ng-model="cntx.form.orde" ng-disabled="cntx.read.orde"/>
+	                        <input type="text" ng-model="cntx.form.get('orde').data" ng-disabled="cntx.form.get('orde').read"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.pres">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('pres').show">
 	                    	<label>Presupuesto</label>
-	                    	<md-select ng-model="cntx.form.pres" ng-disabled="cntx.read.pres">
-	                        	<md-option ng-repeat="lite in cntx.data.ltBool" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                    	<md-select ng-model="cntx.form.get('pres').data" ng-disabled="cntx.form.get('pres').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltLBool')" ng-value="lite.clav">{{lite.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
 					</div>

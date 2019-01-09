@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -17,7 +20,6 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv2 = comc.request('dtmn/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -36,6 +38,8 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 				$scope.cntx.data.get('dtmnList')[indx] = dtmn;
 			}
 		}
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -44,8 +48,11 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	function loadViewGo() {
 		var view = srv.getOrigView();
 		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		if (view === 'ctmn/list') {
 			var ctmn = $scope.cntx.xchg.get('ctmn');
+			
 			if (ctmn !== 'undefined' && ctmn !== null) {
 				$scope.cntx.form.get('ctmn').data = ctmn.iden;
 				$scope.cntx.data.set('ctmn', ctmn);
@@ -90,6 +97,7 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnCtmnChng = function() {
 		var srv1 = comc.request('dtmn/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
@@ -98,10 +106,12 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnDtmnModi = function(i) {
 		var cntx = srv.getCntx('dtmn/form');
+		
 		var dtmn = $scope.cntx.data.get('dtmnList')[i];
 		cntx.xchg.set('dtmn', dtmn);
 		cntx.xchg.set('indx', i);
 		cntx.xchg.set('ctmnList', $scope.cntx.data.get('ctmnList'));
+		
 		srv.go('dtmn/list', $scope.cntx, 'dtmn/form', cntx);
 	}
 	
@@ -111,6 +121,7 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnDtmnDesa = function(i) {
 		var dtmn = $scope.cntx.data.get('dtmnList')[i];
 		$scope.cntx.form.get('iden').data = dtmn.iden;
+		
 		var srv1 = comc.request('dtmn/desa', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -124,6 +135,7 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnDtmnActi = function(i) {
 		var dtmn = $scope.cntx.data.get('dtmnList')[i];
 		$scope.cntx.form.get('iden').data = dtmn.iden;
+		
 		var srv1 = comc.request('dtmn/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -184,5 +196,4 @@ app.controller('dtmnListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

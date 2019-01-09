@@ -13,25 +13,25 @@
         	<form name="cuenForm" data-ng-submit="fnForm()">
         		<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.iden">
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('iden').show">
 	                		<label>Ident.</label>
-							<input type="text" ng-model="cntx.form.iden" ng-disabled="cntx.read.iden"/>
+							<input type="text" ng-model="cntx.form.get('iden').data" ng-disabled="cntx.form.get('iden').read"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.tipo">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('tipo').show">
 	                    	<label>Tipo</label>
-	                        <md-select ng-model="cntx.form.tipo" ng-disabled="cntx.read.tipo">
-	                        	<md-option ng-repeat="tipo in cntx.data.ltCuentipo" ng-value="tipo.clav">{{tipo.desc}}</md-option>
+	                        <md-select ng-model="cntx.form.get('tipo').data" ng-disabled="cntx.form.get('tipo').read">
+	                        	<md-option ng-repeat="tipo in cntx.data.get('ltCuentipo')" ng-value="tipo.clav">{{tipo.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
 					</div>
 					<div layout="row" layout-xs="column" flex>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.desc">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('desc').show">
 	                    	<label>Descripción</label>
-	                        <input type="text" ng-model="cntx.form.desc" ng-disabled="cntx.read.desc"/>
+	                        <input type="text" ng-model="cntx.form.get('desc').data" ng-disabled="cntx.form.get('desc').read"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.sald">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('sald').show">
 	                    	<label>Saldo</label>
-	                    	<input type="number" ng-model="cntx.form.sald" step="0.01" ng-disabled="cntx.read.sald"/>
+	                    	<input type="number" ng-model="cntx.form.get('sald').data" step="0.01" ng-disabled="cntx.form.get('sald').read"/>
 	                    </md-input-container>
 					</div>
 				</div>

@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -11,15 +14,13 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
-	function loadView() {
-		
+	function loadView() {		
 		var srv1 = comc.requestLiteList('BTCHESTA', $scope.cntx);
 		var srv2 = comc.requestLiteList('BTCHTIPO', $scope.cntx);
 		var srv3 = comc.requestLiteList('BOOL', $scope.cntx);
 		var srv4 = comc.request('btch/list', $scope.cntx);
 		
 		$q.all([srv.stResp(false, srv1, srv2, srv3, srv4)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -29,6 +30,8 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -36,6 +39,9 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -72,6 +78,7 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnBtchSusp = function(i) {
 		var btch = $scope.cntx.data.get('btchList')[i];
 		$scope.cntx.form.get('iden').data = btch.iden;
+		
 		var srv1 = comc.request('btch/susp', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -85,6 +92,7 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnBtchActi = function(i) {
 		var btch = $scope.cntx.data.get('btchList')[i];
 		$scope.cntx.form.get('iden').data = btch.iden;
+		
 		var srv1 = comc.request('btch/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -138,5 +146,4 @@ app.controller('btchListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

@@ -1,71 +1,138 @@
-app.controller('cateFormCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cateFormCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cate/form');
-	
-	if ($scope.cntx.form.iden === 0) {
-		$scope.cntx.conf.mode = 'N';
-	} else {
-		$scope.cntx.conf.mode = 'E';
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
-	var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
-	$q.all([srv.stResp(true, srv1)]).then(function() {
-		view();
-	});	
-	
-	//Función que captura la cancelación de la vista
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'N');
+
+		if (view === 'cate/list') {
+			var cate = $scope.cntx.xchg.get('cate');
+
+			if (cate === undefined) {
+				$scope.cntx.conf.set('mode', 'N');
+			} else {
+				$scope.cntx.conf.set('mode', 'E');
+				$scope.cntx.form.get('iden').data = cate.iden;
+				$scope.cntx.form.get('desl').data = cate.desl;
+				$scope.cntx.form.get('desc').data = cate.desc;
+				$scope.cntx.form.get('orde').data = cate.orde;
+				$scope.cntx.form.get('pres').data = cate.pres;
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'N': Nueva categorias.                                                                                    //
+	// - 'E': Edición de categoría.                                                                                //
+	//*************************************************************************************************************//
+	function view() {
+		//Nueva categoría
+		if ($scope.cntx.conf.get('mode') === 'N') {
+			ctxl.formField($scope.cntx, 'iden', false, true);
+			ctxl.formField($scope.cntx, 'desl', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'orde', false, true);
+			ctxl.formField($scope.cntx, 'pres', true, false);
+		//Edición de categoría
+		} else if ($scope.cntx.conf.get('mode') === 'E') {
+			ctxl.formField($scope.cntx, 'iden', true, true);
+			ctxl.formField($scope.cntx, 'desl', true, false);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'orde', true, true);
+			ctxl.formField($scope.cntx, 'pres', true, true);
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('iden').data = 0;
+		$scope.cntx.form.get('desl').data = '';
+		$scope.cntx.form.get('desc').data = '';
+		$scope.cntx.form.get('orde').data = 0;
+		$scope.cntx.form.get('pres').data = '';
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
 	$scope.fnCanc = function() {
-		srv.back(true);
+		srv.back(true, null);
 	}
 	
-	//Función que captura el submit del formulario
+	//*************************************************************************************************************//
+	// Captura del evento de envío de formulario de categoría.                                                     //
+	//*************************************************************************************************************//
 	$scope.fnForm = function() {
 		var srv1 = comc.request('cate/form', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			$scope.fnCanc();
+			$scope.cntx.xchg.set('cate', $scope.cntx.data.get('cate'));
+			srv.back(true, $scope.cntx.xchg);
 		});
 	};
-	
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - mode 'N': Nueva categoría
-	// - mode 'E': Edición de categoría
-	function view() {
-		//Nueva categoría
-		if ($scope.cntx.conf.mode === 'N') {
-			$scope.cntx.form.iden = 0;
-			$scope.cntx.form.desl = '';
-			$scope.cntx.form.desc = '';
-			$scope.cntx.form.orde = 0;
-			$scope.cntx.form.pres = '';
-			
-			$scope.cntx.show.iden = false;
-			$scope.cntx.show.desl = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.orde = false;
-			$scope.cntx.show.pres = true;
-			
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.desl = false;
-			$scope.cntx.read.desc = false;
-			$scope.cntx.read.orde = true;
-			$scope.cntx.read.pres = false;
-		
-		//Edición de categoría
-		} else if ($scope.cntx.conf.mode === 'E') {
-			
-			$scope.cntx.show.iden = true;
-			$scope.cntx.show.desl = true;
-			$scope.cntx.show.desc = true;
-			$scope.cntx.show.orde = true;
-			$scope.cntx.show.pres = true;
-			
-			$scope.cntx.read.iden = true;
-			$scope.cntx.read.desl = false;
-			$scope.cntx.read.desc = false;
-			$scope.cntx.read.orde = true;
-			$scope.cntx.read.pres = true;
-		}
-	}
 
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	$scope.cntx = srv.getCntx('cate/form');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
+	}	
 });

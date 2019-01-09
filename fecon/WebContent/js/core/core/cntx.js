@@ -1,6 +1,8 @@
-//Factory que encapsula la gestión de contexto de la aplicación
-//TODO: en pres/conc... he visto que en el data no es necesario definir el detalle... al llamar a comc, se añade el 
-//      atributo y se tiene visibilidad... analizar si se puede eliminar el detalle siempre
+//*****************************************************************************************************************//
+// Factory de gestión de contexto de la aplicación.                                                                //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	
 	//*************************************************************************************************************//

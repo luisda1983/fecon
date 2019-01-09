@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import es.ldrsoftware.core.arq.BaseController;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.ResponseArea;
-import es.ldrsoftware.core.fwk.bs.BsLiteGet;
-import es.ldrsoftware.core.fwk.bs.BsLiteGetArea;
+import es.ldrsoftware.core.fwk.bs.BsLiteGetk;
+import es.ldrsoftware.core.fwk.bs.BsLiteGetkArea;
 
 @RestController
 public class CtLiteGet extends BaseController {
 
 	@Autowired
-	public BsLiteGet bsLiteGet;
+	public BsLiteGetk bsLiteGetk;
 
 	public CtLiteGet() {
 		super("ctLiteGet");
@@ -28,7 +28,7 @@ public class CtLiteGet extends BaseController {
 	
 	@RequestMapping(value="/angular/lite/get", method = RequestMethod.POST, headers="Accept=application/json")
 	public ResponseArea ctLiteGet(HttpServletRequest servletRqt, @RequestBody CtLiteGetRqt rqt) {
-		BsLiteGetArea area = new BsLiteGetArea();
+		BsLiteGetkArea area = new BsLiteGetkArea();
 		area.IN.tbla = rqt.tbla;
 		area.IN.clav = rqt.clav;
 		return ctrl(servletRqt, rqt, area);
@@ -36,11 +36,11 @@ public class CtLiteGet extends BaseController {
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseBSArea a) throws Exception {
-		bsLiteGet.executeBS(a);
+		bsLiteGetk.executeBS(a);
 	}
 	
 	public void output(BaseBSArea a, ResponseArea response) {
-		BsLiteGetArea area = (BsLiteGetArea)a;
+		BsLiteGetkArea area = (BsLiteGetkArea)a;
 		
 		response.OUTPUT.put("lite", area.OUT.lite);
 	}

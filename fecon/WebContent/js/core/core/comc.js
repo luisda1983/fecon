@@ -1,5 +1,9 @@
-//Factory que encapsula la comunicación con BackEnd
-app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q, srv, coma) {
+//*****************************************************************************************************************//
+// Factory que gestiona la comunicación con BackEnd                                                                //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootScope, $q, srv, form, coma) {
 	
 	//Función por la que pasarán todas las llamadas a BackEnd.
 	//La entrada es un identificador de llamada y un contexto.
@@ -84,7 +88,7 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 			//Mapeamos la lista de literales al campo asociado al mismo y resolvemos el promise
 			     if (tbla === 'BOOL')       { cntx.data.set('ltMBool'   , cntxLite.data.liteMap); cntx.data.set('ltLBool'     , cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'ANYO')       { cntx.data.set('ltMAnyo'   , cntxLite.data.liteMap); cntx.data.set('ltLAnyo'     , cntxLite.data.liteList); d.resolve(); }
-			else if (tbla === 'MES')        { cntx.data.set('ltMMes'    , cntxLite.data.liteMap); cntx.data.set('ltLMes'      , cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'MES')        { cntx.data.set('ltMes'     , cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'INVIESTA')   { cntx.data.set('ltInviesta', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'INVITIPO')   { cntx.data.set('ltInvitipo', cntxLite.data.liteMap); d.resolve(); }
 			else if (tbla === 'MENUPERF')   { cntx.data.set('ltMMenuperf', cntxLite.data.liteMap); cntx.data.set('ltLMenuperf', cntxLite.data.liteList); d.resolve(); }
@@ -162,7 +166,9 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 		return d.promise;
 	}
 
-	//Funcion para lectura de parámetros
+	//*************************************************************************************************************//
+	// PUBLIC: requestParaGet: Función para lectura de parámetros.                                                 //
+	//*************************************************************************************************************//
 	function requestParaGet(tipo, tbla, clav, cntx) {
 		//Creamos el promise de retorno
 		var d = $q.defer();
@@ -237,6 +243,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.liteMap  = data.OUTPUT['liteMap'];
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -262,6 +272,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.lite = data.OUTPUT['lite'];
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -288,6 +302,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.para = data.OUTPUT['para'];
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}
@@ -750,6 +768,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'coma', function($rootScope, $q,
 				cntx.data.avisList = data.OUTPUT['avisList'];
 				d.resolve(data);
 			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
 		});
 		return d.promise;
 	}

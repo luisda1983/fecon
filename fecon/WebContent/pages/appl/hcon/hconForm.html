@@ -5,60 +5,62 @@
 		<md-toolbar class="md-warn md-whiteframe-z2">
     		<h2 class="md-toolbar-tools">
       			<span>Apunte</span>
+      			<div flex></div>
+      			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
     		</h2>
   		</md-toolbar>
         <md-content class="md-padding">
 			<form name="apunForm" data-ng-submit="fnForm()">
 				<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
-						<md-input-container class="md-block" flex data-ng-show="cntx.show.tipo">
+						<md-input-container class="md-block" flex data-ng-show="cntx.form.get('tipo').show">
 							<label>Tipo de modificación</label>
-							<md-select ng-model="cntx.form.tipo" ng-disabled="cntx.read.tipo" ng-change="fnTipoChng()">
-								<md-option ng-repeat="tipo in cntx.data.ltHconmdtipo" ng-value="tipo.clav">{{tipo.desc}}</md-option>
+							<md-select ng-model="cntx.form.get('tipo').data" ng-disabled="cntx.form.get('tipo').read" ng-change="fnTipoChng()">
+								<md-option ng-repeat="tipo in cntx.data.get('ltHconmdtipo')" ng-value="tipo.clav">{{tipo.desc}}</md-option>
 							</md-select>
 						</md-input-container>
 					</div>
 				</div>
 				<div layout="row" layout-xs="column" layout-sm="column">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.cate">
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('cate').show">
 	                		<label>Categoria</label>
-							<md-select ng-model="cntx.form.cate" ng-disabled="cntx.read.cate" ng-change="fnConcChng()">
-	                        	<md-option ng-repeat="cate in cntx.data.cateList" ng-value="cate.iden">{{cate.desc}}</md-option>
+							<md-select ng-model="cntx.form.get('cate').data" ng-disabled="cntx.form.get('cate').read" ng-change="fnConcChng()">
+	                        	<md-option ng-repeat="cate in cntx.data.get('cateList')" ng-value="cate.iden">{{cate.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.conc">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('conc').show">
 	                    	<label>Concepto</label>
-	                        <md-select ng-model="cntx.form.conc" ng-disabled="cntx.read.conc">
-	                        	<md-option ng-repeat="conc in cntx.data.concList" ng-value="conc.iden">{{conc.desc}}</md-option>
+	                        <md-select ng-model="cntx.form.get('conc').data" ng-disabled="cntx.form.get('conc').read">
+	                        	<md-option ng-repeat="conc in cntx.data.get('concList')" ng-value="conc.iden">{{conc.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
 					</div>
 					<div layout="row" layout-xs="column" flex>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.cuen">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('cuen').show">
 	                    	<label>Cuenta</label>
-	                        <md-select ng-model="cntx.form.cuen" ng-disabled="cntx.read.cuen">
-	                        	<md-option ng-repeat="cuen in cntx.data.cuenList" ng-value="cuen.iden">{{cuen.desc}}</md-option>
+	                        <md-select ng-model="cntx.form.get('cuen').data" ng-disabled="cntx.form.get('cuen').read">
+	                        	<md-option ng-repeat="cuen in cntx.data.get('cuenList')" ng-value="cuen.iden">{{cuen.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.impo">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('impo').show">
 	                    	<label>Importe</label>
-	                    	<input type="number" ng-model="cntx.form.impo" step="0.01" ng-disabled="cntx.read.impo"/>
+	                    	<input type="number" ng-model="cntx.form.get('impo').data" step="0.01" ng-disabled="cntx.form.get('impo').read"/>
 	                    </md-input-container>
 					</div>
 				</div>
 				<div layout="row" layout-xs="column">
 					<div layout="row" layout-xs="column" flex="25" flex-sm="50" flex-xs="100">
-						<md-input-container class="md-block" flex data-ng-show="cntx.show.feva">
+						<md-input-container class="md-block" flex data-ng-show="cntx.form.get('feva').show">
 	                    	<label>Fecha Valor</label>
-	                    	<input type="date" ng-model="cntx.form.feva" ng-disabled="cntx.read.feva"/>
+	                    	<input type="date" ng-model="cntx.form.get('feva').data" ng-disabled="cntx.form.get('feva').read"/>
 	                    </md-input-container>
 					</div>
 				</div>
 				<div layout="row">
-					<md-input-container class="md-block" flex data-ng-show="cntx.show.desc">
+					<md-input-container class="md-block" flex data-ng-show="cntx.form.get('desc').show">
 	                	<label>Descripción</label>
-	                	<input type="text" ng-model="cntx.form.desc" ng-disabled="cntx.read.desc"/>
+	                	<input type="text" ng-model="cntx.form.get('desc').data" ng-disabled="cntx.form.get('desc').read"/>
 					</md-input-container>
 				</div>
                 <div layout="row" layout-align="center center">

@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,12 +15,10 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('PLANESTA', $scope.cntx);
 		var srv2 = comc.request('plan/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -27,6 +28,8 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -34,6 +37,9 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -85,10 +91,12 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnEjecList = function(i) {
 		var cntx = srv.getCntx('ejec/list');
+		
 		var plan = $scope.cntx.data.get('planList')[i];
 		//TODO: librería de manejo de fechas, y pasar el plan.fech
 		cntx.xchg.set('fech', $scope.cntx.form.get('fech').data);
 		cntx.xchg.set('hora', plan.hora);
+		
 		srv.go('plan/list', $scope.cntx, 'ejec/list', cntx);
 	}
 
@@ -97,9 +105,11 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnLogpList = function(i) {
 		var cntx = srv.getCntx('logp/list');
+		
 		var plan = $scope.cntx.data.get('planList')[i];
 		cntx.xchg.set('fech', plan.fech);
 		cntx.xchg.set('hora', plan.hora);
+		
 		srv.go('plan/list', $scope.cntx, 'logp/list', cntx);
 	}
 
@@ -149,5 +159,4 @@ app.controller('planListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

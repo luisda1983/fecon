@@ -1,77 +1,140 @@
-app.controller('cuenTrasCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cuenTrasCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cuen/tras');
-	
-	if ($scope.cntx.form.ctor === 0) {
-		$scope.cntx.conf.mode = 'N';
-	} else {
-		$scope.cntx.conf.mode = 'O';
-	}
-	
-	var srv1 = comc.request('cuen/list', $scope.cntx);	
-	$q.all([srv.stResp(true, srv1)]).then(function() {
-		view();
-	});
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	//Función que captura la cancelación de la vista
-	$scope.fnCanc = function() {
-		srv.back(true);
-	}
-
-	//Funcion que realiza el traspaso
-	$scope.fnForm = function() {
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.request('cuen/list', $scope.cntx);
 		
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'N');
+		
+		if (view === 'cuen/list') {
+			var cuen = $scope.cntx.xchg.get('cuen');
+
+			if (cuen === undefined) {
+				$scope.cntx.conf.set('mode', 'N');
+			} else {
+				$scope.cntx.conf.set('mode', 'O');
+				
+				$scope.cntx.form.get('ctor').data = cuen.iden;
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'N': Vista normal de traspaso.                                                                            //
+	// - 'O': Vista de traspaso con cuenta origen definida.                                                        //
+	//*************************************************************************************************************//
+	function view() {
+		//Traspaso normal
+		if ($scope.cntx.conf.get('mode') === 'N') {
+			ctxl.formField($scope.cntx, 'ctor', true, false);
+			ctxl.formField($scope.cntx, 'ctde', true, false);
+			ctxl.formField($scope.cntx, 'impo', true, false);
+			ctxl.formField($scope.cntx, 'feva', true, false);
+		//Traspaso con origen definido
+		} else if ($scope.cntx.conf.get('mode') === 'O') {
+			ctxl.formField($scope.cntx, 'ctor', true, true);
+			ctxl.formField($scope.cntx, 'ctde', true, false);
+			ctxl.formField($scope.cntx, 'impo', true, false);
+			ctxl.formField($scope.cntx, 'feva', true, false);
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('ctor').data = 0;
+		$scope.cntx.form.get('ctde').data = 0;
+		$scope.cntx.form.get('impo').data = 0;
+		$scope.cntx.form.get('feva').data = new Date();
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
+	$scope.fnCanc = function() {
+		srv.back(true, null);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de envío de formulario de cuenta.                                                        //
+	//*************************************************************************************************************//
+	$scope.fnForm = function() {
 		var srv1 = comc.request('cuen/tras', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			if ($scope.cntx.conf.mode === 'O') {
-				$scope.fnCanc();
+			if ($scope.cntx.conf.get('mode') === 'O') {
+				$scope.cntx.xchg.set('cuen', $scope.cntx.data.get('ctor'));
+				srv.back(true, $scope.cntx.xchg);
 			} else {
-				//TODO: inicializacion, como modo de vista I
 				srv2 = comc.request('cuen/list', $scope.cntx);
+				
 				$q.all([srv.stResp(true, srv2)]).then(function() {
-					$scope.cntx.form.ctor = 0;
-					$scope.cntx.form.ctde = 0;
-					$scope.cntx.form.impo = 0;
-					$scope.cntx.form.feva = 0;
+					inicForm();
 				})
 			}
 		});
 	};
 
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// + Modo 'N': Vista normal de traspaso
-	// + Modo 'O': Vista de traspaso con cuenta origen definida
-	function view() {
-		//Traspaso normal
-		if ($scope.cntx.conf.mode === 'N') {
-			$scope.cntx.form.ctor = 0;
-			$scope.cntx.form.ctde = 0;
-			$scope.cntx.form.impo = 0;
-			$scope.cntx.form.feva = 0;
-			
-			$scope.cntx.show.ctor = true;
-			$scope.cntx.show.ctde = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.feva = true;
-			
-			$scope.cntx.read.ctor = false;
-			$scope.cntx.read.ctde = false;
-			$scope.cntx.read.impo = false;
-			$scope.cntx.read.feva = false;
-			
-		//Traspaso con cuenta origen
-		} else if ($scope.cntx.conf.mode === 'O') {
-			
-			$scope.cntx.show.ctor = true;
-			$scope.cntx.show.ctde = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.feva = true;
-			
-			$scope.cntx.read.ctor = true;
-			$scope.cntx.read.ctde = false;
-			$scope.cntx.read.impo = false;
-			$scope.cntx.read.feva = false;
-		} 
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	$scope.cntx = srv.getCntx('cuen/tras');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

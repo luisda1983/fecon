@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('ststListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,12 +15,10 @@ app.controller('ststListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('STSTREEJ', $scope.cntx);
 		var srv2 = comc.request('stst/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -27,6 +28,8 @@ app.controller('ststListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -34,12 +37,18 @@ app.controller('ststListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		if (view === 'stdi/list') {
 			var fech = $scope.cntx.xchg.get('fech');
+			
 			$scope.cntx.form.get('fech').data = $scope.cntx.xchg.get('fech');
+			
 			$scope.cntx.conf.set('mode', 'D');
 			$scope.cntx.conf.set('back', true);
 		}
+		
 		loadView();
 	}
 
@@ -152,5 +161,4 @@ app.controller('ststListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

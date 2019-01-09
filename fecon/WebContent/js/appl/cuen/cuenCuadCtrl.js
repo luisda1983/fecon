@@ -1,124 +1,201 @@
-app.controller('cuenCuadCtrl', function($rootScope, $scope, $http, $routeParams, $q, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('cuenCuadCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('cuen/cuad');
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.request('cuen/list', $scope.cntx);
+
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+
+		ctxl.clearXchg($scope.cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+
+		$scope.cntx.conf.set('mode', 'C');
+		
+		if (view === 'cuen/list') {
+			var cuen = $scope.cntx.xchg.get('cuen');
+
+			if (cuen !== undefined) {
+				$scope.cntx.conf.set('mode', 'C');				
+				$scope.cntx.form.get('cuen').data = cuen.iden;
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'C': Cuadre de cuenta.                                                                                    //
+	// - 'A': Apunte de cuadre.                                                                                    //
+	//*************************************************************************************************************//
+	function view() {
+		//Cuadre de cuenta
+		if ($scope.cntx.conf.get('mode') === 'C') {
+			ctxl.formField($scope.cntx, 'cuen', true, false);
+			ctxl.formField($scope.cntx, 'sald', true, false);
+			ctxl.formField($scope.cntx, 'impo', true, true);
+			ctxl.formField($scope.cntx, 'cate', false, false);
+			ctxl.formField($scope.cntx, 'conc', false, false);
+			ctxl.formBtn($scope.cntx, 'btCuad', true);
+			ctxl.formSection($scope.cntx, 'stApun', false);
+		//Apunte de cuadre
+		} else if ($scope.cntx.conf.get('mode') === 'A') {
+			ctxl.formField($scope.cntx, 'cuen', true, true);
+			ctxl.formField($scope.cntx, 'sald', true, true);
+			ctxl.formField($scope.cntx, 'impo', true, true);
+			ctxl.formField($scope.cntx, 'cate', true, false);
+			ctxl.formField($scope.cntx, 'conc', true, false);
+			ctxl.formBtn($scope.cntx, 'btCuad', false);
+			ctxl.formSection($scope.cntx, 'stApun', true);
+		}
+	}
 	
-	var srv1 = comc.request('cuen/list', $scope.cntx);	
-	$q.all([srv.stResp(true, srv1)]).then(function() {
-		$scope.cntx.conf.mode = "C";
-		view();
-	});
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		$scope.cntx.form.get('cuen').data = 0;
+		$scope.cntx.form.get('sald').data = 0;
+		$scope.cntx.form.get('impo').data = 0;
+		$scope.cntx.form.get('cate').data = 0;
+		$scope.cntx.form.get('conc').data = 0;
+	}
 
-	//Funcion que se ejecuta al seleccionar una cuenta.
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
+	$scope.fnCanc = function() {
+		srv.back(true, null);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de selección de cuenta.                                                                  //
+	//*************************************************************************************************************//
 	$scope.fnCuenSelc = function() {
-		$scope.cntx.form.impo = parseFloat(0);
+		$scope.cntx.form.get('impo').data = parseFloat(0);
 		$scope.fnImpoRfsh();
 	};
-
-	//Funcion de calcular en tiempo real el importe de cuadre.
-	$scope.fnImpoRfsh = function() {
-		if (!isNaN(parseFloat($scope.cntx.form.sald))) {
-			var sald = $scope.cntx.form.sald;
-			sald = sald.toString().replace(',', '.');
-			$scope.cntx.form.sald = parseFloat(sald);
-		} 
-		
-		if (isNaN(parseFloat(sald))) {
-			$scope.cntx.form.impo = parseFloat((0 - parseFloat($scope.cntx.form.cuen.sald)).toFixed(2));
-		} else {
-			$scope.cntx.form.impo = parseFloat((parseFloat($scope.cntx.form.sald) - parseFloat($scope.cntx.form.cuen.sald)).toFixed(2));
-		}
-	};
-
-	//Función que captura el cambio de categoria
+	
+	//*************************************************************************************************************//
+	// Captura del evento de selección de categoria.                                                               //
+	//*************************************************************************************************************//
 	$scope.fnCateChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
-	//Función que captura el evento de cuadre, para realizar la transición a la vista de apunte
+	//*************************************************************************************************************//
+	// Captura del evento de cuadre y realiza la transición a la vista de apunte.                                  //
+	//*************************************************************************************************************//
 	$scope.fnCuad = function() {
-		if ($scope.cntx.form.impo !== 0) {
+		if ($scope.cntx.form.get('impo').data !== 0) {
 			var srv1 = comc.request('cate/list', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
-				$scope.cntx.conf.mode = 'A';
+				$scope.cntx.conf.set('mode', 'A');
 				view();
 			})
 		}
 	}
 
-	//Función que captura la cancelación del modo Apunte de cuadre
-	$scope.fnCanc = function() {
-		$scope.cntx.form.cate = 0;
-		$scope.cntx.form.conc = 0;
+	//*************************************************************************************************************//
+	// Captura del evento de volver del modo apunte de cuadre.                                                     //
+	//*************************************************************************************************************//
+	$scope.fnBack = function() {
+		$scope.cntx.form.get('cate').data = 0;
+		$scope.cntx.form.get('conc').data = 0;
 		
-		$scope.cntx.conf.mode = 'C';
+		$scope.cntx.conf.set('mode', 'C');
 		
 		view();
 	}
 
-	
-	//Función que captura el evento de efectuar el apunte de cuadre.
+	//*************************************************************************************************************//
+	// Captura del evento de envío de formulario de cuadre de cuenta.                                              //
+	//*************************************************************************************************************//
 	$scope.fnApun = function() {
 		var srv1 = comc.request('cuen/cuad', $scope.cntx);
+		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			var srv2 = comc.request('cuen/list', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv2)]).then(function() {
-				//TODO: inicializar con view
-				$scope.cntx.form.cuen = 0;
-				$scope.cntx.form.sald = 0;
-				$scope.cntx.form.impo = 0;
-				$scope.cntx.form.cate = 0;
-				$scope.cntx.form.conc = 0;
-				$scope.cntx.conf.mode = 'C';
+				inicForm();
+				$scope.cntx.conf.set('mode', 'C');
 				view();
 			})
 		})
 	}
-	
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - Modo "C": Cuadre de cuenta
-	// - Modo "A": Apunte de cuadre de cuenta
-	function view() {
-		//Cuadre de cuenta
-		if ($scope.cntx.conf.mode === 'C') {
-			$scope.cntx.form.cuen = 0;
-			$scope.cntx.form.sald = 0;
-			$scope.cntx.form.impo = 0;
-			$scope.cntx.form.cate = 0;
-			$scope.cntx.form.conc = 0;
-			
-			$scope.cntx.show.cuen = true;
-			$scope.cntx.show.sald = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.cate = false;
-			$scope.cntx.show.conc = false;
-			
-			$scope.cntx.show.btCuad = true;
-			$scope.cntx.show.stApun = false;
-			
-			$scope.cntx.read.cuen = false;
-			$scope.cntx.read.sald = false;
-			$scope.cntx.read.impo = true;
-			$scope.cntx.read.cate = false;
-			$scope.cntx.read.conc = false;
-	
-		//Apunte de cuadre
-		} else if ($scope.cntx.conf.mode === 'A') { 
-			
-			$scope.cntx.show.cuen = true;
-			$scope.cntx.show.sald = true;
-			$scope.cntx.show.impo = true;
-			$scope.cntx.show.cate = true;
-			$scope.cntx.show.conc = true;
-			
-			$scope.cntx.show.btCuad = false;
-			$scope.cntx.show.stApun = true;
-			
-			$scope.cntx.read.cuen = true;
-			$scope.cntx.read.sald = true;
-			$scope.cntx.read.impo = true;
-			$scope.cntx.read.cate = false;
-			$scope.cntx.read.conc = false;
+
+	//*************************************************************************************************************//
+	// Funcion de calculo en tiempo real del importe de cuadre.                                                    //
+	//*************************************************************************************************************//
+	$scope.fnImpoRfsh = function() {
+		if (!isNaN(parseFloat($scope.cntx.form.get('sald').data))) {
+			var sald = $scope.cntx.form.get('sald').data;
+			sald = sald.toString().replace(',', '.');
+			$scope.cntx.form.get('sald').data = parseFloat(sald);
+		} 
+		
+		if (isNaN(parseFloat(sald))) {
+			$scope.cntx.form.get('impo').data = parseFloat((0 - parseFloat($scope.cntx.form.get('cuen').data.sald)).toFixed(2));
+		} else {
+			$scope.cntx.form.get('impo').data = parseFloat((parseFloat($scope.cntx.form.get('sald').data) - parseFloat($scope.cntx.form.get('cuen').data.sald)).toFixed(2));
 		}
+	};
+	
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	$scope.cntx = srv.getCntx('cuen/cuad');
+
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
 	}
 });

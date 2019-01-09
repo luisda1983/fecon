@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,7 +15,6 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestParaGet('C', 'APLICONFIG', 'CONFREGIST', $scope.cntx);
 		var srv2 = comc.requestParaGet('C', 'APLICONFIG', 'MULTIINSTA', $scope.cntx);
 		var srv3 = comc.requestParaGet('C', 'DYNAMICFLD', 'REGINVDESC', $scope.cntx);
@@ -36,7 +38,9 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
-		//Sin acciones adicionales
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -44,6 +48,9 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'C');
+		
 		loadView();
 	}
 
@@ -343,6 +350,7 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnSoli = function() {
 		if ($scope.cntx.conf.get('mode') === 'S') {
 			var srv1 = comc.request('invi/soli', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
 				inicForm();
 			});
@@ -353,14 +361,15 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Captura del evento de registro.                                                                             //
 	//*************************************************************************************************************//
 	$scope.fnRegi = function() {
-
 		//Modos de registro de instalación
 		if ($scope.cntx.conf.get('mode') === 'LIE' ||
 		    $scope.cntx.conf.get('mode') === 'LIN') {
 			var srv1 = comc.request('inst/regi', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
 				var lgonCntx = srv.getCntx('/lgon');
 				lgonCntx.xchg.set('usua', $scope.cntx.data.get('usua'));
+				
 				srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
 			})
 		}
@@ -369,9 +378,11 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 		if ($scope.cntx.conf.get('mode') === 'LUE' ||
 	        $scope.cntx.conf.get('mode') === 'LUN') {
 			var srv1 = comc.request('usua/regi', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
 				var lgonCntx = srv.getCntx('/lgon');
 				lgonCntx.xchg.set('usua', $scope.cntx.data.get('usua'));
+				
 				srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
 			})
 		}
@@ -386,6 +397,7 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 		//Se valida la invitación y avanzamos, según el tipo de invitación
 		if ($scope.cntx.conf.get('mode') === 'I') {
 			var srv1 = comc.request('invi/vali', $scope.cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
 				var invi = $scope.cntx.data.get('invi');
 				if (invi.tipo === 'I') {
@@ -411,9 +423,11 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 			$scope.cntx.conf.get('mode') === 'IUN' ||
 			$scope.cntx.conf.get('mode') === 'IUE') {
 			var srv1 = comc.request('invi/proc', cntx);
+			
 			$q.all([srv.stResp(true, srv1)]).then(function() {
 				var lgonCntx = srv.getCntx('/lgon');
 				lgonCntx.xchg.set('usua', $scope.cntx.data.get('usua'));
+				
 				srv.go('usua/regi', $scope.cntx, '/lgon', lgonCntx);
 			})
 		}
@@ -466,5 +480,4 @@ app.controller('usuaRegiCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

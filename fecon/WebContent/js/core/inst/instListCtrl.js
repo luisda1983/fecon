@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -18,7 +21,6 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv3 = comc.request('inst/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2, srv3)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -32,11 +34,14 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 		//Si venimos del formulario de categorías y tenemos una categoría en el área de intercambio, lo cargamos en la lista
 		if (view === 'inst/form') {
 			var inst = $scope.cntx.xchg.get('inst');
+			
 			if (inst !== 'undefined' && inst !== null) {
 				var indx = $scope.cntx.xchg.get('indx')
 				$scope.cntx.data.get('instList')[indx] = inst;
 			}
 		}
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -44,6 +49,9 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -85,6 +93,7 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnEstaChng = function() {
 		var srv1 = comc.request('inst/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
@@ -93,7 +102,9 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnInstUsua = function(i) {
 		var cntx = srv.getCntx('usua/list');
+		
 		cntx.xchg.set('inst', $scope.cntx.data.get('instList')[i]);
+		
 		srv.go('inst/list', $scope.cntx, 'usua/list', cntx);
 	}
 	
@@ -103,12 +114,12 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInstActi = function(i) {
 		var inst = $scope.cntx.data.get('instList')[i];
 		$scope.cntx.form.get('iden').data = inst.iden;
+		
 		var srv1 = comc.request('inst/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.get('instList')[i] = $scope.cntx.data.get('inst');
 		});
-		
 	}
 
 	//*************************************************************************************************************//
@@ -117,6 +128,7 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInstInac = function(i) {
 		var inst = $scope.cntx.data.get('instList')[i];
 		$scope.cntx.form.get('iden').data = inst.iden;
+		
 		var srv1 = comc.request('inst/inac', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -131,12 +143,12 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInstPrem = function(i) {
 		var inst = $scope.cntx.data.get('instList')[i];
 		$scope.cntx.form.get('iden').data = inst.iden;
+		
 		var srv1 = comc.request('inst/prem', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.get('instList')[i] = $scope.cntx.data.get('inst');
 		});
-		
 	}
 
 	//*************************************************************************************************************//
@@ -145,12 +157,12 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnInstNorm = function(i) {
 		var inst = $scope.cntx.data.get('instList')[i];
 		$scope.cntx.form.get('iden').data = inst.iden;
+		
 		var srv1 = comc.request('inst/norm', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.get('instList')[i] = $scope.cntx.data.get('inst');
 		});
-		
 	}
 	
 	//*************************************************************************************************************//
@@ -199,5 +211,4 @@ app.controller('instListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

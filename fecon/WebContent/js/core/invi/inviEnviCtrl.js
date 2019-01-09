@@ -12,7 +12,6 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		$scope.cntx.conf.set('mode', 'E');
 		view();
 	}
 
@@ -20,7 +19,9 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
-		//Sin acciones adicionales
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -28,7 +29,9 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
-
+		
+		$scope.cntx.conf.set('mode', 'E');
+		
 		loadView();
 	}
 
@@ -63,10 +66,9 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Captura del evento de envío de invitación.                                                                  //
 	//*************************************************************************************************************//
 	$scope.fnEnvi = function() {
-		//Enviamos la invitación
 		var srv1 = comc.request('invi/envi', $scope.cntx);
+		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			//Volvemos a la vista anterior
 			srv.back(true);
 		});
 	};
@@ -75,7 +77,6 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Captura del evento de cancelación.                                                                          //
 	//*************************************************************************************************************//
 	$scope.fnCanc = function() {
-		//Volvemos a la vista anterior
 		srv.back(true);
 	};
 
@@ -97,5 +98,4 @@ app.controller('inviEnviCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	} else {
 		loadView();
 	}
-
 });

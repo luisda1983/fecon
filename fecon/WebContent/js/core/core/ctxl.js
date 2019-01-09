@@ -1,21 +1,23 @@
-//*************************************************************************************************************//
-// Libreria de funciones auxiliares para la generación de contexto.                                            //
-//=============================================================================================================//
-// Version    | Fecha      | Comentarios de version                                                            //
-// v.01.00.00 | 13.02.2018 | Primera version del SW                                                            //
-//*************************************************************************************************************//
+//*****************************************************************************************************************//
+// Libreria de funciones auxiliares para la generación de contexto.                                                //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.factory("ctxl", [function() {
 
 	//*************************************************************************************************************//
 	// INTERFAZ PUBLICA CNTXLIB: Funciones que ofrece el servicio cntxLib.                                         //
 	//*************************************************************************************************************//
 	return {
-		baseCntx : baseCntx,
-		makeField: makeField,
-		makeLabel: makeLabel,
-		makeBtn  : makeBtn,
-		formField: formField,
-		formBtn  : formBtn
+		baseCntx   : baseCntx,
+		makeField  : makeField,
+		makeLabel  : makeLabel,
+		makeBtn    : makeBtn,
+		makeSection: makeSection,
+		formField  : formField,
+		formBtn    : formBtn,
+		formSection: formSection,
+		clearXchg  : clearXchg
 	};
 
 	//*************************************************************************************************************//
@@ -28,6 +30,7 @@ app.factory("ctxl", [function() {
 		var vConf = new Map();
 		vConf.set('mode', '');
 		vConf.set('idx1', -1);
+		vConf.set('idx2', -1);
 		vConf.set('back', false);
 		
 		cntx = {
@@ -73,6 +76,16 @@ app.factory("ctxl", [function() {
 	}
 
 	//*************************************************************************************************************//
+	// PUBLIC: makeSection: Función que crea una sección.                                                          //
+	//*************************************************************************************************************//
+	function makeSection(data) {
+		var st = {
+			show: new Boolean(false)
+		};
+		return st;
+	}
+
+	//*************************************************************************************************************//
 	// PUBLIC: formField: Función que gestiona el cambio de estados de un campo de un formulario.                  //
 	//*************************************************************************************************************//
 	function formField(cntx, field, show, read) {
@@ -87,4 +100,17 @@ app.factory("ctxl", [function() {
 		cntx.form.get(btn).show = show;
 	}
 
+	//*************************************************************************************************************//
+	// PUBLIC: formSection: Función que gestiona el cambio de estados de una sección de un formulario.             //
+	//*************************************************************************************************************//
+	function formSection(cntx, st, show) {
+		cntx.form.get(st).show = show;
+	}
+
+	//*************************************************************************************************************//
+	// PUBLIC: clearXchg: Función que inicializa el area de intercambio.                                           //
+	//*************************************************************************************************************//
+	function clearXchg(cntx) {
+		cntx.xchg = new Map();
+	}
 }]);

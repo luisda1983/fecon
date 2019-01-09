@@ -28,8 +28,6 @@ public class BsLiteList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsLiteListArea area = (BsLiteListArea)a;
 		
-		if (area.IN.tbla == null || "".equals(area.IN.tbla)) { notify(CoreNotify.LITE_GETL_TBLA_RQRD); }
-		
+		validateStringRequired(area.IN.tbla, CoreNotify.LITE_LIST_TBLA_RQRD);
 	}
-
 }

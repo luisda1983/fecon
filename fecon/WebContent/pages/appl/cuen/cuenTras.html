@@ -13,25 +13,25 @@
 			<form name="cuenTras" data-ng-submit="fnForm()">
 				<div layout="row" layout-xs="column" flex="75" flex-sm="100" flex-xs="100">
 					<div layout="row" layout-xs="column" flex>
-	                	<md-input-container class="md-block" flex data-ng-show="cntx.show.ctor">
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('ctor').show">
 	                		<label>Cuenta Origen</label>
-							<md-select ng-model="cntx.form.ctor" ng-disabled="cntx.read.ctor">
-	                        	<md-option ng-repeat="cuen in cntx.data.cuenList" ng-value="cuen.iden">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
+							<md-select ng-model="cntx.form.get('ctor').data" ng-disabled="cntx.form.get('ctor').read">
+	                        	<md-option ng-repeat="cuen in cntx.data.get('cuenList')" ng-value="cuen.iden">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.ctde">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('ctde').show">
 	                		<label>Cuenta Destino</label>
-							<md-select ng-model="cntx.form.ctde" ng-disabled="cntx.read.ctde">
-	                        	<md-option ng-repeat="cuen in cntx.data.cuenList" ng-value="cuen.iden">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
+							<md-select ng-model="cntx.form.get('ctde').data" ng-disabled="cntx.form.get('ctde').read">
+	                        	<md-option ng-repeat="cuen in cntx.data.get('cuenList')" ng-value="cuen.iden">{{cuen.desc + '(' + (cuen.sald | number:2) + ' &euro;)'}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.impo">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('impo').show">
 	                    	<label>Importe</label>
-	                        <input type="number" ng-model="cntx.form.impo" step="0.01" ng-disabled="cntx.read.impo"/>
+	                        <input type="number" ng-model="cntx.form.get('impo').data" step="0.01" ng-disabled="cntx.form.get('impo').read"/>
 	                    </md-input-container>
-	                    <md-input-container class="md-block" flex data-ng-show="cntx.show.feva">
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('feva').show">
 	                    	<label>Fecha Valor</label>
-	                    	<input type="date" ng-model="cntx.form.feva" ng-disabled="cntx.read.feva"/>
+	                    	<input type="date" ng-model="cntx.form.get('feva').data" ng-disabled="cntx.form.get('feva').read"/>
 	                    </md-input-container>
 					</div>
 				</div>
@@ -42,5 +42,3 @@
         </md-content>
     </div>
 </div>
-
-{{cntx.form.ctor}}

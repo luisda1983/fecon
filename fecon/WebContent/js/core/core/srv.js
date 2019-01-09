@@ -1,9 +1,8 @@
-//*************************************************************************************************************//
-// Servicio Front End.                                                                                         //
-//=============================================================================================================//
-// Version    | Fecha      | Comentarios de version                                                            //
-// v.01.00.00 | 12.02.2018 | Primera version del SW                                                            //
-//*************************************************************************************************************//
+//*****************************************************************************************************************//
+// Servicio Front End.                                                                                             //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 
 app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDialog', '$timeout', '$mdSidenav', 'cntx', function($rootScope, $http, $location, $q, $route, $mdDialog, $timeout, $mdSidenav, cntx) {
 
@@ -305,7 +304,7 @@ app.factory("srv", ['$rootScope', '$http', '$location', '$q', '$route', '$mdDial
 		return $mdDialog.show({
 					locals:{data: notf},
 					controller: NotifyCtrl,
-					templateUrl: 'pages/core/notify.html?v.0.00.62',
+					templateUrl: 'pages/core/notify.html?v.0.00.63',
 					parent: angular.element(document.body),
 					//targetEvent: ev,
 					clickOutsideToClose:true,

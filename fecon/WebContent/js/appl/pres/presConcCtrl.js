@@ -1,56 +1,181 @@
-app.controller('presConcCtrl', function($rootScope, $scope, $http, $routeParams, $q, $mdMedia, srv, comc) {
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.controller('presConcCtrl', function($scope, $q, srv, comc, ctxl) {
 
-	$scope.cntx = srv.getCntx('pres/conc');
-	
-	var srv1 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
-	var srv2 = comc.requestLiteList('PRESESTA', $scope.cntx);
-	var srv3 = comc.request('cate/list', $scope.cntx);
-	var srv4 = comc.request('conc/full', $scope.cntx);
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//****************************************                             ****************************************//
+	//****************************************  FUNCIONES DE ARQUITECTURA  ****************************************//
+	//****************************************                             ****************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
 
-	$q.all([srv.stResp(false, srv1, srv2, srv3, srv4)]).then(function() {
-		var srv5 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
-		$q.all([srv.stResp(false, srv5)]).then(function() {
-			if ($scope.cntx.data.prPeripresup.pval.anac !== 'undefined' &&
-				$scope.cntx.data.prPeripresup.pval.anac > 0) {
-				$scope.cntx.form.anua = $scope.cntx.data.prPeripresup.pval.anac;
-				if ($scope.cntx.form.anua === 0) {
-					$scope.cntx.form.anua = $scope.cntx.data.prPeripresup.pval.anac;
+	//*************************************************************************************************************//
+	// Carga de vista                                                                                              //
+	//*************************************************************************************************************//
+	function loadView() {
+		var srv1 = comc.requestLiteList('ANUALIDAD', $scope.cntx);
+		var srv2 = comc.requestLiteList('PRESESTA', $scope.cntx);
+		var srv3 = comc.request('cate/list', $scope.cntx);
+		var srv4 = comc.request('conc/full', $scope.cntx);
+
+		$q.all([srv.stResp(false, srv1, srv2, srv3, srv4)]).then(function() {
+			var srv5 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
+			
+			$q.all([srv.stResp(false, srv5)]).then(function() {
+				if ($scope.cntx.data.get('prPeripresup').pval.anac !== 'undefined' &&
+					$scope.cntx.data.get('prPeripresup').pval.anac > 0) {
+					if ($scope.cntx.form.get('anua').data === 0) {
+						$scope.cntx.form.get('anua').data = $scope.cntx.data.get('prPeripresup').pval.anac;
+					}
 				}
-			}
-			var srv7 = comc.request('pres/conc', $scope.cntx);
-			$q.all([srv.stResp(true, srv7)]).then(function() {
-				view();
-			});	
-		});		
-	});
+				var srv7 = comc.request('pres/conc', $scope.cntx);
+				
+				$q.all([srv.stResp(true, srv7)]).then(function() {
+					view();
+				});	
+			});		
+		});
+	}
 
-	//Captura el evento del cambio en el desplegable de anyo
+	//*************************************************************************************************************//
+	// Carga de vista, en transición de retorno                                                                    //
+	//*************************************************************************************************************//
+	function loadViewBack() {
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Carga de vista, en transición con datos                                                                     //
+	//*************************************************************************************************************//
+	function loadViewGo() {
+		var view = srv.getOrigView();
+
+		$scope.cntx.conf.set('mode', 'L');
+		
+		if (view === 'pres/resu') {
+			var anua = $scope.cntx.xchg.get('anua');
+			if (anua !== undefined) {
+				$scope.cntx.form.get('anua').data = anua;
+				$scope.cntx.conf.set('mode', 'B');
+			}
+		}
+		
+		loadView();
+	}
+
+	//*************************************************************************************************************//
+	// Función encargada de manejar la vista y sus modos de presentación                                           //
+	// - 'L': Lista.                                                                                               //
+	// - 'B': Año bloqueado.                                                                                       //
+	//*************************************************************************************************************//
+	function view() {
+		if ($scope.cntx.conf.get('mode') === 'L') {
+			ctxl.formField($scope.cntx, 'anua', true, false);
+		} else if ($scope.cntx.conf.get('mode') === 'B') {
+			ctxl.formField($scope.cntx, 'anua', true, true);
+		}
+	}
+
+	//*************************************************************************************************************//
+	// Función de inicialización del formulario de la vista                                                        //
+	//*************************************************************************************************************//
+	function inicForm() {
+		
+	}
+
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************                                           *********************************//
+	//*********************************  FUNCIONES AUXILIARES DE MANEJO DE VISTA  *********************************//
+	//*********************************               (LISTAS)                    *********************************//
+	//*********************************                                           *********************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+
+	//*************************************************************************************************************//
+	// Captura del evento de cancelación.                                                                          //
+	//*************************************************************************************************************//
+	$scope.fnCanc = function() {
+		srv.back(true, null);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de cambio de año.                                                                        //
+	//*************************************************************************************************************//
 	$scope.fnAnuaChng = function() {
-		var srv1 = comc.request('pres/anua', $scope.cntx);
+		var srv1 = comc.request('pres/conc', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	};
 
-	//Función que despliega el menú de acciones
+	//*************************************************************************************************************//
+	// Captura del evento de apuntes de categoría.                                                                 //
+	//*************************************************************************************************************//
+	$scope.fnApuc = function(i) {
+		var cntx = srv.getCntx('hcon/list');
+		
+		var pres = $scope.cntx.data.get('presCateList')[i];
+		cntx.xchg.set('anua', pres.anua);
+		cntx.xchg.set('cate', pres.cate);
+		
+		srv.go('pres/conc', $scope.cntx, 'hcon/list', cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Captura del evento de apuntes de concepto.                                                                  //
+	//*************************************************************************************************************//
+	$scope.fnApun = function(i, j) {
+		var cntx = srv.getCntx('hcon/list');
+		
+		var pres = $scope.cntx.data.get('presListMap')[i][j];
+		cntx.xchg.set('anua', pres.anua);
+		cntx.xchg.set('cate', pres.cate);
+		cntx.xchg.set('conc', pres.conc);
+		
+		srv.go('pres/conc', $scope.cntx, 'hcon/list', cntx);
+	}
+
+	//*************************************************************************************************************//
+	// Despliegue de menú de acciones.                                                                             //
+	//*************************************************************************************************************//
 	$scope.openMenu = function($mdOpenMenu, ev) {
 		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
 		$mdOpenMenu(ev);
 	};
 
-	//Función que amplia un registro de la lista
-	$scope.xpnd = function(cate, i) {
-		if ($scope.cntx.conf.item === i) {
-			$scope.cntx.conf.item = -1;
-			$scope.cntx.conf.cate = -1;
+	//*************************************************************************************************************//
+	// Despliegue de registro de una lista.                                                                        //
+	//*************************************************************************************************************//
+	$scope.xpnd = function(i, j) {
+		if ($scope.cntx.conf.get('idx2') === j) {
+			$scope.cntx.conf.set('idx1', -1);
+			$scope.cntx.conf.set('idx2', -1);
 		} else {
-			$scope.cntx.conf.item = i;
-			$scope.cntx.conf.cate = cate;
+			$scope.cntx.conf.set('idx2', j);
+			$scope.cntx.conf.set('idx1', i);
 		}
 	}
 
-	//Función encargada de manejar la vista, y sus modos de presentación
-	// - Esta vista no tiene formulario, por lo que no tiene modos de presentación
-	function view() {
-		
-	}
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	//*********************************************                  **********************************************//
+	//*********************************************  CARGA DE VISTA  **********************************************//
+	//*********************************************                  **********************************************//
+	//*************************************************************************************************************//
+	//*************************************************************************************************************//
+	
+	//Generamos el contexto de la vista
+	$scope.cntx = srv.getCntx('pres/conc');
 
+	if (srv.goTran()) {
+		loadViewGo();
+	} else if (srv.backTran()) {
+		loadViewBack();
+	} else {
+		loadView();
+	}
 });

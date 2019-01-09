@@ -43,5 +43,6 @@ public class CtHconPresGest extends BaseController {
 		BsHconPresGestArea area = (BsHconPresGestArea)a;
 		
 		response.OUTPUT.put("hcon", area.OUT.hcon);
+		response.OUTPUT.put("pres", area.OUT.pres);
 	}
 }

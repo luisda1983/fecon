@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -13,7 +16,6 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	//*************************************************************************************************************//
 	function loadView() {
 		inicForm();
-		$scope.cntx.conf.set('mode', 'L');
 		view();
 	}
 
@@ -21,7 +23,9 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
-		//Sin acciones adicionales
+		var view = srv.getDestView();
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -29,10 +33,13 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+
+		$scope.cntx.conf.set('mode', 'L');
 		
 		//Si venimos del registro, hacemos login automático
 		if (view === 'usua/regi') {
 			var usua = $scope.cntx.xchg.get('usua');
+			
 			if (usua !== 'undefined' && usua !== null) {
 				$scope.cntx.form.get('iden').data = usua.iden;
 				$scope.cntx.form.get('pass').data = usua.pass;
@@ -81,6 +88,7 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	$scope.fnLgon = function() {
 		//Realizamos el login en backend
 		var srv1 = comc.request('usua/lgon', $scope.cntx);
+		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
 			//Establecemos los datos de la sesión en FrontEnd
 			$rootScope.esta.sesi     = $scope.cntx.data.get('sesi');
@@ -90,6 +98,7 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 			
 			//Volvemos a solicitar el menú, para obtener el correspondiente al usuario activo
 			var srv2 = comc.request('menu/make', null);
+			
 			$q.all([srv.stResp(true, srv2)]).then(function() {
 				//Transición al home
 				srv.go(null, null, '/', null);
@@ -115,5 +124,4 @@ app.controller('usuaLgonCtrl', function($rootScope, $scope, $q, srv, comc, ctxl)
 	} else {
 		loadView();
 	}
-
 });

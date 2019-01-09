@@ -21,7 +21,6 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv4 = comc.request('sesi/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2, srv3, srv4)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -31,7 +30,8 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
-		//Sin acciones adicionales
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -39,6 +39,9 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		loadView();
 	}
 
@@ -80,6 +83,7 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	$scope.fnEstaChng = function() {
 		var srv1 = comc.request('sesi/list', $scope.cntx);
+		
 		srv.stResp(true, srv1);
 	}
 
@@ -89,12 +93,12 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnSesiCerr = function(i) {
 		var sesi = $scope.cntx.data.get('sesiList')[i];
 		$scope.cntx.form.get('iden').data = sesi.iden;
+		
 		var srv1 = comc.request('sesi/cerr', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.get('sesiList')[i] = $scope.cntx.data.get('sesi');
 		});
-		
 	}
 
 	//*************************************************************************************************************//
@@ -103,12 +107,12 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnSesiInic = function(i) {
 		var sesi = $scope.cntx.data.get('sesiList')[i];
 		$scope.cntx.form.get('iden').data = sesi.iden;
+		
 		var srv1 = comc.request('sesi/inic', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
 			$scope.cntx.data.get('sesiList')[i] = $scope.cntx.data.get('sesi');
 		});
-		
 	}
 	
 	//*************************************************************************************************************//
@@ -157,5 +161,4 @@ app.controller('sesiListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

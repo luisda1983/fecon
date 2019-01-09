@@ -6,13 +6,14 @@
     		<h2 class="md-toolbar-tools">
       			<span>Presupuesto Anual</span>
       			<div flex></div>
+      			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
     		</h2>
   		</md-toolbar>
   		<md-content>
-  			<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" >
+  			<md-input-container class="md-block" flex-xl="20" flex-lg="25" flex-md="30" flex-sm="40" flex-xs="70" data-ng-show="cntx.form.get('anua').show">
 	        	<label>Año</label>
-				<md-select ng-model="cntx.form.anua" ng-change="fnAnuaChng()">
-	               	<md-option ng-repeat="anua in cntx.data.ltAnualidad" ng-value="anua.clav">{{anua.desc}}</md-option>
+				<md-select ng-model="cntx.form.get('anua').data" ng-disabled="cntx.form.get('anua').read" ng-change="fnAnuaChng()">
+	               	<md-option ng-repeat="anua in cntx.data.get('ltAnualidad')" ng-value="anua.clav">{{anua.desc}}</md-option>
 	            </md-select>
 	        </md-input-container>
 			<md-list class="md-dense" flex>
@@ -44,41 +45,41 @@
 					<md-divider></md-divider>
 				</md-list-item>
 				
-				<md-list-item data-ng-repeat="pres in cntx.data.presList" ng-click="xpnd($index, 1)" data-ng-class="{positive: (pres.esta === 'C' && pres.desv > 0), negative: (pres.desv < 0)}">
+				<md-list-item data-ng-repeat="pres in cntx.data.get('presList')" ng-click="xpnd($index, 1)" data-ng-class="{positive: (pres.esta === 'C' && pres.desv > 0), negative: (pres.desv < 0)}">
 					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 							<div layout="column" flex>
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 								<div layout="column">
 									<div flex="auto" hide show-xs layout="column">
-										<div flex>{{cntx.data.ltMMes[pres.mesp].desc}}</div>
+										<div flex>{{cntx.data.get('ltMes')[pres.mesp].desc}}</div>
 										<div flex layout="row">
 											<div flex="35">{{pres.impo | number:2}} &euro;</div>
 											<div flex="35">{{pres.desv | number:2}} &euro;</div>
-											<div flex="30">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
+											<div flex="30">{{cntx.data.get('ltPresesta')[pres.esta].desc}}</div>
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
-										<div flex="25">{{cntx.data.ltMMes[pres.mesp].desc}}</div>
+										<div flex="25">{{cntx.data.get('ltMes')[pres.mesp].desc}}</div>
 										<div flex="25">{{pres.impo | number:2}} &euro;</div>
 										<div flex="25">{{pres.desv | number:2}} &euro;</div>
-										<div flex="25">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
+										<div flex="25">{{cntx.data.get('ltPresesta')[pres.esta].desc}}</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
-										<div flex="40">{{cntx.data.ltMMes[pres.mesp].desc}}</div>
+										<div flex="40">{{cntx.data.get('ltMes')[pres.mesp].desc}}</div>
 										<div flex="15">{{pres.impo | number:2}} &euro;</div>
 										<div flex="15">{{pres.imto | number:2}} &euro;</div>
 										<div flex="15">{{pres.desv | number:2}} &euro;</div>
-										<div flex="15">{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
+										<div flex="15">{{cntx.data.get('ltPresesta')[pres.esta].desc}}</div>
 									</div>
- 									<div flex layout="row" ng-show="$index === cntx.conf.itm1" layout-padding>
+ 									<div flex layout="row" ng-show="$index === cntx.conf.get('idx1')" layout-padding>
  										<div flex layout="column" class="md-whiteframe-z2">
-											<div flex><b>Mes: </b>{{cntx.data.ltMMes[pres.mesp].desc}}</div>
+											<div flex><b>Mes: </b>{{cntx.data.get('ltMes')[pres.mesp].desc}}</div>
 											<div flex><b>Importe presupuestado: </b>{{pres.impo | number:2}} &euro;</div>
 											<div flex><b>Importe real: </b>{{pres.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{pres.desv | number:2}} &euro;</div>
 											<div flex><b>Balance: </b>{{pres.bala | number:2}}</div>
-											<div flex><b>Estado: </b>{{cntx.data.ltMPresesta[pres.esta].desc}}</div>
+											<div flex><b>Estado: </b>{{cntx.data.get('ltPresesta')[pres.esta].desc}}</div>
 										</div>
 									</div>
 								</div>
@@ -97,7 +98,7 @@
 										</md-button>
 									</md-menu-item>
 									<md-menu-item>
-										<md-button ng-click="fnEdit($index)">
+										<md-button ng-click="fnApum($index)">
 											Apuntes
 										</md-button>
 									</md-menu-item>
@@ -112,21 +113,21 @@
 					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 						<div layout="row" flex>
 							<div flex hide show-xs layout="row">
-								<div flex="35"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
- 								<div flex="35"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="35"><b>{{cntx.data.get('presList') | sumByKey:'impo' | number:2}} &euro;</b></div>
+ 								<div flex="35"><b>{{cntx.data.get('presList') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="30"></div>
 							</div>
  							<div flex hide show-sm layout="row">
 								<div flex="40"><b>Resumen</b></div>
-								<div flex="20"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
-								<div flex="20"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.get('presList') | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.get('presList') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="15"></div>
 							</div>
 							<div flex hide show-gt-sm layout="row">
 								<div flex="40"><b>Resumen</b></div>
-								<div flex="15"><b>{{cntx.data.presList | sumByKey:'impo' | number:2}} &euro;</b></div>
-								<div flex="15"><b>{{cntx.data.presList | sumByKey:'imre' | number:2}} &euro;</b></div>
-								<div flex="15"><b>{{cntx.data.presList | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presList') | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presList') | sumByKey:'imre' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presList') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="15"></div>
 							</div>
 						</div>
@@ -167,40 +168,40 @@
 					<md-divider></md-divider>
 				</md-list-item>
 				
-				<md-list-item data-ng-repeat="presAnua in cntx.data.presListAnua" ng-click="xpnd($index, 2)" data-ng-class="{positive: (presAnua.esta === 'C' && presAnua.desv > 0), negative: (presAnua.desv < 0)}">
+				<md-list-item data-ng-repeat="presAnua in cntx.data.get('presListAnua')" ng-click="xpnd($index, 2)" data-ng-class="{positive: (presAnua.esta === 'C' && presAnua.desv > 0), negative: (presAnua.desv < 0)}">
 					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 							<div layout="column" flex>
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 								<div layout="column">
 									<div flex="auto" hide show-xs layout="column">
-										<div flex>{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
+										<div flex>{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex layout="row">
 											<div flex="35">{{presAnua.impo | number:2}} &euro;</div>
 											<div flex="35">{{presAnua.desv | number:2}} &euro;</div>
-											<div flex="30">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
+											<div flex="30">{{cntx.data.get('ltPresesta')[presAnua.esta].desc}}</div>
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
-										<div flex="40">{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex="20">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="20">{{presAnua.desv | number:2}} &euro;</div>
-										<div flex="20">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
+										<div flex="20">{{cntx.data.get('ltPresesta')[presAnua.esta].desc}}</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
-										<div flex="40">{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex="15">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.imto | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.desv | number:2}} &euro;</div>
-										<div flex="15">{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
+										<div flex="15">{{cntx.data.get('ltPresesta')[presAnua.esta].desc}}</div>
 									</div>
- 									<div flex layout="row" ng-show="$index === cntx.conf.itm2" layout-padding>
+ 									<div flex layout="row" ng-show="$index === cntx.conf.get('idx2')" layout-padding>
  										<div flex layout="column" class="md-whiteframe-z2">
-											<div flex><b>Partida: </b>{{cntx.data.cateMap[presAnua.cate].desc}} - {{cntx.data.concFullMap[presAnua.conc].desc}}</div>
+											<div flex><b>Partida: </b>{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 											<div flex><b>Importe presupuestado: </b>{{presAnua.impo | number:2}} &euro;</div>
 											<div flex><b>Importe real: </b>{{presAnua.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{presAnua.desv | number:2}} &euro;</div>
-											<div flex><b>Estado: </b>{{cntx.data.ltMPresesta[presAnua.esta].desc}}</div>
+											<div flex><b>Estado: </b>{{cntx.data.get('ltPresesta')[presAnua.esta].desc}}</div>
 										</div>
 									</div>
 								</div>
@@ -219,7 +220,7 @@
 										</md-button>
 									</md-menu-item>
 									<md-menu-item>
-										<md-button ng-click="fnEdit($index)">
+										<md-button ng-click="fnApua($index)">
 											Apuntes
 										</md-button>
 									</md-menu-item>
@@ -234,21 +235,21 @@
 					<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 						<div layout="row" flex>
 							<div flex hide show-xs layout="row">
-								<div flex="35"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
- 								<div flex="35"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="35"><b>{{cntx.data.get('presListAnua') | sumByKey:'impo' | number:2}} &euro;</b></div>
+ 								<div flex="35"><b>{{cntx.data.get('presListAnua') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="30"></div>
 							</div>
  							<div flex hide show-sm layout="row">
 								<div flex="40"><b>Resumen</b></div>
-								<div flex="20"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
-								<div flex="20"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.get('presListAnua') | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="20"><b>{{cntx.data.get('presListAnua') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="15"></div>
 							</div>
 							<div flex hide show-gt-sm layout="row">
 								<div flex="40"><b>Resumen</b></div>
-								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'impo' | number:2}} &euro;</b></div>
-								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'imre' | number:2}} &euro;</b></div>
-								<div flex="15"><b>{{cntx.data.presListAnua | sumByKey:'desv' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presListAnua') | sumByKey:'impo' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presListAnua') | sumByKey:'imre' | number:2}} &euro;</b></div>
+								<div flex="15"><b>{{cntx.data.get('presListAnua') | sumByKey:'desv' | number:2}} &euro;</b></div>
 								<div flex="15"></div>
 							</div>
 						</div>

@@ -43,17 +43,17 @@ public class BsHconPresGest extends BaseBS {
 			notify(AppNotify.HCON_PRES_GEST_HCON_NF);
 		}
 
-		//Error: Sólo se pueden gestionar apuntes contables
+		//Error: Sï¿½lo se pueden gestionar apuntes contables
 		if (!"C".equals(hcon.getTipo())) {
 			notify(AppNotify.HCON_PRES_GEST_TIPO_ERRO);
 		}
 		
-		//Error: El apunte ya está incluido en el presupuesto
+		//Error: El apunte ya estï¿½ incluido en el presupuesto
 		if ("S".equals(hcon.getPres()) && "I".equals(area.IN.acci)) {
 			notify(AppNotify.HCON_PRES_GEST_APUN_INCL);
 		}
 		
-		//Error: El apunte ya está excluido del presupuesto
+		//Error: El apunte ya estï¿½ excluido del presupuesto
 		if ("N".equals(hcon.getPres()) && "E".equals(area.IN.acci)) {
 			notify(AppNotify.HCON_PRES_GEST_APUN_EXCL);
 		}
@@ -104,7 +104,7 @@ public class BsHconPresGest extends BaseBS {
 			pres.setImpr(pres.getImpr() - hcon.getImpo());
 		}
 		
-		//En cualquier caso, recalculamos desviación y balance
+		//En cualquier caso, recalculamos desviaciï¿½n y balance
 		pres.setDesv(pres.getImpr() - pres.getImpo());
 		pres.setBala(pres.getImnp() + pres.getDesv());
 		
@@ -112,6 +112,10 @@ public class BsHconPresGest extends BaseBS {
 		BsPresSaveArea bsPresSaveArea = new BsPresSaveArea();
 		bsPresSaveArea.IN.pres = pres;
 		bsPresSave.executeBS(bsPresSaveArea);
+		pres = bsPresSaveArea.OUT.pres;
+		
+		area.OUT.hcon = hcon;
+		area.OUT.pres = pres;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {

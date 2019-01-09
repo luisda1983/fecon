@@ -12,11 +12,9 @@ app.controller('logpListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.request('logp/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -26,6 +24,8 @@ app.controller('logpListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
+
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -33,6 +33,9 @@ app.controller('logpListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		if (view === 'ejec/list') {
 			$scope.cntx.form.get('tipo').data = 'B';
 			$scope.cntx.form.get('iden').data = $scope.cntx.xchg.get('btch');
@@ -44,6 +47,7 @@ app.controller('logpListCtrl', function($scope, $q, srv, comc, ctxl) {
 			$scope.cntx.form.get('fech').data = $scope.cntx.xchg.get('fech');
 			$scope.cntx.form.get('hora').data = $scope.cntx.xchg.get('hora');
 		}
+		
 		loadView();
 	}
 
@@ -136,5 +140,4 @@ app.controller('logpListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

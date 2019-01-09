@@ -1,3 +1,6 @@
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
 app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
@@ -12,12 +15,10 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		
 		var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
 		var srv2 = comc.request('usua/list', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1, srv2)]).then(function(){
-			$scope.cntx.conf.set('mode', 'L');
 			view();
 		});
 	}
@@ -27,7 +28,8 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
-		//Sin acciones adicionales
+		
+		ctxl.clearXchg($scope.cntx);
 	}
 	
 	//*************************************************************************************************************//
@@ -35,8 +37,12 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
+		
+		$scope.cntx.conf.set('mode', 'L');
+		
 		if (view === 'inst/list') {
 			var inst = $scope.cntx.xchg.get('inst');
+			
 			if (inst === null || inst === 'undefined') {
 				srv.back(true, null);
 			} else {
@@ -44,6 +50,7 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 				$scope.cntx.conf.set('back', true);
 			}
 		}
+		
 		loadView();
 	}
 
@@ -93,6 +100,7 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnUsuaActi = function(i) {
 		var usua = $scope.cntx.data.get('usuaList')[i];
 		$scope.cntx.form.get('usua').data = usua.iden;
+		
 		var srv1 = comc.request('usua/acti', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -107,6 +115,7 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnUsuaInac = function(i) {
 		var usua = $scope.cntx.data.get('usuaList')[i];
 		$scope.cntx.form.get('usua').data = usua.iden;
+		
 		var srv1 = comc.request('usua/inac', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
@@ -161,5 +170,4 @@ app.controller('usuaListCtrl', function($scope, $q, srv, comc, ctxl) {
 	} else {
 		loadView();
 	}
-
 });

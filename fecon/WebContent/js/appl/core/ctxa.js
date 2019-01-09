@@ -1,7 +1,9 @@
-//Factory que encapsula la gestión de contexto de la aplicación
-//TODO: en pres/conc... he visto que en el data no es necesario definir el detalle... al llamar a comc, se añade el 
-//      atributo y se tiene visibilidad... analizar si se puede eliminar el detalle siempre
-app.factory("ctxa", ['$q', function($q) {
+//*****************************************************************************************************************//
+//Factory que gestiona los contextos de la aplicación.                                                             //
+//*****************************************************************************************************************//
+// v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
+//*****************************************************************************************************************//
+app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 	
 	//*************************************************************************************************************//
 	// PUBLIC: getCntx: Función para la generación de vistas.                                                      //
@@ -36,532 +38,167 @@ app.factory("ctxa", ['$q', function($q) {
 		getCntx: getCntx
 	};
 	
-	//Contexto presAnua
+	//*************************************************************************************************************//
+	// Contexto: pres/anua - Lista de presupuesto anual.                                                           //
+	//*************************************************************************************************************//
 	function getPresAnuaCntx() {
-		var vForm = {
-			anua: 0
-		};
-		var vShow = {
-			anua: false
-		};
-		var vRead = {
-			anua: false
-		};
-		var vData = {
-			prPeripresup: null,
-			ltAnualidad: null,
-			ltMAnualidad: null,
-			ltPresesta: null,
-			ltMPresesta: null,
-			ltMes: null,
-			ltMMes: null,
-			cateList: null,
-			cateMap: null,
-			concFullList: null,
-			concFullListMap: null,
-			presListAnua: new Array(),
-			presList: new Array(),
-			pres: null
-		};
-		var vConf = {
-			itm1: -1,
-			itm2: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('anua', ctxl.makeField(0));
+		cntx.form.set('mesp', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('esta', ctxl.makeField(''));
 		return cntx;
 	}
 	
-	//Contexto presMesp
+	//*************************************************************************************************************//
+	// Contexto: pres/mesp - Lista de presupuesto mensual.                                                         //
+	//*************************************************************************************************************//
 	function getPresMespCntx() {
-		var vForm = {
-			anua: 0,
-			mesp: 0
-		};
-		var vShow = {
-			anua: false,
-			mesp: false
-		};
-		var vRead = {
-			anua: false,
-			mesp: false
-		};
-		var vData = {
-			prPeripresup: null,
-			ltAnualidad: null,
-			ltMAnualidad: null,
-			ltPresesta: null,
-			ltMPresesta: null,
-			ltMes: null,
-			ltMMes: null,
-			presCateList: new Array(),
-			presListMap : new Map(),
-			pres: null
-		};
-		var vConf = {
-			item: -1,
-			cate: -1
-		}
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('anua', ctxl.makeField(0));
+		cntx.form.set('mesp', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('esta', ctxl.makeField(''));
 		return cntx;
 	}
-	
-	//Contexto presConc
+
+	//*************************************************************************************************************//
+	// Contexto: pres/conc - Lista de presupuesto anual por concepto.                                              //
+	//*************************************************************************************************************//
 	function getPresConcCntx() {
-		var vForm = {
-			anua: 0
-		};
-		var vShow = {
-			anua: false
-		};
-		var vRead = {
-			anua: false
-		}
-		var vData = {
-			prPeripresup: null,
-			ltAnualidad: null,
-			ltMAnualidad: null,
-			ltPresesta: null,
-			ltMPresesta: null,
-			presCateList: new Array(),
-			presListMap: new Map()
-		};
-		var vConf = {
-			item: -1,
-			cate: -1
-		}
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('anua', ctxl.makeField(0));
 		return cntx;
 	}
 
-	//Contexto presResu
+	//*************************************************************************************************************//
+	// Contexto: pres/resu - Resumen de presupuesto.                                                               //
+	//*************************************************************************************************************//
 	function getPresResuCntx() {
-		var vForm = {
-			ndat: null
-		};
-		var vShow = {
-			ndat: false
-		};
-		var vRead = {
-			ndat: false
-		}
-		var vData = {
-			ltPresesta: null,
-			ltMPresesta: null,
-			presList: new Array()
-		};
-		var vConf = {
-			item: -1
-		}
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
 		return cntx;
 	}
 
-	//Contexto cateList
+	//*************************************************************************************************************//
+	// Contexto: cate/list - Lista de categorías.                                                                  //
+	//*************************************************************************************************************//
 	function getCateListCntx() {
-		var vForm = {
-			ndat: null
-		};
-		var vShow = {
-			ndat: null
-		};
-		var vRead = {
-			ndat: null
-		}
-		var vData = {
-			cateList: null,
-			cateMap : null
-		};
-		var vConf = {
-			item: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
 		return cntx;
 	}
 	
-	//Contexto cateForm
+	//*************************************************************************************************************//
+	// Contexto: cate/form - Formulario de categorías.                                                             //
+	//*************************************************************************************************************//
 	function getCateFormCntx() {
-		var vForm = {
-			iden: 0,
-			desl: '',
-			desc: '',
-			orde: 0,
-			pres: ''
-		};
-		var vShow = {
-			iden: false,
-			desl: false,
-			desc: false,
-			orde: false,
-			pres: false
-		};
-		var vRead = {
-			iden: false,
-			desl: false,
-			desc: false,
-			orde: false,
-			pres: false
-		};
-		var vData = {
-			cate: null,
-			ltBool: new Array(),
-			ltMBool: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('desl', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('orde', ctxl.makeField(0));
+		cntx.form.set('pres', ctxl.makeField(''));
 		return cntx;
 	}
 
-	//Contexto concList
+	//*************************************************************************************************************//
+	// Contexto: conc/list - Lista de conceptos.                                                                   //
+	//*************************************************************************************************************//
 	function getConcListCntx() {
-		var vForm = {
-			cate: 0
-		};
-		var vShow = {
-			cate: false
-		};
-		var vRead = {
-			cate: true
-		};
-		var vData = {
-			concList: null
-		};
-		var vConf = {
-			item: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('cate', ctxl.makeField(0));
 		return cntx;
 	}
 
-	//Contexto concForm
+	//*************************************************************************************************************//
+	// Contexto: conc/form - Formulario de conceptos.                                                              //
+	//*************************************************************************************************************//
 	function getConcFormCntx() {
-		var vForm = {
-			iden: 0,
-			cate: 0,
-			desl: '',
-			desc: '',
-			orde: 0
-		};
-		var vShow = {
-			iden: false,
-			cate: false,
-			desl: false,
-			desc: false,
-			orde: false
-		};
-		var vRead = {
-			iden: false,
-			cate: false,
-			desl: false,
-			desc: false,
-			orde: false
-		};
-		var vData = {
-			cate: null,
-			conc: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('desl', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('orde', ctxl.makeField(0));
 		return cntx;
 	}
 
-	//Contexto cuenList
+	//*************************************************************************************************************//
+	// Contexto: cuen/list - Lista de cuentas.                                                                     //
+	//*************************************************************************************************************//
 	function getCuenListCntx() {
-		var vForm = {
-			ndat: null
-		};
-		var vShow = {
-			ndat: null
-		};
-		var vRead = {
-			ndat: null
-		}
-		var vData = {
-			cuenList: null
-		};
-		var vConf = {
-			item: -1
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
 		return cntx;
 	}
 
-	//Contexto cuenForm
+	//*************************************************************************************************************//
+	// Contexto: cuen/form - Formulario de cuentas.                                                                //
+	//*************************************************************************************************************//
 	function getCuenFormCntx() {
-		var vForm = {
-			iden : 0,
-			tipo : '',
-			desc : '',
-			sald : 0
-		};
-		var vShow = {
-			iden: false,
-			tipo: false,
-			desc: false,
-			sald: false
-		};
-		var vRead = {
-			iden: false,
-			tipo: false,
-			desc: false,
-			sald: false
-		};
-		var vData = {
-			cuen: null,
-			ltCuentipo: null,
-			ltMCuentipo: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('sald', ctxl.makeField(0));
 		return cntx;
 	}
 
-	//Contexto cuenTras
+	//*************************************************************************************************************//
+	// Contexto: cuen/tras - Formulario de traspaso de cuentas.                                                    //
+	//*************************************************************************************************************//
 	function getCuenTrasCntx() {
-		var vForm = {
-			ctor : 0,
-			ctde : 0,
-			impo : 0,
-			feva : 0
-		};
-		var vShow = {
-			ctor: false,
-			ctde: false,
-			impo: false,
-			feva: false
-		};
-		var vRead = {
-			ctor: false,
-			ctde: false,
-			impo: false,
-			feva: false
-		};
-		var vData = {
-			cuenList: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('ctor', ctxl.makeField(0));
+		cntx.form.set('ctde', ctxl.makeField(0));
+		cntx.form.set('impo', ctxl.makeField(0));
+		cntx.form.set('feva', ctxl.makeField(new Date));
 		return cntx;
 	}
 
-	//Contexto cuenCuad
+	//*************************************************************************************************************//
+	// Contexto: cuen/cuad - Formulario de cuadre de cuentas.                                                      //
+	//*************************************************************************************************************//
 	function getCuenCuadCntx() {
-		var vForm = {
-			cuen : 0,
-			sald : 0,
-			impo : 0,
-			cate : 0,
-			conc : 0
-		};
-		var vShow = {
-			cuen: false,
-			sald: false,
-			impo: false,
-			cate: false,
-			conc: false,
-			btCuad: false,
-			stApun: false
-		};
-		var vRead = {
-			cuen: false,
-			sald: false,
-			impo: false,
-			cate: false,
-			conc: false
-		};
-		var vData = {
-			cuenList: null,
-			cateList: null,
-			cateMap : null,
-			concList: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('cuen', ctxl.makeField(0));
+		cntx.form.set('sald', ctxl.makeField(0));
+		cntx.form.set('impo', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('btCuad', ctxl.makeBtn('Cuadre'));
+		cntx.form.set('stApun', ctxl.makeSection('StApunte'));
 		return cntx;
 	}
 
-	//Contexto hconForm
+	//*************************************************************************************************************//
+	// Contexto: hcon/form - Formulario de apunte.                                                                 //
+	//*************************************************************************************************************//
 	function getHconFormCntx() {
-		var vForm = {
-			tipo : '',
-			iden : 0,
-			cate : 0,
-			conc : 0,
-			cuen : 0,
-			impo : 0,
-			feva : 0,
-			desc : ''
-		};
-		var vShow = {
-			tipo: false,
-			iden: false,
-			cate: false,
-			conc: false,
-			cuen: false,
-			impo: false,
-			feva: false,
-			desc: false
-		};
-		var vRead = {
-			tipo: false,
-			iden: false,
-			cate: false,
-			conc: false,
-			cuen: false,
-			impo: false,
-			feva: false,
-			desc: false
-		};
-		var vData = {
-			cuenList: null,
-			cateList: null,
-			cateMap : null,
-			concList: null
-		};
-		var vConf = {
-			mode: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('cuen', ctxl.makeField(0));
+		cntx.form.set('impo', ctxl.makeField(0));
+		cntx.form.set('feva', ctxl.makeField(new Date()));
+		cntx.form.set('desc', ctxl.makeField(''));
 		return cntx;
 	}
 
-	//Contexto hconList
+	//*************************************************************************************************************//
+	// Contexto: hcon/list - Formulario de list de apuntes.                                                        //
+	//*************************************************************************************************************//
 	function getHconListCntx() {
-		var vForm = {
-			tipo : 0,
-			anua : 0,
-			mesh : 0,
-			cate : 0,
-			conc : 0
-		};
-		var vShow = {
-			tipo: false,
-			anua: false,
-			mesh: false,
-			cate: false,
-			conc: false
-		};
-		var vRead = {
-			tipo: false,
-			anua: false,
-			mesh: false,
-			cate: false,
-			conc: false
-		};
-		var vData = {
-			ltHconlttipo: null,
-			ltMHconlttipo: null,
-			ltAnualidad : null,
-			ltMAnualidad: null,
-			ltMes       : null,
-			ltMMes      : null,
-			hconList    : new Array(), //No puede ser null por que es usada en un filter
-			cateList    : null,
-			cateMap     : null,
-			concList    : null,
-			concFullList: null,
-			concFullMap : null
-		};
-		var vConf = {
-			mode: '',
-			item: -1,
-			iden: 0,
-			acci: ''
-		};
-		cntx = {
-			form: vForm,
-			show: vShow,
-			read: vRead,
-			data: vData,
-			conf: vConf
-		};
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('anua', ctxl.makeField(0));
+		cntx.form.set('mesh', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('acci', ctxl.makeField(''));
 		return cntx;
 	}
 }]);

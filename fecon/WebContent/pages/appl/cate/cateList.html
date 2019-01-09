@@ -33,12 +33,12 @@
 					<md-divider></md-divider>
 				</md-list-item>
 				
-				<md-list-item data-ng-repeat="cate in cntx.data.cateList" ng-click="xpnd($index)">
+				<md-list-item data-ng-repeat="cate in cntx.data.get('cateList')" ng-click="xpnd($index)">
 					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluci�n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="85">
 							<div layout="row" layout-xs="column" flex>
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
-								<div flex ng-hide="$index === cntx.conf.item">
+								<div flex ng-hide="$index === cntx.conf.get('idx1')">
 									<div flex hide show-xs layout="row">
 										<div flex="100">{{cate.desl}}</div>
 									</div>
@@ -53,7 +53,7 @@
 									</div>
 								</div>
 								<!--  Detalle -->
-								<div flex ng-show="$index === cntx.conf.item">
+								<div flex ng-show="$index === cntx.conf.get('idx1')">
 									<div flex><b>Identificador: </b>{{cate.iden}}</div>
 									<div flex><b>Descripción Larga: </b>{{cate.desl}}</div>
 									<div flex><b>Descripción Corta: </b>{{cate.desc}}</div>
