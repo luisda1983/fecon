@@ -4,16 +4,16 @@ package es.ldrsoftware.fecon.cnt.bs;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 
-public class BsHconGetArea extends BaseBSArea {
+public class BsHconGetkArea extends BaseBSArea {
 
-	public BsHconGetAreaIn  IN  = new BsHconGetAreaIn();
-	public BsHconGetAreaOut OUT = new BsHconGetAreaOut();
+	public BsHconGetkAreaIn  IN  = new BsHconGetkAreaIn();
+	public BsHconGetkAreaOut OUT = new BsHconGetkAreaOut();
 	
-	public class BsHconGetAreaIn {
+	public class BsHconGetkAreaIn {
 		public long iden;
 	}
 	
-	public class BsHconGetAreaOut {
+	public class BsHconGetkAreaOut {
 		public Hcon hcon;
 	}
 }

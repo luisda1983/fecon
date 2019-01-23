@@ -10,13 +10,13 @@ import es.ldrsoftware.fecon.cnt.entity.HconDAO;
 import es.ldrsoftware.fecon.data.AppNotify;
 
 @Component
-public class BsHconGet extends BaseBS {
+public class BsHconGetk extends BaseBS {
 	
 	@Autowired
 	public HconDAO hconDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsHconGetArea area = (BsHconGetArea)a;
+		BsHconGetkArea area = (BsHconGetkArea)a;
 		
 		Hcon hcon = hconDao.getByIden(SESSION.get().inst, area.IN.iden);
 		
@@ -24,8 +24,8 @@ public class BsHconGet extends BaseBS {
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsHconGetArea area = (BsHconGetArea)a;
+		BsHconGetkArea area = (BsHconGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.HCON_GETH_IDEN_RQRD);
+		validateIntRequired(area.IN.iden, AppNotify.HCON_GETK_IDEN_RQRD);
 	}
 }

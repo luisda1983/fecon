@@ -5,6 +5,8 @@ public class LiteData {
 	public final static String LITE_ELEM_MSTR_CUENTIPO = "CUENTIPO";
 	public final static String LITE_ELEM_MSTR_PRESESTA = "PRESESTA";
 	public final static String LITE_ELEM_MSTR_HCONLTTIPO = "HCONLTTIPO";
+	public final static String LT_EL_MSTR_HCONTIPO = "HCONTIPO";
+	public final static String LT_EL_MSTR_CONCTIPO = "CONCTIPO";
 	
 	public final static String LT_TB_CUENTIPO = "CUENTIPO";
 	public final static String LT_EL_CUENTIPO_BANCARIA = "B";
@@ -25,4 +27,20 @@ public class LiteData {
 	public final static String LT_EL_HCONMDTIPO_DESCRIPCION = "MD02";
 	public final static String LT_EL_HCONMDTIPO_IMPORTE     = "MD03";
 	public final static String LT_EL_HCONMDTIPO_CONCEPTO    = "MD04";
+	
+	public final static String   LT_TB_HCONTIPO          = "HCONTIPO";
+	public final static String   LT_EL_HCONTIPO_CONTABLE = "C";
+	public final static String   LT_EL_HCONTIPO_TRASPASO = "T";
+	public final static String   LT_EL_HCONTIPO_ANULADO  = "A";
+	public final static String[] LT_ST_HCONTIPO          = {LT_EL_HCONTIPO_CONTABLE,
+															LT_EL_HCONTIPO_TRASPASO,
+															LT_EL_HCONTIPO_ANULADO};
+	
+	public final static String   LT_TB_CONCTIPO         = "CONCTIPO";
+	public final static String   LT_EL_CONCTIPO_INGRESO = "I";
+	public final static String   LT_EL_CONCTIPO_GASTO   = "G";
+	public final static String   LT_EL_CONCTIPO_AMBOS   = "A";
+	public final static String[] LT_ST_CONCTIPO         = {LT_EL_CONCTIPO_INGRESO,
+			                                               LT_EL_CONCTIPO_GASTO,
+			                                               LT_EL_CONCTIPO_AMBOS};
 }
