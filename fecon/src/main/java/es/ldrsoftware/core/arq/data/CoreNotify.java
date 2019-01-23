@@ -664,6 +664,7 @@ public class CoreNotify {
 	//OO=Operación
 	//T=Tipo
 	//   0-Validación de entrada
+	//   3-Informativos
 	//   5-Validaciones funcionales
 	//   7-Validaciones de campos obligatorios en BB.DD.
 	//   8-Validaciones de dominio en BB.DD.

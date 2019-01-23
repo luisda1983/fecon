@@ -17,7 +17,7 @@ import es.ldrsoftware.fecon.prp.entity.Pres;
 public class BsHconPresGest extends BaseBS {
 
 	@Autowired
-	public BsHconGet bsHconGet;
+	public BsHconGetk bsHconGet;
 	
 	@Autowired
 	public BsHconSave bsHconSave;
@@ -32,7 +32,7 @@ public class BsHconPresGest extends BaseBS {
 		BsHconPresGestArea area = (BsHconPresGestArea)a;
 		
 		//Obtenemos el apunte contable.
-		BsHconGetArea bsHconGetArea = new BsHconGetArea();
+		BsHconGetkArea bsHconGetArea = new BsHconGetkArea();
 		bsHconGetArea.IN.iden = area.IN.iden;
 		bsHconGet.execute(bsHconGetArea);
 		

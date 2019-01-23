@@ -83,7 +83,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<finalName>ROOT</finalName>
+		<finalName>fecon</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>

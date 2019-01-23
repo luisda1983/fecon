@@ -15,7 +15,7 @@ public class BsHconModi extends BaseBS {
 
 
 	@Autowired
-	public BsHconGet bsHconGet;
+	public BsHconGetk bsHconGet;
 	
 	@Autowired
 	public BsHconSave bsHconSave;
@@ -23,30 +23,35 @@ public class BsHconModi extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsHconModiArea area = (BsHconModiArea)a;
 		
-		BsHconGetArea bsHconGetArea = new BsHconGetArea();
-		bsHconGetArea.IN.iden = area.IN.iden;
-		bsHconGet.execute(bsHconGetArea);
+		BsHconGetkArea bsHconGetkArea = new BsHconGetkArea();
+		bsHconGetkArea.IN.iden = area.IN.iden;
+		bsHconGet.execute(bsHconGetkArea);
 		
-		Hcon hcon = bsHconGetArea.OUT.hcon;
+		Hcon hcon = bsHconGetkArea.OUT.hcon;
 		
 		validateDtoRequired(hcon, AppNotify.HCON_MODI_HCON_NF);
+		
+		if (!LiteData.LT_EL_HCONTIPO_CONTABLE.equals(hcon.getTipo())) {
+			notify(AppNotify.HCON_MODI_CONT_NO);
+		}
 		
 		if (LiteData.LT_EL_HCONMDTIPO_FECHA.equals(area.IN.tipo)) {
 			if (hcon.getFeva() == area.IN.feva) {
 				notify(AppNotify.HCON_MODI_CHGN_NO);
 			}
+			
 			if (DateTimeUtil.getYear(hcon.getFeva()) != DateTimeUtil.getYear(area.IN.feva) ||
 				DateTimeUtil.getMonth(hcon.getFeva()) != DateTimeUtil.getMonth(area.IN.feva)) {
-				notify(AppNotify.HCON_MODI_ERRO);
+				notify(AppNotify.HCON_MODI_FECH_MES);
 			}
 			hcon.setFeva(area.IN.feva);
 			
 			BsHconSaveArea bsHconSaveArea = new BsHconSaveArea();
 			bsHconSaveArea.IN.hcon = hcon;
 			bsHconSave.execute(bsHconSaveArea);
+			
 			area.OUT.hcon = bsHconSaveArea.OUT.hcon;
 		}
-
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {

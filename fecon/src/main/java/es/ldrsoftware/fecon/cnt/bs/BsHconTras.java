@@ -8,12 +8,13 @@ import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.data.LiteData;
 
 @Component
 public class BsHconTras extends BaseBS {
 
 	@Autowired
-	public BsCuenGet bsCuenGet;
+	public BsCuenGet bsCuenGetk;
 
 	@Autowired
 	public BsCuenSave bsCuenSave;
@@ -32,27 +33,23 @@ public class BsHconTras extends BaseBS {
 			notify(AppNotify.HCON_TRAS_MISM_CTAS);
 		}
 				
-		BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
-		bsCuenGetArea.IN.iden = area.IN.ctor;
-		bsCuenGet.executeBS(bsCuenGetArea);
-		Cuen ctor = bsCuenGetArea.OUT.cuen;
-
-		if (ctor == null) {
-			notify(AppNotify.HCON_TRAS_CTOR_NF);
-		}
-
+		BsCuenGetArea bsCuenGetkArea = new BsCuenGetArea();
+		bsCuenGetkArea.IN.iden = area.IN.ctor;
+		bsCuenGetk.executeBS(bsCuenGetkArea);
+		
+		Cuen ctor = bsCuenGetkArea.OUT.cuen;
+		validateDtoRequired(ctor, AppNotify.HCON_TRAS_CTOR_NF);
+		
 		if (ctor.getSald() < area.IN.impo) {
 			notify(AppNotify.HCON_TRAS_SALD_INSF);
 		}
 
-		bsCuenGetArea = new BsCuenGetArea();
-		bsCuenGetArea.IN.iden = area.IN.ctde;
-		bsCuenGet.execute(bsCuenGetArea);
-		Cuen ctde = bsCuenGetArea.OUT.cuen;
+		bsCuenGetkArea = new BsCuenGetArea();
+		bsCuenGetkArea.IN.iden = area.IN.ctde;
+		bsCuenGetk.execute(bsCuenGetkArea);
 		
-		if (ctde == null) {
-			notify(AppNotify.HCON_TRAS_CTDE_NF);
-		}
+		Cuen ctde = bsCuenGetkArea.OUT.cuen;
+		validateDtoRequired(ctde, AppNotify.HCON_TRAS_CTDE_NF);
 		
 		ctor.setSald(ctor.getSald() - area.IN.impo);
 		ctde.setSald(ctde.getSald() + area.IN.impo);
@@ -60,7 +57,7 @@ public class BsHconTras extends BaseBS {
 		Hcon hcor = new Hcon();
 		hcor.setInst(SESSION.get().inst);
 		hcor.setCuen(area.IN.ctor);
-		hcor.setTipo("T");
+		hcor.setTipo(LiteData.LT_EL_HCONTIPO_TRASPASO);
 		hcor.setFeop(SESSION.get().feop);
 		hcor.setHoop(SESSION.get().hoop);
 		hcor.setFeva(area.IN.feva);
@@ -78,17 +75,19 @@ public class BsHconTras extends BaseBS {
 		BsHconSaveArea bsHconSaveArea = new BsHconSaveArea();
 		bsHconSaveArea.IN.hcon = hcor;
 		bsHconSave.executeBS(bsHconSaveArea);
+		
 		area.OUT.hcor = bsHconSaveArea.OUT.hcon;
 		
 		BsCuenSaveArea bsCuenSaveArea = new BsCuenSaveArea();
 		bsCuenSaveArea.IN.cuen = ctor;
 		bsCuenSave.execute(bsCuenSaveArea);
+		
 		area.OUT.ctor = bsCuenSaveArea.OUT.cuen;
 		
 		Hcon hcde = new Hcon();
 		hcde.setInst(SESSION.get().inst);
 		hcde.setCuen(area.IN.ctde);
-		hcde.setTipo("T");
+		hcde.setTipo(LiteData.LT_EL_HCONTIPO_TRASPASO);
 		hcde.setFeop(SESSION.get().feop);
 		hcde.setHoop(SESSION.get().hoop);
 		hcde.setFeva(area.IN.feva);
@@ -106,13 +105,14 @@ public class BsHconTras extends BaseBS {
 		bsHconSaveArea = new BsHconSaveArea();
 		bsHconSaveArea.IN.hcon = hcde;
 		bsHconSave.executeBS(bsHconSaveArea);
+		
 		area.OUT.hcde = bsHconSaveArea.OUT.hcon;
 		
 		bsCuenSaveArea = new BsCuenSaveArea();
 		bsCuenSaveArea.IN.cuen = ctde;
 		bsCuenSave.execute(bsCuenSaveArea);
-		area.OUT.ctde = bsCuenSaveArea.OUT.cuen;
 		
+		area.OUT.ctde = bsCuenSaveArea.OUT.cuen;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {

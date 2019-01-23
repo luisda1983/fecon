@@ -1,7 +1,91 @@
 package es.ldrsoftware.fecon.data;
 
 public class AppNotify {
+
+	//*********************************************************************************************//
+	// Notificaciones del mÃ³dulo CNT                                                              //
+	//*********************************************************************************************//
+
+	//Servicio de grabado de apunte
+	public final static String HCON_SAVE_HCON_RQRD         = "HCON-01001";
+	public final static String HCON_SAVE_INST_RQRD         = "HCON-01701";
+	public final static String HCON_SAVE_CUEN_RQRD         = "HCON-01702";
+	public final static String HCON_SAVE_TIPO_RQRD         = "HCON-01703";
+	public final static String HCON_SAVE_FEOP_RQRD         = "HCON-01704";
+	public final static String HCON_SAVE_FEVA_RQRD         = "HCON-01705";
+	public final static String HCON_SAVE_CATE_RQRD         = "HCON-01706";
+	public final static String HCON_SAVE_CONC_RQRD         = "HCON-01707";
+	public final static String HCON_SAVE_PRES_RQRD         = "HCON-01708";
+	public final static String HCON_SAVE_PRAN_RQRD         = "HCON-01709";
+	public final static String HCON_SAVE_PRMS_RQRD         = "HCON-01710";
+	public final static String HCON_SAVE_PRCT_RQRD         = "HCON-01711";
+	public final static String HCON_SAVE_IMPO_RQRD         = "HCON-01712";
+	public final static String HCON_SAVE_DESC_RQRD         = "HCON-01713";
+	public final static String HCON_SAVE_USUA_RQRD         = "HCON-01714";
+	public final static String HCON_SAVE_INST_RNGE         = "HCON-01801";
+	public final static String HCON_SAVE_CUEN_RNGE         = "HCON-01802";
+	public final static String HCON_SAVE_TIPO_ERRO         = "HCON-01803";
+	public final static String HCON_SAVE_FEOP_RNGE         = "HCON-01804";
+	public final static String HCON_SAVE_HOOP_RNGE         = "HCON-01805";
+	public final static String HCON_SAVE_FEVA_RNGE         = "HCON-01806";
+	public final static String HCON_SAVE_CATE_RNGE         = "HCON-01807";
+	public final static String HCON_SAVE_CONC_RNGE         = "HCON-01808";
+	public final static String HCON_SAVE_PRES_ERRO         = "HCON-01809";
+	public final static String HCON_SAVE_PRAN_RNGE         = "HCON-01810";
+	public final static String HCON_SAVE_PRMS_RNGE         = "HCON-01811";
+	public final static String HCON_SAVE_PRCT_RNGE         = "HCON-01812";
+	public final static String HCON_SAVE_PRCC_RNGE         = "HCON-01813";
+	public final static String HCON_SAVE_IMPO_RNGE         = "HCON-01814";
+	public final static String HCON_SAVE_DESC_MAXL         = "HCON-01815";
+	public final static String HCON_SAVE_USUA_MAXL         = "HCON-01816";
 	
+	//Servicio de realización de apunte contable
+	public final static String HCON_APUN_CATE_RQRD         = "HCON-02001";
+	public final static String HCON_APUN_CONC_RQRD         = "HCON-02002";
+	public final static String HCON_APUN_IMPO_RQRD         = "HCON-02003";
+	public final static String HCON_APUN_CUEN_RQRD         = "HCON-02004";
+	public final static String HCON_APUN_OK                = "HCON-02301";
+	public final static String HCON_APUN_CONC_GAST         = "HCON-02501";
+	public final static String HCON_APUN_CONC_INGR         = "HCON-02502";
+	public final static String HCON_APUN_PRES_CERR         = "HCON-02503";
+	public final static String HCON_APUN_CONC_NF           = "HCON-02901";
+	public final static String HCON_APUN_CUEN_NF           = "HCON-02902";
+	public final static String HCON_APUN_PRES_NF           = "HCON-02903";
+	
+	//Servicio de consulta de apunte contable
+	public final static String HCON_GETK_IDEN_RQRD         = "HCON-03001";
+	
+	//Servicio de anulación de apunte contable
+	public final static String HCON_ANUL_IDEN_RQRD         = "HCON-04001";
+	public final static String HCON_ANUL_TIPO_NO_ANUL      = "HCON-04501";
+	public final static String HCON_ANUL_PRES_CERR         = "HCON-04502";
+	public final static String HCON_ANUL_CUEN_NF           = "HCON-05901";
+	
+	//Servicio de apunte de traspaso
+	public final static String HCON_TRAS_CTOR_RQRD         = "HCON-05001";
+	public final static String HCON_TRAS_CTDE_RQRD         = "HCON-05002";
+	public final static String HCON_TRAS_FEVA_RQRD         = "HCON-05003";
+	public final static String HCON_TRAS_IMPO_RQRD         = "HCON-05004";	
+	public final static String HCON_TRAS_IMPO_POSI         = "HCON-05501";
+	public final static String HCON_TRAS_MISM_CTAS         = "HCON-05502";
+	public final static String HCON_TRAS_SALD_INSF         = "HCON-05503";
+	public final static String HCON_TRAS_CTOR_NF           = "HCON-05901";
+	public final static String HCON_TRAS_CTDE_NF           = "HCON-05902";
+	
+	//Servicio de modificación de apunte contable
+	public final static String HCON_MODI_TIPO_RQRD         = "HCON-06001";
+	public final static String HCON_MODI_IDEN_RQRD         = "HCON-06002";
+	public final static String HCON_MODI_FEVA_RQRD         = "HCON-06003";
+	public final static String HCON_MODI_TIPO_ERRO         = "HCON-06501";
+	public final static String HCON_MODI_CONT_NO           = "HCON-06502";
+	public final static String HCON_MODI_CHGN_NO           = "HCON-06503";
+	public final static String HCON_MODI_FECH_MES          = "HCON-06504";
+	public final static String HCON_MODI_HCON_NF           = "HCON-06901";
+	
+	
+	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
+	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
+
 	//Notificaciones de mï¿½dulo CUEN
 	public final static String CUEN_GETC_IDEN_RQRD         = "CUEN-00001";
 	public final static String CUEN_SAVE_CUEN_RQRD         = "CUEN-00002";
@@ -38,35 +122,11 @@ public class AppNotify {
 	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";
 	
 	//Notificaciones del mï¿½dulo HCON
-	public final static String HCON_SAVE_HCON_RQRD         = "HCON-00001";
-	public final static String HCON_APUN_CATE_RQRD         = "HCON-00002";
-	public final static String HCON_APUN_CONC_RQRD         = "HCON-00003";
-	public final static String HCON_APUN_IMPO_RQRD         = "HCON-00004";
-	public final static String HCON_APUN_CUEN_RQRD         = "HCON-00005";
-	public final static String HCON_APUN_CONC_NF           = "HCON-00006";
-	public final static String HCON_APUN_CONC_NO_ACTI      = "HCON-00007";
-	public final static String HCON_APUN_CONC_IMPO_ERRO    = "HCON-00008";
-	public final static String HCON_APUN_CUEN_NF           = "HCON-00009";
-	public final static String HCON_APUN_OK                = "HCON-00010";
-	public final static String HCON_TRAS_CTOR_RQRD         = "HCON-00011";
-	public final static String HCON_TRAS_CTDE_RQRD         = "HCON-00012";
-	public final static String HCON_TRAS_FEVA_RQRD         = "HCON-00013";
-	public final static String HCON_TRAS_IMPO_RQRD         = "HCON-00014";
-	public final static String HCON_TRAS_IMPO_POSI         = "HCON-00015";
-	public final static String HCON_TRAS_MISM_CTAS         = "HCON-00016";
-	public final static String HCON_TRAS_CTOR_NF           = "HCON-00017";
-	public final static String HCON_TRAS_SALD_INSF         = "HCON-00018";
-	public final static String HCON_TRAS_CTDE_NF           = "HCON-00019";
 	public final static String HCON_LIST_TIPO_RQRD         = "HCON-00020";
 	public final static String HCON_LIST_TIPO_ERRO         = "HCON-00021";
 	public final static String HCON_LIST_ANUA_RQRD         = "HCON-00022";
 	public final static String HCON_LIST_MESH_RQRD         = "HCON-00023";
 	public final static String HCON_LIST_CATE_RQRD         = "HCON-00024";
-	public final static String HCON_GETH_IDEN_RQRD         = "HCON-00025";
-	public final static String HCON_ANUL_IDEN_RQRD         = "HCON-00026";
-	public final static String HCON_ANUL_TIPO_NO_ANUL      = "HCON-00027";
-	public final static String HCON_APUN_ANUL_HCON_RQRD    = "HCON-00028";
-	public final static String HCON_APUN_ANUL_CUEN_NF      = "HCON-00029";
 	public final static String HCON_PRES_GEST_IDEN_RQRD    = "HCON-00030";
 	public final static String HCON_PRES_GEST_ACCI_RQRD    = "HCON-00031";
 	public final static String HCON_PRES_GEST_ACCI_ERRO    = "HCON-00032";
@@ -76,14 +136,7 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-00036";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
 	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
-
-	public final static String HCON_MODI_TIPO_RQRD         = "HCON-00039";
-	public final static String HCON_MODI_FEVA_RQRD         = "HCON-00040";
-	public final static String HCON_MODI_TIPO_ERRO         = "HCON-00041";
-	public final static String HCON_MODI_IDEN_RQRD         = "HCON-00042";
-	public final static String HCON_MODI_HCON_NF           = "HCON-00043";
-	public final static String HCON_MODI_CHGN_NO           = "HCON-00044";
-	public final static String HCON_MODI_ERRO              = "HCON-00045";
+	
 	
 	//Notificaciones del mï¿½dulo CATE
 	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";

@@ -3,6 +3,7 @@ package es.ldrsoftware.fecon.cnt.bs;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
+import es.ldrsoftware.fecon.prp.entity.Pres;
 
 public class BsHconApunArea extends BaseBSArea {
 
@@ -21,5 +22,6 @@ public class BsHconApunArea extends BaseBSArea {
 	public class BsHconApunAreaOut {
 		public Hcon hcon;
 		public Cuen cuen;
+		public Pres pres;
 	}
 }
