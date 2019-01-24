@@ -61,8 +61,7 @@ public class BsHconSave extends BaseBS {
 			validateIntRequired(hcon.getPran(), AppNotify.HCON_SAVE_PRAN_RQRD);
 			validateIntRange(hcon.getPran(), 2000, 2999, AppNotify.HCON_SAVE_PRAN_RNGE);
 		
-			validateIntRequired(hcon.getPrms(), AppNotify.HCON_SAVE_PRMS_RQRD);
-			validateIntRange(hcon.getPrms(), 1, 12, AppNotify.HCON_SAVE_PRMS_RNGE);
+			validateIntRange(hcon.getPrms(), 0, 12, AppNotify.HCON_SAVE_PRMS_RNGE);
 		
 			validateIntRequired(hcon.getPrct(), AppNotify.HCON_SAVE_PRCT_RQRD);
 			validateIntRange(hcon.getPrct(), 0, 999999999, AppNotify.HCON_SAVE_PRCT_RNGE);

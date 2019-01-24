@@ -17,7 +17,7 @@ public class AppNotify {
 	public final static String HCON_SAVE_CONC_RQRD         = "HCON-01707";
 	public final static String HCON_SAVE_PRES_RQRD         = "HCON-01708";
 	public final static String HCON_SAVE_PRAN_RQRD         = "HCON-01709";
-	public final static String HCON_SAVE_PRMS_RQRD         = "HCON-01710";
+	//public final static String HCON_SAVE_PRMS_RQRD         = "HCON-01710"; //Validación incorrecta
 	public final static String HCON_SAVE_PRCT_RQRD         = "HCON-01711";
 	public final static String HCON_SAVE_IMPO_RQRD         = "HCON-01712";
 	public final static String HCON_SAVE_DESC_RQRD         = "HCON-01713";
