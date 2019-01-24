@@ -7,6 +7,7 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.data.LiteData;
 import es.ldrsoftware.fecon.prp.bs.BsPresGet;
 import es.ldrsoftware.fecon.prp.bs.BsPresGetArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresSave;
@@ -17,13 +18,13 @@ import es.ldrsoftware.fecon.prp.entity.Pres;
 public class BsHconPresGest extends BaseBS {
 
 	@Autowired
-	public BsHconGetk bsHconGet;
+	public BsHconGetk bsHconGetk;
 	
 	@Autowired
 	public BsHconSave bsHconSave;
 
 	@Autowired
-	public BsPresGet bsPresGet;
+	public BsPresGet bsPresGetk;
 
 	@Autowired
 	public BsPresSave bsPresSave;
@@ -32,46 +33,43 @@ public class BsHconPresGest extends BaseBS {
 		BsHconPresGestArea area = (BsHconPresGestArea)a;
 		
 		//Obtenemos el apunte contable.
-		BsHconGetkArea bsHconGetArea = new BsHconGetkArea();
-		bsHconGetArea.IN.iden = area.IN.iden;
-		bsHconGet.execute(bsHconGetArea);
+		BsHconGetkArea bsHconGetkArea = new BsHconGetkArea();
+		bsHconGetkArea.IN.iden = area.IN.iden;
+		bsHconGetk.execute(bsHconGetkArea);
 		
-		Hcon hcon = bsHconGetArea.OUT.hcon;
+		Hcon hcon = bsHconGetkArea.OUT.hcon;
 		
-		//Error: No existe el apunte
-		if (hcon == null) {
-			notify(AppNotify.HCON_PRES_GEST_HCON_NF);
-		}
-
-		//Error: Sï¿½lo se pueden gestionar apuntes contables
-		if (!"C".equals(hcon.getTipo())) {
-			notify(AppNotify.HCON_PRES_GEST_TIPO_ERRO);
+		//No existe el apunte
+		validateDtoRequired(hcon, AppNotify.HCON_PRES_GEST_HCON_NF);
+		
+		//Sólo se pueden gestionar apuntes contables
+		if (!LiteData.LT_EL_HCONTIPO_CONTABLE.equals(hcon.getTipo())) {
+			notify(AppNotify.HCON_PRES_GEST_TIPO_NO_CONT);
 		}
 		
 		//Error: El apunte ya estï¿½ incluido en el presupuesto
-		if ("S".equals(hcon.getPres()) && "I".equals(area.IN.acci)) {
+		if (es.ldrsoftware.core.fwk.data.LiteData.LT_EL_BOOL_SI.equals(hcon.getPres()) && "I".equals(area.IN.acci)) {
 			notify(AppNotify.HCON_PRES_GEST_APUN_INCL);
 		}
 		
 		//Error: El apunte ya estï¿½ excluido del presupuesto
-		if ("N".equals(hcon.getPres()) && "E".equals(area.IN.acci)) {
+		if (es.ldrsoftware.core.fwk.data.LiteData.LT_EL_BOOL_NO.equals(hcon.getPres()) && "E".equals(area.IN.acci)) {
 			notify(AppNotify.HCON_PRES_GEST_APUN_EXCL);
 		}
 		
 		//Obtenemos la partida presupuestaria
-		BsPresGetArea bsPresGetArea = new BsPresGetArea();
-		bsPresGetArea.IN.anua = hcon.getPran();
-		bsPresGetArea.IN.mesp = hcon.getPrms();
-		bsPresGetArea.IN.cate = hcon.getPrct();
-		bsPresGetArea.IN.conc = hcon.getPrcc();
-		bsPresGet.executeBS(bsPresGetArea);
+		BsPresGetArea bsPresGetkArea = new BsPresGetArea();
+		bsPresGetkArea.IN.anua = hcon.getPran();
+		bsPresGetkArea.IN.mesp = hcon.getPrms();
+		bsPresGetkArea.IN.cate = hcon.getPrct();
+		bsPresGetkArea.IN.conc = hcon.getPrcc();
+		bsPresGetk.executeBS(bsPresGetkArea);
 		
-		Pres pres = bsPresGetArea.OUT.pres;
+		Pres pres = bsPresGetkArea.OUT.pres;
 		
-		//Error: apunte mal relacionado con partida presupuestaria
-		if (pres == null) {
-			notify(AppNotify.HCON_PRES_GEST_PRES_NF);
-		}
+		//Apunte mal relacionado con partida presupuestaria
+		validateDtoRequired(pres, AppNotify.HCON_PRES_GEST_PRES_NF);
+		
 		//Error: No se puede incluir sobre una partida no presupuestada
 		if ("I".equals(area.IN.acci) && pres.getImpo() == 0) {
 			notify(AppNotify.HCON_PRES_GEST_PART_NPRE);
@@ -79,15 +77,16 @@ public class BsHconPresGest extends BaseBS {
 		
 		//Modificamos el indicador de presupuestado en el apunte
 		if ("I".equals(area.IN.acci)) {
-			hcon.setPres("S");
+			hcon.setPres(es.ldrsoftware.core.fwk.data.LiteData.LT_EL_BOOL_SI);
 		} else if ("E".equals(area.IN.acci)) {
-			hcon.setPres("N");
+			hcon.setPres(es.ldrsoftware.core.fwk.data.LiteData.LT_EL_BOOL_NO);
 		}
 		
 		//Guardamos el apunte
 		BsHconSaveArea bsHconSaveArea = new BsHconSaveArea();
 		bsHconSaveArea.IN.hcon = hcon;
 		bsHconSave.execute(bsHconSaveArea);
+		
 		hcon = bsHconSaveArea.OUT.hcon;
 		
 		//Si estamos incluyendo:
@@ -112,6 +111,7 @@ public class BsHconPresGest extends BaseBS {
 		BsPresSaveArea bsPresSaveArea = new BsPresSaveArea();
 		bsPresSaveArea.IN.pres = pres;
 		bsPresSave.executeBS(bsPresSaveArea);
+		
 		pres = bsPresSaveArea.OUT.pres;
 		
 		area.OUT.hcon = hcon;
@@ -122,6 +122,7 @@ public class BsHconPresGest extends BaseBS {
 		BsHconPresGestArea area = (BsHconPresGestArea)a;
 		
 		validateIntRequired(area.IN.iden, AppNotify.HCON_PRES_GEST_IDEN_RQRD);
+		
 		validateStringRequired(area.IN.acci, AppNotify.HCON_PRES_GEST_ACCI_RQRD);
 		
 		if (!"I".equals(area.IN.acci) &&  //Incluir apunte en presupuesto

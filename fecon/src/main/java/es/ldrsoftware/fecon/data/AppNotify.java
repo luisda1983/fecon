@@ -17,7 +17,6 @@ public class AppNotify {
 	public final static String HCON_SAVE_CONC_RQRD         = "HCON-01707";
 	public final static String HCON_SAVE_PRES_RQRD         = "HCON-01708";
 	public final static String HCON_SAVE_PRAN_RQRD         = "HCON-01709";
-	//public final static String HCON_SAVE_PRMS_RQRD         = "HCON-01710"; //Validación incorrecta
 	public final static String HCON_SAVE_PRCT_RQRD         = "HCON-01711";
 	public final static String HCON_SAVE_IMPO_RQRD         = "HCON-01712";
 	public final static String HCON_SAVE_DESC_RQRD         = "HCON-01713";
@@ -82,6 +81,31 @@ public class AppNotify {
 	public final static String HCON_MODI_FECH_MES          = "HCON-06504";
 	public final static String HCON_MODI_HCON_NF           = "HCON-06901";
 	
+	//Servicio de lista de apuntes contables
+	public final static String HCON_LIST_TIPO_RQRD         = "HCON-07001";
+	public final static String HCON_LIST_ANUA_RQRD         = "HCON-07002";
+	public final static String HCON_LIST_MESH_RQRD         = "HCON-07003";
+	public final static String HCON_LIST_CATE_RQRD         = "HCON-07004";
+	public final static String HCON_LIST_TIPO_ERRO         = "HCON-07501";
+
+	//Servicio de gestión de apunte respecto al presupuesto
+	public final static String HCON_PRES_GEST_IDEN_RQRD    = "HCON-08001";
+	public final static String HCON_PRES_GEST_ACCI_RQRD    = "HCON-08002";
+	public final static String HCON_PRES_GEST_ACCI_ERRO    = "HCON-08501";
+	public final static String HCON_PRES_GEST_TIPO_NO_CONT = "HCON-08502";
+	public final static String HCON_PRES_GEST_APUN_INCL    = "HCON-08503";
+	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-08504";
+	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-08505";
+	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-08901";
+	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-08902";
+	
+	
+	
+	
+	
+
+	
+	
 	
 	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
 	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
@@ -119,24 +143,7 @@ public class AppNotify {
 	public final static String PRES_ESTA_PRES_NF           = "PRES-00013";
 	public final static String PRES_ESTA_ESTA_ERRO         = "PRES-00014";
 	public final static String PRES_GETP_ANUA_RQRD         = "PRES-00015";
-	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";
-	
-	//Notificaciones del mï¿½dulo HCON
-	public final static String HCON_LIST_TIPO_RQRD         = "HCON-00020";
-	public final static String HCON_LIST_TIPO_ERRO         = "HCON-00021";
-	public final static String HCON_LIST_ANUA_RQRD         = "HCON-00022";
-	public final static String HCON_LIST_MESH_RQRD         = "HCON-00023";
-	public final static String HCON_LIST_CATE_RQRD         = "HCON-00024";
-	public final static String HCON_PRES_GEST_IDEN_RQRD    = "HCON-00030";
-	public final static String HCON_PRES_GEST_ACCI_RQRD    = "HCON-00031";
-	public final static String HCON_PRES_GEST_ACCI_ERRO    = "HCON-00032";
-	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-00033";
-	public final static String HCON_PRES_GEST_TIPO_ERRO    = "HCON-00034";
-	public final static String HCON_PRES_GEST_APUN_INCL    = "HCON-00035";
-	public final static String HCON_PRES_GEST_APUN_EXCL    = "HCON-00036";
-	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-00037";
-	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-00038";
-	
+	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";	
 	
 	//Notificaciones del mï¿½dulo CATE
 	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";
