@@ -2,16 +2,12 @@ package es.ldrsoftware.fecon.data;
 
 public class LiteData {
 
-	public final static String LITE_ELEM_MSTR_CUENTIPO = "CUENTIPO";
 	public final static String LITE_ELEM_MSTR_PRESESTA = "PRESESTA";
 	public final static String LITE_ELEM_MSTR_HCONLTTIPO = "HCONLTTIPO";
 	public final static String LT_EL_MSTR_HCONTIPO = "HCONTIPO";
+	public final static String LT_EL_MSTR_CUENTIPO = "CUENTIPO";
 	public final static String LT_EL_MSTR_CONCTIPO = "CONCTIPO";
 	
-	public final static String LT_TB_CUENTIPO = "CUENTIPO";
-	public final static String LT_EL_CUENTIPO_BANCARIA = "B";
-	public final static String LT_EL_CUENTIPO_EFECTIVO = "E";
-
 	public final static String LT_TB_PRESESTA = "PRESESTA";
 	public final static String LT_EL_PRESESTA_ABIERTA   = "A";
 	public final static String LT_EL_PRESESTA_CERRADA   = "C";
@@ -35,6 +31,12 @@ public class LiteData {
 	public final static String[] LT_ST_HCONTIPO          = {LT_EL_HCONTIPO_CONTABLE,
 															LT_EL_HCONTIPO_TRASPASO,
 															LT_EL_HCONTIPO_ANULADO};
+
+	public final static String   LT_TB_CUENTIPO          = "CUENTIPO";
+	public final static String   LT_EL_CUENTIPO_BANCARIA = "B";
+	public final static String   LT_EL_CUENTIPO_EFECTIVO = "E";
+	public final static String[] LT_ST_CUENTIPO          = {LT_EL_CUENTIPO_BANCARIA,
+			                                                LT_EL_CUENTIPO_EFECTIVO};
 	
 	public final static String   LT_TB_CONCTIPO         = "CONCTIPO";
 	public final static String   LT_EL_CONCTIPO_INGRESO = "I";

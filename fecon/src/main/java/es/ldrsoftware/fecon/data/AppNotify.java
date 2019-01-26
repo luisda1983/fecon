@@ -99,33 +99,53 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-08901";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-08902";
 	
+	//Servicio de grabado de cuenta
+	public final static String CUEN_SAVE_CUEN_RQRD         = "CUEN-01001";	
+	public final static String CUEN_SAVE_IDEN_RQRD         = "CUEN-01701";
+	public final static String CUEN_SAVE_INST_RQRD         = "CUEN-01702";
+	public final static String CUEN_SAVE_TIPO_RQRD         = "CUEN-01703";
+	public final static String CUEN_SAVE_DESC_RQRD         = "CUEN-01704";
+	public final static String CUEN_SAVE_FEAL_RQRD         = "CUEN-01705";
+	public final static String CUEN_SAVE_USAL_RQRD         = "CUEN-01706";
+	public final static String CUEN_SAVE_FEMO_RQRD         = "CUEN-01707";
+	public final static String CUEN_SAVE_USMO_RQRD         = "CUEN-01708";
+	public final static String CUEN_SAVE_IDEN_RNGE         = "CUEN-01801";
+	public final static String CUEN_SAVE_INST_RNGE         = "CUEN-01802";
+	public final static String CUEN_SAVE_TIPO_ERRO         = "CUEN-01803";
+	public final static String CUEN_SAVE_DESC_MAXL         = "CUEN-01804";
+	public final static String CUEN_SAVE_SALD_RNGE         = "CUEN-01805";
+	public final static String CUEN_SAVE_FEAL_RNGE         = "CUEN-01806";
+	public final static String CUEN_SAVE_HOAL_RNGE         = "CUEN-01807";
+	public final static String CUEN_SAVE_USAL_MAXL         = "CUEN-01808";
+	public final static String CUEN_SAVE_FEMO_RNGE         = "CUEN-01809";
+	public final static String CUEN_SAVE_HOMO_RNGE         = "CUEN-01810";
+	public final static String CUEN_SAVE_USMO_MAXL         = "CUEN-01811";
 	
+	//Servicio de consulta de cuenta
+	public final static String CUEN_GETC_IDEN_RQRD         = "CUEN-02001";
 	
+	//Servicio de alta y edición de cuenta
+	public final static String CUEN_FORM_TIPO_RQRD         = "CUEN-03001";
+	public final static String CUEN_FORM_DESC_RQRD         = "CUEN-03002";
+	public final static String CUEN_FORM_SALD_MODI_NPER    = "CUEN-03501";
+	public final static String CUEN_FORM_CUEN_NF           = "CUEN-03901";
 	
-	
+	//Servicio de cuadre de cuenta
+	public final static String CUEN_CUAD_CUEN_RQRD         = "CUEN-04001";
+	public final static String CUEN_CUAD_CATE_RQRD         = "CUEN-04002";
+	public final static String CUEN_CUAD_CONC_RQRD         = "CUEN-04003";
+	public final static String CUEN_CUAD_IMPO_RQRD         = "CUEN-04003";
+	public final static String CUEN_CUAD_CUEN_NF           = "CUEN-04901";
 
-	
-	
-	
+	public final static String CUEN_TRAS_CTOR_RQRD         = "CUEN-05001";
+	public final static String CUEN_TRAS_CTDE_RQRD         = "CUEN-05002";
+	public final static String CUEN_TRAS_IMPO_RQRD         = "CUEN-05003";
+
 	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
 	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
 
 	//Notificaciones de mï¿½dulo CUEN
-	public final static String CUEN_GETC_IDEN_RQRD         = "CUEN-00001";
-	public final static String CUEN_SAVE_CUEN_RQRD         = "CUEN-00002";
-	public final static String CUEN_FORM_TIPO_RQRD         = "CUEN-00003";
-	public final static String CUEN_FORM_DESC_RQRD         = "CUEN-00004";
-	public final static String CUEN_FORM_CUEN_NF           = "CUEN-00005";
-	public final static String CUEN_FORM_SALD_MODI_NPER    = "CUEN-00006";
-	public final static String CUEN_CUAD_CUEN_RQRD         = "CUEN-00007";
-	public final static String CUEN_CUAD_CATE_RQRD         = "CUEN-00008";
-	public final static String CUEN_CUAD_CONC_RQRD         = "CUEN-00009";
-	public final static String CUEN_CUAD_IMPO_RQRD         = "CUEN-00010";
-	public final static String CUEN_CUAD_CUEN_NF           = "CUEN-00011";
-	public final static String CUEN_CUAD_CONCURREN         = "CUEN-00012";
-	public final static String CUEN_TRAS_CTOR_RQRD         = "CUEN-00013";
-	public final static String CUEN_TRAS_CTDE_RQRD         = "CUEN-00014";
-	public final static String CUEN_TRAS_IMPO_RQRD         = "CUEN-00015";
+	
 	
 	//Notificaciones de mï¿½dulo PRES
 	public final static String PRES_CALC_FECH_RQRD         = "PRES-00001";

@@ -14,7 +14,7 @@ import es.ldrsoftware.fecon.data.LiteData;
 public class BsHconTras extends BaseBS {
 
 	@Autowired
-	public BsCuenGet bsCuenGetk;
+	public BsCuenGetk bsCuenGetk;
 
 	@Autowired
 	public BsCuenSave bsCuenSave;
@@ -33,7 +33,7 @@ public class BsHconTras extends BaseBS {
 			notify(AppNotify.HCON_TRAS_MISM_CTAS);
 		}
 				
-		BsCuenGetArea bsCuenGetkArea = new BsCuenGetArea();
+		BsCuenGetkArea bsCuenGetkArea = new BsCuenGetkArea();
 		bsCuenGetkArea.IN.iden = area.IN.ctor;
 		bsCuenGetk.executeBS(bsCuenGetkArea);
 		
@@ -44,7 +44,7 @@ public class BsHconTras extends BaseBS {
 			notify(AppNotify.HCON_TRAS_SALD_INSF);
 		}
 
-		bsCuenGetkArea = new BsCuenGetArea();
+		bsCuenGetkArea = new BsCuenGetkArea();
 		bsCuenGetkArea.IN.iden = area.IN.ctde;
 		bsCuenGetk.execute(bsCuenGetkArea);
 		

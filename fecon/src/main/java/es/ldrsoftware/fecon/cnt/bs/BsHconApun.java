@@ -22,7 +22,7 @@ import es.ldrsoftware.fecon.prp.entity.Pres;
 public class BsHconApun extends BaseBS {
 
 	@Autowired
-	public BsCuenGet bsCuenGet;
+	public BsCuenGetk bsCuenGet;
 
 	@Autowired
 	public BsCuenSave bsCuenSave;
@@ -62,7 +62,7 @@ public class BsHconApun extends BaseBS {
 			break;
 		}
 	
-		BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
+		BsCuenGetkArea bsCuenGetArea = new BsCuenGetkArea();
 		bsCuenGetArea.IN.iden = area.IN.cuen;
 		bsCuenGet.executeBS(bsCuenGetArea);
 		

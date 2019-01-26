@@ -25,7 +25,7 @@ public class BsHconAnul extends BaseBS {
 	public BsHconSave bsHconSave;
 
 	@Autowired
-	public BsCuenGet bsCuenGet;
+	public BsCuenGetk bsCuenGet;
 
 	@Autowired
 	public BsCuenSave bsCuenSave;
@@ -49,7 +49,7 @@ public class BsHconAnul extends BaseBS {
 			notify(AppNotify.HCON_ANUL_TIPO_NO_ANUL);
 		}
 		
-		BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
+		BsCuenGetkArea bsCuenGetArea = new BsCuenGetkArea();
 		bsCuenGetArea.IN.iden = hcon.getCuen();
 		bsCuenGet.executeBS(bsCuenGetArea);
 		Cuen cuen = bsCuenGetArea.OUT.cuen;

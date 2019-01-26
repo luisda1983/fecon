@@ -346,6 +346,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 	// PRIVATE: srvCuenCuad: Servicio de cuadre de cuentas.                                                        //
 	//*************************************************************************************************************//
 	function srvCuenCuad(cntx) {
+		alert(cntx.form.get('cuen').data.sald);
 		var dataRequest = {
 			cate: cntx.form.get('cate').data,
 			conc: cntx.form.get('conc').data,

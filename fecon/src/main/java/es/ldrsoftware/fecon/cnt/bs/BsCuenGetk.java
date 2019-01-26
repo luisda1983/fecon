@@ -10,13 +10,13 @@ import es.ldrsoftware.fecon.cnt.entity.CuenDAO;
 import es.ldrsoftware.fecon.data.AppNotify;
 
 @Component
-public class BsCuenGet extends BaseBS {
+public class BsCuenGetk extends BaseBS {
 	
 	@Autowired
 	public CuenDAO cuenDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsCuenGetArea area = (BsCuenGetArea)a;
+		BsCuenGetkArea area = (BsCuenGetkArea)a;
 		
 		Cuen cuen = cuenDao.getByIden(SESSION.get().inst, area.IN.iden);
 		
@@ -24,7 +24,7 @@ public class BsCuenGet extends BaseBS {
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsCuenGetArea area = (BsCuenGetArea)a;
+		BsCuenGetkArea area = (BsCuenGetkArea)a;
 		
 		validateIntRequired(area.IN.iden, AppNotify.CUEN_GETC_IDEN_RQRD);
 	}

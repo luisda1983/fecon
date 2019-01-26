@@ -12,7 +12,7 @@ import es.ldrsoftware.fecon.data.AppNotify;
 public class BsCuenCuad extends BaseBS {
 	
 	@Autowired
-	BsCuenGet bsCuenGet;
+	BsCuenGetk bsCuenGet;
 	
 	@Autowired
 	BsHconApun bsHconApun;
@@ -20,19 +20,13 @@ public class BsCuenCuad extends BaseBS {
 	protected void execute(BaseBSArea a) throws Exception {
 		BsCuenCuadArea area = (BsCuenCuadArea)a;
 		
-		BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
-		bsCuenGetArea.IN.iden = area.IN.cuen;
-		bsCuenGet.executeBS(bsCuenGetArea);
+		BsCuenGetkArea bsCuenGetkArea = new BsCuenGetkArea();
+		bsCuenGetkArea.IN.iden = area.IN.cuen;
+		bsCuenGet.executeBS(bsCuenGetkArea);
 		
-		Cuen cuen = bsCuenGetArea.OUT.cuen;
+		Cuen cuen = bsCuenGetkArea.OUT.cuen;
 		
 		validateDtoRequired(cuen, AppNotify.CUEN_CUAD_CUEN_NF);
-
-		//TODO: validaci�n de concurrencia. No funciona por redondeo
-//		if (cuen.getSald() != area.IN.sald) {
-//			System.out.println(cuen.getSald() + " vs " + area.IN.sald);
-//			notify(AppNotify.CUEN_CUAD_CONCURREN);
-//		}
 	
 		BsHconApunArea bsHconApunArea = new BsHconApunArea();
 		bsHconApunArea.IN.cate = area.IN.cate;

@@ -12,7 +12,7 @@ import es.ldrsoftware.fecon.data.AppNotify;
 public class BsCuenForm extends BaseBS {
 
 	@Autowired
-	BsCuenGet bsCuenGet;
+	BsCuenGetk bsCuenGetk;
 
 	@Autowired
 	BsCuenSave bsCuenSave;
@@ -43,21 +43,21 @@ public class BsCuenForm extends BaseBS {
 			
 		//Edici�n de cuenta
 		} else {
-			BsCuenGetArea bsCuenGetArea = new BsCuenGetArea();
-			bsCuenGetArea.IN.iden = area.IN.iden;
-			bsCuenGet.executeBS(bsCuenGetArea);
+			BsCuenGetkArea bsCuenGetkArea = new BsCuenGetkArea();
+			bsCuenGetkArea.IN.iden = area.IN.iden;
+			bsCuenGetk.executeBS(bsCuenGetkArea);
 			
-			Cuen cuen = bsCuenGetArea.OUT.cuen;
+			Cuen cuen = bsCuenGetkArea.OUT.cuen;
 			
 			validateDtoRequired(cuen, AppNotify.CUEN_FORM_CUEN_NF);
 			
 			cuen.setTipo(area.IN.tipo);
 			cuen.setDesc(area.IN.desc);
 			
-//			if (cuen.getSald() != area.IN.sald) {
-//				System.out.println(cuen.getSald() + " " + area.IN.sald);
-//				notify(AppNotify.CUEN_FORM_SALD_MODI_NPER);
-//			}
+			if (cuen.getSald() != area.IN.sald) {
+				System.out.println(cuen.getSald() + " " + area.IN.sald);
+				notify(AppNotify.CUEN_FORM_SALD_MODI_NPER);
+			}
 			
 			cuen.setFemo(SESSION.get().feop);
 			cuen.setHomo(SESSION.get().hoop);
