@@ -56,6 +56,7 @@
 								<!--  Detalle -->
 								<div flex ng-show="$index === cntx.conf.get('idx1')">
 									<div flex><b>Identificador: </b>{{conc.iden}}</div>
+									<div flex><b>Tipo: </b>{{cntx.data.get('ltConctipo')[conc.tipo].desc}}</div>
 									<div flex><b>Descripción Larga: </b>{{conc.desl}}</div>
 									<div flex><b>Descripción Corta: </b>{{conc.desc}}</div>
 									<div flex><b>Orden: </b>{{conc.orde}}</div>

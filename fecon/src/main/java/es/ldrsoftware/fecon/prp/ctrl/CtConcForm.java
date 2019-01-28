@@ -31,6 +31,7 @@ public class CtConcForm extends BaseController {
 		BsConcFormArea area = new BsConcFormArea();
 		area.IN.iden = rqt.iden;
 		area.IN.cate = rqt.cate;
+		area.IN.tipo = rqt.tipo;
 		area.IN.desl = rqt.desl;
 		area.IN.desc = rqt.desc;
 		return ctrl(servletRqt, rqt, area);

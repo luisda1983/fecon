@@ -90,19 +90,19 @@
 									<div flex="auto" hide show-xs layout="column">
 										<div flex>{{hcon.feva | yyyymmddFmt}}</div>
 										<div flex layout="row">
-											<div flex="75">{{cntx.data.get('cateList')[hcon.cate].desc + "[" + cntx.data.get('concFullList')[hcon.conc].desc + "]"}}</div>
+											<div flex="75">{{cntx.data.get('cateListMap')[hcon.cate].desc + "[" + cntx.data.get('concFullList')[hcon.conc].desc + "]"}}</div>
 											<div flex="25">{{hcon.impo | number: 2}} &euro;</div>
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
 										<div flex="20">{{hcon.feva | yyyymmddFmt}}</div>
-										<div flex="30">{{cntx.data.get('cateList')[hcon.cate].desc}}</div>
+										<div flex="30">{{cntx.data.get('cateListMap')[hcon.cate].desc}}</div>
 										<div flex="30">{{cntx.data.get('concFullList')[hcon.conc].desc}}</div>
 										<div flex="20">{{hcon.impo | number: 2}} &euro;</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
 										<div flex="15">{{hcon.feva | yyyymmddFmt}}</div>
-										<div flex="20">{{cntx.data.get('cateList')[hcon.cate].desc}}</div>
+										<div flex="20">{{cntx.data.get('cateListMap')[hcon.cate].desc}}</div>
 										<div flex="20">{{cntx.data.get('concFullList')[hcon.conc].desc}}</div>
 										<div flex="15">{{hcon.impo | number: 2}} &euro;</div>
 										<div flex="30">{{hcon.desc}}</div>
@@ -112,7 +112,7 @@
  										<div flex layout="column" class="md-whiteframe-z2">
 											<div flex><b>Identificador: </b>{{hcon.iden}}</div>
 											<div flex><b>Fecha Valor: </b>{{hcon.feva | yyyymmddFmt}}</div>
-											<div flex><b>Categoria: </b>{{cntx.data.get('cateList')[hcon.cate].desc}}</div>
+											<div flex><b>Categoria: </b>{{cntx.data.get('cateListMap')[hcon.cate].desc}}</div>
 											<div flex><b>Concepto: </b>{{cntx.data.get('concFullList')[hcon.conc].desc}}</div>
 											<div flex><b>Descripción: </b>{{hcon.desc}}</div>
 											<div flex><b>Fecha operación: </b>{{hcon.feop | yyyymmddFmt}}</div>

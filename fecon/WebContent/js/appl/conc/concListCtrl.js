@@ -16,8 +16,9 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadView() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
+		var srv2 = comc.requestLiteList('CONCTIPO', $scope.cntx);
 
-		$q.all([srv.stResp(true, srv1)]).then(function() {
+		$q.all([srv.stResp(true, srv1, srv2)]).then(function() {
 			view();
 		});	
 	}

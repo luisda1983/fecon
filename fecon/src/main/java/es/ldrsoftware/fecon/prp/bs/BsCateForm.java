@@ -35,10 +35,13 @@ public class BsCateForm extends BaseBS {
 			bsCateGetdArea.IN.desc = area.IN.desc;
 			bsCateGetd.execute(bsCateGetdArea);
 			
-			if (bsCateGetdArea.OUT.cateDesc != null || bsCateGetdArea.OUT.cateDesl != null) {
-				notify(AppNotify.CATE_FORM_DESC_EXIS);
+			if (bsCateGetdArea.OUT.cateDesl != null) {
+				notify(AppNotify.CATE_FORM_DESL_DP);
 			}
 			
+			if (bsCateGetdArea.OUT.cateDesc != null) {
+				notify(AppNotify.CATE_FORM_DESC_DP);
+			}
 			Cate cate = new Cate();
 			
 			cate.setInst(SESSION.get().inst);
@@ -49,6 +52,7 @@ public class BsCateForm extends BaseBS {
 			//Obtener el orden que toque
 			BsCateGetoArea bsCateGetoArea = new BsCateGetoArea();
 			bsCateGeto.execute(bsCateGetoArea);
+			
 			cate.setOrde(bsCateGetoArea.OUT.orde);
 			
 			BsCateSaveArea bsCateSaveArea = new BsCateSaveArea();
@@ -69,10 +73,13 @@ public class BsCateForm extends BaseBS {
 
 			cate.setDesl(area.IN.desl);
 			cate.setDesc(area.IN.desc);
-			
-			//TODO: para permitir cambiar el indicar de permitir presupuesto a nivel de categoria
-			//      se debe validar que no haya ninguna partida abierta a nivel de categoria
-			//
+
+
+			if (!area.IN.pres.equals(cate.getPres())) {
+				//TODO: para permitir cambiar el indicar de permitir presupuesto a nivel de categoria
+				//      se debe validar que no haya ninguna partida abierta a nivel de categoria
+				//				
+			}
 			
 			BsCateSaveArea bsCateSaveArea = new BsCateSaveArea();
 			bsCateSaveArea.IN.cate = cate;

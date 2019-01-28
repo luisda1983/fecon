@@ -175,7 +175,7 @@
 								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 								<div layout="column">
 									<div flex="auto" hide show-xs layout="column">
-										<div flex>{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
+										<div flex>{{cntx.data.get('cateListMap')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex layout="row">
 											<div flex="35">{{presAnua.impo | number:2}} &euro;</div>
 											<div flex="35">{{presAnua.desv | number:2}} &euro;</div>
@@ -183,13 +183,13 @@
 										</div>
 									</div>
 									<div flex="auto" hide show-sm layout="row">
-										<div flex="40">{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.get('cateListMap')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex="20">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="20">{{presAnua.desv | number:2}} &euro;</div>
 										<div flex="20">{{cntx.data.get('ltPresesta')[presAnua.esta].desc}}</div>
 									</div>
 									<div flex="auto" hide show-gt-sm layout="row">
-										<div flex="40">{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
+										<div flex="40">{{cntx.data.get('cateListMap')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 										<div flex="15">{{presAnua.impo | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.imto | number:2}} &euro;</div>
 										<div flex="15">{{presAnua.desv | number:2}} &euro;</div>
@@ -197,7 +197,7 @@
 									</div>
  									<div flex layout="row" ng-show="$index === cntx.conf.get('idx2')" layout-padding>
  										<div flex layout="column" class="md-whiteframe-z2">
-											<div flex><b>Partida: </b>{{cntx.data.get('cateList')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
+											<div flex><b>Partida: </b>{{cntx.data.get('cateListMap')[presAnua.cate].desc}} - {{cntx.data.get('concFullList')[presAnua.conc].desc}}</div>
 											<div flex><b>Importe presupuestado: </b>{{presAnua.impo | number:2}} &euro;</div>
 											<div flex><b>Importe real: </b>{{presAnua.imto | number:2}} &euro;</div>
 											<div flex><b>Desviación: </b>{{presAnua.desv | number:2}} &euro;</div>

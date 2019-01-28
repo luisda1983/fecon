@@ -50,6 +50,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		else if (cntxLite.form.tbla === 'HCONMDTIPO') { cntx.data.set('ltHconmdtipo', cntxLite.data.liteMap); d.resolve(); }
 		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.set('ltAnualidad' , cntxLite.data.liteMap); d.resolve(); }
 		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.set('ltPresesta'  , cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'CONCTIPO')   { cntx.data.set('ltConctipo'  , cntxLite.data.liteMap); d.resolve(); }
 		//else if
 		//Si no tenemos mapeada la tabla de literales, rechazamos el promise
 		else { d.reject(); }
@@ -146,8 +147,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				//TODO: ver si realmente era necesario el map
-				cntx.data.set('cateList', data.OUTPUT['cateListMap']);
+				cntx.data.set('cateList', data.OUTPUT['cateList']);
 				cntx.data.set('cateListMap', data.OUTPUT['cateListMap']);
 				d.resolve(data);
 			}
@@ -166,6 +166,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		var dataRequest = {
 			iden: cntx.form.get('iden').data,
 			cate: cntx.form.get('cate').data,
+			tipo: cntx.form.get('tipo').data,
 			desl: cntx.form.get('desl').data,
 			desc: cntx.form.get('desc').data
 		};

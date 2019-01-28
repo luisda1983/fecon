@@ -52,8 +52,15 @@ public class BsConcList extends BaseBS {
 		
 		validateStringRequired(area.IN.tipo, AppNotify.CONC_LIST_TIPO_RQRD);
 		
-		if (BsConcListArea.LIST_TIPO_CATE.equals(area.IN.tipo)) {
-			validateIntRequired(area.IN.cate, AppNotify.CONC_LIST_CATE_RQRD);
+		switch(area.IN.tipo) {
+		case BsConcListArea.LIST_TIPO_CATE:
+			 validateIntRequired(area.IN.cate, AppNotify.CONC_LIST_CATE_RQRD);
+			 break;
+		case BsConcListArea.LIST_TIPO_FULL:
+			 break;
+		default:
+			 notify(AppNotify.CONC_LIST_TIPO_ERRO);
+			 break;
 		}
 	}
 

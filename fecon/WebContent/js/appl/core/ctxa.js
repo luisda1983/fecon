@@ -118,6 +118,7 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('iden', ctxl.makeField(0));
 		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('tipo', ctxl.makeField(''));
 		cntx.form.set('desl', ctxl.makeField(''));
 		cntx.form.set('desc', ctxl.makeField(''));
 		cntx.form.set('orde', ctxl.makeField(0));

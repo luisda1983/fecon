@@ -113,6 +113,7 @@ app.controller('cuenListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Captura del evento de edición de cuenta.                                                                    //
 	//*************************************************************************************************************//
 	$scope.fnEdit = function(i) {
+		alert(i);
 		var cntx = srv.getCntx('cuen/form');
 		
 		var cuen = $scope.cntx.data.get('cuenList')[i];

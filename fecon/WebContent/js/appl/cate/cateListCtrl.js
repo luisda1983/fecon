@@ -99,9 +99,11 @@ app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Captura del evento de edición de categoría.                                                                 //
 	//*************************************************************************************************************//
 	$scope.fnEdit = function(i) {
+		alert(i);
 		var cntx = srv.getCntx('cate/form');
 		
 		var cate = $scope.cntx.data.get('cateList')[i];
+		alert(cate);
 		cntx.xchg.set('cate', cate);
 		cntx.xchg.set('indx', i);
 		

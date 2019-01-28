@@ -141,6 +141,83 @@ public class AppNotify {
 	public final static String CUEN_TRAS_CTDE_RQRD         = "CUEN-05002";
 	public final static String CUEN_TRAS_IMPO_RQRD         = "CUEN-05003";
 
+	
+	//*********************************************************************************************//
+	// Notificaciones del mÃ³dulo PRP                                                              //
+	//*********************************************************************************************//
+
+	//Servicio de grabado de Categorías
+	public final static String CATE_SAVE_CATE_RQRD         = "CATE-01001";
+	public final static String CATE_SAVE_INST_RQRD         = "CATE-01701";
+	public final static String CATE_SAVE_DESL_RQRD         = "CATE-01702";
+	public final static String CATE_SAVE_DESC_RQRD         = "CATE-01703";
+	public final static String CATE_SAVE_ORDE_RQRD         = "CATE-01704";
+	public final static String CATE_SAVE_PRES_RQRD         = "CATE-01705";
+	public final static String CATE_SAVE_INST_RNGE         = "CATE-01801";
+	public final static String CATE_SAVE_DESL_MAXL         = "CATE-01802";
+	public final static String CATE_SAVE_DESC_MAXL         = "CATE-01803";
+	public final static String CATE_SAVE_ORDE_RNGE         = "CATE-01804";
+	public final static String CATE_SAVE_PRES_ERRO         = "CATE-01805";
+	
+	//Servicio de consulta de categoría
+	public final static String CATE_GETK_IDEN_RQRD         = "CATE-02001";
+	
+	//Servicio de consulta de categoría por descripción
+	public final static String CATE_GETD_DESL_RQRD         = "CATE-03001";
+	public final static String CATE_GETD_DESC_RQRD         = "CATE-03002";
+
+	//Servicio de alta y edición de categoría
+	public final static String CATE_FORM_DESL_RQRD         = "CATE-04001";
+	public final static String CATE_FORM_DESC_RQRD         = "CATE-04002";
+	public final static String CATE_FORM_PRES_RQRD         = "CATE-04003";
+	public final static String CATE_FORM_DESL_DP           = "CATE-04901";
+	public final static String CATE_FORM_DESC_DP           = "CATE-04902";
+	public final static String CATE_FORM_CATE_NF           = "CATE-04903";
+
+	//Servicio de grabado de concepto
+	public final static String CONC_SAVE_CONC_RQRD         = "CONC-01001";
+	public final static String CONC_SAVE_CATE_RQRD         = "CONC-01701";
+	public final static String CONC_SAVE_INST_RQRD         = "CONC-01702";
+	public final static String CONC_SAVE_TIPO_RQRD         = "CONC-01703";
+	public final static String CONC_SAVE_DESL_RQRD         = "CONC-01704";
+	public final static String CONC_SAVE_DESC_RQRD         = "CONC-01705";
+	public final static String CONC_SAVE_ORDE_RQRD         = "CONC_01706";
+	public final static String CONC_SAVE_CATE_RNGE         = "CONC-01801";
+	public final static String CONC_SAVE_INST_RNGE         = "CONC-01802";
+	public final static String CONC_SAVE_TIPO_ERRO         = "CONC-01803";
+	public final static String CONC_SAVE_DESL_MAXL         = "CONC-01804";
+	public final static String CONC_SAVE_DESC_MAXL         = "CONC-01805";
+	public final static String CONC_SAVE_ORDE_RNGE         = "CONC-01806";
+	
+	//Servicio de alta y modificacón de concepto
+	public final static String CONC_FORM_CATE_RQRD         = "CONC-02001";
+	public final static String CONC_FORM_TIPO_RQRD         = "CONC-02002";
+	public final static String CONC_FORM_DESL_RQRD         = "CONC-02003";
+	public final static String CONC_FORM_DESC_RQRD         = "CONC-02004";
+	public final static String CONC_FORM_CATE_DIFF         = "CONC-02501";
+	public final static String CONC_FORM_TIPO_DIFF         = "CONC-02502";
+	public final static String CONC_FORM_CATE_NF           = "CONC-02901";
+	public final static String CONC_FORM_DESL_DP           = "CONC-02902";
+	public final static String CONC_FORM_DESC_DP           = "CONC-02903";
+	public final static String CONC_FORM_CONC_NF           = "CONC-02904";
+	
+	//Servicio de consulta de concepto
+	public final static String CONC_GETK_IDEN_RQRD         = "CONC-03001";
+	
+	//Servicio de consulta de conceptos por descripción
+	public final static String CONC_GETD_CATE_RQRD         = "CONC-04001";
+	public final static String CONC_GETD_DESL_RQRD         = "CONC-04002";
+	public final static String CONC_GETD_DESC_RQRD         = "CONC-04003";
+	
+	//Servicio de lista de conceptos
+	public final static String CONC_LIST_TIPO_RQRD         = "CONC-05001";
+	public final static String CONC_LIST_CATE_RQRD         = "CONC-05002";
+	public final static String CONC_LIST_TIPO_ERRO         = "CONC-05501";
+	
+	
+	
+	
+	
 	public final static String SESI_LIST_ESTA_RQRD         = "SESI-01001";
 	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
 
@@ -164,31 +241,5 @@ public class AppNotify {
 	public final static String PRES_ESTA_ESTA_ERRO         = "PRES-00014";
 	public final static String PRES_GETP_ANUA_RQRD         = "PRES-00015";
 	public final static String PRES_GETP_CATE_RQRD         = "PRES-00016";	
-	
-	//Notificaciones del mï¿½dulo CATE
-	public final static String CATE_SAVE_CATE_RQRD         = "CATE-00001";
-	public final static String CATE_GETD_DESL_RQRD         = "CATE-00002";
-	public final static String CATE_GETD_DESC_RQRD         = "CATE-00003";
-	public final static String CATE_GETK_IDEN_RQRD         = "CATE-00004";
-	public final static String CATE_FORM_DESL_RQRD         = "CATE-00005";
-	public final static String CATE_FORM_DESC_RQRD         = "CATE-00006";
-	public final static String CATE_FORM_PRES_RQRD         = "CATE-00007";
-	public final static String CATE_FORM_DESC_EXIS         = "CATE-00008";
-	public final static String CATE_FORM_CATE_NF           = "CATE-00009";
-	
-	//Notificacion del mÃ³dulo CONC
-	public final static String CONC_LIST_TIPO_RQRD         = "CONC-00001";
-	public final static String CONC_LIST_CATE_RQRD         = "CONC-00002";
-	public final static String CONC_SAVE_CONC_RQRD         = "CONC-00003";
-	public final static String CONC_FORM_CATE_RQRD         = "CONC-00004";
-	public final static String CONC_FORM_DESL_RQRD         = "CONC-00005";
-	public final static String CONC_FORM_DESC_RQRD         = "CONC-00006";
-	public final static String CONC_FORM_CATE_NF           = "CONC-00007";
-	public final static String CONC_FORM_DESC_EXIS         = "CONC-00008";
-	public final static String CONC_FORM_CONC_NF           = "CONC-00009";
-	public final static String CONC_FORM_CATE_DIFF         = "CONC-00010";
-	public final static String CONC_GETD_CATE_RQRD         = "CONC-00011";
-	public final static String CONC_GETD_DESL_RQRD         = "CONC-00012";
-	public final static String CONC_GETD_DESC_RQRD         = "CONC-00013";
-	public final static String CONC_GETK_IDEN_RQRD         = "CONC-00014";
+		
 }

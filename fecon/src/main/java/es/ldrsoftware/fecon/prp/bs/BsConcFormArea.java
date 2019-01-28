@@ -11,6 +11,7 @@ public class BsConcFormArea extends BaseBSArea {
 	public class BsConcFormAreaIn {
 		public long   iden;
 		public long   cate;
+		public String tipo;
 		public String desl;
 		public String desc;
 	}

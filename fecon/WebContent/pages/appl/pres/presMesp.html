@@ -61,7 +61,7 @@
 									<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
 									<div flex layout="column">
 										<div flex="auto" hide show-xs layout="column">
-											<div flex>{{cntx.data.get('cateList')[pres.cate].desc}}</div>
+											<div flex>{{cntx.data.get('cateListMap')[pres.cate].desc}}</div>
 											<div flex layout="row">
 												<div flex="35">{{pres.impo | number:2}} &euro;</div>
 												<div flex="35">{{pres.desv | number:2}} &euro;</div>
@@ -69,13 +69,13 @@
 											</div>
 										</div>
 										<div flex="auto" hide show-sm layout="row">
-											<div flex="25">{{cntx.data.get('cateList')[pres.cate].desc}}</div>
+											<div flex="25">{{cntx.data.get('cateListMap')[pres.cate].desc}}</div>
 											<div flex="25">{{pres.impo | number:2}} &euro;</div>
 											<div flex="25">{{pres.desv | number:2}} &euro;</div>
 											<div flex="25">{{cntx.data.get('ltPresesta')[pres.esta].desc}}</div>
 										</div>
 										<div flex="auto" hide show-gt-sm layout="row">
-											<div flex="40">{{cntx.data.get('cateList')[pres.cate].desc}}</div>
+											<div flex="40">{{cntx.data.get('cateListMap')[pres.cate].desc}}</div>
 											<div flex="15">{{pres.impo | number:2}} &euro;</div>
 											<div flex="15">{{pres.imto | number:2}} &euro;</div>
 											<div flex="15">{{pres.desv | number:2}} &euro;</div>
@@ -131,7 +131,7 @@
 										</div>
  										<div flex layout="row" ng-show="$index === cntx.conf.get('idx2') && presConc.cate === cntx.conf.get('idx1')" layout-padding>
  											<div flex layout="column" class="md-whiteframe-z2">
-												<div flex><b>Partida: </b>{{cntx.data.get('cateList')[presConc.cate].desc}} - {{cntx.data.get('concFullList')[presConc.conc].desc}}</div>
+												<div flex><b>Partida: </b>{{cntx.data.get('cateListMap')[presConc.cate].desc}} - {{cntx.data.get('concFullList')[presConc.conc].desc}}</div>
 												<div flex><b>Importe presupuestado: </b>{{presConc.impo | number:2}} &euro;</div>
 												<div flex><b>Importe real: </b>{{presConc.imto | number:2}} &euro;</div>
 												<div flex><b>Desviación: </b>{{presConc.desv | number:2}} &euro;</div>

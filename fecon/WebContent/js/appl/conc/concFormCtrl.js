@@ -15,7 +15,11 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		view();
+		var srv1 = comc.requestLiteList('CONCTIPO', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1)]).then(function() {
+			view();
+		});
 	}
 
 	//*************************************************************************************************************//
@@ -53,6 +57,7 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 				
 				$scope.cntx.form.get('iden').data = conc.iden;
 				$scope.cntx.form.get('cate').data = conc.cate;
+				$scope.cntx.form.get('tipo').data = conc.tipo;
 				$scope.cntx.form.get('desl').data = conc.desl;
 				$scope.cntx.form.get('desc').data = conc.desc;
 				$scope.cntx.form.get('orde').data = conc.orde;
@@ -72,6 +77,7 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 		if ($scope.cntx.conf.get('mode') === 'N') {
 			ctxl.formField($scope.cntx, 'iden', false, true);
 			ctxl.formField($scope.cntx, 'cate', false, true);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
 			ctxl.formField($scope.cntx, 'desl', true, false);
 			ctxl.formField($scope.cntx, 'desc', true, false);
 			ctxl.formField($scope.cntx, 'orde', false, true);
@@ -79,6 +85,7 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 		} else if ($scope.cntx.conf.get('mode') === 'E') {
 			ctxl.formField($scope.cntx, 'iden', true, true);
 			ctxl.formField($scope.cntx, 'cate', false, true);
+			ctxl.formField($scope.cntx, 'tipo', true, true);
 			ctxl.formField($scope.cntx, 'desl', true, false);
 			ctxl.formField($scope.cntx, 'desc', true, false);
 			ctxl.formField($scope.cntx, 'orde', true, true);
@@ -91,6 +98,7 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 	function inicForm() {
 		$scope.cntx.form.get('iden').data = 0;
 		//$scope.cntx.form.get('cate').data = 0; -- No se inicializa la categoría pues viene impuesta por flujo
+		$scope.cntx.form.get('tipo').data = '';
 		$scope.cntx.form.get('desl').data = '';
 		$scope.cntx.form.get('desc').data = '';
 		$scope.cntx.form.get('orde').data = 0;
