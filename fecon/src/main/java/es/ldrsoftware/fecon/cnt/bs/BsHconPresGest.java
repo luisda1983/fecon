@@ -8,8 +8,8 @@ import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.data.LiteData;
-import es.ldrsoftware.fecon.prp.bs.BsPresGet;
-import es.ldrsoftware.fecon.prp.bs.BsPresGetArea;
+import es.ldrsoftware.fecon.prp.bs.BsPresGetk;
+import es.ldrsoftware.fecon.prp.bs.BsPresGetkArea;
 import es.ldrsoftware.fecon.prp.bs.BsPresSave;
 import es.ldrsoftware.fecon.prp.bs.BsPresSaveArea;
 import es.ldrsoftware.fecon.prp.entity.Pres;
@@ -24,7 +24,7 @@ public class BsHconPresGest extends BaseBS {
 	public BsHconSave bsHconSave;
 
 	@Autowired
-	public BsPresGet bsPresGetk;
+	public BsPresGetk bsPresGetk;
 
 	@Autowired
 	public BsPresSave bsPresSave;
@@ -58,7 +58,7 @@ public class BsHconPresGest extends BaseBS {
 		}
 		
 		//Obtenemos la partida presupuestaria
-		BsPresGetArea bsPresGetkArea = new BsPresGetArea();
+		BsPresGetkArea bsPresGetkArea = new BsPresGetkArea();
 		bsPresGetkArea.IN.anua = hcon.getPran();
 		bsPresGetkArea.IN.mesp = hcon.getPrms();
 		bsPresGetkArea.IN.cate = hcon.getPrct();

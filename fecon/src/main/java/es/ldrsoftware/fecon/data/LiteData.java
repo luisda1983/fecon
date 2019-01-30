@@ -8,10 +8,13 @@ public class LiteData {
 	public final static String LT_EL_MSTR_CUENTIPO = "CUENTIPO";
 	public final static String LT_EL_MSTR_CONCTIPO = "CONCTIPO";
 	
-	public final static String LT_TB_PRESESTA = "PRESESTA";
-	public final static String LT_EL_PRESESTA_ABIERTA   = "A";
-	public final static String LT_EL_PRESESTA_CERRADA   = "C";
-	public final static String LT_EL_PRESESTA_NO_CREADA = "N";
+	public final static String   LT_TB_PRESESTA           = "PRESESTA";
+	public final static String   LT_EL_PRESESTA_ABIERTA   = "A";
+	public final static String   LT_EL_PRESESTA_CERRADA   = "C";
+	public final static String   LT_EL_PRESESTA_NO_CREADA = "N";
+	public final static String[] LT_ST_PRESESTA           = {LT_EL_PRESESTA_ABIERTA,
+			                                                 LT_EL_PRESESTA_CERRADA,
+			                                                 LT_EL_PRESESTA_NO_CREADA};
 	
 	public final static String LT_TB_HCONLTTIPO           = "HCONLTTIPO";
 	public final static String LT_EL_HCONLTTIPO_MES       = "LT01";

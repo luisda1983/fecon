@@ -3,19 +3,19 @@ package es.ldrsoftware.fecon.prp.bs;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.prp.entity.Pres;
 
-public class BsPresGetArea extends BaseBSArea {
+public class BsPresGetkArea extends BaseBSArea {
 
-	public BsPresGetAreaIn  IN  = new BsPresGetAreaIn();
-	public BsPresGetAreaOut OUT = new BsPresGetAreaOut();
+	public BsPresGetkAreaIn  IN  = new BsPresGetkAreaIn();
+	public BsPresGetkAreaOut OUT = new BsPresGetkAreaOut();
 	
-	public class BsPresGetAreaIn {
+	public class BsPresGetkAreaIn {
 		public int  anua;
 		public int  mesp;
 		public long cate;
 		public long conc;
 	}
 	
-	public class BsPresGetAreaOut {
+	public class BsPresGetkAreaOut {
 		public Pres pres;
 	}
 }

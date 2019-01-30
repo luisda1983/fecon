@@ -26,10 +26,8 @@ public class BsPresEsta extends BaseBS {
 		Pres pres;
 		
 		pres = presDao.getByAnuaMespCateConc(SESSION.get().inst, area.IN.anua, area.IN.mesp, area.IN.cate, area.IN.conc);
-		
-		if (pres == null) {
-			notify(AppNotify.PRES_ESTA_PRES_NF); 
-		}
+
+		validateDtoRequired(pres, AppNotify.PRES_ESTA_PRES_NF);
 		
 		if (LiteData.LT_EL_PRESESTA_ABIERTA.equals(pres.getEsta())) {
 			if (LiteData.LT_EL_PRESESTA_CERRADA.equals(area.IN.esta)) {

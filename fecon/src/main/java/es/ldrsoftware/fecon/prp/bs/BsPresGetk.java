@@ -10,13 +10,13 @@ import es.ldrsoftware.fecon.prp.entity.Pres;
 import es.ldrsoftware.fecon.prp.entity.PresDAO;
 
 @Component
-public class BsPresGet extends BaseBS {
+public class BsPresGetk extends BaseBS {
 	
 	@Autowired
 	public PresDAO presDao;
 	
 	protected void execute(BaseBSArea a) throws Exception {
-		BsPresGetArea area = (BsPresGetArea)a;
+		BsPresGetkArea area = (BsPresGetkArea)a;
 
 		Pres pres = presDao.getByAnuaMespCateConc(SESSION.get().inst, area.IN.anua, area.IN.mesp, area.IN.cate, area.IN.conc);
 
@@ -24,9 +24,9 @@ public class BsPresGet extends BaseBS {
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
-		BsPresGetArea area = (BsPresGetArea)a;
+		BsPresGetkArea area = (BsPresGetkArea)a;
 		
-		validateIntRequired(area.IN.anua, AppNotify.PRES_GETP_ANUA_RQRD);
-		validateIntRequired(area.IN.cate, AppNotify.PRES_GETP_CATE_RQRD);
+		validateIntRequired(area.IN.anua, AppNotify.PRES_GETK_ANUA_RQRD);
+		validateIntRequired(area.IN.cate, AppNotify.PRES_GETK_CATE_RQRD);
 	}
 }
