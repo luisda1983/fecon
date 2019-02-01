@@ -27,6 +27,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		else if (name === 'hcon/list')      { return srvHconList(cntx);     }
 		else if (name === 'hcon/pres/gest') { return srvHconPresGest(cntx); }
 		else if (name === 'pres/anua')      { return srvPresAnua(cntx);     }
+		else if (name === 'pres/calc')      { return srvPresCalc(cntx);     }
 		else if (name === 'pres/conc')      { return srvPresConc(cntx);     }
 		else if (name === 'pres/esta')      { return srvPresEsta(cntx);     }
 		else if (name === 'pres/mesp')      { return srvPresMesp(cntx);     }
@@ -530,6 +531,36 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresCalc: Servicio de consulta de presupuesto previo al apunte.                                 //
+	//*************************************************************************************************************//
+	function srvPresCalc(cntx) {
+		var dataRequest = {
+			fech: form.date(cntx.form.get('feva').data),
+			cate: cntx.form.get('cate').data,
+			conc: cntx.form.get('conc').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/pres/calc/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('pres', data.OUTPUT['pres']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+	
 	//*************************************************************************************************************//
 	// PRIVATE: srvPresConc: Servicio de consulta de presupuesto anual por conceptos.                              //
 	//*************************************************************************************************************//

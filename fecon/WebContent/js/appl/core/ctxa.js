@@ -185,6 +185,7 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		cntx.form.set('impo', ctxl.makeField(0));
 		cntx.form.set('feva', ctxl.makeField(new Date()));
 		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('stPres', ctxl.makeSection('stPres'));
 		return cntx;
 	}
 

@@ -80,6 +80,13 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 			ctxl.formField($scope.cntx, 'impo', true, false);
 			ctxl.formField($scope.cntx, 'feva', true, false);
 			ctxl.formField($scope.cntx, 'desc', true, false);
+
+			if ($scope.cntx.data.get('pres') !== undefined &&
+				$scope.cntx.data.get('pres') !== null) {
+				ctxl.formSection($scope.cntx, 'stPres', true);
+			} else {
+				ctxl.formSection($scope.cntx, 'stPres', false);
+			}
 		//Edición de apunte
 		} else if ($scope.cntx.conf.get('mode') === 'E') {
 			ctxl.formField($scope.cntx, 'tipo', true, false);
@@ -90,6 +97,7 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 			ctxl.formField($scope.cntx, 'impo', true, true);
 			ctxl.formField($scope.cntx, 'feva', true, true);
 			ctxl.formField($scope.cntx, 'desc', true, true);
+			ctxl.formSection($scope.cntx, 'stPres', false);
 			
 			if ($scope.cntx.form.get('tipo').data === 'MD01') {
 				//Cambio de fecha
@@ -136,12 +144,29 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 	//*************************************************************************************************************//
 	// Captura del evento de cambio de categoria.                                                                  //
 	//*************************************************************************************************************//
-	$scope.fnConcChng = function() {
+	$scope.fnCateChng = function() {
 		var srv1 = comc.request('conc/list', $scope.cntx);
 		
-		srv.stResp(true, srv1);
+		$q.all([srv.stResp(true, srv1)]).then(function(){
+			$scope.cntx.form.get('conc').data = 0;
+			presCalc();
+		});
 	};
 
+	//*************************************************************************************************************//
+	// Captura del evento de cambio de concepto.                                                                   //
+	//*************************************************************************************************************//
+	$scope.fnConcChng = function() {
+		presCalc();
+	};
+
+	//*************************************************************************************************************//
+	// Captura del evento de cambio de fecha valor.                                                                //
+	//*************************************************************************************************************//
+	$scope.fnFevaChng = function() {
+		presCalc();
+	};
+	
 	//*************************************************************************************************************//
 	// Captura del evento de cambio de tipo de modificación.                                                       //
 	//*************************************************************************************************************//
@@ -161,6 +186,25 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 		});
 	};
 
+	//Consulta de datos del presupuesto que correspondería al apunte
+	function presCalc() {
+		//Consultamos si tenemos fecha, categoría y concepto
+		if ($scope.cntx.form.get('feva').data !== 0 &&
+			$scope.cntx.form.get('cate').data !== 0 &&
+			$scope.cntx.form.get('conc').data !== 0) {
+			var srv1 = comc.request('pres/calc', $scope.cntx);
+			
+			$q.all([srv.stResp(true, srv1)]).then(function() {
+				view();
+			});
+		} else {
+			if ($scope.cntx.data.get('pres') !== undefined &&
+				$scope.cntx.data.get('pres') !== null) {
+				$scope.cntx.data.set('pres', null);
+			}
+			view();
+		}
+	}
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
 	//*********************************************                  **********************************************//

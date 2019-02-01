@@ -25,13 +25,13 @@
 					<div layout="row" layout-xs="column" flex>
 	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('cate').show">
 	                		<label>Categoria</label>
-							<md-select ng-model="cntx.form.get('cate').data" ng-disabled="cntx.form.get('cate').read" ng-change="fnConcChng()">
+							<md-select ng-model="cntx.form.get('cate').data" ng-disabled="cntx.form.get('cate').read" ng-change="fnCateChng()">
 	                        	<md-option ng-repeat="cate in cntx.data.get('cateList')" ng-value="cate.iden">{{cate.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
 	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('conc').show">
 	                    	<label>Concepto</label>
-	                        <md-select ng-model="cntx.form.get('conc').data" ng-disabled="cntx.form.get('conc').read">
+	                        <md-select ng-model="cntx.form.get('conc').data" ng-disabled="cntx.form.get('conc').read" ng-change="fnConcChng()">
 	                        	<md-option ng-repeat="conc in cntx.data.get('concList')" ng-value="conc.iden">{{conc.desc}}</md-option>
 	                        </md-select>
 	                    </md-input-container>
@@ -53,7 +53,7 @@
 					<div layout="row" layout-xs="column" flex="25" flex-sm="50" flex-xs="100">
 						<md-input-container class="md-block" flex data-ng-show="cntx.form.get('feva').show">
 	                    	<label>Fecha Valor</label>
-	                    	<input type="date" ng-model="cntx.form.get('feva').data" ng-disabled="cntx.form.get('feva').read"/>
+	                    	<input type="date" ng-model="cntx.form.get('feva').data" ng-disabled="cntx.form.get('feva').read" ng-model-options="{updateOn: 'blur'}" ng-change="fnFevaChng()"/>
 	                    </md-input-container>
 					</div>
 				</div>
@@ -67,6 +67,35 @@
                     <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
                 </div>
 			</form>
+        </md-content>
+        <md-content data-ng-show="cntx.form.get('stPres').show">
+        	<div data-ng-show="cntx.data.get('pres').esta === 'N'">
+        		No hay partida presupuestada para el apunte que va a realizar.
+        	</div>
+        	<div data-ng-show="cntx.data.get('pres').esta === 'C'">
+        		La partida correspondiente no admite apuntes.
+        	</div>
+        	<div data-ng-show="cntx.data.get('pres').esta === 'A'">
+        		<div data-ng-show="cntx.data.get('pres').mesp === 0">
+        			Apunte contra partida anual:
+        		</div>
+        		<div data-ng-show="cntx.data.get('pres').mesp !== 0">
+        			Apunte contra partida mensual:
+        		</div>
+        		<div data-ng-show="cntx.data.get('pres').conc === 0">
+        			Categoría: {{cntx.data.get('cateListMap')[cntx.data.get('pres').cate].desl}}
+        		</div>
+        		<div data-ng-show="cntx.data.get('pres').conc !== 0">
+        			Categoría: {{cntx.data.get('cateListMap')[cntx.data.get('pres').cate].desl}}
+        			Concepto: {{cntx.data.get('concListMap')[cntx.data.get('pres').conc].desl}}
+        		</div>
+        		<div>
+        			Importe presupuestado: {{cntx.data.get('pres').impo}} &euro;
+        		</div>
+        		<div>
+        			Importe restante: {{cntx.data.get('pres').impo - cntx.data.get('pres').impr}} &euro;
+        		</div>
+        	</div>
         </md-content>
     </div>
 </div>

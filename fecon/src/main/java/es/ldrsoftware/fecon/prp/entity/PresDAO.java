@@ -349,7 +349,6 @@ public class PresDAO extends BaseDAO {
 		return presList;
 	}
 
-	//FIXME: afectada cuando migremos las categorias
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Pres> getListByAnuaMesp(long inst, int anua, int mesp) {
 		
