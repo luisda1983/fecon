@@ -32,6 +32,13 @@ public class BsPresEsta extends BaseBS {
 		if (LiteData.LT_EL_PRESESTA_ABIERTA.equals(pres.getEsta())) {
 			if (LiteData.LT_EL_PRESESTA_CERRADA.equals(area.IN.esta)) {
 				pres.setEsta(area.IN.esta);
+				//Actualización de desviación en partidas presupuestadas sin apuntes
+				if (pres.getImpo() != 0 &&
+					pres.getImto() == 0 &&
+					pres.getDesv() == 0) {
+					pres.setDesv(pres.getImpo() * -1);
+					pres.setBala(pres.getImpo() * -1);
+				}
 			} else {
 				notify(AppNotify.PRES_ESTA_ESTA_ERRO);
 			}
