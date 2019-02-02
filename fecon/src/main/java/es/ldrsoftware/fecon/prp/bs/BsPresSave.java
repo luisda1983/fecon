@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
+import es.ldrsoftware.core.arq.util.DoubleUtil;
 import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.data.LiteData;
 import es.ldrsoftware.fecon.prp.entity.Pres;
@@ -23,8 +24,29 @@ public class BsPresSave extends BaseBS {
 		Pres pres = area.IN.pres;
 		
 		//Si el estado es 'N', quiere decir que aï¿½n no estï¿½ creado el registro, y debe pasar a 'A'-Abierto
+		//Además, se debe validar que no tiene importe presupuestado
 		if (LiteData.LT_EL_PRESESTA_NO_CREADA.equals(pres.getEsta())) {
+			validateDecEmpty(pres.getImpo(), AppNotify.PRES_SAVE_NPER_IMPO);
 			pres.setEsta(LiteData.LT_EL_PRESESTA_ABIERTA);
+		}
+
+		//Si cerramos la partida, validamos los caudres entre importes
+		if (LiteData.LT_EL_PRESESTA_CERRADA.equals(pres.getEsta())) {
+
+			if (pres.getImto() != DoubleUtil.round(pres.getImnp() + pres.getImpr(), 2)) {
+				notify(AppNotify.PRES_SAVE_IMPO_DESC);
+			}
+			
+			//La desviación sólo aplica a partidas presupuestadas
+			if (pres.getImpo() != 0) {
+				if (pres.getDesv() != DoubleUtil.round(pres.getImto() - pres.getImpo(), 2)) {
+					notify(AppNotify.PRES_SAVE_DESV_DESC);
+				}
+			}
+			
+			if (pres.getBala() != DoubleUtil.round(pres.getImto() - pres.getImpo(), 2)) {
+				notify(AppNotify.PRES_SAVE_BALA_DESC);
+			}
 		}
 		
 		pres = presDao.save(pres);
@@ -69,8 +91,5 @@ public class BsPresSave extends BaseBS {
 		
 		validateStringNotNull(pres.getObse(), AppNotify.PRES_SAVE_OBSE_NOTN);
 		validateStringMaxLength(pres.getObse(), 100, AppNotify.PRES_SAVE_OBSE_MAXL);
-		
-		//TODO: validación de partida en vuelo, importe presupuestado es 0.
-		//TODO: validación de cierre de partida: imto=imnp+impr; desv=impo-impr; bala=impo-imto
 	}
 }

@@ -216,6 +216,10 @@ public class AppNotify {
 	
 	//Servicio de grabado de presupuesto
 	public final static String PRES_SAVE_PRES_RQRD         = "PRES-01001";
+	public final static String PRES_SAVE_NPER_IMPO         = "PRES-01501";
+	public final static String PRES_SAVE_IMPO_DESC         = "PRES-01502";
+	public final static String PRES_SAVE_DESV_DESC         = "PRES-01503";
+	public final static String PRES_SAVE_BALA_DESC         = "PRES-01504";
 	public final static String PRES_SAVE_INST_RQRD         = "PRES-01701";
 	public final static String PRES_SAVE_ANUA_RQRD         = "PRES-01702";
 	public final static String PRES_SAVE_CATE_RQRD         = "PRES-01703";
