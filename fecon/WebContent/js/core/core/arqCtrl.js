@@ -19,6 +19,8 @@ app.controller('appCtrl', function($rootScope, $scope, $q, $location, $mdMedia, 
 	s = s.substring(0, i);
 	targetHost = s + 'fecon/';
 	
+	alert(targetHost);
+	
 	var DEVICE = 'PC';
 	
 	if ($mdMedia('xs')) {
