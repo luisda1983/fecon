@@ -12,8 +12,13 @@
 // appCtrl : Controlador encargado de inicializar la aplicación. Se ejecuta únicamente cuando se carga la          //
 //           aplicación la primera vez.                                                                            //
 //*****************************************************************************************************************//
-app.controller('appCtrl', function($rootScope, $scope, $q, $mdMedia, srv, comc) {
+app.controller('appCtrl', function($rootScope, $scope, $q, $location, $mdMedia, srv, comc) {
 
+	var s = $location.absUrl();
+	var i = s.indexOf('fecon/');
+	s = s.substring(0, i);
+	targetHost = s + 'fecon/';
+	
 	var DEVICE = 'PC';
 	
 	if ($mdMedia('xs')) {
