@@ -18,6 +18,10 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'ctmn/form') { return getCtmnFormCntx(); }
 		else if (view === 'ctmn/list') { return getCtmnListCntx(); }
 		else if (view === 'ctrl/list') { return getCtrlListCntx(); }
+		else if (view === 'dele/form') { return getDeleFormCntx(); }
+		else if (view === 'dele/list') { return getDeleListCntx(); }
+		else if (view === 'domi/form') { return getDomiFormCntx(); }
+		else if (view === 'domi/list') { return getDomiListCntx(); }
 		else if (view === 'dtmn/form') { return getDtmnFormCntx(); }
 		else if (view === 'dtmn/list') { return getDtmnListCntx(); }
 		else if (view === 'ejec/list') { return getEjecListCntx(); }
@@ -294,6 +298,45 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	//*************************************************************************************************************//
 	function getCtrlListCntx() {
 		var cntx = ctxl.baseCntx();
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: domi/list - Lista de Dominios.                                                                    //
+	//*************************************************************************************************************//
+	function getDomiListCntx() {
+		var cntx = ctxl.baseCntx();
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: domi/form - Formulario de Dominios.                                                               //
+	//*************************************************************************************************************//
+	function getDomiFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('nomb', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: dele/list - Lista de Detalle de Dominio.                                                          //
+	//*************************************************************************************************************//
+	function getDeleListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('domi', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: dele/form - Formulario de Detalle de Dominio.                                                     //
+	//*************************************************************************************************************//
+	function getDeleFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('domi', ctxl.makeField(''));
+		cntx.form.set('valo', ctxl.makeField(''));
 		return cntx;
 	}
 

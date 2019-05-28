@@ -22,6 +22,10 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootSc
 		else if (name === 'ctmn/form') { return srvCtmnForm(cntx); }
 		else if (name === 'ctmn/list') { return srvCtmnList(cntx); }
 		else if (name === 'ctrl/list') { return srvCtrlList(cntx); }
+		else if (name === 'dele/form') { return srvDeleForm(cntx); }
+		else if (name === 'dele/list') { return srvDeleList(cntx); }
+		else if (name === 'domi/form') { return srvDomiForm(cntx); }
+		else if (name === 'domi/list') { return srvDomiList(cntx); }
 		else if (name === 'dtmn/acti') { return srvDtmnActi(cntx); }
 		else if (name === 'dtmn/desa') { return srvDtmnDesa(cntx); }
 		else if (name === 'dtmn/form') { return srvDtmnForm(cntx); }
@@ -1618,6 +1622,122 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootSc
 					cntx.data.set('ctrlList', data.OUTPUT['ctrlList']);
 				}
 				endCont(data, cntx);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDomiList: Servicio de consuta de Dominios.                                                      //
+	//*************************************************************************************************************//
+	function srvDomiList(cntx) {
+		var dataRequest = {
+		};
+		setBase(dataRequest, cntx);
+		setCont(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/domi/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('domiList', data.OUTPUT['domiList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDomiForm: Servicio de gestión de formulario de dominio.                                         //
+	//*************************************************************************************************************//
+	function srvDomiForm(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data,
+			nomb: cntx.form.get('nomb').data,
+			desc: cntx.form.get('desc').data
+		};
+		setBase(dataRequest, cntx);
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/domi/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('domi', data.OUTPUT['domi']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDeleList: Servicio de listado de detalle de dominio.                                            //
+	//*************************************************************************************************************//
+	function srvDeleList(cntx) {
+		var dataRequest = {
+			domi: cntx.form.get('domi').data
+		};
+		setBase(dataRequest, cntx);
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dele/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('deleList', data.OUTPUT['deleList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvDeleForm: Servicio de gestión de formulario de elementos de dominio.                            //
+	//*************************************************************************************************************//
+	function srvDeleForm(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data,
+			domi: cntx.form.get('domi').data,
+			valo: cntx.form.get('valo').data
+		};
+		setBase(dataRequest, cntx);
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/dele/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('dele', data.OUTPUT['dele']);
 				d.resolve(data);
 			}
 		}, function() {

@@ -658,7 +658,97 @@ public class CoreNotify {
 	public final static String STME_LIST_ANYO_RQRD         = "STME-02002";
 	public final static String STME_LIST_MESS_RQRD         = "STME-02003";
 	public final static String STME_LIST_TIPO_ERRO         = "STME-02501";
-		
+
+	//*********************************************************************************************//
+	// Notificaciones del mÃ³dulo SPT                                                              //
+	//*********************************************************************************************//
+
+	//Servicio de grabado de dominio
+	public final static String DOMI_SAVE_DOMI_RQRD         = "DOMI-01001";
+	public final static String DOMI_SAVE_INST_RQRD         = "DOMI-01701";
+	public final static String DOMI_SAVE_NOMB_RQRD         = "DOMI-01702";
+	public final static String DOMI_SAVE_DESC_RQRD         = "DOMI-01703";
+	public final static String DOMI_SAVE_FEAL_RQRD         = "DOMI-01704";
+	public final static String DOMI_SAVE_HOAL_RQRD         = "DOMI-01705";
+	public final static String DOMI_SAVE_USAL_RQRD         = "DOMI-01706";
+	public final static String DOMI_SAVE_FEMO_RQRD         = "DOMI-01707";
+	public final static String DOMI_SAVE_HOMO_RQRD         = "DOMI-01708";
+	public final static String DOMI_SAVE_USMO_RQRD         = "DOMI-01709";
+	public final static String DOMI_SAVE_INST_RNGE         = "DOMI-01801";
+	public final static String DOMI_SAVE_NOMB_MAXL         = "DOMI-01802";
+	public final static String DOMI_SAVE_DESC_MAXL         = "DOMI-01803";
+	public final static String DOMI_SAVE_FEAL_RNGE         = "DOMI-01804";
+	public final static String DOMI_SAVE_HOAL_RNGE         = "DOMI-01805";
+	public final static String DOMI_SAVE_USAL_MAXL         = "DOMI-01806";
+	public final static String DOMI_SAVE_FEMO_RNGE         = "DOMI-01807";
+	public final static String DOMI_SAVE_HOMO_RNGE         = "DOMI-01808";
+	public final static String DOMI_SAVE_USMO_MAXL         = "DOMI-01809";
+
+	//Servicio de consulta de dominio por nombre
+	public final static String DOMI_GETN_NOMB_RQRD         = "DOMI-02001";
+
+	//Servicio de creación de nuevo dominio
+	public final static String DOMI_NUEV_NOMB_RQRD         = "DOMI-03001";
+	public final static String DOMI_NUEV_DESC_RQRD         = "DOMI-03002";
+	public final static String DOMI_NUEV_NOMB_DP           = "DOMI-03901";
+
+	//Servicio de consulta de dominio por clave
+	public final static String DOMI_GETK_IDEN_RQRD         = "DOMI-04001";
+
+	//Servicio de edición de dominio
+	public final static String DOMI_EDIT_IDEN_RQRD         = "DOMI-05001";
+	public final static String DOMI_EDIT_NOMB_RQRD         = "DOMI-05002";
+	public final static String DOMI_EDIT_DESC_RQRD         = "DOMI-05003";
+	public final static String DOMI_EDIT_CHNG_NO           = "DOMI-05501";
+	public final static String DOMI_EDIT_DOMI_NF           = "DOMI-05901";
+	public final static String DOMI_EDIT_NOMB_DP           = "DOMI-05902";
+	
+	//Servicio de grabado de elemento de dominio
+	public final static String DELE_SAVE_DELE_RQRD         = "DELE-01001";
+	public final static String DELE_SAVE_INST_RQRD         = "DELE-01701";
+	public final static String DELE_SAVE_DOMI_RQRD         = "DELE-01702";
+	public final static String DELE_SAVE_VALO_RQRD         = "DELE-01703";
+	public final static String DELE_SAVE_FEAL_RQRD         = "DELE-01704";
+	public final static String DELE_SAVE_HOAL_RQRD         = "DELE-01705";
+	public final static String DELE_SAVE_USAL_RQRD         = "DELE-01706";
+	public final static String DELE_SAVE_FEMO_RQRD         = "DELE-01707";
+	public final static String DELE_SAVE_HOMO_RQRD         = "DELE-01708";
+	public final static String DELE_SAVE_USMO_RQRD         = "DELE-01709";
+	public final static String DELE_SAVE_INST_RNGE         = "DELE-01801";
+	public final static String DELE_SAVE_DOMI_MAXL         = "DELE-01802";
+	public final static String DELE_SAVE_VALO_MAXL         = "DELE-01803";
+	public final static String DELE_SAVE_FEAL_RNGE         = "DELE-01804";
+	public final static String DELE_SAVE_HOAL_RNGE         = "DELE-01805";
+	public final static String DELE_SAVE_USAL_MAXL         = "DELE-01806";
+	public final static String DELE_SAVE_FEMO_RNGE         = "DELE-01807";
+	public final static String DELE_SAVE_HOMO_RNGE         = "DELE-01808";
+	public final static String DELE_SAVE_USMO_MAXL         = "DELE-01809";
+
+	//Servicio de listado de elementos de dominio
+	public final static String DELE_LIST_DOMI_RQRD         = "DELE-02001";
+	
+	//Servicio de creacion de elemento de dominio
+	public final static String DELE_NUEV_DOMI_RQRD         = "DELE-03001";
+	public final static String DELE_NUEV_VALO_RQRD         = "DELE-03002";
+	public final static String DELE_NUEV_VALO_DP           = "DELE-03901";
+	
+	//Servicio de consulta de elemento por dominio y valor
+	public final static String DELE_GETV_DOMI_RQRD         = "DELE-04001";
+	public final static String DELE_GETV_VALO_RQRD         = "DELE-04002";
+
+	//Servicio de edición de dominio
+	public final static String DELE_EDIT_IDEN_RQRD         = "DELE-05001";
+	public final static String DELE_EDIT_DOMI_RQRD         = "DELE-05002";
+	public final static String DELE_EDIT_VALO_RQRD         = "DELE-05003";
+	public final static String DELE_EDIT_DOMI_CHNG_NPER    = "DELE-05501";
+	public final static String DELE_EDIT_CHNG_NO           = "DELE-05502";
+	public final static String DELE_EDIT_DELE_NF           = "DELE-05901";
+	public final static String DELE_EDIT_VALO_DP           = "DELE-05902";
+
+	//Servicio de consulta de elemento de dominio por clave
+	public final static String DELE_GETK_IDEN_RQRD         = "DELE-06001";
+	
+
 	//Notificaciones del mÃ³dulo RELA
 	//OOTNN:
 	//OO=OperaciÃ³n
