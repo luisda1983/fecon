@@ -64,6 +64,38 @@ public class HconDAO extends BaseDAO {
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Hcon> getListByCateConcNega(long inst, long cate, long conc) {
+		TypedQuery<Hcon> typedQuery = 
+				this.getEntityManager().createQuery(
+						  "SELECT H FROM Hcon H"
+						+ " WHERE H.inst = " + inst + " "
+						+ "   AND H.cate = " + cate + " "
+						+ "   AND H.conc = " + conc + " "
+						+ "   AND H.impo < 0 "
+						+ "   AND H.tipo = 'C'"
+						+ " ORDER BY H.feva ASC, H.iden ASC"
+						 , Hcon.class);
+		List<Hcon> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Hcon> getListByCateConcPosi(long inst, long cate, long conc) {
+		TypedQuery<Hcon> typedQuery = 
+				this.getEntityManager().createQuery(
+						  "SELECT H FROM Hcon H"
+						+ " WHERE H.inst = " + inst + " "
+						+ "   AND H.cate = " + cate + " "
+						+ "   AND H.conc = " + conc + " "
+						+ "   AND H.impo > 0 "
+						+ "   AND H.tipo = 'C'"
+						+ " ORDER BY H.feva ASC, H.iden ASC"
+						 , Hcon.class);
+		List<Hcon> resultList = typedQuery.getResultList();
+		return resultList;
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Hcon getByIden(long inst, long iden) {
 		TypedQuery<Hcon> typedQuery = 
 				this.getEntityManager().createQuery(

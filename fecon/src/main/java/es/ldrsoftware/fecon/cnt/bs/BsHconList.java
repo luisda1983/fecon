@@ -18,6 +18,9 @@ public class BsHconList extends BaseBS {
 	
 	@Autowired
 	public HconDAO hconDao;
+
+	public final static String LT_TIPO_CONC_POSI = "LTCONCPOSI";
+	public final static String LT_TIPO_CONC_NEGA = "LTCONCNEGA";
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsHconListArea area = (BsHconListArea)a;
@@ -51,6 +54,12 @@ public class BsHconList extends BaseBS {
 					 hconList = hconDao.getListByFevaCateConc(SESSION.get().inst, fevaInic, fevaFina, area.IN.cate, area.IN.conc);
 				 }
 				 break;
+			case LT_TIPO_CONC_NEGA:
+				 hconList = hconDao.getListByCateConcNega(SESSION.get().inst, area.IN.cate, area.IN.conc);
+				 break;
+			case LT_TIPO_CONC_POSI:
+				 hconList = hconDao.getListByCateConcPosi(SESSION.get().inst, area.IN.cate, area.IN.conc);
+				 break;
 		}
 		
 		area.OUT.hconList = hconList;
@@ -74,6 +83,11 @@ public class BsHconList extends BaseBS {
 			case LiteData.LT_EL_HCONLTTIPO_CONC_ANUA:
 				 validateIntRequired(area.IN.anua, AppNotify.HCON_LIST_ANUA_RQRD);
 				 validateIntRequired(area.IN.cate, AppNotify.HCON_LIST_CATE_RQRD);
+				 break;
+			case LT_TIPO_CONC_POSI:
+			case LT_TIPO_CONC_NEGA:
+				 validateIntRequired(area.IN.cate, AppNotify.HCON_LIST_CATE_RQRD);
+				 validateIntRequired(area.IN.conc, AppNotify.HCON_LIST_CONC_RQRD);
 				 break;
 			default:
 				notify(AppNotify.HCON_LIST_TIPO_ERRO);

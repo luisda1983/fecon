@@ -86,6 +86,7 @@ public class AppNotify {
 	public final static String HCON_LIST_ANUA_RQRD         = "HCON-07002";
 	public final static String HCON_LIST_MESH_RQRD         = "HCON-07003";
 	public final static String HCON_LIST_CATE_RQRD         = "HCON-07004";
+	public final static String HCON_LIST_CONC_RQRD         = "HCON-07005";
 	public final static String HCON_LIST_TIPO_ERRO         = "HCON-07501";
 
 	//Servicio de gestión de apunte respecto al presupuesto

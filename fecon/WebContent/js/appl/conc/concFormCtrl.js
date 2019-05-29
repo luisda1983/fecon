@@ -85,7 +85,7 @@ app.controller('concFormCtrl', function($scope, $q, srv, comc, ctxl) {
 		} else if ($scope.cntx.conf.get('mode') === 'E') {
 			ctxl.formField($scope.cntx, 'iden', true, true);
 			ctxl.formField($scope.cntx, 'cate', false, true);
-			ctxl.formField($scope.cntx, 'tipo', true, true);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
 			ctxl.formField($scope.cntx, 'desl', true, false);
 			ctxl.formField($scope.cntx, 'desc', true, false);
 			ctxl.formField($scope.cntx, 'orde', true, true);

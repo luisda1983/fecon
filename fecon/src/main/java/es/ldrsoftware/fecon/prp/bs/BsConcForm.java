@@ -5,7 +5,10 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
+import es.ldrsoftware.fecon.cnt.bs.BsHconList;
+import es.ldrsoftware.fecon.cnt.bs.BsHconListArea;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.data.LiteData;
 import es.ldrsoftware.fecon.prp.entity.Cate;
 import es.ldrsoftware.fecon.prp.entity.Conc;
 
@@ -26,6 +29,9 @@ public class BsConcForm extends BaseBS {
 	
 	@Autowired
 	BsCateGetk bsCateGetk;
+
+	@Autowired
+	BsHconList bsHconList;
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsConcFormArea area = (BsConcFormArea)a;
@@ -97,13 +103,35 @@ public class BsConcForm extends BaseBS {
 			}
 			
 			if (area.IN.tipo != conc.getTipo()) {
-				//TODO: se pueden permitir ciertos cambios:
-				// - De Ingreso/Gasto a ambos
-				// - De ambos a ingreso/gasto: si no hay ningun apunte para el concepto con signo contrario
-				// - De ingreso a gasto (y viceversa): si no hay ningún apunte para el concepto
-				notify(AppNotify.CONC_FORM_TIPO_DIFF);
+				switch (area.IN.tipo) {
+				case LiteData.LT_EL_CONCTIPO_AMBOS:
+					 break;
+				case LiteData.LT_EL_CONCTIPO_INGRESO:
+					 BsHconListArea bsHconListArea_1 = new BsHconListArea();
+					 bsHconListArea_1.IN.tipo = BsHconList.LT_TIPO_CONC_NEGA;
+					 bsHconListArea_1.IN.cate = conc.getCate();
+					 bsHconListArea_1.IN.conc = conc.getIden();
+					 bsHconList.executeBS(bsHconListArea_1);
+					 
+					 if (bsHconListArea_1.OUT.hconList != null && bsHconListArea_1.OUT.hconList.size() > 0) {
+						 notify(AppNotify.CONC_FORM_TIPO_DIFF);
+					 }
+					 break;
+				case LiteData.LT_EL_CONCTIPO_GASTO:
+					 BsHconListArea bsHconListArea_2 = new BsHconListArea();
+					 bsHconListArea_2.IN.tipo = BsHconList.LT_TIPO_CONC_POSI;
+					 bsHconListArea_2.IN.cate = conc.getCate();
+					 bsHconListArea_2.IN.conc = conc.getIden();
+					 bsHconList.executeBS(bsHconListArea_2);
+					 
+					 if (bsHconListArea_2.OUT.hconList != null && bsHconListArea_2.OUT.hconList.size() > 0) {
+						 notify(AppNotify.CONC_FORM_TIPO_DIFF);
+					 }
+					 break;
+				}
 			}
 			
+			conc.setTipo(area.IN.tipo);
 			conc.setDesl(area.IN.desl);
 			conc.setDesc(area.IN.desc);
 						
