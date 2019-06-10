@@ -262,4 +262,14 @@ public class AppNotify {
 	public final static String PRES_LIST_MESP_RQRD         = "PRES-05003";
 	public final static String PRES_LIST_TIPO_ERRO         = "PRES-05501";
 	
+	//Servicio de consulta de estado de mes
+	public final static String PRES_CONS_ANUA_RQRD         = "PRES-06001";
+	public final static String PRES_CONS_MESP_RQRD         = "PRES-06002";
+	public final static String PRES_CONS_MESP_ERRO         = "PRES-06501";
+	
+	//Servicio de cierre de mes
+	public final static String PRES_CIER_ANUA_RQRD         = "PRES-07001";
+	public final static String PRES_CIER_MESP_RQRD         = "PRES-07002";
+	public final static String PRES_CIER_MESP_ERRO         = "PRES-07501";
+	public final static String PRES_CIER_PART_CERR_NO      = "PRES-07502";
 }

@@ -53,6 +53,7 @@ public class BsParaGetFront extends BaseBS {
 		
 		//Tipo de parámetro I-Instalación, la clave será el código de instalación
 		//formateado en 10 posiciones.
+		//TODO: StringUtil
 		if ("I".equals(area.IN.tipo)) {
 			Long l = SESSION.get().inst;
 			String s = l.toString();

@@ -1,7 +1,7 @@
 //*****************************************************************************************************************//
 // v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
 //*****************************************************************************************************************//
-app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
+app.controller('presConsCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
@@ -20,25 +20,14 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv3 = comc.requestLiteList('PRESESTA', $scope.cntx);
 		var srv4 = comc.request('cate/list', $scope.cntx);
 		var srv5 = comc.request('conc/full', $scope.cntx);
-
-		$q.all([srv.stResp(false, srv1, srv2, srv3, srv4, srv5)]).then(function() {
-			var srv6 = comc.requestParaGet('I', 'PERIPRESUP', '', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1,srv2,srv3,srv4,srv5)]).then(function() {
 			
-			$q.all([srv.stResp(false, srv6)]).then(function() {
-				if ($scope.cntx.data.get('prPeripresup').pval.anac !== 'undefined' &&
-					$scope.cntx.data.get('prPeripresup').pval.anac > 0 &&
-					$scope.cntx.data.get('prPeripresup').pval.msac > 0) {
-					if ($scope.cntx.form.get('anua').data === 0 || $scope.cntx.form.get('mesp').data === 0) {
-						$scope.cntx.form.get('anua').data = $scope.cntx.data.get('prPeripresup').pval.anac;
-						$scope.cntx.form.get('mesp').data = $scope.cntx.data.get('prPeripresup').pval.msac;
-					}
-				}
-				var srv7 = comc.request('pres/mesp', $scope.cntx);
+			var srv7 = comc.request('pres/cons', $scope.cntx);
 				
-				$q.all([srv.stResp(true, srv7)]).then(function() {
-					view();
-				});	
-			});		
+			$q.all([srv.stResp(true, srv7)]).then(function() {
+				view();
+			});
 		});
 	}
 
@@ -59,14 +48,9 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 
 		$scope.cntx.conf.set('mode', 'L');
 		
-		if (view === 'pres/anua') {
-			var anua = $scope.cntx.xchg.get('anua');
-			var mesp = $scope.cntx.xchg.get('mesp');
-			
-			if (anua !== undefined && mesp !== undefined) {
-				$scope.cntx.form.get('anua').data = anua;
-				$scope.cntx.form.get('mesp').data = mesp;
-			}
+		if (view === 'pres/mesp') {
+			$scope.cntx.form.get('anua').data = $scope.cntx.xchg.get('anua');
+			$scope.cntx.form.get('mesp').data = $scope.cntx.xchg.get('mesp');
 		}
 		
 		loadView();
@@ -78,9 +62,8 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function view() {
 		if ($scope.cntx.conf.get('mode') === 'L') {
-			ctxl.formField($scope.cntx, 'anua', false, true);
-			ctxl.formField($scope.cntx, 'mesp', false, true);
-		}
+			
+		} 
 	}
 
 	//*************************************************************************************************************//
@@ -107,19 +90,18 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 	}
 
 	//*************************************************************************************************************//
-	// Captura del evento de cambio de año/mes.                                                                    //
+	// Captura del evento de cierre de mes.                                                                        //
 	//*************************************************************************************************************//
-	$scope.fnAnuaMespChng = function() {
-		var srv1 = comc.request('pres/mesp', $scope.cntx);
-		
-		srv.stResp(true, srv1);
+	$scope.fnCerr = function() {
+		var srv1 = comc.request('pres/cier', $scope.cntx);
+		srv.stResp(true, srv1)
 	};
 
 	//*************************************************************************************************************//
 	// Captura del evento de cambio de estado de partida.                                                          //
 	//*************************************************************************************************************//
-	$scope.fnEsta = function(cate, i) {
-		var pres = $scope.cntx.data.get('presListMap')[cate][i];
+	$scope.fnEsta = function(i) {
+		var pres = $scope.cntx.data.get('presList')[i];
 		
 		$scope.cntx.form.get('cate').data = pres.cate;
 		$scope.cntx.form.get('conc').data = pres.conc;
@@ -135,50 +117,8 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 		var srv1 = comc.request('pres/esta', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function() {
-			$scope.cntx.data.get('presListMap')[cate][i] = $scope.cntx.data.get('pres');	
+			$scope.cntx.data.get('presList')[i] = $scope.cntx.data.get('pres');	
 		})
-	}
-
-	//*************************************************************************************************************//
-	// Captura del evento de apuntes de categoría.                                                                 //
-	//*************************************************************************************************************//
-	$scope.fnApuc = function(i) {
-		var cntx = srv.getCntx('hcon/list');
-		
-		var pres = $scope.cntx.data.get('presCateList')[i];
-		cntx.xchg.set('anua', pres.anua);
-		cntx.xchg.set('mesp', pres.mesp);
-		cntx.xchg.set('cate', pres.cate);
-		
-		srv.go('pres/mesp', $scope.cntx, 'hcon/list', cntx);
-	}
-
-	//*************************************************************************************************************//
-	// Captura del evento de apuntes de concepto.                                                                  //
-	//*************************************************************************************************************//
-	$scope.fnApun = function(i, j) {
-		var cntx = srv.getCntx('hcon/list');
-		
-		var pres = $scope.cntx.data.get('presListMap')[i][j];
-		cntx.xchg.set('anua', pres.anua);
-		cntx.xchg.set('mesp', pres.mesp);
-		cntx.xchg.set('cate', pres.cate);
-		cntx.xchg.set('conc', pres.conc);
-		
-		srv.go('pres/mesp', $scope.cntx, 'hcon/list', cntx);
-	}
-
-	//*************************************************************************************************************//
-	// Captura del evento de consluta pre-cierre.                                                                  //
-	//*************************************************************************************************************//
-	$scope.fnCons = function(i) {
-		var cntx = srv.getCntx('pres/cons');
-		
-		var pres = $scope.cntx.data.get('presCateList')[i];
-		cntx.xchg.set('anua', $scope.cntx.form.get('anua').data);
-		cntx.xchg.set('mesp', $scope.cntx.form.get('mesp').data);
-		
-		srv.go('pres/mesp', $scope.cntx, 'pres/cons', cntx);
 	}
 
 	//*************************************************************************************************************//
@@ -192,12 +132,10 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	// Despliegue de registro de una lista.                                                                        //
 	//*************************************************************************************************************//
-	$scope.xpnd = function(i, j) {
-		if ($scope.cntx.conf.get('idx2') === j) {
+	$scope.xpnd = function(i) {
+		if ($scope.cntx.conf.get('idx1') === i) {
 			$scope.cntx.conf.set('idx1', -1);
-			$scope.cntx.conf.set('idx2', -1);
 		} else {
-			$scope.cntx.conf.set('idx2', j);
 			$scope.cntx.conf.set('idx1', i);
 		}
 	}
@@ -211,7 +149,7 @@ app.controller('presMespCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	
 	//Generamos el contexto de la vista
-	$scope.cntx = srv.getCntx('pres/mesp');
+	$scope.cntx = srv.getCntx('pres/cons');
 
 	if (srv.goTran()) {
 		loadViewGo();

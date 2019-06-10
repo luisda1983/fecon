@@ -367,6 +367,25 @@ public class PresDAO extends BaseDAO {
 		return resultList;
 	}
 
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Pres> getListByAnuaMespPres(long inst, int anua, int mesp) {
+		
+		TypedQuery<Pres> query = 
+				this.getEntityManager().createQuery(
+				          "SELECT P FROM Pres P, Cate C "
+						+ " WHERE P.inst = " + inst + " "
+						+ "   AND P.anua = " + anua + " "
+						+ "   AND P.mesp = " + mesp + " "
+						+ "   AND P.inst = C.inst "
+						+ "   AND P.cate = C.iden "
+						+ "   AND P.impo <> 0 "
+						+ " ORDER BY C.orde ASC "
+						, Pres.class);
+		
+		List<Pres> resultList = query.getResultList();
+		return resultList;
+	}
+
 	//FIXME: Incorporar el cruce con los conceptos para ordenar
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public List<Pres> getListByAnuaMespCate(long inst, int anua, int mesp, long cate) {

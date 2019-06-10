@@ -19,13 +19,16 @@ public class BsHconList extends BaseBS {
 	@Autowired
 	public HconDAO hconDao;
 
-	public final static String LT_TIPO_CONC_POSI = "LTCONCPOSI";
-	public final static String LT_TIPO_CONC_NEGA = "LTCONCNEGA";
+	public final static String LT_TIPO_CONC_POSI    = "LTCONCPOSI";
+	public final static String LT_TIPO_CONC_NEGA    = "LTCONCNEGA";
+	public final static String LT_TIPO_MES_SUM      = "LTMESSUM";
+	public final static String LT_TIPO_SUM_MES_NPRE = "LTSUMMESNP";
 	
 	protected void execute(BaseBSArea a) throws Exception {
 		BsHconListArea area = (BsHconListArea)a;
 		
 		List<Hcon> hconList = new ArrayList<Hcon>();
+		double impoSum = 0;
 		
 		int fevaInic = 0;
 		int fevaFina = 0;
@@ -60,9 +63,20 @@ public class BsHconList extends BaseBS {
 			case LT_TIPO_CONC_POSI:
 				 hconList = hconDao.getListByCateConcPosi(SESSION.get().inst, area.IN.cate, area.IN.conc);
 				 break;
+			case LT_TIPO_MES_SUM:
+				 fevaInic = area.IN.anua * 10000 + area.IN.mesh * 100;
+				 fevaFina = area.IN.anua * 10000 + area.IN.mesh * 100 + 99;
+				 impoSum = hconDao.getSumByFevaCateConc(SESSION.get().inst, fevaInic, fevaFina, area.IN.cate, area.IN.conc);
+				 break;
+			case LT_TIPO_SUM_MES_NPRE:
+				 fevaInic = area.IN.anua * 10000 + area.IN.mesh * 100;
+				 fevaFina = area.IN.anua * 10000 + area.IN.mesh * 100 + 99;
+				 impoSum = hconDao.getSumByFevaPres(SESSION.get().inst, fevaInic, fevaFina, "N");
+				 break;
 		}
 		
 		area.OUT.hconList = hconList;
+		area.OUT.impoSum  = impoSum;
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
@@ -88,6 +102,15 @@ public class BsHconList extends BaseBS {
 			case LT_TIPO_CONC_NEGA:
 				 validateIntRequired(area.IN.cate, AppNotify.HCON_LIST_CATE_RQRD);
 				 validateIntRequired(area.IN.conc, AppNotify.HCON_LIST_CONC_RQRD);
+				 break;
+			case LT_TIPO_MES_SUM:
+				 validateIntRequired(area.IN.cate, AppNotify.HCON_LIST_CATE_RQRD);
+				 validateIntRequired(area.IN.anua, AppNotify.HCON_LIST_ANUA_RQRD);
+				 validateIntRequired(area.IN.mesh, AppNotify.HCON_LIST_MESH_RQRD);
+				 break;
+			case LT_TIPO_SUM_MES_NPRE:
+				 validateIntRequired(area.IN.anua, AppNotify.HCON_LIST_ANUA_RQRD);
+				 validateIntRequired(area.IN.mesh, AppNotify.HCON_LIST_MESH_RQRD);
 				 break;
 			default:
 				notify(AppNotify.HCON_LIST_TIPO_ERRO);

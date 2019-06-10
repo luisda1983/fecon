@@ -49,6 +49,10 @@ public class BsPresList extends BaseBS {
 				 presListMap.put(pres.getCate(), presCateList);
 			 }
 			 break;
+		case BsPresListArea.LIST_TIPO_MENSUAL_PRESUP:
+			 //Consulta de partida presupuestadas para un mes
+			 presList = presDao.getListByAnuaMespPres(SESSION.get().inst, area.IN.anua, area.IN.mesp);
+			 break;
 		case BsPresListArea.LIST_TIPO_CONC_ANUA:
 			 //Consulta agrupada por categorias para un año
 			 presList = presDao.getGroupCateListByAnua(SESSION.get().inst, area.IN.anua);
@@ -58,6 +62,10 @@ public class BsPresList extends BaseBS {
 				 List<Pres> presCateList = presDao.getGroupConcListByAnuaCate(SESSION.get().inst, pres.getAnua(), pres.getCate());
 				 presListMap.put(pres.getCate(), presCateList);
 			 }
+			 break;
+		case BsPresListArea.LIST_TIPO_PART_ANUALES:
+			 //Consulta de todas las partidas de naturaleza anual
+			 presList = presDao.getListByAnuaMesp(SESSION.get().inst, area.IN.anua, 0);
 			 break;
 		}
 		
@@ -82,6 +90,13 @@ public class BsPresList extends BaseBS {
 			 validateIntRequired(area.IN.mesp, AppNotify.PRES_LIST_MESP_RQRD);
 			 break;
 		case BsPresListArea.LIST_TIPO_CONC_ANUA:
+			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
+			 break;
+		case BsPresListArea.LIST_TIPO_MENSUAL_PRESUP:
+			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
+			 validateIntRequired(area.IN.mesp, AppNotify.PRES_LIST_MESP_RQRD);
+			 break;
+		case BsPresListArea.LIST_TIPO_PART_ANUALES:
 			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
 			 break;
 		default:

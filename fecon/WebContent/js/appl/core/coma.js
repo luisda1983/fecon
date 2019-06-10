@@ -28,7 +28,9 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		else if (name === 'hcon/pres/gest') { return srvHconPresGest(cntx); }
 		else if (name === 'pres/anua')      { return srvPresAnua(cntx);     }
 		else if (name === 'pres/calc')      { return srvPresCalc(cntx);     }
+		else if (name === 'pres/cier')      { return srvPresCier(cntx);     }
 		else if (name === 'pres/conc')      { return srvPresConc(cntx);     }
+		else if (name === 'pres/cons')      { return srvPresCons(cntx);     }
 		else if (name === 'pres/esta')      { return srvPresEsta(cntx);     }
 		else if (name === 'pres/mesp')      { return srvPresMesp(cntx);     }
 		else if (name === 'pres/resu')      { return srvPresResu(cntx);     }
@@ -532,6 +534,36 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 	}
 
 	//*************************************************************************************************************//
+	// PRIVATE: srvPresCier: Servicio de cierre de mes.                                                            //
+	//*************************************************************************************************************//
+	function srvPresCier(cntx) {
+		var dataRequest = {
+			anua: cntx.form.get('anua').data,
+			mesp: cntx.form.get('mesp').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/pres/cier/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('anua', data.OUTPUT['anua']);
+				cntx.data.set('mesp', data.OUTPUT['mesp']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
 	// PRIVATE: srvPresCalc: Servicio de consulta de presupuesto previo al apunte.                                 //
 	//*************************************************************************************************************//
 	function srvPresCalc(cntx) {
@@ -581,6 +613,38 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 			} else {
 				cntx.data.set('presCateList', data.OUTPUT['presList']);
 				cntx.data.set('presListMap', data.OUTPUT['presListMap']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvPresCons: Servicio de consulta precierre de mes.                                                //
+	//*************************************************************************************************************//
+	function srvPresCons(cntx) {
+		var dataRequest = {
+			anua: cntx.form.get('anua').data,
+			mesp: cntx.form.get('mesp').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/pres/cons/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('presList', data.OUTPUT['presList']);
+				cntx.data.set('presAnuaList', data.OUTPUT['presAnuaList']);
+				cntx.data.set('cuenList', data.OUTPUT['cuenList']);
+				cntx.data.set('impoNpre', data.OUTPUT['impoNpre']);
 				d.resolve(data);
 			}
 		}, function() {

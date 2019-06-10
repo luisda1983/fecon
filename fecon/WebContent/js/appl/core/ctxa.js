@@ -15,6 +15,7 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		//Buscamos la vista para devolver su contexto.
 		     if (view === 'pres/anua') { return getPresAnuaCntx(); }
 		else if (view === 'pres/conc') { return getPresConcCntx(); }
+		else if (view === 'pres/cons') { return getPresConsCntx(); }
 		else if (view === 'pres/mesp') { return getPresMespCntx(); }
 		else if (view === 'pres/resu') { return getPresResuCntx(); }
 		else if (view === 'cate/list') { return getCateListCntx(); }
@@ -70,6 +71,19 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 	function getPresConcCntx() {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('anua', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: pres/cons - Consulta precierre de mes.                                                            //
+	//*************************************************************************************************************//
+	function getPresConsCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('anua', ctxl.makeField(0));
+		cntx.form.set('mesp', ctxl.makeField(0));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('esta', ctxl.makeField(''));
 		return cntx;
 	}
 

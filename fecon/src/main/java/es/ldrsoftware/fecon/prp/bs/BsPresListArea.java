@@ -12,6 +12,8 @@ public class BsPresListArea extends BaseBSArea {
 	public final static String LIST_TIPO_ANUAL     = "LT02";
 	public final static String LIST_TIPO_MENSUAL   = "LT03";
 	public final static String LIST_TIPO_CONC_ANUA = "LT04";
+	public final static String LIST_TIPO_MENSUAL_PRESUP = "LT05";
+	public final static String LIST_TIPO_PART_ANUALES   = "LT06";
 	
 	public BsPresListAreaIn  IN  = new BsPresListAreaIn();
 	public BsPresListAreaOut OUT = new BsPresListAreaOut();

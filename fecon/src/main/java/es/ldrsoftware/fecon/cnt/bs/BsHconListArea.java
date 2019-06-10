@@ -20,5 +20,6 @@ public class BsHconListArea extends BaseBSArea {
 	
 	public class BsHconListAreaOut {
 		public List<Hcon> hconList;
+		public double     impoSum;
 	}
 }
