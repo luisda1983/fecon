@@ -30,6 +30,8 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 		else if (view === 'invi/list') { return getInviListCntx(); }
 		else if (view === 'logp/list') { return getLogpListCntx(); }
 		else if (view === 'mpla/list') { return getMplaListCntx(); }
+		else if (view === 'notf/form') { return getNotfFormCntx(); }
+		else if (view === 'notf/list') { return getNotfListCntx(); }
 		else if (view === 'plan/list') { return getPlanListCntx(); }
 		else if (view === 'sesi/list') { return getSesiListCntx(); }
 		else if (view === 'stdi/list') { return getStdiListCntx(); }
@@ -216,6 +218,26 @@ app.factory("cntx", ['$q', 'ctxa', 'ctxl', function($q, ctxa, ctxl) {
 	function getMplaListCntx() {
 		var cntx = ctxl.baseCntx();
 		cntx.form.set('hora', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: notf/edit - Edición de notificaciones.                                                            //
+	//*************************************************************************************************************//
+	function getNotfFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(''));
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: notf/list - Lista de notificaciones.                                                              //
+	//*************************************************************************************************************//
+	function getNotfListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('apli', ctxl.makeField(''));
 		return cntx;
 	}
 

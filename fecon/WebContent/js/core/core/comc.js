@@ -49,6 +49,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootSc
 		else if (name === 'mpla/acti') { return srvMplaActi(cntx); }
 		else if (name === 'mpla/desa') { return srvMplaDesa(cntx); }
 		else if (name === 'mpla/list') { return srvMplaList(cntx); }
+		else if (name === 'notf/edit') { return srvNotfEdit(cntx); }
+		else if (name === 'notf/list') { return srvNotfList(cntx); }
 		else if (name === 'plan/list') { return srvPlanList(cntx); }
 		else if (name === 'sesi/list') { return srvSesiList(cntx); }
 		else if (name === 'stdi/list') { return srvStdiList(cntx); }
@@ -109,6 +111,8 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootSc
 			else if (tbla === 'SESIDVCE')   { cntx.data.set('ltMSesidvce', cntxLite.data.liteMap); cntx.data.set('ltLSesidvce', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'CTRLESTA')   { cntx.data.set('ltMCtrlesta', cntxLite.data.liteMap); cntx.data.set('ltLCtrlesta', cntxLite.data.liteList); d.resolve(); }
 			else if (tbla === 'CTRLTIAC')   { cntx.data.set('ltMCtrltiac', cntxLite.data.liteMap); cntx.data.set('ltLCtrltiac', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'NOTFAPLI')   { cntx.data.set('ltMNotfapli', cntxLite.data.liteMap); cntx.data.set('ltLNotfapli', cntxLite.data.liteList); d.resolve(); }
+			else if (tbla === 'NOTFTIPO')   { cntx.data.set('ltMNotftipo', cntxLite.data.liteMap); cntx.data.set('ltLNotftipo', cntxLite.data.liteList); d.resolve(); }
 			//Si no tenemos mapeada la tabla de literales, buscamos en el componente de aplicación
 			else { 
 				var appLite = coma.requestLiteList(cntxLite, cntx);
@@ -1207,6 +1211,64 @@ app.factory("comc", ['$rootScope', '$q', 'srv', 'form', 'coma', function($rootSc
 				d.reject();
 			} else {
 				cntx.data.set('mplaList', data.OUTPUT['mplaList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvNotfEdit: Servicio de edición de notificaciones.                                                //
+	//*************************************************************************************************************//
+	function srvNotfEdit(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data,
+			tipo: cntx.form.get('tipo').data,
+			desc: cntx.form.get('desc').data
+		};
+		setBase(dataRequest, cntx);
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/notf/edit/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('notf', data.OUTPUT['notf']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvNotfList: Servicio de consuta de notificaciones.                                                //
+	//*************************************************************************************************************//
+	function srvNotfList(cntx) {
+		var dataRequest = {
+			apli: cntx.form.get('apli').data
+		};
+		setBase(dataRequest, cntx);
+	  
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/notf/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('notfList', data.OUTPUT['notfList']);
 				d.resolve(data);
 			}
 		}, function() {

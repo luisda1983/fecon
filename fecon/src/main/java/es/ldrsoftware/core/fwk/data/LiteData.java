@@ -24,6 +24,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_SESIESTA = "SESIESTA";
 	public final static String LT_EL_LITEMASTER_STSTREEJ = "STSTREEJ";
 	public final static String LT_EL_LITEMASTER_USUAPERF = "USUAPERF";
+	public final static String LT_EL_LITEMASTER_NOTFTIPO = "NOTFTIPO";
 
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
@@ -188,4 +189,12 @@ public class LiteData {
 			                                                      LT_EL_CTRLTIAC_LOGOFF,
 			                                                      LT_EL_CTRLTIAC_LIBRE,
 			                                                      LT_EL_CTRLTIAC_USUARIO_PERFIL};
+	
+	public final static String   LT_TB_NOTFTIPO              = "NOTFTIPO";
+	public final static String   LT_EL_NOTFTIPO_VOID         = "V";
+	public final static String   LT_EL_NOTFTIPO_AUTORIZACION = "O";
+	public final static String   LT_EL_NOTFTIPO_INFORMATIVO  = "I";
+	public final static String[] LT_ST_NOTFTIPO              = {LT_EL_NOTFTIPO_VOID,
+			                                                    LT_EL_NOTFTIPO_AUTORIZACION,
+			                                                    LT_EL_NOTFTIPO_INFORMATIVO};
 }

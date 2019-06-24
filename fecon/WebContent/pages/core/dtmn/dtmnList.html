@@ -4,7 +4,7 @@
 	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
 		<md-toolbar class="md-warn md-whiteframe-z2">
     		<h2 class="md-toolbar-tools">
-      			<span>Detalles de Menú ({{cntx.data.get('ctmn').perf}})</span>
+      			<span>Detalles de MenÃº ({{cntx.data.get('ctmn').perf}})</span>
       			<div flex></div>
       			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
     		</h2>
@@ -13,7 +13,7 @@
         	<form name="dtmnList">
         		<div layout="row" layout-xs="column" layout-sm="column" flex-xl="15" flex-lg="20" flex-md="30" flex-sm="40" flex-xs="100">
         			<md-input-container flex md-no-float class="md-block" data-ng-show="cntx.form.get('ctmn').show">
-	        			<label>Categoría</label>
+	        			<label>CategorÃ­a</label>
 						<md-select ng-model="cntx.form.get('ctmn').data" ng-change="fnCtmnChng()" ng-readonly="cntx.form.get('ctmn').read">
 	               			<md-option ng-repeat="ctmn in cntx.data.get('ctmnList')" ng-value="ctmn.iden">{{ctmn.desc}}</md-option>
 	            		</md-select>
@@ -30,14 +30,14 @@
 								<div flex="20"><b>Icono</b></div>
 							</div>
 							<div flex hide show-sm layout="row">
-								<div flex="40"><b>Descripción</b></div>
+								<div flex="40"><b>DescripciÃ³n</b></div>
 								<div flex="15"><b>Activo</b></div>
 								<div flex="30"><b>Path</b></div>
 								<div flex="15"><b>Icono</b></div>
 							</div>
 							<div flex hide show-gt-sm layout="row">
 								<div flex="10"><b>Ident.</b></div>
-								<div flex="30"><b>Descripción</b></div>
+								<div flex="30"><b>DescripciÃ³n</b></div>
 								<div flex="10"><b>Activo</b></div>
 								<div flex="20"><b>Path</b></div>
 								<div flex="20"><b>Icono</b></div>
@@ -51,10 +51,10 @@
 				</md-list-item>
 				
 				<md-list-item data-ng-repeat="dtmn in cntx.data.get('dtmnList')" ng-click="xpnd($index)">
-					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: solución general para bloquear los md-list-item-text -->
+					<div class="md-list-item-text" flex layout="row" style="max-width: 100%"> <!-- TODO: soluciÃ³n general para bloquear los md-list-item-text -->
 						<div layout="row" layout-xs="column" layout-sm="column" flex="90">
 							<div layout="row" layout-xs="column" flex>
-								<!-- Cabecera... la cambiaremos según tamaño de pantalla, igual que las etiquetas -->
+								<!-- Cabecera... la cambiaremos segÃºn tamaÃ±o de pantalla, igual que las etiquetas -->
 								<div flex ng-hide="$index === cntx.conf.get('idx1')">
 									<div flex hide show-xs layout="row">
 										<div flex="60">{{dtmn.desc}}</div>
@@ -79,7 +79,7 @@
 								<!--  Detalle -->
 								<div flex ng-show="$index === cntx.conf.get('idx1')">
 									<div flex><b>Identificador: </b>{{dtmn.iden}}</div>
-									<div flex><b>Descripción: </b>{{dtmn.desc}}</div>
+									<div flex><b>DescripciÃ³n: </b>{{dtmn.desc}}</div>
 									<div flex><b>Activo: </b>{{cntx.data.get('ltMBool')[dtmn.acti].desc}}</div>
 									<div flex><b>Path: </b>{{dtmn.path}}</div>
 									<div flex><b>Icono: </b>{{dtmn.icon}} - <md-icon md-font-set="material-icons" class="dtmn" style="font-size: 20px; margin-top: 4px; margin-bottom: 0px;">{{dtmn.icon}}</md-icon></div>

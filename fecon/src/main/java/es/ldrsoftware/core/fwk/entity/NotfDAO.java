@@ -32,4 +32,19 @@ public class NotfDAO extends SimpleBaseDAO {
 			return null;
 		}
 	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	public List<Notf> getListByApli(String apli) {
+		TypedQuery<Notf> typedQuery = 
+				this.getEntityManager().createQuery(
+				          "SELECT N FROM Notf N"
+				        + " WHERE N.iden LIKE '" + apli + "%'"
+				         , Notf.class);
+		return typedQuery.getResultList();
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.MANDATORY)
+	public Notf save(Notf notf) {
+		return getEntityManager().merge(notf);
+	}
 }

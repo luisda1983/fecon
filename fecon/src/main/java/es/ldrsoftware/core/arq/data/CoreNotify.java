@@ -384,8 +384,8 @@ public class CoreNotify {
 	//Servicio de consulta de Controlador
 	public final static String CTRL_GETK_IDEN_RQRD         = "CTRL-01001";
 	public final static String CTRL_GETK_CTRL_NF           = "CTRL-01901";
-	
 	//Servicio de consulta de Controladores
+	
 	public final static String CTRL_LIST_TIPO_RQRD         = "CTRL-02001";
 	public final static String CTRL_LIST_TIPO_ERRO         = "CTRL-02501";
 
@@ -426,6 +426,26 @@ public class CoreNotify {
 	public final static String LITE_GETK_CLAV_RQRD         = "LITE-02002";
 	public final static String LITE_GETK_LITE_NF           = "LITE-02901";
 
+	//Servicio de consulta de notificaciones
+	public final static String NOTF_LIST_APLI_RQRD         = "NOTF-01001";
+	
+	//Servicio de grabado de notificaciones
+	public final static String NOTF_SAVE_NOTF_RQRD         = "NOTF-02001";
+	public final static String NOTF_SAVE_IDEN_RQRD         = "NOTF-02701";
+	public final static String NOTF_SAVE_TIPO_RQRD         = "NOTF-02702";
+	public final static String NOTF_SAVE_DESC_RQRD         = "NOTF-02703";
+	public final static String NOTF_SAVE_IDEN_MAXL         = "NOTF-02801";
+	public final static String NOTF_SAVE_TIPO_ERRO         = "NOTF-02802";
+	public final static String NOTF_SAVE_DESC_MAXL         = "NOTF-02803";
+	
+	//Servicio de consulta de notificación
+	public final static String NOTF_GETK_IDEN_RQRD         = "NOTF-03001";
+	
+	//Servicio de edición de notificación
+	public final static String NOTF_EDIT_IDEN_RQRD         = "NOTF-04001";
+	public final static String NOTF_EDIT_CHNG_NO           = "NOTF-04501";
+	public final static String NOTF_EDIT_NOTF_NF           = "NOTF-04901";
+	
 	//*********************************************************************************************//
 	// Notificaciones del mÃ³dulo BTC                                                               //
 	//*********************************************************************************************//
