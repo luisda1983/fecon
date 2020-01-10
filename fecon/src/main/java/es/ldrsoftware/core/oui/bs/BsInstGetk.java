@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.InstDAO;
 
@@ -29,7 +28,7 @@ public class BsInstGetk extends BaseBS {
 		BsInstGetkArea area = (BsInstGetkArea)a;
 		
 		//Validamos que el identificador de instalación esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.INST_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Inst.IDEN);
 		
 	}
 }

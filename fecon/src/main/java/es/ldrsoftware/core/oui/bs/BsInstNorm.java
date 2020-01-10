@@ -29,10 +29,10 @@ public class BsInstNorm extends BaseBS {
 		Inst inst = bsInstGetkArea.OUT.inst;
 		
 		//Validamos que exista la instalación
-		validateDtoRequired(inst, CoreNotify.INST_NORM_INST_NF);
+		validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.key(area.IN.iden));
 		
 		//Validamos que la instalación sea de tipo Premium
-		validateStringEqual(inst.getTipo(), LiteData.LT_EL_INSTTIPO_PREMIUM, CoreNotify.INST_NORM_INST_PREM_NO);
+		test(false, inst.getTipo(), LiteData.LT_EL_INSTTIPO_PREMIUM, CoreNotify.INST_NORM_INST_PREM_NO);
 
 		//Establecemos la instalación cómo Normal
 		inst.setTipo(LiteData.LT_EL_INSTTIPO_NORMAL);
@@ -51,7 +51,7 @@ public class BsInstNorm extends BaseBS {
 		BsInstNormArea area = (BsInstNormArea)a;
 
 		//Se valida que el identificador de instalación esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.INST_NORM_IDEN_RQRD);
+		validateInputField(area.IN.iden, Inst.IDEN);
 	}
 
 }

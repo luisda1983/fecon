@@ -4,7 +4,8 @@ public abstract class PV {
 
 	public abstract void parse(String valo);
 	public abstract String format();
-	
+
+	//FIXME: cambiar por el StringUtil
 	public String extend(String s, int length) {
 		while (s.length() < length) {
 			s = s + " ";

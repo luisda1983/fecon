@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.prp.entity.Pres;
 import es.ldrsoftware.fecon.prp.entity.PresDAO;
 
@@ -26,7 +25,7 @@ public class BsPresGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresGetkArea area = (BsPresGetkArea)a;
 		
-		validateIntRequired(area.IN.anua, AppNotify.PRES_GETK_ANUA_RQRD);
-		validateIntRequired(area.IN.cate, AppNotify.PRES_GETK_CATE_RQRD);
+		validateInputField(area.IN.anua, Pres.ANUA);
+		validateInputField(area.IN.cate, Pres.CATE);
 	}
 }

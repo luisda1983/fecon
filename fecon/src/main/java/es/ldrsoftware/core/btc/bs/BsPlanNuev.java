@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.btc.entity.Plan;
 import es.ldrsoftware.core.fwk.data.LiteData;
 
@@ -53,6 +52,6 @@ public class BsPlanNuev extends BaseBS {
 		BsPlanNuevArea area = (BsPlanNuevArea)a;
 		
 		//Validamos que la fecha de planifición esté informada
-		validateIntRequired(area.IN.fech, CoreNotify.PLAN_NUEV_FECH_RQRD);
+		validateInputField(area.IN.fech, Plan.FECH);
 	}
 }

@@ -28,7 +28,7 @@ public class BsInviRech extends BaseBS {
 		
 		Invi invi = bsInviGetArea.OUT.invi;
 		
-		validateDtoRequired(invi, CoreNotify.INVI_RECH_INVI_NF);
+		validateDtoNotFound(invi, LiteData.LT_EL_DTO_INVI, Invi.key(area.IN.iden));
 		
 		//La invitación debe estar en estado solicitado para poder ser rechazada
 		if (!LiteData.LT_EL_INVIESTA_SOLICITADA.equals(invi.getEsta())) {
@@ -52,7 +52,7 @@ public class BsInviRech extends BaseBS {
 		BsInviRechArea area = (BsInviRechArea)a;
 
 		//Validamos que el identificador de invitación esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.INVI_RECH_IDEN_RQRD);
+		validateInputField(area.IN.iden, Invi.IDEN);
 
 	}
 }

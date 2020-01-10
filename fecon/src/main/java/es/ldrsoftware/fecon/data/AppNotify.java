@@ -7,7 +7,6 @@ public class AppNotify {
 	//*********************************************************************************************//
 
 	//Servicio de grabado de apunte
-	public final static String HCON_SAVE_HCON_RQRD         = "HCON-01001";
 	public final static String HCON_SAVE_INST_RQRD         = "HCON-01701";
 	public final static String HCON_SAVE_CUEN_RQRD         = "HCON-01702";
 	public final static String HCON_SAVE_TIPO_RQRD         = "HCON-01703";
@@ -100,8 +99,7 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-08901";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-08902";
 	
-	//Servicio de grabado de cuenta
-	public final static String CUEN_SAVE_CUEN_RQRD         = "CUEN-01001";	
+	//Servicio de grabado de cuenta	
 	public final static String CUEN_SAVE_IDEN_RQRD         = "CUEN-01701";
 	public final static String CUEN_SAVE_INST_RQRD         = "CUEN-01702";
 	public final static String CUEN_SAVE_TIPO_RQRD         = "CUEN-01703";
@@ -148,7 +146,6 @@ public class AppNotify {
 	//*********************************************************************************************//
 
 	//Servicio de grabado de Categorías
-	public final static String CATE_SAVE_CATE_RQRD         = "CATE-01001";
 	public final static String CATE_SAVE_INST_RQRD         = "CATE-01701";
 	public final static String CATE_SAVE_DESL_RQRD         = "CATE-01702";
 	public final static String CATE_SAVE_DESC_RQRD         = "CATE-01703";
@@ -176,7 +173,6 @@ public class AppNotify {
 	public final static String CATE_FORM_CATE_NF           = "CATE-04903";
 
 	//Servicio de grabado de concepto
-	public final static String CONC_SAVE_CONC_RQRD         = "CONC-01001";
 	public final static String CONC_SAVE_CATE_RQRD         = "CONC-01701";
 	public final static String CONC_SAVE_INST_RQRD         = "CONC-01702";
 	public final static String CONC_SAVE_TIPO_RQRD         = "CONC-01703";
@@ -216,7 +212,6 @@ public class AppNotify {
 	public final static String CONC_LIST_TIPO_ERRO         = "CONC-05501";
 	
 	//Servicio de grabado de presupuesto
-	public final static String PRES_SAVE_PRES_RQRD         = "PRES-01001";
 	public final static String PRES_SAVE_NPER_IMPO         = "PRES-01501";
 	public final static String PRES_SAVE_IMPO_DESC         = "PRES-01502";
 	public final static String PRES_SAVE_DESV_DESC         = "PRES-01503";

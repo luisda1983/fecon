@@ -27,7 +27,7 @@ public class BsPresEsta extends BaseBS {
 		
 		pres = presDao.getByAnuaMespCateConc(SESSION.get().inst, area.IN.anua, area.IN.mesp, area.IN.cate, area.IN.conc);
 
-		validateDtoRequired(pres, AppNotify.PRES_ESTA_PRES_NF);
+		validateDtoNotFound(pres, LiteData.LT_EL_DTO_PRES, Pres.key(area.IN.anua, area.IN.mesp, area.IN.cate, area.IN.conc));
 		
 		if (LiteData.LT_EL_PRESESTA_ABIERTA.equals(pres.getEsta())) {
 			if (LiteData.LT_EL_PRESESTA_CERRADA.equals(area.IN.esta)) {
@@ -60,8 +60,8 @@ public class BsPresEsta extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresEstaArea area = (BsPresEstaArea)a;
 		
-		validateIntRequired(area.IN.anua, AppNotify.PRES_ESTA_ANUA_RQRD);
-		validateIntRequired(area.IN.cate, AppNotify.PRES_ESTA_CATE_RQRD);
-		validateStringRequired(area.IN.esta, AppNotify.PRES_ESTA_ESTA_RQRD);
+		validateInputField(area.IN.anua, Pres.ANUA);
+		validateInputField(area.IN.cate, Pres.CATE);
+		validateInputField(area.IN.esta, Pres.CONC);
 	}
 }

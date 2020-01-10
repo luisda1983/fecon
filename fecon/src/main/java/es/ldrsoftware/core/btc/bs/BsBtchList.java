@@ -41,7 +41,7 @@ public class BsBtchList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsBtchListArea area = (BsBtchListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.BTCH_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Btch.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case BTCH_LIST_AUTO:

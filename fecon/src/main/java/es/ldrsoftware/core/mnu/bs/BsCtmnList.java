@@ -44,17 +44,17 @@ public class BsCtmnList extends BaseBS {
 		BsCtmnListArea area = (BsCtmnListArea)a;
 
 		//Validamos el tipo de listado, y validamos según el tipo
-		validateStringRequired(area.IN.tipo, CoreNotify.CTMN_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Ctmn.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case CTMN_LIST_PERF_FULL:
 			//Se valida que el perfil esté informado
-			validateStringRequired(area.IN.perf, CoreNotify.CTMN_LIST_PERF_RQRD);
+			validateInputField(area.IN.perf, Ctmn.PERF);
 			break;
 		case CTMN_LIST_PERF_ACTI:
 			//Se valida que el perfil y el indicador de activada esté informado
-			validateStringRequired(area.IN.perf, CoreNotify.CTMN_LIST_PERF_RQRD);
-			validateStringRequired(area.IN.acti, CoreNotify.CTMN_LIST_ACTI_RQRD);
+			validateInputField(area.IN.perf, Ctmn.PERF);
+			validateInputField(area.IN.acti, Ctmn.ACTI);
 			break;
 		default:
 			notify(CoreNotify.CTMN_LIST_TIPO_ERRO);

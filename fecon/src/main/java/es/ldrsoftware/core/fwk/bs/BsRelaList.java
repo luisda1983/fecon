@@ -49,11 +49,11 @@ public class BsRelaList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsRelaListArea area = (BsRelaListArea)a;
 
-		validateStringRequired(area.IN.rela, CoreNotify.RELA_LIST_RELA_RQRD);
+		validateInputField(area.IN.rela, Rela.TIPO_LIST);
 		
 		switch(area.IN.rela) {
 			case RELA_LIST_INST_BY_USUA:
-				validateStringRequired(area.IN.clc2, CoreNotify.RELA_LIST_CLC2_RQRD);
+				validateInputField(area.IN.clc2, Rela.CLC2);
 				break;
 			default:
 				notify(CoreNotify.RELA_LIST_RELA_ERRO);

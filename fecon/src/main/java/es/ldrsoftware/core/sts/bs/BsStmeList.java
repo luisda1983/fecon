@@ -36,12 +36,12 @@ public class BsStmeList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStmeListArea area = (BsStmeListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.STME_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Stme.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case STME_LIST_ANYO_MESS:
-			 validateIntRequired(area.IN.anyo, CoreNotify.STME_LIST_ANYO_RQRD);
-			 validateIntRequired(area.IN.mess, CoreNotify.STME_LIST_MESS_RQRD);
+			 validateInputField(area.IN.anyo, Stme.ANYO);
+			 validateInputField(area.IN.mess, Stme.MESS);
 			 break;
 		default:
 			 notify(CoreNotify.STME_LIST_TIPO_ERRO);

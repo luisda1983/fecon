@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.arq.util.DateTimeData;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
 import es.ldrsoftware.core.fwk.data.PVFechperiod;
@@ -77,8 +76,8 @@ public class BsSesiOpen extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsSesiOpenArea area = (BsSesiOpenArea)a;
 
-		validateStringRequired(area.IN.usua, CoreNotify.SESI_OPEN_USUA_RQRD);
-		validateStringRequired(area.IN.perf, CoreNotify.SESI_OPEN_PERF_RQRD);
+		validateInputField(area.IN.usua, Sesi.USUA);
+		validateInputField(area.IN.perf, Sesi.PERF);
 		
 		//No se valida el campo de entrada inst, porque se permite abrir sesión sin instalación asignada en multi-instalación
 	}

@@ -40,7 +40,7 @@ public class BsHconPresGest extends BaseBS {
 		Hcon hcon = bsHconGetkArea.OUT.hcon;
 		
 		//No existe el apunte
-		validateDtoRequired(hcon, AppNotify.HCON_PRES_GEST_HCON_NF);
+		validateDtoNotFound(hcon, LiteData.LT_EL_DTO_HCON, Hcon.key(area.IN.iden));
 		
 		//Sólo se pueden gestionar apuntes contables
 		if (!LiteData.LT_EL_HCONTIPO_CONTABLE.equals(hcon.getTipo())) {
@@ -68,7 +68,7 @@ public class BsHconPresGest extends BaseBS {
 		Pres pres = bsPresGetkArea.OUT.pres;
 		
 		//Apunte mal relacionado con partida presupuestaria
-		validateDtoRequired(pres, AppNotify.HCON_PRES_GEST_PRES_NF);
+		validateDtoNotFound(pres, LiteData.LT_EL_DTO_PRES, Pres.key(hcon.getPran(), hcon.getPrms(), hcon.getPrct(), hcon.getPrcc()));
 		
 		//Error: No se puede incluir sobre una partida no presupuestada
 		if ("I".equals(area.IN.acci) && pres.getImpo() == 0) {
@@ -121,9 +121,9 @@ public class BsHconPresGest extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconPresGestArea area = (BsHconPresGestArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.HCON_PRES_GEST_IDEN_RQRD);
+		validateInputField(area.IN.iden, Hcon.IDEN);
 		
-		validateStringRequired(area.IN.acci, AppNotify.HCON_PRES_GEST_ACCI_RQRD);
+		validateInputField(area.IN.acci, Hcon.ACCI);
 		
 		if (!"I".equals(area.IN.acci) &&  //Incluir apunte en presupuesto
 		   (!"E".equals(area.IN.acci))) {  //Excluir apunte de presupuesto

@@ -50,11 +50,11 @@ public class BsConcList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsConcListArea area = (BsConcListArea)a;
 		
-		validateStringRequired(area.IN.tipo, AppNotify.CONC_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Conc.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case BsConcListArea.LIST_TIPO_CATE:
-			 validateIntRequired(area.IN.cate, AppNotify.CONC_LIST_CATE_RQRD);
+			 validateInputField(area.IN.cate, Conc.CATE);
 			 break;
 		case BsConcListArea.LIST_TIPO_FULL:
 			 break;

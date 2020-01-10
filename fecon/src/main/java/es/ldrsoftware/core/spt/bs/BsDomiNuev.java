@@ -27,7 +27,7 @@ public class BsDomiNuev extends BaseBS {
 		
 		Domi domi = bsDomiGetnArea.OUT.domi;
 		
-		validateDtoEmpty(domi, CoreNotify.DOMI_NUEV_NOMB_DP);
+		testData(domi, CoreNotify.DOMI_NUEV_NOMB_DP);
 		
 		domi = new Domi();
 		domi.setInst(SESSION.get().inst);
@@ -52,7 +52,7 @@ public class BsDomiNuev extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDomiNuevArea area = (BsDomiNuevArea)a;
 				
-		validateStringRequired(area.IN.nomb, CoreNotify.DOMI_NUEV_NOMB_RQRD);
-		validateStringRequired(area.IN.desc, CoreNotify.DOMI_NUEV_DESC_RQRD);
+		validateInputField(area.IN.nomb, Domi.NOMB);
+		validateInputField(area.IN.desc, Domi.DESC);
 	}
 }

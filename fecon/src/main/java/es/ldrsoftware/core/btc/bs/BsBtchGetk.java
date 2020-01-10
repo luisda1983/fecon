@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.btc.entity.Btch;
 import es.ldrsoftware.core.btc.entity.BtchDAO;
 
@@ -26,7 +25,7 @@ public class BsBtchGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsBtchGetkArea area = (BsBtchGetkArea)a;
 
-		validateStringRequired(area.IN.iden, CoreNotify.BTCH_GETK_IDEN_RQRD); 
+		validateInputField(area.IN.iden, Btch.IDEN); 
 	}
 
 }

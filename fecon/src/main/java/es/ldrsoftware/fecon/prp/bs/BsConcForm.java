@@ -37,7 +37,7 @@ public class BsConcForm extends BaseBS {
 		BsConcFormArea area = (BsConcFormArea)a;
 		
 		//Nuevo concepto
-		if (!testInt(area.IN.iden)) {
+		if (!data(area.IN.iden)) {
 			
 			//Validamos que exista la categor�a
 			BsCateGetkArea bsCateGetkArea = new BsCateGetkArea();
@@ -46,7 +46,7 @@ public class BsConcForm extends BaseBS {
 			
 			Cate cate = bsCateGetkArea.OUT.cate;
 			
-			validateDtoRequired(cate, AppNotify.CONC_FORM_CATE_NF);
+			validateDtoNotFound(cate, LiteData.LT_EL_DTO_CATE, Cate.key(area.IN.cate));
 			
 			//Validamos que no exista ningún concepto con la misma descripción y la misma categoría
 			BsConcGetdArea bsConcGetdArea = new BsConcGetdArea();
@@ -96,8 +96,8 @@ public class BsConcForm extends BaseBS {
 			
 			Conc conc = bsConcGetkArea.OUT.conc;
 			
-			validateDtoRequired(conc, AppNotify.CONC_FORM_CONC_NF);
-
+			validateDtoNotFound(conc, LiteData.LT_EL_DTO_CONC, Conc.key(area.IN.iden));
+			
 			if (area.IN.cate != conc.getCate()) {
 				notify(AppNotify.CONC_FORM_CATE_DIFF);
 			}
@@ -148,10 +148,10 @@ public class BsConcForm extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsConcFormArea area = (BsConcFormArea)a;
 		
-		validateIntRequired(area.IN.cate, AppNotify.CONC_FORM_CATE_RQRD);
-		validateStringRequired(area.IN.tipo, AppNotify.CONC_FORM_TIPO_RQRD);
-		validateStringRequired(area.IN.desl, AppNotify.CONC_FORM_DESL_RQRD);
-		validateStringRequired(area.IN.desc, AppNotify.CONC_FORM_DESC_RQRD);
+		validateInputField(area.IN.cate, Conc.CATE);
+		validateInputField(area.IN.tipo, Conc.TIPO);
+		validateInputField(area.IN.desl, Conc.DESL);
+		validateInputField(area.IN.desc, Conc.DESC);
 	}
 
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.spt.entity.Domi;
 import es.ldrsoftware.core.spt.entity.DomiDAO;
 
@@ -27,6 +26,6 @@ public class BsDomiGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDomiGetkArea area = (BsDomiGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, CoreNotify.DOMI_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Domi.IDEN);
 	}
 }

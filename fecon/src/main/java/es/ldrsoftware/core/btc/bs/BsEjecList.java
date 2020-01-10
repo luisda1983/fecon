@@ -44,13 +44,13 @@ public class BsEjecList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsEjecListArea area = (BsEjecListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.EJEC_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Ejec.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case EJEC_LIST_EJEC:
 		case EJEC_LIST_FECH:
 		case EJEC_LIST_FEPL_HOPL:
-			 validateIntRequired(area.IN.fech, CoreNotify.EJEC_LIST_FECH_RQRD);
+			 validateInputField(area.IN.fech, Ejec.FECH); 
 			 break;
 		default:
 			 notify(CoreNotify.EJEC_LIST_TIPO_ERRO);

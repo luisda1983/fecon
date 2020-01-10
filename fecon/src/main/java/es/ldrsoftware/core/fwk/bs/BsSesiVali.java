@@ -91,8 +91,8 @@ public class BsSesiVali extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsSesiValiArea area = (BsSesiValiArea)a;
-		
-		validateIntRequired(area.IN.iden, CoreNotify.SESI_VALI_IDEN_RQRD);
+
+		validateInputField(area.IN.iden, Sesi.IDEN);
 		
 		//TODO: clave externa dinamica
 		//if (area.IN.clav == 0) { notify(CoreNotify.SESI_CLAV_RQRD); }

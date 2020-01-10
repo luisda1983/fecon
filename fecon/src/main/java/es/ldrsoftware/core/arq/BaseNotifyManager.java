@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.arq.data.Session;
 import es.ldrsoftware.core.fwk.data.LiteData;
+import es.ldrsoftware.core.fwk.entity.Lite;
+import es.ldrsoftware.core.fwk.entity.LiteDAO;
 import es.ldrsoftware.core.fwk.entity.Notf;
 import es.ldrsoftware.core.fwk.entity.NotfDAO;
 
@@ -15,6 +17,9 @@ public class BaseNotifyManager {
 	@Autowired
 	public NotfDAO notfDao;
 
+	@Autowired
+	public LiteDAO liteDao;
+	
 	//Variable que almacena el entorno de la ejecucion
 	public static final ThreadLocal<Session> SESSION = new ThreadLocal<Session>();
 
@@ -28,15 +33,28 @@ public class BaseNotifyManager {
 			notf.setIden(CoreNotify.CORE_NOTF_IDEN_RQRD);
 			notf.setDesc(CoreNotify.CORE_NOTF_IDEN_RQRD_DESC);
 			notf.setTipo(Session.EXEC_STATE_VOID);
-		}
-		
-		notf = notfDao.getByIden(code);
-		
-		if (notf == null) {
-			notf = new Notf();
-			notf.setIden(CoreNotify.CORE_NOTF_NF);
-			notf.setDesc(CoreNotify.CORE_NOTF_NF_DESC);
-			notf.setTipo(Session.EXEC_STATE_VOID);
+		} else {
+			notf = notfDao.getByIden(code);
+			
+			if (notf == null) {
+				notf = new Notf();
+				notf.setIden(CoreNotify.CORE_NOTF_NF);
+				notf.setDesc(CoreNotify.CORE_NOTF_NF_DESC + " " + code);
+				notf.setTipo(Session.EXEC_STATE_VOID);
+			} else {
+				//FIXME: creo que si fuera Info (o auto en confirmacion), se persistirían los cambios en notf
+				if (data != null && LiteData.LT_EL_NOTFTIPO_VOID.equals(notf.getTipo())) {
+					int i = 0;
+					
+					while (i<data.length) {
+						int j = notf.getDesc().indexOf("$" + i + "$");
+						if (j>0) {
+							notf.setDesc(notf.getDesc().replace("$" + i + "$", data[i]));
+						}
+						i++;
+					}
+				}
+			}
 		}
 		
 		switch(notf.getTipo()) {
@@ -58,6 +76,17 @@ public class BaseNotifyManager {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	//Método que permite obtener literales en la elevación de notificaciones
+	protected String translate(String tbla, String elem) {
+		Lite lite = liteDao.getByTblaClav(tbla, elem);
+		
+		if (lite == null) {
+			return elem;
+		} else {
+			return lite.getDesc();
 		}
 	}
 }

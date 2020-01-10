@@ -7,7 +7,6 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.cnt.entity.CuenDAO;
-import es.ldrsoftware.fecon.data.AppNotify;
 
 @Component
 public class BsCuenGetk extends BaseBS {
@@ -26,6 +25,6 @@ public class BsCuenGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCuenGetkArea area = (BsCuenGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.CUEN_GETC_IDEN_RQRD);
+		validateInputField(area.IN.iden, Cuen.IDEN);
 	}
 }

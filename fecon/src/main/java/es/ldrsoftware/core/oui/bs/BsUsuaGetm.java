@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.oui.entity.Usua;
 import es.ldrsoftware.core.oui.entity.UsuaDAO;
 
@@ -29,7 +28,7 @@ public class BsUsuaGetm extends BaseBS {
 		BsUsuaGetmArea area = (BsUsuaGetmArea)a;
 		
 		//Validamos que el email está informado
-		validateStringRequired(area.IN.mail, CoreNotify.USUA_GETM_MAIL_RQRD);
+		validateInputField(area.IN.mail, Usua.MAIL);
 		
 	}
 }

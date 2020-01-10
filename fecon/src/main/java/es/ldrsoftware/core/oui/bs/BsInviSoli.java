@@ -63,7 +63,7 @@ public class BsInviSoli extends BaseBS {
 		BsInviSoliArea area = (BsInviSoliArea)a;
 
 		//Validamos que el email esté informado
-		validateStringRequired(area.IN.mail, CoreNotify.INVI_SOLI_MAIL_RQRD);
+		validateInputField(area.IN.mail, Invi.MAIL);
 
 	}
 }

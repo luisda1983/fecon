@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.InstDAO;
 
@@ -29,7 +28,7 @@ public class BsInstGetd extends BaseBS {
 		BsInstGetdArea area = (BsInstGetdArea)a;
 		
 		//Validamos que la descripción de instalación esté informada
-		validateStringRequired(area.IN.desc, CoreNotify.INST_GETD_DESC_RQRD);
+		validateInputField(area.IN.desc, Inst.DESC);
 		
 	}
 }

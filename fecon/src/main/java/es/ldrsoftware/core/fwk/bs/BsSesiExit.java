@@ -55,6 +55,6 @@ public class BsSesiExit extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsSesiExitArea area = (BsSesiExitArea)a;
 
-		validateIntRequired(area.IN.iden, CoreNotify.SESI_EXIT_IDEN_RQRD);
+		validateInputField(area.IN.iden, Sesi.IDEN);
 	}
 }

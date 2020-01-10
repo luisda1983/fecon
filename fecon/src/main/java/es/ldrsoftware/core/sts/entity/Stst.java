@@ -9,9 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+import es.ldrsoftware.core.arq.util.StringUtil;
+import es.ldrsoftware.core.fwk.data.LiteData;
+
 @Entity	
 @Table(name = "STST")
-public class Stst implements Serializable {
+public class Stst extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = 3569136645585706328L;
 
@@ -20,30 +24,74 @@ public class Stst implements Serializable {
 	@Column(name = "STSTIDEN", nullable = false)
 	private long iden;
 	
+	public final static String IDEN = "Identificador de estadística";
+	
 	@Column(name = "STSTCTRL", nullable = false)
 	private String ctrl;
+	
+	public final static String CTRL = "Controlador de estadística";
 	
 	@Column(name = "STSTINST", nullable = false)
 	private long inst;
 	
+	public final static String INST = "Instalación de estadística";
+	
 	@Column(name = "STSTUSUA", nullable = false)
 	private String usua;
+	
+	public final static String USUA = "Usuario de estadística";
 	
 	@Column(name = "STSTFEEJ", nullable = false)
 	private int feej;
 	
+	public final static String FEEJ = "Fecha de ejecución";
+	
 	@Column(name = "STSTHOEJ", nullable = false)
 	private int hoej;
+	
+	public final static String HOEJ = "Hora de ejecución";
 	
 	@Column(name = "STSTTIEJ", nullable = false)
 	private int tiej;
 	
+	public final static String TIEJ = "Tiempo de ejecución";
+	
 	@Column(name = "STSTREEJ", nullable = false)
 	private String reej;
+	
+	public final static String REEJ = "Resultado de ejecución";
 	
 	@Column(name = "STSTNOTF", nullable = false)
 	private String notf;
 
+	public final static String NOTF = "Notificación de ejecución";
+	
+	public final static String FECH = "Fecha de estadísticas";
+	public final static String INEJ = "Inicio de ejecución";
+	public final static String FIEJ = "Fin de ejecución";
+	
+	public String key() {
+		return Stst.key(iden);
+	}
+	
+	public final static String key(long iden) {
+		return StringUtil.extend(iden, 18);
+	}
+	
+	public void validate() throws Exception {
+		validateFieldString(ctrl, 30, Stst.CTRL);
+		validateFieldLong(inst, 0, 999999999, Stst.INST);
+		validateFieldString(usua, 30, Stst.USUA);
+		validateFieldDate(feej, Stst.FEEJ);
+		validateFieldTime(tiej, Stst.TIEJ);
+		validateFieldLong(tiej, 0, 99999999, Stst.TIEJ);
+		validateFieldDomain(reej, Stst.REEJ, LiteData.LT_ST_STSTREEJ);
+		
+		if (!LiteData.LT_EL_STSTREEJ_OK.equals(reej)) {
+			validateFieldString(notf, 10, Stst.NOTF);
+		}
+	}
+	
 	public long getIden() {
 		return iden;
 	}

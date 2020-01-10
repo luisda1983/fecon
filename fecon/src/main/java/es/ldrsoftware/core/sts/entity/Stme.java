@@ -8,10 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+import es.ldrsoftware.core.arq.util.StringUtil;
+
 @Entity	
 @Table(name = "STME")
 @IdClass(StmePK.class)
-public class Stme implements Serializable {
+public class Stme extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = 8498481307873855913L;
 
@@ -19,30 +22,66 @@ public class Stme implements Serializable {
 	@Column(name = "STMEANYO", unique = true, nullable = false)
 	private int anyo;
 
+	public final static String ANYO = "Año de estadística";
+	
 	@Id
 	@Column(name = "STMEMESS", unique = true, nullable = false)
 	private int mess;
 
+	public final static String MESS = "Mes de estadística";
+	
 	@Id
 	@Column(name = "STMECTRL", unique = true, nullable = false)
 	private String ctrl;
 	
+	public final static String CTRL = "Controlador de estadística anual";
+	
 	@Column(name = "STMETOTA", nullable = false)
 	private int tota;
+	
+	public final static String TOTA = "Total de ejecuciones";
 	
 	@Column(name = "STMETIME", nullable = false)
 	private float time;
 	
+	public final static String TIME = "Tiempo medio de ejecución";
+	
 	@Column(name = "STMETIMA", nullable = false)
 	private int tima;
+	
+	public final static String TIMA = "Tiempo máximo de ejecución";
 	
 	@Column(name = "STMETIMI", nullable = false)
 	private int timi;
 	
+	public final static String TIMI = "Tiempo mínimo de ejecución";
+	
 	@Column(name = "STMENUER", nullable = false)
 	private int nuer;
 
+	public final static String NUER = "Número de errores";
 
+	public String key() {
+		return Stme.key(anyo, mess, ctrl);
+	}
+	
+	public final static String key(long anyo, long mess, String ctrl) {
+		return StringUtil.extend(anyo, 4) + '|'
+			 + StringUtil.extend(mess, 2) + '|'
+			 + ctrl;
+	}
+	
+	public void validate() throws Exception {
+		validateFieldYear(anyo, Stme.ANYO);
+		validateFieldMonth(mess, Stme.MESS);
+		validateFieldString(ctrl, 30, Stme.CTRL);
+		validateFieldLong(tota, 0, 99999999, Stme.TOTA);
+		validateFieldDouble(time, 0, 99999999999.9999, Stme.TIME);
+		validateFieldLong(tima, 0, 99999999, Stme.TIMA);
+		validateFieldLong(timi, 0, 99999999, Stme.TIMI);
+		validateFieldLong(nuer, 0, 99999999, Stme.NUER);
+	}
+	
 	public int getAnyo() {
 		return anyo;
 	}

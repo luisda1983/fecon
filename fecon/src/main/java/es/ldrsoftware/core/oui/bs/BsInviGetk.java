@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.oui.entity.Invi;
 import es.ldrsoftware.core.oui.entity.InviDAO;
 
@@ -28,7 +27,7 @@ public class BsInviGetk extends BaseBS {
 		BsInviGetkArea area = (BsInviGetkArea)a;
 		
 		//Validamos que el identificador de invitación esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.INVI_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Invi.IDEN);
 
 	}
 }

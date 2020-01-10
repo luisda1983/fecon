@@ -26,18 +26,18 @@ public class BsUsuaVali extends BaseBS {
 		Usua usua = bsUsuaGetkArea.OUT.usua;
 	
 		//Validamos que exista el usuario
-		validateDtoRequired(usua, CoreNotify.USUA_VALI_USUA_NF);
+		validateDtoNotFound(usua, LiteData.LT_EL_DTO_USUA, Usua.key(area.IN.iden));
 
 		//Validamos que el password introducido coindide
-		validateStringEqual(area.IN.pass, usua.getPass(), CoreNotify.USUA_VALI_PASS_ERRO);
+		test(false, area.IN.pass, usua.getPass(), CoreNotify.USUA_VALI_PASS_ERRO);
 		
 		//Validamos que el usuario se encuentre activo
-		validateStringEqual(LiteData.LT_EL_BOOL_SI, usua.getActi(), CoreNotify.USUA_VALI_USUA_ACTI_NO);
+		test(false, LiteData.LT_EL_BOOL_SI, usua.getActi(), CoreNotify.USUA_VALI_USUA_ACTI_NO);
 
 		//Si el email está informado, necesitamos validar que efectivamente coincide con el del usuario
 		//Función utilizada en el procesado de invitación con usuario existente
-		if (area.IN.mail != null && !"".equals(area.IN.mail)) {
-			validateStringEqual(area.IN.mail, usua.getMail(), CoreNotify.USUA_VALI_MAIL_ERRO);
+		if (data(area.IN.mail)) {
+			test(false, area.IN.mail, usua.getMail(), CoreNotify.USUA_VALI_MAIL_ERRO);
 		}
 		area.OUT.usua = usua;
 	}
@@ -46,9 +46,9 @@ public class BsUsuaVali extends BaseBS {
 		BsUsuaValiArea area = (BsUsuaValiArea)a;
 
 		//Validamos que el identificador de usuario esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.USUA_VALI_IDEN_RQRD);
+		validateInputField(area.IN.iden, Usua.IDEN);
 		
 		//Validamos que el password esté informado
-		validateStringRequired(area.IN.pass, CoreNotify.USUA_VALI_PASS_RQRD);
+		validateInputField(area.IN.pass, Usua.PASS);
 	}
 }

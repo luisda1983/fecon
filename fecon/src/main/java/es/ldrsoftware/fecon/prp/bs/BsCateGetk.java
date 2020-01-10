@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.prp.entity.Cate;
 import es.ldrsoftware.fecon.prp.entity.CateDAO;
 
@@ -26,7 +25,7 @@ public class BsCateGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCateGetkArea area = (BsCateGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.CATE_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Cate.IDEN);
 	}
 
 }

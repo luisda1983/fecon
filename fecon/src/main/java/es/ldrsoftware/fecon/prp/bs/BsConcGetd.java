@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.prp.entity.Conc;
 import es.ldrsoftware.fecon.prp.entity.ConcDAO;
 
@@ -29,9 +28,9 @@ public class BsConcGetd extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsConcGetdArea area = (BsConcGetdArea)a;
 		
-		validateIntRequired(area.IN.cate, AppNotify.CONC_GETD_CATE_RQRD);
-		validateStringRequired(area.IN.desl, AppNotify.CONC_GETD_DESL_RQRD);
-		validateStringRequired(area.IN.desc, AppNotify.CONC_GETD_DESC_RQRD);
+		validateInputField(area.IN.cate, Conc.CATE);
+		validateInputField(area.IN.desl, Conc.DESL);
+		validateInputField(area.IN.desc, Conc.DESC);
 	}
 
 }

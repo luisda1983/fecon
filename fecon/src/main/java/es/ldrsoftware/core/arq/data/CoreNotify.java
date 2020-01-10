@@ -29,6 +29,19 @@ public class CoreNotify {
 	public final static String CORE_CTRL_CONT_NREG         = "CORE-00009";
 	public final static String CORE_CTRL_CONT_NREG_DESC    = "Configuración incorrecta en Controlador.";
 
+	public final static String CORE_NOTF_DTO_RQRD          = "CORE-90001";
+	public final static String CORE_NOTF_DTO_NF            = "CORE-90002";
+	public final static String CORE_NOTF_INPT_FILD         = "CORE-90003";
+	public final static String CORE_NOTF_MAXL              = "CORE-90004";
+	public final static String CORE_NOTF_DATE_RNGE         = "CORE-90005";
+	public final static String CORE_NOTF_TIME_RNGE         = "CORE-90006";
+	public final static String CORE_NOTF_DOMN_RQRD         = "CORE-90007";
+	public final static String CORE_NOTF_DOMN_NF           = "CORE-90008";
+	public final static String CORE_NOTF_FILD_EMPT         = "CORE-90009";
+	public final static String CORE_NOTF_RNGE              = "CORE-90010";
+	public final static String CORE_NOTF_YEAR_RNGE         = "CORE-90011";
+	public final static String CORE_NOTF_MONT_RNGE         = "CORE-90012";
+	
 	//*********************************************************************************************//
 	// Notificaciones del módulo MNU                                                               //
 	//*********************************************************************************************//
@@ -43,7 +56,6 @@ public class CoreNotify {
 	public final static String CTMN_GETK_IDEN_RQRD         = "CTMN-02001";
 	
 	//Servicio de guardado de categoría de menú
-	public final static String CTMN_SAVE_CTMN_RQRD         = "CTMN-03001";
 	public final static String CTMN_SAVE_IDEN_RQRD         = "CTMN-03701";
 	public final static String CTMN_SAVE_PERF_RQRD         = "CTMN-03702";
 	public final static String CTMN_SAVE_DESC_RQRD         = "CTMN-03703";
@@ -80,7 +92,6 @@ public class CoreNotify {
 	public final static String DTMN_GETK_IDEN_RQRD         = "DTMN-02002";
 
 	//Servicio de guardado de detalle de menú
-	public final static String DTMN_SAVE_DTMN_RQRD         = "DTMN-03001";
 	public final static String DTMN_SAVE_CTMN_RQRD         = "DTMN-03701";
 	public final static String DTMN_SAVE_IDEN_RQRD         = "DTMN-03702";
 	public final static String DTMN_SAVE_DESC_RQRD         = "DTMN-03703";
@@ -132,7 +143,6 @@ public class CoreNotify {
 	public final static String USUA_LGON_INST_NF           = "USUA-03902";
 	
 	//Servicio de grabado de usuario
-	public final static String USUA_SAVE_USUA_RQRD         = "USUA-04001";
 	public final static String USUA_SAVE_IDEN_RQRD         = "USUA-04701";
 	public final static String USUA_SAVE_MAIL_RQRD         = "USUA-04702";
 	public final static String USUA_SAVE_PASS_RQRD         = "USUA-04703";
@@ -205,7 +215,6 @@ public class CoreNotify {
 	public final static String INST_GETK_IDEN_RQRD         = "INST-02001";
 		
 	//Servicio de guardado de instalación
-	public final static String INST_SAVE_INST_RQRD         = "INST-03001";
 	public final static String INST_SAVE_DESC_RQRD         = "INST-03701";
 	public final static String INST_SAVE_FEAL_RQRD         = "INST-03702";
 	public final static String INST_SAVE_ESTA_RQRD         = "INST-03703";
@@ -292,7 +301,6 @@ public class CoreNotify {
 	public final static String INVI_RECH_INVI_NF           = "INVI-06901";
 
 	//Servicio de grabado de invitación
-	public final static String INVI_SAVE_INVI_RQRD         = "INVI-07001";
 	public final static String INVI_SAVE_IDEN_RQRD         = "INVI-07701";
 	public final static String INVI_SAVE_TIPO_RQRD         = "INVI-07702";
 	public final static String INVI_SAVE_ESTA_RQRD         = "INVI-07703";
@@ -336,7 +344,6 @@ public class CoreNotify {
 	public final static String SESI_LIST_ESTA_ERRO         = "SESI-01501";
 
 	//Servicio de grabado de sesiones
-	public final static String SESI_SAVE_SESI_RQRD         = "SESI-02001";
 	public final static String SESI_SAVE_USUA_RQRD         = "SESI-02701";
 	public final static String SESI_SAVE_DIIP_RQRD         = "SESI-02702";
 	public final static String SESI_SAVE_PERF_RQRD         = "SESI-02703";
@@ -395,7 +402,6 @@ public class CoreNotify {
 	public final static String RELA_LIST_RELA_ERRO         = "RELA-01003";
 
 	//Servicio de grabado de Relación
-	public final static String RELA_SAVE_RELA_RQRD         = "RELA-02001";
 	public final static String RELA_SAVE_MAE1_RQRD         = "RELA-02701";
 	public final static String RELA_SAVE_CLC1_NULL         = "RELA-02702";
 	public final static String RELA_SAVE_MAE2_RQRD         = "RELA-02703";
@@ -430,7 +436,6 @@ public class CoreNotify {
 	public final static String NOTF_LIST_APLI_RQRD         = "NOTF-01001";
 	
 	//Servicio de grabado de notificaciones
-	public final static String NOTF_SAVE_NOTF_RQRD         = "NOTF-02001";
 	public final static String NOTF_SAVE_IDEN_RQRD         = "NOTF-02701";
 	public final static String NOTF_SAVE_TIPO_RQRD         = "NOTF-02702";
 	public final static String NOTF_SAVE_DESC_RQRD         = "NOTF-02703";
@@ -455,24 +460,20 @@ public class CoreNotify {
 	public final static String BTC_CTRL_BTCH_NF            = "BTC-00002";
 	
 	//Servicio de grabado de maestro de planificación
-	public final static String MPLA_SAVE_MPLA_RQRD         = "MPLA-01001";
 	public final static String MPLA_SAVE_ESTA_RQRD         = "MPLA-01701";
 	public final static String MPLA_SAVE_HORA_RNGE         = "MPLA-01801";
 	public final static String MPLA_SAVE_ESTA_ERRO         = "MPLA-01802";
 
 	//Servicio de activación de maestro de planificación
 	public final static String MPLA_ACTI_ESTA_ERRO         = "MPLA-02501";
-	public final static String MPLA_ACTI_MPLA_NF           = "MPLA-02901";
 	
 	//Servicio de desactivación de maestro de planificación
 	public final static String MPLA_DESA_ESTA_ERRO         = "MPLA-03501";
-	public final static String MPLA_DESA_MPLA_NF           = "MPLA-03901";
 	
 	//Servicio de cálculo de ventana de ejecución
 	public final static String MPLA_VENT_ACTI_ERRO         = "MPLA-04501";
 	
 	//Servicio de grabado de planificación
-	public final static String PLAN_SAVE_PLAN_RQRD         = "PLAN-01001";
 	public final static String PLAN_SAVE_FECH_RQRD         = "PLAN-01701";
 	public final static String PLAN_SAVE_ESTA_RQRD         = "PLAN-01702";
 	public final static String PLAN_SAVE_FEIN_NPER         = "PLAN-01703";
@@ -507,7 +508,6 @@ public class CoreNotify {
 	public final static String PLAN_LIST_TIPO_ERRO         = "PLAN-03003";
 	
 	//Servicio de grabado de Batch
-	public final static String BTCH_SAVE_BTCH_RQRD         = "BTCH-01001";
 	public final static String BTCH_SAVE_IDEN_RQRD         = "BTCH-01002";
 	public final static String BTCH_SAVE_DESC_RQRD         = "BTCH-01003";
 	public final static String BTCH_SAVE_FEAL_RQRD         = "BTCH-01004";
@@ -537,7 +537,6 @@ public class CoreNotify {
 	public final static String BTCH_LIST_TIPO_ERRO         = "BTCH-03501";
 	
 	//Servicio de grabado de Ejecución
-	public final static String EJEC_SAVE_EJEC_RQRD         = "EJEC-01001";
 	public final static String EJEC_SAVE_FECH_RQRD         = "EJEC-01701";
 	public final static String EJEC_SAVE_BTCH_RQRD         = "EJEC-01702";
 	public final static String EJEC_SAVE_SECU_RQRD         = "EJEC-01703";
@@ -590,7 +589,6 @@ public class CoreNotify {
 	public final static String EJEC_PLAN_BTCH_NF           = "EJEC-03902";
 
 	//Servicio de grabado de log de procesos
-	public final static String LOGP_SAVE_LOGP_RQRD         = "LOGP-01001";
 	public final static String LOGP_SAVE_TIPO_RQRD         = "LOGP-01701";
 	public final static String LOGP_SAVE_IDEN_RQRD         = "LOGP-01702";
 	public final static String LOGP_SAVE_FECH_RQRD         = "LOGP-01703";
@@ -607,7 +605,6 @@ public class CoreNotify {
 	//*********************************************************************************************//
 
 	//Servicio de grabado de estadística
-	public final static String STST_SAVE_STST_RQRD         = "STST-01001";
 	public final static String STST_SAVE_CTRL_RQRD         = "STST-01701";
 	public final static String STST_SAVE_USUA_RQRD         = "STST-01702";
 	public final static String STST_SAVE_FEEJ_RQRD         = "STST-01703";
@@ -633,7 +630,6 @@ public class CoreNotify {
 	public final static String STST_LIST_TIPO_ERRO         = "STST-03003";
 
 	//Servicio de grabado de estadística diaria
-	public final static String STDI_SAVE_STDI_RQRD         = "STDI-01001";
 	public final static String STDI_SAVE_FECH_RQRD         = "STDI-01701";
 	public final static String STDI_SAVE_CTRL_RQRD         = "STDI-01702";
 	public final static String STDI_SAVE_TOTA_RQRD         = "STDI-01703";
@@ -656,7 +652,6 @@ public class CoreNotify {
 	public final static String STDI_LIST_TIPO_ERRO         = "STDI-02501";
 
 	//Servicio de grabado de estadísticas mensuales
-	public final static String STME_SAVE_STME_RQRD         = "STME-01001";
 	public final static String STME_SAVE_ANYO_RQRD         = "STDI-01701";
 	public final static String STME_SAVE_MESS_RQRD         = "STDI-01702";
 	public final static String STME_SAVE_CTRL_RQRD         = "STDI-01703";
@@ -684,7 +679,6 @@ public class CoreNotify {
 	//*********************************************************************************************//
 
 	//Servicio de grabado de dominio
-	public final static String DOMI_SAVE_DOMI_RQRD         = "DOMI-01001";
 	public final static String DOMI_SAVE_INST_RQRD         = "DOMI-01701";
 	public final static String DOMI_SAVE_NOMB_RQRD         = "DOMI-01702";
 	public final static String DOMI_SAVE_DESC_RQRD         = "DOMI-01703";
@@ -724,7 +718,6 @@ public class CoreNotify {
 	public final static String DOMI_EDIT_NOMB_DP           = "DOMI-05902";
 	
 	//Servicio de grabado de elemento de dominio
-	public final static String DELE_SAVE_DELE_RQRD         = "DELE-01001";
 	public final static String DELE_SAVE_INST_RQRD         = "DELE-01701";
 	public final static String DELE_SAVE_DOMI_RQRD         = "DELE-01702";
 	public final static String DELE_SAVE_VALO_RQRD         = "DELE-01703";

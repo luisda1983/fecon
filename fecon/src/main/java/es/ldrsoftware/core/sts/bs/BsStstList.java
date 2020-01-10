@@ -40,12 +40,12 @@ public class BsStstList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStstListArea area = (BsStstListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.STST_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Stst.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case STST_LIST_FECH:
 		case STST_LIST_FECH_BTCH:
-			 validateIntRequired(area.IN.fech, CoreNotify.STST_LIST_FECH_RQRD);
+			 validateInputField(area.IN.fech, Stst.FECH);
 			 break;
 		default:
 			 notify(CoreNotify.STST_LIST_TIPO_ERRO);

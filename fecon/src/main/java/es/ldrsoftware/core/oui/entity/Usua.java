@@ -7,10 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+import es.ldrsoftware.core.fwk.data.LiteData;
+
 
 @Entity	
 @Table(name = "USUA")
-public class Usua implements Serializable {
+public class Usua extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = 8187605942950289737L;
 
@@ -18,30 +21,64 @@ public class Usua implements Serializable {
 	@Column(name = "USUAIDEN", nullable = false)
 	private String iden;
 
-//	@Column(name = "USUAPERF", nullable = false)
-//	private String perf;
-
+	public final static String IDEN = "Identificador de Usuario";
+	
 	@Column(name = "USUAMAIL", nullable = false)
 	private String mail;
 
+	public final static String MAIL = "Email de Usuario"; 
+	
 	@Column(name = "USUAPASS", nullable = false)
 	private String pass;
 
+	public final static String PASS = "Password";
+
+	public final static String CPAS = "Confirmación de Password";
+	
 	@Column(name = "USUAACTI", nullable = false)
 	private String acti;
 
+	public final static String ACTI = "Indicador de usuario activo";
+	
 	@Column(name = "USUAFEAL", nullable = false)
 	private int    feal;
 
+	public final static String FEAL = "Fecha de alta de Usuario";
+	
 	@Column(name = "USUAHOAL", nullable = false)
 	private int    hoal;
 
+	public final static String HOAL = "Hora de alta de Usuario";
+	
 	@Column(name = "USUAFEUL", nullable = false)
 	private int    feul;
 
+	public final static String FEUL = "Fecha de última actividad de Usuario";
+	
 	@Column(name = "USUAHOUL", nullable = false)
 	private int    houl;
 
+	public final static String HOUL = "Hora de última actividad de Usuario";
+	
+	public String key() {
+		return key(iden);
+	}
+	
+	public static String key(String iden) {
+		return iden;
+	}
+	
+	public void validate() throws Exception {
+		validateFieldString(iden, 30, Usua.IDEN);
+		validateFieldString(mail, 100, Usua.MAIL);
+		validateFieldString(pass, 30, Usua.PASS);
+		validateFieldDomain(acti, Usua.ACTI, LiteData.LT_ST_BOOL);
+		validateFieldDate(feal, Usua.FEAL);
+		validateFieldTime(hoal, Usua.HOAL);
+		validateFieldDate(feul, Usua.FEUL);
+		validateFieldTime(houl, Usua.HOUL);	
+	}
+	
 	public String getIden() {
 		return iden;
 	}
@@ -49,14 +86,6 @@ public class Usua implements Serializable {
 	public void setIden(String iden) {
 		this.iden = iden;
 	}
-
-//	public String getPerf() {
-//		return perf;
-//	}
-//
-//	public void setPerf(String perf) {
-//		this.perf = perf;
-//	}
 
 	public String getMail() {
 		return mail;

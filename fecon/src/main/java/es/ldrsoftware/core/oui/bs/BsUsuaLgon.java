@@ -79,8 +79,8 @@ public class BsUsuaLgon extends BaseBS {
 		List<Rela> relaList = bsRelaListArea.OUT.relaList;
 			
 		//Validamos que el usuario esté relacionado a alguna instalación
-		validateListRequired(relaList, CoreNotify.USUA_LGON_RELA_INST_NF);
-			
+		testEmpty(relaList, CoreNotify.USUA_LGON_RELA_INST_NF);
+		
 		//Obtenemos el parámetro multiinstalación
 		BsParaGetArea bsParaGetArea = new BsParaGetArea();
 		bsParaGetArea.IN.tbla = ParaData.PARA_TBLA_APCF;
@@ -91,9 +91,9 @@ public class BsUsuaLgon extends BaseBS {
 		PVConfigmlti pvConfigmlti = (PVConfigmlti) para.getPval();
 			
 		//Validamos que no exista más de una instalación si el parámetro está en modo instalación única 
-		if (!testStringEqual(LiteData.LT_EL_BOOL_SI, pvConfigmlti.mlti)) {
+		if (!equal(LiteData.LT_EL_BOOL_SI, pvConfigmlti.mlti)) {
 			//Validamos que no exista más de una instalación si el parámetro está desactivado
-			validateListSize(relaList, 1, CoreNotify.USUA_LGON_INST_MLTI_NO);
+			test(false, relaList.size(), 1, CoreNotify.USUA_LGON_INST_MLTI_NO);
 		}
 		
 		//Abriremos la sesión sobre la primera instalación
@@ -111,10 +111,10 @@ public class BsUsuaLgon extends BaseBS {
 			Inst inst = bsInstGetArea.OUT.inst;
 			
 			//Validamos que la instalación exista
-			validateDtoRequired(inst, CoreNotify.USUA_LGON_INST_NF);
+			validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.key(rela.getCln1()));
 			
 			//Validamos que se encuentre activa
-			validateStringEqual(LiteData.LT_EL_INSTESTA_ACTIVA, inst.getEsta(), CoreNotify.USUA_LGON_INST_ACTI_NO);
+			test(false, LiteData.LT_EL_INSTESTA_ACTIVA, inst.getEsta(), CoreNotify.USUA_LGON_INST_ACTI_NO);
 				
 			//Nos guardamos el identificador de la instalación, para la apertura de sesión
 			instIden = inst.getIden();
@@ -152,9 +152,9 @@ public class BsUsuaLgon extends BaseBS {
 		BsUsuaLgonArea area = (BsUsuaLgonArea)a;
 
 		//Validamos que el identificador de usuario está informado
-		validateStringRequired(area.IN.iden, CoreNotify.USUA_LGON_IDEN_RQRD);
+		validateInputField(area.IN.iden, Usua.IDEN);
 		
 		//Validamos que el password está informado
-		validateStringRequired(area.IN.pass, CoreNotify.USUA_LGON_PASS_RQRD);
+		validateInputField(area.IN.pass, Usua.PASS);
 	}
 }

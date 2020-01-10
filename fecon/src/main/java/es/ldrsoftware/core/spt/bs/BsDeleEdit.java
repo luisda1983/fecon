@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.spt.entity.Dele;
 
 @Component
@@ -30,7 +31,7 @@ public class BsDeleEdit extends BaseBS {
 		
 		Dele dele = bsDeleGetkArea.OUT.dele;
 		
-		validateDtoRequired(dele, CoreNotify.DELE_EDIT_DELE_NF);
+		validateDtoNotFound(dele, LiteData.LT_EL_DTO_DELE, Dele.key(area.IN.iden));
 		
 		if (!dele.getDomi().equals(area.IN.domi)) {
 			notify(CoreNotify.DELE_EDIT_DOMI_CHNG_NPER);
@@ -70,9 +71,9 @@ public class BsDeleEdit extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDeleEditArea area = (BsDeleEditArea)a;
-				
-		validateIntRequired(area.IN.iden, CoreNotify.DELE_EDIT_IDEN_RQRD);
-		validateStringRequired(area.IN.domi, CoreNotify.DELE_EDIT_DOMI_RQRD);
-		validateStringRequired(area.IN.valo, CoreNotify.DELE_EDIT_VALO_RQRD);
+		
+		validateInputField(area.IN.iden, Dele.IDEN);
+		validateInputField(area.IN.domi, Dele.DOMI);
+		validateInputField(area.IN.valo, Dele.VALO);
 	}
 }

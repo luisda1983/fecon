@@ -54,7 +54,7 @@ public class BsHconAnul extends BaseBS {
 		bsCuenGet.executeBS(bsCuenGetArea);
 		Cuen cuen = bsCuenGetArea.OUT.cuen;
 	
-		validateDtoRequired(cuen, AppNotify.HCON_APUN_CUEN_NF);
+		validateDtoNotFound(cuen, LiteData.LT_EL_DTO_CUEN, Cuen.key(hcon.getCuen()));
 		
 		cuen.setSald(cuen.getSald() - hcon.getImpo());
 		
@@ -114,6 +114,6 @@ public class BsHconAnul extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconAnulArea area = (BsHconAnulArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.HCON_ANUL_IDEN_RQRD);
+		validateInputField(area.IN.iden, Hcon.IDEN);
 	}
 }

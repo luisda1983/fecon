@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.entity.Notf;
 
 @Component
@@ -26,7 +27,7 @@ public class BsNotfEdit extends BaseBS {
 		
 		Notf notf = bsNotfGetkArea.OUT.notf;
 		
-		validateDtoRequired(notf, CoreNotify.NOTF_EDIT_NOTF_NF);
+		validateDtoNotFound(notf, LiteData.LT_EL_DTO_NOTF, Notf.key(area.IN.iden));
 		
 		if (notf.getTipo().equals(area.IN.tipo) && notf.getDesc().equals(area.IN.desc)) {
 			notify(CoreNotify.NOTF_EDIT_CHNG_NO);
@@ -44,7 +45,7 @@ public class BsNotfEdit extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsNotfEditArea area = (BsNotfEditArea)a;
-		
-		validateStringRequired(area.IN.iden, CoreNotify.NOTF_EDIT_IDEN_RQRD);		
+
+		validateInputField(area.IN.iden, Notf.IDEN);		
 	}
 }

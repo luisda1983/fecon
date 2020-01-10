@@ -48,4 +48,11 @@ public class LiteData {
 	public final static String[] LT_ST_CONCTIPO         = {LT_EL_CONCTIPO_INGRESO,
 			                                               LT_EL_CONCTIPO_GASTO,
 			                                               LT_EL_CONCTIPO_AMBOS};
+
+	//Tablas de literales expandidas
+	public final static String   LT_EL_DTO_CUEN = "CUEN";
+	public final static String   LT_EL_DTO_HCON = "HCON";
+	public final static String   LT_EL_DTO_CATE = "CATE";
+	public final static String   LT_EL_DTO_CONC = "CONC";
+	public final static String   LT_EL_DTO_PRES = "PRES";
 }

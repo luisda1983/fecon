@@ -41,12 +41,12 @@ public class BsPlanList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPlanListArea area = (BsPlanListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.PLAN_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Plan.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case PLAN_LIST_FECH_PROC:
 		case PLAN_LIST_FECH:
-			 validateIntRequired(area.IN.fech, CoreNotify.PLAN_LIST_FECH_RQRD);
+			 validateInputField(area.IN.fech, Plan.FECH);
 			 break;
 		default:
 			 notify(CoreNotify.PLAN_LIST_TIPO_ERRO);

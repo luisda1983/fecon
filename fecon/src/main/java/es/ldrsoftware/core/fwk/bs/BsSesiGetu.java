@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.entity.Sesi;
 import es.ldrsoftware.core.fwk.entity.SesiDAO;
 
@@ -25,8 +24,8 @@ public class BsSesiGetu extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsSesiGetuArea area = (BsSesiGetuArea)a;
-		
-		validateStringRequired(area.IN.usua, CoreNotify.SESI_GETU_USUA_RQRD);
+
+		validateInputField(area.IN.usua, Sesi.USUA);
 	}
 
 }

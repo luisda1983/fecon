@@ -9,10 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+import es.ldrsoftware.core.arq.util.StringUtil;
+
 
 @Entity	
 @Table(name = "AVIS")
-public class Avis implements Serializable {
+public class Avis extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = -2733611135262428879L;
 
@@ -20,40 +23,76 @@ public class Avis implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "AVISIDEN", nullable = false)
 	private long  iden;
+
+	public final static String IDEN = "Identificador de aviso";
 	
 	@Column(name = "AVISDEST", nullable = false)
 	private String dest;
 	
+	public final static String DEST = "Destinatario de aviso";
+	
 	@Column(name = "AVISTIPO", nullable = false)
 	private String tipo;
 
+	public final static String TIPO = "Tipo de aviso";
+	
 	@Column(name = "AVISINST", nullable = false)
 	private long   inst;
 
+	public final static String INST = "Instalación de aviso";
+	
 	@Column(name = "AVISUSUA", nullable = false)
 	private String usua;
+	
+	public final static String USUA = "Usuario al que va dirigido el aviso";
 	
 	@Column(name = "AVISPERF", nullable = false)
 	private String perf;
 	
+	public final static String PERF = "Perfil al que va dirigido el aviso";
+	
 	@Column(name = "AVISESTA", nullable = false)
 	private String esta;
+	
+	public final static String ESTA = "Estado del aviso";
 	
 	@Column(name = "AVISDESC", nullable = false)
 	private String desc;
 	
+	public final static String DESC = "Descripción del aviso";
+	
 	@Column(name = "AVISWKFL", nullable = false)
 	private long   wkfl;
+	
+	public final static String WKFL = "NPI";
 	
 	@Column(name = "AVISFEAL", nullable = false)
 	private int    feal;
 	
+	public final static String FEAL = "Fecha de alta del aviso";
+	
 	@Column(name = "AVISHOAL", nullable = false)
 	private int    hoal;
+	
+	public final static String HOAL = "Hora de alta del aviso";
 	
 	@Column(name = "AVISFECA", nullable = false)
 	private int    feca;
 
+	public final static String FECA = "Fecha de canducidad del aviso";
+	
+	public String key() {
+		return key(iden);
+	}
+	
+	public final static String key(long iden) {
+		return StringUtil.extend(iden, 10);
+	}
+	
+	public void validate() throws Exception {
+		
+	}
+	
 	public long getIden() {
 		return iden;
 	}

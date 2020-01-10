@@ -98,7 +98,7 @@ public class BsInstRegi extends BaseBS {
 
 		//Si está configurada para ser capturada, validamos que esté informada. En caso contrario, generamos la descripción
 		if (LiteData.LT_EL_BOOL_SI.equals(pvDynamicfld.show)) {
-			validateStringRequired(area.IN.desc, CoreNotify.INST_REGI_DESC_RQRD);
+			validateInputField(area.IN.desc, Inst.DESC);
 			desc = area.IN.desc;
 		} else {
 			desc = "Instalación " + codi;
@@ -176,19 +176,20 @@ public class BsInstRegi extends BaseBS {
 		BsInstRegiArea area = (BsInstRegiArea)a;
 		
 		//Validamos el tipo de usuario (nuevo, existente) en el registro)
-		validateStringRequired(area.IN.numo, CoreNotify.INST_REGI_NUMO_RQRD);
-		validateStringDomain(CoreNotify.INST_REGI_NUMO_ERRO, area.IN.numo, LiteData.LT_ST_REGTIPOUSU);
+		validateInputField(area.IN.numo, Inst.NUMO);
 		
 		//Si el usuario es nuevo, se validan mail, usuario, password y confirmación de password
 		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
-			validateStringRequired(area.IN.mail, CoreNotify.INST_REGI_MAIL_RQRD);
-			validateStringRequired(area.IN.usua, CoreNotify.INST_REGI_USUA_RQRD);
-			validateStringRequired(area.IN.pass, CoreNotify.INST_REGI_PASS_RQRD);
-			validateStringRequired(area.IN.cpas, CoreNotify.INST_REGI_CPAS_RQRD);
+			validateInputField(area.IN.mail, Usua.MAIL);
+			validateInputField(area.IN.usua, Usua.IDEN);
+			validateInputField(area.IN.pass, Usua.PASS);
+			validateInputField(area.IN.cpas, Usua.CPAS);
 		//Si el usuario es existente, validamos usuario y password
 		} else if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
-			validateStringRequired(area.IN.usua, CoreNotify.INST_REGI_USUA_RQRD);
-			validateStringRequired(area.IN.pass, CoreNotify.INST_REGI_PASS_RQRD);
+			validateInputField(area.IN.usua, Usua.IDEN);
+			validateInputField(area.IN.pass, Usua.PASS);
+		} else {
+			notify(CoreNotify.INST_REGI_NUMO_ERRO);
 		}
 
 	}

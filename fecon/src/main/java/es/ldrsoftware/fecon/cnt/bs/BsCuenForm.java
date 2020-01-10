@@ -7,6 +7,7 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.data.LiteData;
 
 @Component
 public class BsCuenForm extends BaseBS {
@@ -21,7 +22,7 @@ public class BsCuenForm extends BaseBS {
 		BsCuenFormArea area = (BsCuenFormArea)a;
 		
 		//Nueva cuenta
-		if (!testInt(area.IN.iden)) {
+		if (!data(area.IN.iden)) {
 			Cuen cuen = new Cuen();
 			
 			cuen.setInst(SESSION.get().inst);
@@ -49,7 +50,7 @@ public class BsCuenForm extends BaseBS {
 			
 			Cuen cuen = bsCuenGetkArea.OUT.cuen;
 			
-			validateDtoRequired(cuen, AppNotify.CUEN_FORM_CUEN_NF);
+			validateDtoNotFound(cuen, LiteData.LT_EL_DTO_CUEN, Cuen.key(area.IN.iden));
 			
 			cuen.setTipo(area.IN.tipo);
 			cuen.setDesc(area.IN.desc);
@@ -74,8 +75,8 @@ public class BsCuenForm extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCuenFormArea area = (BsCuenFormArea)a;
 		
-		validateStringRequired(area.IN.tipo, AppNotify.CUEN_FORM_TIPO_RQRD);
-		validateStringRequired(area.IN.desc, AppNotify.CUEN_FORM_DESC_RQRD);
+		validateInputField(area.IN.tipo, Cuen.TIPO);
+		validateInputField(area.IN.desc, Cuen.DESC);
 	}
 
 }

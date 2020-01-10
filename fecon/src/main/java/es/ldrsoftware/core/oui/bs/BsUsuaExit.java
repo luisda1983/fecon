@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.bs.BsSesiExit;
 import es.ldrsoftware.core.fwk.bs.BsSesiExitArea;
+import es.ldrsoftware.core.fwk.entity.Sesi;
 
 @Component
 public class BsUsuaExit extends BaseBS {
@@ -28,7 +28,6 @@ public class BsUsuaExit extends BaseBS {
 		BsUsuaExitArea area = (BsUsuaExitArea)a;
 
 		//Validamos que el identificador de sesión está informado
-		validateIntRequired(area.IN.sesi, CoreNotify.USUA_EXIT_SESI_RQRD);
-		
+		validateInputField(area.IN.sesi, Sesi.IDEN);
 	}
 }

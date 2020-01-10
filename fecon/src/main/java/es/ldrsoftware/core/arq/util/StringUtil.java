@@ -16,5 +16,32 @@ public class StringUtil {
 		}
 		return s;
 	}
+
+	public final static String extend(String s, int length) {
+		while (s.length() < length) {
+			s = s + " ";
+		}
+		return s;
+	}
 	
+	public final static String extend(long i, int length) {
+		Long l = new Long(i);
+		String s = l.toString();
+		while (s.length() < length) {
+			s = "0" + s;
+		}
+		return s;
+	}
+
+	public final static String convert(long i) {
+		Long l = new Long(i);
+		String s = l.toString();
+		return s;
+	}
+	
+	public final static String convert(double i) {
+		Double d = new Double(i);
+		String s = d.toString();
+		return s;
+	}
 }

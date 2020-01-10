@@ -44,18 +44,18 @@ public class BsDtmnList extends BaseBS {
 		BsDtmnListArea area = (BsDtmnListArea)a;
 
 		//Validamos el tipo de listado, y validamos según el tipo
-		validateStringRequired(area.IN.tipo, CoreNotify.DTMN_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Dtmn.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case DTMN_LIST_CTMN_FULL:
 			//Se valida que el identificador de la categoría de menú esté informado
-			validateIntRequired(area.IN.ctmn, CoreNotify.DTMN_LIST_CTMN_RQRD);
+			validateInputField(area.IN.ctmn, Dtmn.CTMN);
 			break;
 		case DTMN_LIST_CTMN_ACTI:
 			//Se valida que el identificador de la categoría de menú esté informado
-			validateIntRequired(area.IN.ctmn, CoreNotify.DTMN_LIST_CTMN_RQRD);
+			validateInputField(area.IN.ctmn, Dtmn.CTMN);
 			//Se valida que el indicador de activado esté informado
-			validateStringRequired(area.IN.acti, CoreNotify.DTMN_LIST_ACTI_RQRD);
+			validateInputField(area.IN.acti, Dtmn.ACTI);
 			break;
 		default:
 			notify(CoreNotify.DTMN_LIST_TIPO_ERRO);

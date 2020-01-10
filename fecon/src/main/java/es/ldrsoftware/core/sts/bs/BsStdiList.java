@@ -40,15 +40,15 @@ public class BsStdiList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStdiListArea area = (BsStdiListArea)a;
 
-		validateStringRequired(area.IN.tipo, CoreNotify.STDI_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Stdi.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case STDI_LIST_FECH:
-			 validateIntRequired(area.IN.fech, CoreNotify.STDI_LIST_FECH_RQRD);
+			 validateInputField(area.IN.fech, Stdi.FECH);
 			 break;
 		case STDI_LIST_BTWN_FECH:
-			 validateIntRequired(area.IN.fein, CoreNotify.STDI_LIST_FEIN_RQRD);
-			 validateIntRequired(area.IN.fefi, CoreNotify.STDI_LIST_FEFI_RQRD);
+			 validateInputField(area.IN.fein, Stdi.FEIN);
+			 validateInputField(area.IN.fefi, Stdi.FEFI);
 			 break;
 		default:
 			 notify(CoreNotify.STDI_LIST_TIPO_ERRO);

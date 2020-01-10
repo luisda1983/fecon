@@ -23,12 +23,13 @@ public class BsMplaDesa extends BaseBS {
 		
 		//Obtenemos el maestro de planificaciÃ³n
 		BsMplaGetkArea bsMplaGetkArea = new BsMplaGetkArea();
-		bsMplaGetkArea.IN.hora = area.IN.hora;
+		bsMplaGetkArea.IN.hora = area.IN.hora + 2;
 		bsMplaGetk.executeBS(bsMplaGetkArea);
 		
 		Mpla mpla = bsMplaGetkArea.OUT.mpla;
 		
-		validateDtoRequired(mpla, CoreNotify.MPLA_DESA_MPLA_NF);
+		//TODO: los get*, debería devolver el formateo del campo de búsqueda.
+		validateDtoNotFound(mpla, LiteData.LT_EL_DTO_MPLA, Mpla.key(area.IN.hora));
 		
 		//Validamos que el maestro se encuentre activado
 		if (LiteData.LT_EL_MPLAESTA_DESACTIVADO.equals(mpla.getEsta())) {

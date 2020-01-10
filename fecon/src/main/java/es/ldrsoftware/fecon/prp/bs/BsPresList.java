@@ -77,27 +77,27 @@ public class BsPresList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresListArea area = (BsPresListArea)a;
 		
-		validateStringRequired(area.IN.tipo, AppNotify.PRES_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Pres.TIPO_LIST);
 		
 		switch (area.IN.tipo) {
 		case BsPresListArea.LIST_TIPO_RESUMEN:
 			 break;
 		case BsPresListArea.LIST_TIPO_ANUAL:
-			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
+			 validateInputField(area.IN.anua, Pres.ANUA);
 			 break;
 		case BsPresListArea.LIST_TIPO_MENSUAL:
-			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
-			 validateIntRequired(area.IN.mesp, AppNotify.PRES_LIST_MESP_RQRD);
+			 validateInputField(area.IN.anua, Pres.ANUA);
+			 validateInputField(area.IN.mesp, Pres.MESP);
 			 break;
 		case BsPresListArea.LIST_TIPO_CONC_ANUA:
-			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
+			 validateInputField(area.IN.anua, Pres.ANUA);
 			 break;
 		case BsPresListArea.LIST_TIPO_MENSUAL_PRESUP:
-			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
-			 validateIntRequired(area.IN.mesp, AppNotify.PRES_LIST_MESP_RQRD);
+			 validateInputField(area.IN.anua, Pres.ANUA);
+			 validateInputField(area.IN.mesp, Pres.MESP);
 			 break;
 		case BsPresListArea.LIST_TIPO_PART_ANUALES:
-			 validateIntRequired(area.IN.anua, AppNotify.PRES_LIST_ANUA_RQRD);
+			 validateInputField(area.IN.anua, Pres.ANUA);
 			 break;
 		default:
 			 notify(AppNotify.PRES_LIST_TIPO_ERRO);

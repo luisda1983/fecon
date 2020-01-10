@@ -114,13 +114,13 @@ public class BsEjecPlan extends BaseBS {
 		BsEjecPlanArea area = (BsEjecPlanArea)a;
 
 		//Validamos que recibimos el proceso Batch
-		validateStringRequired(area.IN.btch, CoreNotify.EJEC_PLAN_BTCH_RQRD);
+		validateInputField(area.IN.btch, Ejec.BTCH);
 		
 		//Validamos que recibimos la fecha
-		validateIntRequired(area.IN.fech, CoreNotify.EJEC_PLAN_FECH_RQRD);
+		validateInputField(area.IN.fech, Ejec.FECH);
 		
 		//Validamos que recibimos la secuencia
-		validateIntRequired(area.IN.secu, CoreNotify.EJEC_PLAN_SECU_RQRD);
+		validateInputField(area.IN.secu, Ejec.SECU);
 		
 	}
 

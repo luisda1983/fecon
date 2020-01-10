@@ -10,6 +10,7 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.data.LiteData;
+import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.Usua;
 import es.ldrsoftware.core.oui.entity.UsuaDAO;
 
@@ -45,7 +46,7 @@ public class BsUsuaList extends BaseBS {
 		BsUsuaListArea area = (BsUsuaListArea)a;
 
 		//Validamos el tipo de listado, y validamos según el tipo
-		validateStringRequired(area.IN.tipo, CoreNotify.USUA_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Usua.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case USUA_LIST_FULL:
@@ -57,7 +58,7 @@ public class BsUsuaList extends BaseBS {
 		case USUA_LIST_INST:
 			//Para el APM es obligatorio que la instalación esté informada
 			if (LiteData.LT_EL_USUAPERF_APM.equals(SESSION.get().perf)) {
-				validateIntRequired(area.IN.inst, CoreNotify.USUA_LIST_INST_RQRD);
+				validateInputField(area.IN.inst, Inst.IDEN);
 			//Para el ADM se toma la instalación de la Sesión
 			} else if (LiteData.LT_EL_USUAPERF_ADM.equals(SESSION.get().perf)) {
 				area.IN.inst = SESSION.get().inst;

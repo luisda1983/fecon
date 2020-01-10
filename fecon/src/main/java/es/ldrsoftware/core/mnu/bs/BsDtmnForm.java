@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.mnu.entity.Dtmn;
 
 @Component
@@ -29,7 +29,7 @@ public class BsDtmnForm extends BaseBS {
 		Dtmn dtmn = bsDtmnGetkArea.OUT.dtmn;
 		
 		//Validamos que exista el detalle de menú
-		validateDtoRequired(dtmn, CoreNotify.DTMN_FORM_DTMN_NF);
+		validateDtoNotFound(dtmn, LiteData.LT_EL_DTO_DTMN, Dtmn.key(area.IN.ctmn, area.IN.iden));
 		
 		//Se permite modificar: descripción e icono
 		dtmn.setDesc(area.IN.desc);
@@ -47,9 +47,9 @@ public class BsDtmnForm extends BaseBS {
 		BsDtmnFormArea area = (BsDtmnFormArea)a;
 
 		//Se valida que el identificador de categoría esté informado
-		validateIntRequired(area.IN.ctmn, CoreNotify.DTMN_FORM_CTMN_RQRD);
+		validateInputField(area.IN.ctmn, Dtmn.CTMN);
 		//Se valida que el identificador de detalle de menú esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.DTMN_FORM_IDEN_RQRD);
+		validateInputField(area.IN.iden, Dtmn.IDEN);
 	}
 
 }

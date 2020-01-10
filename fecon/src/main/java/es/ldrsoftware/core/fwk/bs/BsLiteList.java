@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.entity.Lite;
 import es.ldrsoftware.core.fwk.entity.LiteDAO;
 
@@ -27,7 +26,7 @@ public class BsLiteList extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsLiteListArea area = (BsLiteListArea)a;
-		
-		validateStringRequired(area.IN.tbla, CoreNotify.LITE_LIST_TBLA_RQRD);
+
+		validateInputField(area.IN.tbla, Lite.TBLA);
 	}
 }

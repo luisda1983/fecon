@@ -7,7 +7,6 @@ import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Hcon;
 import es.ldrsoftware.fecon.cnt.entity.HconDAO;
-import es.ldrsoftware.fecon.data.AppNotify;
 
 @Component
 public class BsHconGetk extends BaseBS {
@@ -26,6 +25,6 @@ public class BsHconGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconGetkArea area = (BsHconGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, AppNotify.HCON_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Hcon.IDEN);
 	}
 }

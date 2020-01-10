@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.mnu.entity.Dtmn;
 import es.ldrsoftware.core.mnu.entity.DtmnDAO;
 
@@ -28,9 +27,9 @@ public class BsDtmnGetk extends BaseBS {
 		BsDtmnGetkArea area = (BsDtmnGetkArea)a;
 
 		//Se valida que el identificador de la categoría de menú esté informado
-		validateIntRequired(area.IN.ctmn, CoreNotify.DTMN_GETK_CTMN_RQRD);
+		validateInputField(area.IN.ctmn, Dtmn.CTMN);
 		//Se valida que el identificador de detalle de menú esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.DTMN_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Dtmn.IDEN);
 	}
 
 }

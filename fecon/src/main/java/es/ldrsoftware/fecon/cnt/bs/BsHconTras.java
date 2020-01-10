@@ -38,7 +38,7 @@ public class BsHconTras extends BaseBS {
 		bsCuenGetk.executeBS(bsCuenGetkArea);
 		
 		Cuen ctor = bsCuenGetkArea.OUT.cuen;
-		validateDtoRequired(ctor, AppNotify.HCON_TRAS_CTOR_NF);
+		validateDtoNotFound(ctor, LiteData.LT_EL_DTO_CUEN, Cuen.key(area.IN.ctor));
 		
 		if (ctor.getSald() < area.IN.impo) {
 			notify(AppNotify.HCON_TRAS_SALD_INSF);
@@ -49,7 +49,7 @@ public class BsHconTras extends BaseBS {
 		bsCuenGetk.execute(bsCuenGetkArea);
 		
 		Cuen ctde = bsCuenGetkArea.OUT.cuen;
-		validateDtoRequired(ctde, AppNotify.HCON_TRAS_CTDE_NF);
+		validateDtoNotFound(ctde, LiteData.LT_EL_DTO_CUEN, Cuen.key(area.IN.ctde));
 		
 		ctor.setSald(ctor.getSald() - area.IN.impo);
 		ctde.setSald(ctde.getSald() + area.IN.impo);
@@ -118,10 +118,10 @@ public class BsHconTras extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconTrasArea area = (BsHconTrasArea)a;
 		
-		validateIntRequired(area.IN.ctor, AppNotify.HCON_TRAS_CTOR_RQRD);
-		validateIntRequired(area.IN.ctde, AppNotify.HCON_TRAS_CTDE_RQRD);
-		validateDecRequired(area.IN.impo, AppNotify.HCON_TRAS_IMPO_RQRD);
-		validateIntRequired(area.IN.feva, AppNotify.HCON_TRAS_FEVA_RQRD);
+		validateInputField(area.IN.ctor, Cuen.CTOR);
+		validateInputField(area.IN.ctde, Cuen.CTDE);
+		validateInputField(area.IN.impo, Hcon.IMPO);
+		validateInputField(area.IN.feva, Hcon.FEVA);
 
 	}
 }

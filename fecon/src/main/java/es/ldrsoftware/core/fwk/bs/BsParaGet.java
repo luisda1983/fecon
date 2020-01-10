@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.PVParser;
 import es.ldrsoftware.core.fwk.entity.Para;
 import es.ldrsoftware.core.fwk.entity.ParaDAO;
@@ -22,7 +22,7 @@ public class BsParaGet extends BaseBS {
 		
 		Para para = paraDao.getByTblaClav(area.IN.tbla, area.IN.clav);
 		
-		validateDtoRequired(para, CoreNotify.PARA_GETP_PARA_NF);
+		validateDtoNotFound(para, LiteData.LT_EL_DTO_PARA, Para.key(area.IN.tbla, area.IN.clav));
 		
 		PVParser.parse(para);
 		
@@ -31,9 +31,9 @@ public class BsParaGet extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsParaGetArea area = (BsParaGetArea)a;
-		
-		validateStringRequired(area.IN.tbla, CoreNotify.PARA_GETP_TBLA_RQRD);
-		validateStringRequired(area.IN.clav, CoreNotify.PARA_GETP_CLAV_RQRD);
+
+		validateInputField(area.IN.tbla, Para.TBLA);
+		validateInputField(area.IN.clav, Para.CLAV);
 		
 	}
 }

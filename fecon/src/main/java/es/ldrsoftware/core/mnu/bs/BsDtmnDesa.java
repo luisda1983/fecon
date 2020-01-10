@@ -30,10 +30,10 @@ public class BsDtmnDesa extends BaseBS {
 		Dtmn dtmn = bsDtmnGetkArea.OUT.dtmn;
 		
 		//Validamos que exista el detalle de menú
-		validateDtoRequired(dtmn, CoreNotify.DTMN_DESA_DTMN_NF);
+		validateDtoNotFound(dtmn, LiteData.LT_EL_DTO_DTMN, Dtmn.key(area.IN.ctmn, area.IN.iden));
 		
-		//Validamos que el detalle de menú se encuentre activado
-		validateStringEqual(dtmn.getActi(), LiteData.LT_EL_BOOL_SI, CoreNotify.DTMN_DESA_DTMN_ACTI_NO);
+		//Validamos que el detalle de menú no se encuentre desactivado
+		test(true, dtmn.getActi(), LiteData.LT_EL_BOOL_NO, CoreNotify.DTMN_DESA_DTMN_ACTI_NO);
 		
 		//Desactivamos el detalle de menú
 		dtmn.setActi(LiteData.LT_EL_BOOL_NO);
@@ -50,9 +50,9 @@ public class BsDtmnDesa extends BaseBS {
 		BsDtmnDesaArea area = (BsDtmnDesaArea)a;
 
 		//Se valida que el identificador de categoría de menú esté informado
-		validateIntRequired(area.IN.ctmn, CoreNotify.DTMN_DESA_CTMN_RQRD);
+		validateInputField(area.IN.ctmn, Dtmn.CTMN);
 		//Se valida que el identificador de detalle de menú esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.DTMN_DESA_IDEN_RQRD);
+		validateInputField(area.IN.iden, Dtmn.IDEN);
 	}
 
 }

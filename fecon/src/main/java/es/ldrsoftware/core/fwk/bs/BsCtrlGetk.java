@@ -29,8 +29,8 @@ public class BsCtrlGetk extends BaseBS {
 
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCtrlGetkArea area = (BsCtrlGetkArea)a;
-		
-		validateStringRequired(area.IN.iden, CoreNotify.CTRL_GETK_IDEN_RQRD);
+
+		validateInputField(area.IN.iden, Ctrl.IDEN);
 		
 	}
 

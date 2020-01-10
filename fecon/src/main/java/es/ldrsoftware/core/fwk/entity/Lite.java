@@ -8,10 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+
 @Entity	
 @Table(name = "LITE")
 @IdClass(LitePK.class)
-public class Lite implements Serializable {
+public class Lite extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = 5566487941656016866L;
 
@@ -19,19 +21,42 @@ public class Lite implements Serializable {
 	@Column(name = "LITETBLA", unique = true, nullable = false)
 	private String tbla;
 
+	public final static String TBLA = "Tabla de Literales";
+	
 	@Id
 	@Column(name = "LITECLAV", unique = true, nullable = false)
 	private String clav;
 	
+	public final static String CLAV = "Clave de Literal";
+	
 	@Column(name = "LITEDESC", nullable = false)
 	private String desc;
+
+	public final static String DESC = "Descripción de Literal";
 	
 	@Column(name = "LITEORDE", nullable = false)
 	private    int orde;
 	
+	public final static String ORDE = "Orden de Literal";
+	
 	@Column(name = "LITEFEAL", nullable = false)
 	private    int feal;
 
+	public final static String FEAL = "Fecha de alta de Literal";
+	
+	public String key() {
+		return key(tbla, clav);
+	}
+	
+	public final static String key(String tbla, String clav) {
+		return tbla + "|"
+			 + clav;
+	}
+	
+	public void validate() throws Exception {
+		
+	}
+	
 	public String getTbla() {
 		return tbla;
 	}

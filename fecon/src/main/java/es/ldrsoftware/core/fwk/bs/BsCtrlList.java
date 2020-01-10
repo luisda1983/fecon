@@ -37,7 +37,7 @@ public class BsCtrlList extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCtrlListArea area = (BsCtrlListArea)a;
 		
-		validateStringRequired(area.IN.tipo, CoreNotify.CTRL_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Ctrl.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case CTRL_LIST_FULL:

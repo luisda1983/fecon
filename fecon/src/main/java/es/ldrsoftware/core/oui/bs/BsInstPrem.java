@@ -38,10 +38,10 @@ public class BsInstPrem extends BaseBS {
 		Inst inst = bsInstGetkArea.OUT.inst;
 		
 		//Validamos que exista la instalación
-		validateDtoRequired(inst, CoreNotify.INST_PREM_INST_NF);
+		validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.key(area.IN.iden));
 		
 		//Validamos que la instalación sea de tipo Normal
-		validateStringEqual(inst.getTipo(), LiteData.LT_EL_INSTTIPO_NORMAL, CoreNotify.INST_PREM_INST_NORM_NO);
+		test(false, inst.getTipo(), LiteData.LT_EL_INSTTIPO_NORMAL, CoreNotify.INST_PREM_INST_NORM_NO);
 	
 		//Recuperamos el parámetro de configuración de periodo de instalación Premium
 		BsParaGetArea paraGetArea = new BsParaGetArea();
@@ -72,7 +72,7 @@ public class BsInstPrem extends BaseBS {
 		BsInstPremArea area = (BsInstPremArea)a;
 
 		//Se valida que el identificador de instalación esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.INST_PREM_IDEN_RQRD);
+		validateInputField(area.IN.iden, Inst.IDEN);
 	}
 
 }

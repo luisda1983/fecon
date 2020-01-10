@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.cnt.entity.Cuen;
-import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.cnt.entity.Hcon;
+import es.ldrsoftware.fecon.data.LiteData;
 
 @Component
 public class BsCuenCuad extends BaseBS {
@@ -26,7 +27,7 @@ public class BsCuenCuad extends BaseBS {
 		
 		Cuen cuen = bsCuenGetkArea.OUT.cuen;
 		
-		validateDtoRequired(cuen, AppNotify.CUEN_CUAD_CUEN_NF);
+		validateDtoNotFound(cuen, LiteData.LT_EL_DTO_CUEN, Cuen.key(area.IN.cuen));
 	
 		BsHconApunArea bsHconApunArea = new BsHconApunArea();
 		bsHconApunArea.IN.cate = area.IN.cate;
@@ -43,10 +44,10 @@ public class BsCuenCuad extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCuenCuadArea area = (BsCuenCuadArea)a;
 		
-		validateIntRequired(area.IN.cuen, AppNotify.CUEN_CUAD_CUEN_RQRD);
-		validateIntRequired(area.IN.cate, AppNotify.CUEN_CUAD_CATE_RQRD);
-		validateIntRequired(area.IN.conc, AppNotify.CUEN_CUAD_CONC_RQRD);
-		validateDecRequired(area.IN.impo, AppNotify.CUEN_CUAD_IMPO_RQRD);
+		validateInputField(area.IN.cuen, Cuen.IDEN);
+		validateInputField(area.IN.cate, Hcon.CATE);
+		validateInputField(area.IN.conc, Hcon.CONC);
+		validateInputField(area.IN.impo, Hcon.IMPO);
 	}
 
 }

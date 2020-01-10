@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.sts.entity.Stst;
 
 @Component
@@ -39,10 +38,10 @@ public class BsStstRegi extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStstRegiArea area = (BsStstRegiArea)a;
 		
-		validateStringRequired(area.IN.ctrl, CoreNotify.STST_REGI_CTRL_RQRD);
+		validateInputField(area.IN.ctrl, Stst.CTRL);
 		
-		validateIntRequired(area.IN.inej, CoreNotify.STST_REGI_INEJ_RQRD);
-		validateIntRequired(area.IN.fiej, CoreNotify.STST_REGI_FIEJ_RQRD);
+		validateInputField(area.IN.inej, Stst.INEJ);
+		validateInputField(area.IN.fiej, Stst.FIEJ);
 
 		if (area.IN.reej == null ) { area.IN.reej = ""; }
 		if (area.IN.notf == null ) { area.IN.notf = ""; }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.oui.entity.Usua;
 import es.ldrsoftware.core.oui.entity.UsuaDAO;
 
@@ -29,7 +28,7 @@ public class BsUsuaGetk extends BaseBS {
 		BsUsuaGetkArea area = (BsUsuaGetkArea)a;
 		
 		//Validamos que el identificador del usuario esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.USUA_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Usua.IDEN);
 		
 	}
 }

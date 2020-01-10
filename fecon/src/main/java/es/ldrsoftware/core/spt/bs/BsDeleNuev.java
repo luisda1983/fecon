@@ -28,7 +28,7 @@ public class BsDeleNuev extends BaseBS {
 		
 		Dele dele = bsDeleGetvArea.OUT.dele;
 		
-		validateDtoEmpty(dele, CoreNotify.DELE_NUEV_VALO_DP);
+		testData(dele, CoreNotify.DELE_NUEV_VALO_DP);
 		
 		dele = new Dele();
 		dele.setInst(SESSION.get().inst);
@@ -53,7 +53,7 @@ public class BsDeleNuev extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDeleNuevArea area = (BsDeleNuevArea)a;
 		
-		validateStringRequired(area.IN.domi, CoreNotify.DELE_NUEV_DOMI_RQRD);
-		validateStringRequired(area.IN.valo, CoreNotify.DELE_NUEV_VALO_RQRD);
+		validateInputField(area.IN.domi, Dele.DOMI);
+		validateInputField(area.IN.valo, Dele.VALO);
 	}
 }

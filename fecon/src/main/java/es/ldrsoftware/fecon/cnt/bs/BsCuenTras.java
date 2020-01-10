@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.cnt.entity.Cuen;
+import es.ldrsoftware.fecon.cnt.entity.Hcon;
 
 @Component
 public class BsCuenTras extends BaseBS {
@@ -32,11 +33,11 @@ public class BsCuenTras extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCuenTrasArea area = (BsCuenTrasArea)a;
 		
-		validateIntRequired(area.IN.ctor, AppNotify.CUEN_TRAS_CTOR_RQRD);
-		validateIntRequired(area.IN.ctde, AppNotify.CUEN_TRAS_CTDE_RQRD);
-		validateDecRequired(area.IN.impo, AppNotify.CUEN_TRAS_IMPO_RQRD);
+		validateInputField(area.IN.ctor, Cuen.CTOR);
+		validateInputField(area.IN.ctde, Cuen.CTDE);
+		validateInputField(area.IN.impo, Hcon.IMPO);
 		
-		if (!testInt(area.IN.feva)) {
+		if (!data(area.IN.feva)) {
 			area.IN.feva = SESSION.get().feop;
 		}
 	}

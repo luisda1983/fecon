@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.Invi;
@@ -36,7 +35,7 @@ public class BsInviProc extends BaseBS {
 		
 		Invi invi = bsInviGetkArea.OUT.invi;
 		
-		validateDtoRequired(invi, CoreNotify.INVI_PROC_INVI_NF);
+		validateDtoNotFound(invi, LiteData.LT_EL_DTO_INVI, Invi.key(area.IN.iden));
 		
 		//Si la invitación es de tipo instalación, registramos la instalación
 		if (LiteData.LT_EL_INVITIPO_INSTALACION.equals(invi.getTipo())) {
@@ -104,7 +103,7 @@ public class BsInviProc extends BaseBS {
 		BsInviProcArea area = (BsInviProcArea)a;
 
 		//Validamos que el identificador de la invitación esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.INVI_PROC_IDEN_RQRD);
+		validateInputField(area.IN.iden, Invi.IDEN);
 
 	}
 }

@@ -25,6 +25,7 @@ public class LiteData {
 	public final static String LT_EL_LITEMASTER_STSTREEJ = "STSTREEJ";
 	public final static String LT_EL_LITEMASTER_USUAPERF = "USUAPERF";
 	public final static String LT_EL_LITEMASTER_NOTFTIPO = "NOTFTIPO";
+	public final static String LT_EL_LITEMASTER_DTO      = "DTO";
 
 	public final static String LT_EL_LITEMASTER_REGTIPOUSU = "REGTIPOUSU";
 	public final static String LT_EL_LITEMASTER_CONFREGIST = "CONFREGIST";
@@ -197,4 +198,27 @@ public class LiteData {
 	public final static String[] LT_ST_NOTFTIPO              = {LT_EL_NOTFTIPO_VOID,
 			                                                    LT_EL_NOTFTIPO_AUTORIZACION,
 			                                                    LT_EL_NOTFTIPO_INFORMATIVO};
+	
+	public final static String   LT_TB_DTO      = "DTO";
+	public final static String   LT_EL_DTO_BTCH = "BTCH";
+	public final static String   LT_EL_DTO_EJEC = "EJEC";
+	public final static String   LT_EL_DTO_LOGP = "LOGP";
+	public final static String   LT_EL_DTO_MPLA = "MPLA";
+	public final static String   LT_EL_DTO_PLAN = "PLAN";
+	public final static String   LT_EL_DTO_NOTF = "NOTF";
+	public final static String   LT_EL_DTO_RELA = "RELA";
+	public final static String   LT_EL_DTO_SESI = "SESI";
+	public final static String   LT_EL_DTO_CTMN = "CTMN";
+	public final static String   LT_EL_DTO_DTMN = "DTMN";
+	public final static String   LT_EL_DTO_INST = "INST";
+	public final static String   LT_EL_DTO_INVI = "INVI";
+	public final static String   LT_EL_DTO_USUA = "USUA";
+	public final static String   LT_EL_DTO_DELE = "DELE";
+	public final static String   LT_EL_DTO_DOMI = "DOMI";
+	public final static String   LT_EL_DTO_STDI = "STDI";
+	public final static String   LT_EL_DTO_STME = "STME";
+	public final static String   LT_EL_DTO_STST = "STST";
+	public final static String   LT_EL_DTO_LITE = "LITE";
+	public final static String   LT_EL_DTO_PARA = "PARA";
+	
 }

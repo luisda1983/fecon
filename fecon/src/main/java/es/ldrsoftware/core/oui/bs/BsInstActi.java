@@ -29,10 +29,10 @@ public class BsInstActi extends BaseBS {
 		Inst inst = bsInstGetkArea.OUT.inst;
 		
 		//Validamos que exista la instalación
-		validateDtoRequired(inst, CoreNotify.INST_ACTI_INST_NF);
+		validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.key(area.IN.iden));
 		
 		//Validamos que la instalación se encuentre inactiva
-		validateStringEqual(inst.getEsta(), LiteData.LT_EL_INSTESTA_INACTIVA, CoreNotify.INST_ACTI_INST_INAC_NO);
+		test(false, inst.getEsta(), LiteData.LT_EL_INSTESTA_INACTIVA, CoreNotify.INST_ACTI_INST_INAC_NO);
 		
 		//Activamos la instalación
 		inst.setEsta(LiteData.LT_EL_INSTESTA_ACTIVA);
@@ -49,7 +49,7 @@ public class BsInstActi extends BaseBS {
 		BsInstActiArea area = (BsInstActiArea)a;
 
 		//Se valida que el identificador de instalación esté informado
-		validateIntRequired(area.IN.iden, CoreNotify.INST_ACTI_IDEN_RQRD);
+		validateInputField(area.IN.iden, Inst.IDEN);
 	}
 
 }

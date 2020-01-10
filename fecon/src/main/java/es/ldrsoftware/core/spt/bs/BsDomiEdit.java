@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.spt.entity.Domi;
 
 @Component
@@ -30,7 +31,7 @@ public class BsDomiEdit extends BaseBS {
 		
 		Domi domi = bsDomiGetkArea.OUT.domi;
 		
-		validateDtoRequired(domi, CoreNotify.DOMI_EDIT_DOMI_NF);
+		validateDtoNotFound(domi, LiteData.LT_EL_DTO_DOMI, Domi.key(area.IN.iden));
 		
 		if (domi.getNomb().equals(area.IN.nomb) && domi.getDesc().equals(area.IN.desc)) {
 			notify(CoreNotify.DOMI_EDIT_CHNG_NO);
@@ -67,8 +68,8 @@ public class BsDomiEdit extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDomiEditArea area = (BsDomiEditArea)a;
 				
-		validateIntRequired(area.IN.iden, CoreNotify.DOMI_EDIT_IDEN_RQRD);
-		validateStringRequired(area.IN.nomb, CoreNotify.DOMI_EDIT_NOMB_RQRD);
-		validateStringRequired(area.IN.desc, CoreNotify.DOMI_EDIT_DESC_RQRD);
+		validateInputField(area.IN.iden, Domi.IDEN);
+		validateInputField(area.IN.nomb, Domi.NOMB);
+		validateInputField(area.IN.desc, Domi.DESC);
 	}
 }

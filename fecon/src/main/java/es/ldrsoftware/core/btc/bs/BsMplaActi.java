@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.CoreNotify;
+import es.ldrsoftware.core.arq.util.StringUtil;
 import es.ldrsoftware.core.btc.entity.Mpla;
 import es.ldrsoftware.core.fwk.data.LiteData;
 
@@ -28,7 +29,7 @@ public class BsMplaActi extends BaseBS {
 		
 		Mpla mpla = bsMplaGetkArea.OUT.mpla;
 		
-		validateDtoRequired(mpla, CoreNotify.MPLA_ACTI_MPLA_NF);
+		validateDtoNotFound(mpla, LiteData.LT_EL_DTO_MPLA, StringUtil.extend(area.IN.hora, 4));
 		
 		//Validamos que el maestro se encuentre desactivado
 		if (LiteData.LT_EL_MPLAESTA_ACTIVADO.equals(mpla.getEsta())) {

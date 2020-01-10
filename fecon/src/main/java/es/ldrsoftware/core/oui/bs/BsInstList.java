@@ -44,14 +44,14 @@ public class BsInstList extends BaseBS {
 		BsInstListArea area = (BsInstListArea)a;
 
 		//Validamos el tipo de listado, y validamos según el tipo
-		validateStringRequired(area.IN.tipo, CoreNotify.INST_LIST_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Inst.TIPO_LIST);
 		
 		switch(area.IN.tipo) {
 		case INST_LIST_FULL:
 			break;
 		case INST_LIST_ESTA:
 			//Se valida que el estado esté informado
-			validateStringRequired(area.IN.esta, CoreNotify.INST_LIST_ESTA_RQRD);
+			validateInputField(area.IN.esta, Inst.ESTA);
 			break;
 		default:
 			notify(CoreNotify.INST_LIST_TIPO_ERRO);

@@ -14,6 +14,7 @@ import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.PVConfigmlti;
 import es.ldrsoftware.core.fwk.data.PVConfregist;
 import es.ldrsoftware.core.fwk.data.ParaData;
+import es.ldrsoftware.core.fwk.entity.Rela;
 import es.ldrsoftware.core.oui.entity.Inst;
 import es.ldrsoftware.core.oui.entity.Usua;
 
@@ -91,16 +92,17 @@ public class BsUsuaRegi extends BaseBS {
 			bsInstGetk.executeBS(bsInstGetkArea);
 			
 			inst = bsInstGetkArea.OUT.inst;
+			validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.key(area.IN.inst));
 		} else {
-			validateStringRequired(area.IN.codi, CoreNotify.USUA_REGI_INST_DATA_RQRD);
+			validateInputField(area.IN.codi, Inst.CODI);
 			
 			BsInstGetcArea bsInstGetcArea = new BsInstGetcArea();
 			bsInstGetcArea.IN.codi = area.IN.codi;
 			bsInstGetc.executeBS(bsInstGetcArea);
 			
 			inst = bsInstGetcArea.OUT.inst;
+			validateDtoNotFound(inst, LiteData.LT_EL_DTO_INST, Inst.keyCodi(area.IN.codi));
 		}
-		validateDtoRequired(inst, CoreNotify.USUA_REGI_INST_NF);
 		
 		Usua usua;
 		
@@ -113,7 +115,7 @@ public class BsUsuaRegi extends BaseBS {
 		
 			usua = bsUsuaGetkArea.OUT.usua;
 		
-			validateDtoEmpty(usua, CoreNotify.USUA_REGI_IDEN_DP); 
+			testData(usua, CoreNotify.USUA_REGI_IDEN_DP); 
 		
 			//Validamos si ya existe un usuario con el mismo email
 			BsUsuaGetmArea bsUsuaGetmArea = new BsUsuaGetmArea();
@@ -122,10 +124,10 @@ public class BsUsuaRegi extends BaseBS {
 		
 			usua = bsUsuaGetmArea.OUT.usua;
 		
-			validateDtoEmpty(usua, CoreNotify.USUA_REGI_MAIL_DP);
+			testData(usua, CoreNotify.USUA_REGI_MAIL_DP);
 		
 			//Validamos que el password introducido coindide
-			validateStringEqual(area.IN.pass, area.IN.cpas, CoreNotify.USUA_REGI_PASS_CPAS_ERRO);
+			test(false, area.IN.pass, area.IN.cpas, CoreNotify.USUA_REGI_PASS_CPAS_ERRO);
 		
 			//No se permite el registro de usuarios con perfil APM. Aunque queda cubierto por la siguiente validación,
 			//la hacemos a parte, para controlarlo
@@ -133,8 +135,8 @@ public class BsUsuaRegi extends BaseBS {
 				notify(CoreNotify.USUA_REGI_PERF_APM); 
 			}
 		
-			//Validamos los perfiles permitidos. 
-			validateStringDomain(CoreNotify.USUA_REGI_PERF_ERRO, area.IN.perf, LiteData.LT_EL_USUAPERF_ADM, LiteData.LT_EL_USUAPERF_USR);
+			//Validamos el perfil no permitido.
+			test(true, area.IN.perf, LiteData.LT_EL_USUAPERF_APM, CoreNotify.USUA_REGI_PERF_ERRO);
 		
 			//Creamos el usuario
 			usua = new Usua();
@@ -178,21 +180,22 @@ public class BsUsuaRegi extends BaseBS {
 		BsUsuaRegiArea area = (BsUsuaRegiArea)a;
 
 		//Validamos el tipo de usuario (nuevo, existente) en el registro)
-		validateStringRequired(area.IN.numo, CoreNotify.USUA_REGI_NUMO_RQRD);
-		validateStringDomain(CoreNotify.USUA_REGI_NUMO_ERRO, area.IN.numo, LiteData.LT_ST_REGTIPOUSU);
+		validateInputField(area.IN.numo, Inst.NUMO);
 		
 		//Si el usuario es nuevo, se validan mail, usuario, password y confirmación de password
 		if (LiteData.LT_EL_REGTIPOUSU_NUEVO.equals(area.IN.numo)) {
-			validateStringRequired(area.IN.mail, CoreNotify.USUA_REGI_MAIL_RQRD);
-			validateStringRequired(area.IN.iden, CoreNotify.USUA_REGI_IDEN_RQRD);
-			validateStringRequired(area.IN.pass, CoreNotify.USUA_REGI_PASS_RQRD);
-			validateStringRequired(area.IN.cpas, CoreNotify.USUA_REGI_CPAS_RQRD);
-			validateStringRequired(area.IN.perf, CoreNotify.USUA_REGI_PERF_RQRD);
+			validateInputField(area.IN.mail, Usua.MAIL);
+			validateInputField(area.IN.iden, Usua.IDEN);
+			validateInputField(area.IN.pass, Usua.PASS);
+			validateInputField(area.IN.cpas, Usua.CPAS);
+			validateInputField(area.IN.perf, Rela.PERF);
 		//Si el usuario es existente, validamos usuario y password
 		} else if (LiteData.LT_EL_REGTIPOUSU_EXISTE.equals(area.IN.numo)) {
-			validateStringRequired(area.IN.iden, CoreNotify.USUA_REGI_IDEN_RQRD);
-			validateStringRequired(area.IN.pass, CoreNotify.USUA_REGI_PASS_RQRD);
-			validateStringRequired(area.IN.perf, CoreNotify.USUA_REGI_PERF_RQRD);
+			validateInputField(area.IN.iden, Usua.IDEN);
+			validateInputField(area.IN.pass, Usua.PASS);
+			validateInputField(area.IN.perf, Rela.PERF);
+		} else {
+			notify(CoreNotify.USUA_REGI_NUMO_ERRO);
 		}
 		
 	}

@@ -37,10 +37,10 @@ public class BsUsuaInac extends BaseBS {
 			Usua usua = bsUsuaGetkArea.OUT.usua;
 		
 			//Validamos que exista el usuario
-			validateDtoRequired(usua, CoreNotify.USUA_INAC_USUA_NF);
+			validateDtoNotFound(usua, LiteData.LT_EL_DTO_USUA, Usua.key(area.IN.iden));
 		
 			//Validamos que el usuario se encuentre activo
-			validateStringEqual(usua.getActi(), LiteData.LT_EL_BOOL_SI, CoreNotify.USUA_INAC_USUA_ACTI_NO);
+			test(false, usua.getActi(), LiteData.LT_EL_BOOL_SI, CoreNotify.USUA_INAC_USUA_ACTI_NO);
 		
 			//Desactivamos el usuario
 			usua.setActi(LiteData.LT_EL_BOOL_NO);
@@ -58,7 +58,7 @@ public class BsUsuaInac extends BaseBS {
 		BsUsuaInacArea area = (BsUsuaInacArea)a;
 
 		//Se valida que el identificador de usuario esté informado
-		validateStringRequired(area.IN.iden, CoreNotify.USUA_INAC_IDEN_RQRD);
+		validateInputField(area.IN.iden, Usua.IDEN);
 	}
 
 }

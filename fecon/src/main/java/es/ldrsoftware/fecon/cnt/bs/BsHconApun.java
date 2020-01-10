@@ -47,7 +47,7 @@ public class BsHconApun extends BaseBS {
 		bsConcGetk.executeBS(bsConcGetkArea);
 		Conc conc = bsConcGetkArea.OUT.conc;
 
-		validateDtoRequired(conc, AppNotify.HCON_APUN_CONC_NF);
+		validateDtoNotFound(conc, LiteData.LT_EL_DTO_CONC, Conc.key(area.IN.conc));
 		
 		switch(conc.getTipo()){
 		case LiteData.LT_EL_CONCTIPO_GASTO:
@@ -67,7 +67,8 @@ public class BsHconApun extends BaseBS {
 		bsCuenGet.executeBS(bsCuenGetArea);
 		
 		Cuen cuen = bsCuenGetArea.OUT.cuen;
-		validateDtoRequired(cuen, AppNotify.HCON_APUN_CUEN_NF);
+		
+		validateDtoNotFound(cuen, LiteData.LT_EL_DTO_CUEN, Cuen.key(area.IN.cuen));
 				
 		cuen.setSald(cuen.getSald() + area.IN.impo);
 		
@@ -98,7 +99,7 @@ public class BsHconApun extends BaseBS {
 		bsPresGet.executeBS(bsPresGetArea);		
 		
 		Pres pres = bsPresGetArea.OUT.pres;
-		validateDtoRequired(pres, AppNotify.HCON_APUN_PRES_NF);
+		validateDtoNotFound(pres, LiteData.LT_EL_DTO_PRES, Pres.key(area.IN.feva, area.IN.cate, area.IN.conc));
 
 		//Si la partida presupuestaria está cerrada, no permitimos el apunte
 		if (LiteData.LT_EL_PRESESTA_CERRADA.equals(pres.getEsta())) {
@@ -144,15 +145,15 @@ public class BsHconApun extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconApunArea area = (BsHconApunArea)a;
 		
-		validateIntRequired(area.IN.cate, AppNotify.HCON_APUN_CATE_RQRD);
+		validateInputField(area.IN.cate, Hcon.CATE);
 		
-		validateIntRequired(area.IN.conc, AppNotify.HCON_APUN_CONC_RQRD);
+		validateInputField(area.IN.conc, Hcon.CONC);
 		
-		validateDecRequired(area.IN.impo, AppNotify.HCON_APUN_IMPO_RQRD);
+		validateInputField(area.IN.impo, Hcon.IMPO);
 		
-		validateIntRequired(area.IN.cuen, AppNotify.HCON_APUN_CUEN_RQRD);
+		validateInputField(area.IN.cuen, Hcon.CUEN);
 		
-		if (area.IN.feva == 0) {
+		if (!data(area.IN.feva)) {
 			area.IN.feva = SESSION.get().feop;
 		}
 	}

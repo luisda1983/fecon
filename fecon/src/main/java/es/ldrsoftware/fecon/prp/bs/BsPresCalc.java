@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.util.DateTimeUtil;
-import es.ldrsoftware.fecon.data.AppNotify;
 import es.ldrsoftware.fecon.prp.entity.Pres;
 import es.ldrsoftware.fecon.prp.entity.PresDAO;
 
@@ -64,8 +63,8 @@ public class BsPresCalc extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresCalcArea area = (BsPresCalcArea)a;
 		
-		validateIntRequired(area.IN.fech, AppNotify.PRES_CALC_FECH_RQRD);
-		validateIntRequired(area.IN.cate, AppNotify.PRES_CALC_CATE_RQRD);
-		validateIntRequired(area.IN.conc, AppNotify.PRES_CALC_CONC_RQRD);
+		validateInputField(area.IN.fech, Pres.FECH);
+		validateInputField(area.IN.cate, Pres.CATE);
+		validateInputField(area.IN.conc, Pres.CONC);
 	}
 }

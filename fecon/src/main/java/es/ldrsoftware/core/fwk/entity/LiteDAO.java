@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.ldrsoftware.core.arq.BaseDAO;
+import es.ldrsoftware.core.arq.SimpleBaseDAO;
 
 /**
  * Operaciones sobre entidad LITE - Literales
@@ -16,7 +16,7 @@ import es.ldrsoftware.core.arq.BaseDAO;
  *
  */
 @Repository(value = "liteDao")
-public class LiteDAO extends BaseDAO {
+public class LiteDAO extends SimpleBaseDAO {
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public Lite getByTblaClav(String tbla, String clav) {

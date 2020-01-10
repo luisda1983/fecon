@@ -98,7 +98,7 @@ public class BsPresCier extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresCierArea area = (BsPresCierArea)a;
 		
-		validateIntRequired(area.IN.anua, AppNotify.PRES_CIER_ANUA_RQRD);
-		validateIntRequired(area.IN.mesp, AppNotify.PRES_CIER_MESP_RQRD);
+		validateInputField(area.IN.anua, Pres.ANUA);
+		validateInputField(area.IN.mesp, Pres.MESP);
 	}
 }

@@ -29,7 +29,7 @@ public class BsHconModi extends BaseBS {
 		
 		Hcon hcon = bsHconGetkArea.OUT.hcon;
 		
-		validateDtoRequired(hcon, AppNotify.HCON_MODI_HCON_NF);
+		validateDtoNotFound(hcon, LiteData.LT_EL_DTO_HCON, Hcon.key(area.IN.iden));
 		
 		if (!LiteData.LT_EL_HCONTIPO_CONTABLE.equals(hcon.getTipo())) {
 			notify(AppNotify.HCON_MODI_CONT_NO);
@@ -57,12 +57,12 @@ public class BsHconModi extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsHconModiArea area = (BsHconModiArea)a;
 		
-		validateStringRequired(area.IN.tipo, AppNotify.HCON_MODI_TIPO_RQRD);
+		validateInputField(area.IN.tipo, Hcon.TIMO);
 		
-		validateIntRequired(area.IN.iden, AppNotify.HCON_MODI_IDEN_RQRD);
+		validateInputField(area.IN.iden, Hcon.IDEN);
 		
 		if (LiteData.LT_EL_HCONMDTIPO_FECHA.equals(area.IN.tipo)) {
-			validateIntRequired(area.IN.feva, AppNotify.HCON_MODI_FEVA_RQRD);
+			validateInputField(area.IN.feva, Hcon.FEVA);
 		} else {
 			notify(AppNotify.HCON_MODI_TIPO_ERRO);
 		}

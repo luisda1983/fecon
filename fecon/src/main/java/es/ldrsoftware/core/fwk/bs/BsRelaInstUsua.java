@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.fwk.data.LiteData;
 import es.ldrsoftware.core.fwk.data.RDInstUsua;
 import es.ldrsoftware.core.fwk.entity.Rela;
@@ -43,8 +42,8 @@ public class BsRelaInstUsua extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsRelaInstUsuaArea area = (BsRelaInstUsuaArea)a;
 		
-		validateIntRequired(area.IN.inst, CoreNotify.RELA_INST_USUA_INST_RQRD);
-		validateStringRequired(area.IN.usua, CoreNotify.RELA_INST_USUA_USUA_RQRD);
-		validateStringRequired(area.IN.perf, CoreNotify.RELA_INST_USUA_PERF_RQRD);
+		validateInputField(area.IN.inst, Rela.INST);
+		validateInputField(area.IN.usua, Rela.USUA);
+		validateInputField(area.IN.perf, Rela.PERF);
 	}
 }

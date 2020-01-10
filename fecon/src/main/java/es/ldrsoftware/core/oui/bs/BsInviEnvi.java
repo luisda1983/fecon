@@ -38,7 +38,7 @@ public class BsInviEnvi extends BaseBS {
 		
 		List<Invi> inviList = bsInviListArea.OUT.inviList;
 		
-		validateListEmpty(inviList, CoreNotify.INVI_ENVI_INVI_ENVI_EXIS);
+		testEmpty(inviList, CoreNotify.INVI_ENVI_INVI_ENVI_EXIS);
 		
 		//Si la invitación a enviar es de tipo instalación, verificamos que no exista ninguna otra Solitada o Aceptada
 		if (LiteData.LT_EL_INVITIPO_INSTALACION.equals(area.IN.tipo)) {
@@ -49,7 +49,7 @@ public class BsInviEnvi extends BaseBS {
 			bsInviList.executeBS(bsInviListArea);
 			inviList = bsInviListArea.OUT.inviList;
 			
-			validateListEmpty(inviList, CoreNotify.INVI_ENVI_INVI_SOLI_EXIS);
+			testEmpty(inviList, CoreNotify.INVI_ENVI_INVI_SOLI_EXIS);
 			
 			bsInviListArea = new BsInviListArea();
 			bsInviListArea.IN.mail = area.IN.mail;
@@ -58,7 +58,7 @@ public class BsInviEnvi extends BaseBS {
 			bsInviList.executeBS(bsInviListArea);
 			inviList = bsInviListArea.OUT.inviList;
 			
-			validateListEmpty(inviList, CoreNotify.INVI_ENVI_INVI_ACEP_EXIS);
+			testEmpty(inviList, CoreNotify.INVI_ENVI_INVI_ACEP_EXIS);
 		}
 
 		//Generamos la invitación
@@ -92,11 +92,10 @@ public class BsInviEnvi extends BaseBS {
 		BsInviEnviArea area = (BsInviEnviArea)a;
 
 		//Validamos que el email esté informado
-		validateStringRequired(area.IN.mail, CoreNotify.INVI_ENVI_MAIL_RQRD);
+		validateInputField(area.IN.mail, Invi.MAIL);
 		
 		//Validamos que el tipo de invitación esté informado y dentro del dominio permitido
-		validateStringRequired(area.IN.tipo, CoreNotify.INVI_ENVI_TIPO_RQRD);
-		validateStringDomain(CoreNotify.INVI_ENVI_TIPO_ERRO, area.IN.tipo, LiteData.LT_ST_INVITIPO);
+		validateInputField(area.IN.tipo, Invi.TIPO);
 		
 	}
 }

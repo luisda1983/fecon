@@ -85,7 +85,11 @@ public class BsPresCons extends BaseBS {
 			Pres pres = it.next();
 			
 			BsHconListArea bsHconListArea = new BsHconListArea();
-			bsHconListArea.IN.tipo = BsHconList.LT_TIPO_MES_SUM;
+			if (pres.getConc() != 0) {
+				bsHconListArea.IN.tipo = BsHconList.LT_TIPO_MES_SUM;
+			} else {
+				bsHconListArea.IN.tipo = BsHconList.LT_TIPO_MES_CATE_SUM;
+			}
 			bsHconListArea.IN.anua = area.IN.anua;
 			bsHconListArea.IN.mesh = area.IN.mesp;
 			bsHconListArea.IN.cate = pres.getCate();
@@ -123,7 +127,7 @@ public class BsPresCons extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsPresConsArea area = (BsPresConsArea)a;
 		
-		validateIntRequired(area.IN.anua, AppNotify.PRES_CONS_ANUA_RQRD);
-		validateIntRequired(area.IN.mesp, AppNotify.PRES_CONS_MESP_RQRD);
+		validateInputField(area.IN.anua, Pres.ANUA);
+		validateInputField(area.IN.mesp, Pres.MESP);
 	}
 }

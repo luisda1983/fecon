@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.fecon.data.AppNotify;
+import es.ldrsoftware.fecon.data.LiteData;
 import es.ldrsoftware.fecon.prp.entity.Cate;
 
 @Component
@@ -27,7 +28,7 @@ public class BsCateForm extends BaseBS {
 		BsCateFormArea area = (BsCateFormArea)a;
 		
 		//Nueva categoria
-		if (!testInt(area.IN.iden)) {
+		if (!data(area.IN.iden)) {
 			
 			//Validamos si existe categoria con la misma descripci�n larga o corta
 			BsCateGetdArea bsCateGetdArea = new BsCateGetdArea();
@@ -69,7 +70,7 @@ public class BsCateForm extends BaseBS {
 			
 			Cate cate = bsCateGetkArea.OUT.cate;
 			
-			validateDtoRequired(cate, AppNotify.CATE_FORM_CATE_NF);
+			validateDtoNotFound(cate, LiteData.LT_EL_DTO_CATE, Cate.key(area.IN.iden));
 
 			cate.setDesl(area.IN.desl);
 			cate.setDesc(area.IN.desc);
@@ -92,9 +93,9 @@ public class BsCateForm extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsCateFormArea area = (BsCateFormArea)a;
 		
-		validateStringRequired(area.IN.desl, AppNotify.CATE_FORM_DESL_RQRD);
-		validateStringRequired(area.IN.desc, AppNotify.CATE_FORM_DESC_RQRD);
-		validateStringRequired(area.IN.pres, AppNotify.CATE_FORM_PRES_RQRD);
+		validateInputField(area.IN.desl, Cate.DESL);
+		validateInputField(area.IN.desc, Cate.DESC);
+		validateInputField(area.IN.pres, Cate.PRES);
 	}
 
 }

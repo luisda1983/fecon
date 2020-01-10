@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import es.ldrsoftware.core.arq.BaseBS;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
-import es.ldrsoftware.core.arq.data.CoreNotify;
 import es.ldrsoftware.core.spt.entity.Dele;
 import es.ldrsoftware.core.spt.entity.DeleDAO;
 
@@ -27,6 +26,6 @@ public class BsDeleGetk extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsDeleGetkArea area = (BsDeleGetkArea)a;
 		
-		validateIntRequired(area.IN.iden, CoreNotify.DELE_GETK_IDEN_RQRD);
+		validateInputField(area.IN.iden, Dele.IDEN);
 	}
 }

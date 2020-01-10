@@ -9,10 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import es.ldrsoftware.core.arq.BaseDTO;
+import es.ldrsoftware.core.arq.util.StringUtil;
+import es.ldrsoftware.fecon.data.LiteData;
 
 @Entity	
 @Table(name = "HCON")
-public class Hcon implements Serializable {
+public class Hcon extends BaseDTO implements Serializable {
 
 	private static final long serialVersionUID = -246781978778352376L;
 
@@ -21,54 +24,132 @@ public class Hcon implements Serializable {
 	@Column(name = "HCONIDEN", nullable = false)
 	private long   iden;
 
+	public final static String IDEN = "Identificador de Apunte";
+	
 	@Column(name = "HCONINST", nullable = false)
 	private long   inst;
 
+	public final static String INST = "Instalación de Apunte";
+	
 	@Column(name = "HCONCUEN", nullable = false)
 	private long   cuen;
+	
+	public final static String CUEN = "Cuenta de Apunte";
 	
 	@Column(name = "HCONTIPO", nullable = false)
 	private String tipo;
 	
+	public final static String TIPO = "Tipo de Apunte";
+	
 	@Column(name = "HCONFEOP", nullable = false)
 	private int    feop;
 
+	public final static String FEOP = "Fecha de operación de Apunte";
+	
 	@Column(name = "HCONHOOP", nullable = false)
 	private int    hoop;
 
+	public final static String HOOP = "Hora de operación de Apunte";
+	
 	@Column(name = "HCONFEVA", nullable = false)
 	private int    feva;
 
+	public final static String FEVA = "Fecha valor de Apunte";
+	
 	@Column(name = "HCONCATE", nullable = false)
 	private long   cate;
 
+	public final static String CATE = "Categoría de Apunte";
+	
 	@Column(name = "HCONCONC", nullable = false)
 	private long   conc;
 
+	public final static String CONC = "Concepto de Apunte";
+	
 	@Column(name = "HCONPRES", nullable = false)
 	private String pres;
 
+	public final static String PRES = "Indicador de Apunte incluido en presupuesto";
+	
 	@Column(name = "HCONPRAN", nullable = false)
 	private int    pran;
 
+	public final static String PRAN = "Anualidad presupuestaria que incluye el Apunte";
+	
 	@Column(name = "HCONPRMS", nullable = false)
 	private int    prms;
 
+	public final static String PRMS = "Mes presupuestario que incluye el Apunte";
+	
 	@Column(name = "HCONPRCT", nullable = false)
 	private long   prct;
+	
+	public final static String PRCT = "Categoría del presupuesto que incluye el Apunte";
 	
 	@Column(name = "HCONPRCC", nullable = false)
 	private long   prcc;
 	
+	public final static String PRCC = "Concepto del presupuesto que incluye el Apunte";
+	
 	@Column(name = "HCONIMPO", nullable = false)
 	private double impo;
+	
+	public final static String IMPO = "Importe de Apunte";
 	
 	@Column(name = "HCONDESC", nullable = false)
 	private String desc;
 	
+	public final static String DESC = "Descripción del Apunte";
+	
 	@Column(name = "HCONUSUA", nullable = false)
 	private String usua;
 
+	public final static String USUA = "Usuario que realiza el Apunte";
+	
+	
+	public final static String ANUA = "Año de Apunte";
+	public final static String MESH = "Mes de Apunte";
+	public final static String TIMO = "Tipo de modificación de Apunte";
+	
+	public String key() {
+		return key(iden);
+	}
+	
+	public final static String key(long iden) {
+		return StringUtil.extend(iden, 10);
+	}
+	
+	public void validate() throws Exception {
+		validateFieldLong(inst, 0, 999999999, Hcon.INST);
+		validateFieldLong(cuen, 0, 999999999, Hcon.CUEN);
+		validateFieldDomain(tipo, Hcon.TIPO, LiteData.LT_ST_HCONTIPO);
+		validateFieldDate(feop, Hcon.FEOP);
+		validateFieldTime(hoop, Hcon.HOOP);
+		validateFieldDate(feva, Hcon.FEVA);
+		
+		if (!LiteData.LT_EL_HCONTIPO_TRASPASO.equals(tipo)) {
+			validateFieldLong(cate, 0, 999999999, Hcon.CATE);
+			validateFieldLong(conc, 0, 999999999, Hcon.CONC);
+			validateFieldDomain(pres, Hcon.PRES, es.ldrsoftware.core.fwk.data.LiteData.LT_ST_BOOL);
+			validateFieldYear(pran, Hcon.PRAN);
+			if (prms != 0) {
+				validateFieldMonth(prms, Hcon.PRMS);
+			}
+			validateFieldLong(prct, 1, 999999999, Hcon.PRCT);
+			validateFieldLong(prcc, 0, 999999999, Hcon.PRCC);
+			
+		}
+		
+		validateFieldDouble(impo, -99999999999.99, 99999999999.99, Hcon.IMPO);
+		
+		//TODO: cuando el desc se monte en función del concrepto: 
+		//validateStringRequired(hcon.getDesc(), AppNotify.HCON_SAVE_DESC_RQRD);
+		//validateStringNotNull(hcon.getDesc(), AppNotify.HCON_SAVE_DESC_RQRD);
+		//validateStringMaxLength(hcon.getDesc(), 200, AppNotify.HCON_SAVE_DESC_MAXL);
+		
+		validateFieldString(usua, 30, Hcon.USUA);
+	}
+	
 	public long getIden() {
 		return iden;
 	}
@@ -205,5 +286,4 @@ public class Hcon implements Serializable {
 	public void setUsua(String usua) {
 		this.usua = usua;
 	}
-	
 }
