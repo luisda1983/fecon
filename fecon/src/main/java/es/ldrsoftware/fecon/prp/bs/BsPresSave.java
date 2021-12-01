@@ -39,7 +39,7 @@ public class BsPresSave extends BaseBS {
 			
 			//La desviación sólo aplica a partidas presupuestadas
 			if (pres.getImpo() != 0) {
-				if (pres.getDesv() != DoubleUtil.round(pres.getImto() - pres.getImpo(), 2)) {
+				if (pres.getDesv() != DoubleUtil.round(pres.getImto() - pres.getImpo() - pres.getImnp(), 2)) {
 					notify(AppNotify.PRES_SAVE_DESV_DESC);
 				}
 			}
@@ -58,6 +58,5 @@ public class BsPresSave extends BaseBS {
 		BsPresSaveArea area = (BsPresSaveArea)a;
 		
 		Pres pres = (Pres)validateDto(area.IN.pres, LiteData.LT_EL_DTO_PRES);
-		pres.validate();
 	}
 }
