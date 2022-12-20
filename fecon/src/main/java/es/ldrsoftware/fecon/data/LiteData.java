@@ -7,6 +7,8 @@ public class LiteData {
 	public final static String LT_EL_MSTR_HCONTIPO = "HCONTIPO";
 	public final static String LT_EL_MSTR_CUENTIPO = "CUENTIPO";
 	public final static String LT_EL_MSTR_CONCTIPO = "CONCTIPO";
+	public final static String LT_EL_MSTR_COESTIPO = "COESTIPO";
+	public final static String LT_EL_MSTR_TRADTIPO = "TRADTIPO";
 	
 	public final static String   LT_TB_PRESESTA           = "PRESESTA";
 	public final static String   LT_EL_PRESESTA_ABIERTA   = "A";
@@ -49,10 +51,29 @@ public class LiteData {
 			                                               LT_EL_CONCTIPO_GASTO,
 			                                               LT_EL_CONCTIPO_AMBOS};
 
+	public final static String   LT_TB_COESTIPO         = "COESTIPO";
+	public final static String   LT_EL_COESTIPO_INGRESO = "I";
+	public final static String   LT_EL_COESTIPO_GASTO   = "G";
+	public final static String[] LT_ST_COESTIPO         = {LT_EL_COESTIPO_INGRESO,
+			                                               LT_EL_COESTIPO_GASTO};
+
+	public final static String   LT_TB_TRADTIPO = "TRADTIPO";
+	public final static String   LT_EL_TRADTIPO_DOMINIO = "D";
+	public final static String   LT_EL_TRADTIPO_TEXTO   = "T";
+	public final static String   LT_EL_TRADTIPO_FECHA   = "F";
+	public final static String   LT_EL_TRADTIPO_IMPORTE = "I";
+	public final static String[] LT_ST_TRADTIPO         = {LT_EL_TRADTIPO_DOMINIO,
+			                                               LT_EL_TRADTIPO_TEXTO,
+			                                               LT_EL_TRADTIPO_FECHA,
+			                                               LT_EL_TRADTIPO_IMPORTE};
+	
 	//Tablas de literales expandidas
 	public final static String   LT_EL_DTO_CUEN = "CUEN";
 	public final static String   LT_EL_DTO_HCON = "HCON";
 	public final static String   LT_EL_DTO_CATE = "CATE";
 	public final static String   LT_EL_DTO_CONC = "CONC";
 	public final static String   LT_EL_DTO_PRES = "PRES";
+	public final static String   LT_EL_DTO_COES = "COES";
+	public final static String   LT_EL_DTO_TRAD = "TRAD";
+	public final static String   LT_EL_DTO_CONT = "CONT";
 }

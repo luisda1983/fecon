@@ -15,9 +15,12 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		
 		     if (name === 'cate/form')      { return srvCateForm(cntx);     }
 		else if (name === 'cate/list')      { return srvCateList(cntx);     }
+		else if (name === 'coes/form')      { return srvCoesForm(cntx);     }
+		else if (name === 'coes/list')      { return srvCoesList(cntx);     }
 		else if (name === 'conc/form')      { return srvConcForm(cntx);     }
 		else if (name === 'conc/full')      { return srvConcFull(cntx);     }
 		else if (name === 'conc/list')      { return srvConcList(cntx);     }
+		else if (name === 'cont/list')      { return srvContList(cntx);     }
 		else if (name === 'cuen/form')      { return srvCuenForm(cntx);     }
 		else if (name === 'cuen/list')      { return srvCuenList(cntx);     }
 		else if (name === 'cuen/tras')      { return srvCuenTras(cntx);     }
@@ -34,6 +37,9 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		else if (name === 'pres/esta')      { return srvPresEsta(cntx);     }
 		else if (name === 'pres/mesp')      { return srvPresMesp(cntx);     }
 		else if (name === 'pres/resu')      { return srvPresResu(cntx);     }
+		else if (name === 'trad/get' )      { return srvTradGet(cntx);      }
+		else if (name === 'trad/form')      { return srvTradForm(cntx);     }
+		else if (name === 'trad/list')      { return srvTradList(cntx);     }
 		else {
 			d.reject();
 			return d.promise;
@@ -54,6 +60,8 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		else if (cntxLite.form.tbla === 'ANUALIDAD')  { cntx.data.set('ltAnualidad' , cntxLite.data.liteMap); d.resolve(); }
 		else if (cntxLite.form.tbla === 'PRESESTA')   { cntx.data.set('ltPresesta'  , cntxLite.data.liteMap); d.resolve(); }
 		else if (cntxLite.form.tbla === 'CONCTIPO')   { cntx.data.set('ltConctipo'  , cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'COESTIPO')   { cntx.data.set('ltCoestipo'  , cntxLite.data.liteMap); d.resolve(); }
+		else if (cntxLite.form.tbla === 'TRADTIPO')   { cntx.data.set('ltTradtipo'  , cntxLite.data.liteMap); d.resolve(); }
 		//else if
 		//Si no tenemos mapeada la tabla de literales, rechazamos el promise
 		else { d.reject(); }
@@ -161,6 +169,65 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		});
 		return d.promise;
 	}
+	//*************************************************************************************************************//
+	// PRIVATE: srvCoesForm: Servicio de grabado de códigos específicos.                                           //
+	//*************************************************************************************************************//
+	function srvCoesForm(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data,
+			tipo: cntx.form.get('tipo').data,
+			desc: cntx.form.get('desc').data,
+			favo: cntx.form.get('favo').data,
+			trad: cntx.form.get('trad').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/coes/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('coes', data.OUTPUT['coes']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvCoesList: Servicio de consulta de códigos específicos.                                          //
+	//*************************************************************************************************************//
+	function srvCoesList(cntx) {
+		var dataRequest = {
+			
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/coes/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('coesList', data.OUTPUT['coesList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
 
 	//*************************************************************************************************************//
 	// PRIVATE: srvConcForm: Servicio de grabado de conceptos.                                                     //
@@ -243,6 +310,35 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 				//TODO: ver si realmente era necesario el map
 				cntx.data.set('concList', data.OUTPUT['concList']);
 				cntx.data.set('concListMap', data.OUTPUT['concListMap']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvContList: Servicio de consulta de configuracion contable.                                       //
+	//*************************************************************************************************************//
+	function srvContList(cntx) {
+		var dataRequest = {
+			coes: cntx.form.get('coes').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+
+		var output = srv.call(targetHost + 'service/angular/cont/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				//TODO: ver si realmente era necesario el map
+				cntx.data.set('contList', data.OUTPUT['contList']);
 				d.resolve(data);
 			}
 		}, function() {
@@ -736,6 +832,104 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 				d.reject();
 			} else {
 				cntx.data.set('presList', data.OUTPUT['presList']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvTradGet: Servicio de consulta de traducción.                                                    //
+	//*************************************************************************************************************//
+	function srvTradGet(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/trad/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('trad', data.OUTPUT['trad']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvTradForm: Servicio de grabado de traducciones.                                                  //
+	//*************************************************************************************************************//
+	function srvTradForm(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('iden').data,
+			nomb: cntx.form.get('nomb').data,
+			tip1: cntx.form.get('tip1').data,
+			dom1: cntx.form.get('dom1').data,
+			ide1: cntx.form.get('ide1').data,
+			obl1: cntx.form.get('obl1').data,
+			tip2: cntx.form.get('tip2').data,
+			dom2: cntx.form.get('dom2').data,
+			ide2: cntx.form.get('ide2').data,
+			obl2: cntx.form.get('obl2').data,
+			tip3: cntx.form.get('tip3').data,
+			dom3: cntx.form.get('dom3').data,
+			ide3: cntx.form.get('ide3').data,
+			obl3: cntx.form.get('obl3').data,
+			desc: cntx.form.get('desc').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/trad/form/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('trad', data.OUTPUT['trad']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	//*************************************************************************************************************//
+	// PRIVATE: srvTradList: Servicio de consulta de traducciones.                                                 //
+	//*************************************************************************************************************//
+	function srvTradList(cntx) {
+		var dataRequest = {
+
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/trad/list/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('tradList', data.OUTPUT['tradList']);
 				d.resolve(data);
 			}
 		}, function() {

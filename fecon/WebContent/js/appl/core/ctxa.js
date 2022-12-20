@@ -20,14 +20,19 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		else if (view === 'pres/resu') { return getPresResuCntx(); }
 		else if (view === 'cate/list') { return getCateListCntx(); }
 		else if (view === 'cate/form') { return getCateFormCntx(); }
+		else if (view === 'coes/form') { return getCoesFormCntx(); }
+		else if (view === 'coes/list') { return getCoesListCntx(); }
 		else if (view === 'conc/list') { return getConcListCntx(); }
 		else if (view === 'conc/form') { return getConcFormCntx(); }
+		else if (view === 'cont/form') { return getContFormCntx(); }
 		else if (view === 'cuen/list') { return getCuenListCntx(); }
 		else if (view === 'cuen/form') { return getCuenFormCntx(); }
 		else if (view === 'cuen/tras') { return getCuenTrasCntx(); }
 		else if (view === 'cuen/cuad') { return getCuenCuadCntx(); }
 		else if (view === 'hcon/form') { return getHconFormCntx(); }
 		else if (view === 'hcon/list') { return getHconListCntx(); }
+		else if (view === 'trad/form') { return getTradFormCntx(); }
+		else if (view === 'trad/list') { return getTradListCntx(); }
 		
 		return cntx;
 	}
@@ -117,6 +122,30 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 	}
 
 	//*************************************************************************************************************//
+	// Contexto: coes/form - Formulario de códigos específicos.                                                    //
+	//*************************************************************************************************************//
+	function getCoesFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('tipo', ctxl.makeField(''));
+		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('favo', ctxl.makeField('N'));
+		cntx.form.set('trad', ctxl.makeField(0));
+		cntx.form.set('tradText', ctxl.makeField(''));
+		cntx.form.set('coes', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: coes/list - Lista de códigos específicos.                                                         //
+	//*************************************************************************************************************//
+	function getCoesListCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('desc', ctxl.makeField(''));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
 	// Contexto: conc/list - Lista de conceptos.                                                                   //
 	//*************************************************************************************************************//
 	function getConcListCntx() {
@@ -136,6 +165,24 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		cntx.form.set('desl', ctxl.makeField(''));
 		cntx.form.set('desc', ctxl.makeField(''));
 		cntx.form.set('orde', ctxl.makeField(0));
+		return cntx;
+	}
+
+	//*************************************************************************************************************//
+	// Contexto: cont/form - Formulario de contabilidad.                                                           //
+	//*************************************************************************************************************//
+	function getContFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('coes', ctxl.makeField(0));
+		cntx.form.set('anin', ctxl.makeField(0));
+		cntx.form.set('anfi', ctxl.makeField(0));
+		cntx.form.set('val1', ctxl.makeField(''));
+		cntx.form.set('val2', ctxl.makeField(''));
+		cntx.form.set('val3', ctxl.makeField(''));
+		cntx.form.set('cate', ctxl.makeField(0));
+		cntx.form.set('conc', ctxl.makeField(0));
+		cntx.form.set('iden', ctxl.makeField(0)); //Traduccion
+		cntx.form.set('domi', ctxl.makeField(0));
 		return cntx;
 	}
 
@@ -199,6 +246,7 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		cntx.form.set('impo', ctxl.makeField(0));
 		cntx.form.set('feva', ctxl.makeField(new Date()));
 		cntx.form.set('desc', ctxl.makeField(''));
+		cntx.form.set('repe', ctxl.makeField(false));
 		cntx.form.set('stPres', ctxl.makeSection('stPres'));
 		return cntx;
 	}
@@ -215,6 +263,37 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		cntx.form.set('conc', ctxl.makeField(0));
 		cntx.form.set('iden', ctxl.makeField(0));
 		cntx.form.set('acci', ctxl.makeField(''));
+		return cntx;
+	}
+	
+	//*************************************************************************************************************//
+	// Contexto: trad/form - Formulario de traducciones.                                                           //
+	//*************************************************************************************************************//
+	function getTradFormCntx() {
+		var cntx = ctxl.baseCntx();
+		cntx.form.set('iden', ctxl.makeField(0));
+		cntx.form.set('nomb', ctxl.makeField(''));
+		cntx.form.set('tip1', ctxl.makeField(''));
+		cntx.form.set('dom1', ctxl.makeField(0));
+		cntx.form.set('ide1', ctxl.makeField(''));
+		cntx.form.set('obl1', ctxl.makeField('N'));
+		cntx.form.set('tip2', ctxl.makeField(''));
+		cntx.form.set('dom2', ctxl.makeField(0));
+		cntx.form.set('ide2', ctxl.makeField(''));
+		cntx.form.set('obl2', ctxl.makeField('N'));
+		cntx.form.set('tip3', ctxl.makeField(''));
+		cntx.form.set('dom3', ctxl.makeField(0));
+		cntx.form.set('ide3', ctxl.makeField(''));
+		cntx.form.set('obl3', ctxl.makeField('N'));
+		cntx.form.set('desc', ctxl.makeField(''));
+		return cntx;
+	}
+	
+	//*************************************************************************************************************//
+	// Contexto: trad/list - Formulario de list de traducciones.                                                   //
+	//*************************************************************************************************************//
+	function getTradListCntx() {
+		var cntx = ctxl.baseCntx();
 		return cntx;
 	}
 }]);

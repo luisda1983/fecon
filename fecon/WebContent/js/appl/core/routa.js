@@ -59,6 +59,14 @@ app.config(function($routeProvider) {
 			templateUrl : 'pages/appl/cate/cateForm.html?v.1.01.04',
 			controller  : 'cateFormCtrl'
 		})
+		.when('/coes/form/', {
+			templateUrl : 'pages/appl/coes/coesForm.html?v.1.01.04',
+			controller  : 'coesFormCtrl'
+		})
+		.when('/coes/list/', {
+			templateUrl : 'pages/appl/coes/coesList.html?v.1.01.04',
+			controller  : 'coesListCtrl'
+		})
 		.when('/conc/list', {
 			templateUrl : 'pages/appl/conc/concList.html?v.1.01.04',
 			controller  : 'concListCtrl'
@@ -66,5 +74,17 @@ app.config(function($routeProvider) {
 		.when('/conc/form', {
 			templateUrl : 'pages/appl/conc/concForm.html?v.1.01.04',
 			controller  : 'concFormCtrl'
+		})
+		.when('/trad/list', {
+			templateUrl : 'pages/appl/trad/tradList.html?v.1.01.04',
+			controller  : 'tradListCtrl'
+		})
+		.when('/trad/form', {
+			templateUrl : 'pages/appl/trad/tradForm.html?v.1.01.04',
+			controller  : 'tradFormCtrl'
+		})
+		.when('/cont/form', {
+			templateUrl : 'pages/appl/cont/contForm.html?v.1.01.04',
+			controller  : 'contFormCtrl'
 		})
 });
