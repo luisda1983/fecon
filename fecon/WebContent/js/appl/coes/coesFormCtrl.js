@@ -1,7 +1,7 @@
 //*****************************************************************************************************************//
 // v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
 //*****************************************************************************************************************//
-app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
+app.controller('coesFormCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
@@ -15,34 +15,44 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Carga de vista                                                                                              //
 	//*************************************************************************************************************//
 	function loadView() {
-		var srv1 = comc.request('conc/list', $scope.cntx);
-		var srv2 = comc.requestLiteList('CONCTIPO', $scope.cntx);
-
+		var srv1 = comc.requestLiteList('BOOL', $scope.cntx);
+		var srv2 = comc.requestLiteList('COESTIPO', $scope.cntx);
+		
 		$q.all([srv.stResp(true, srv1, srv2)]).then(function() {
 			view();
-		});	
+		});
 	}
-	
+
 	//*************************************************************************************************************//
 	// Carga de vista, en transición de retorno                                                                    //
 	//*************************************************************************************************************//
 	function loadViewBack() {
 		var view = srv.getDestView();
 		
-		//Si venimos del formulario de conceptos y tenemos un concepto en el área de intercambio, lo cargamos en la lista
-		if (view === 'conc/form') {
-			var conc = $scope.cntx.xchg.get('conc');
-
-			if (conc !== undefined) {
-				var indx = $scope.cntx.xchg.get('indx');
-				if (indx >= 0) {
-					$scope.cntx.data.get('concList')[indx] = conc;
-				} else {
-					$scope.cntx.data.get('concList').push(conc);
-				}
+		if (view === 'trad/list') {
+			var trad = $scope.cntx.xchg.get('trad');
+			
+			if (trad === undefined) {
+				
+			} else {
+				$scope.cntx.form.get('trad').data = trad.iden;
+				$scope.cntx.form.get('tradText').data = trad.nomb;
 			}
 		}
 		
+		if (view === 'cate/list') {
+			var cate = $scope.cntx.xchg.get('cate');
+			var conc = $scope.cntx.xchg.get('conc');
+			
+			if (cate === undefined || conc === undefined) {
+				
+			} else {
+				$scope.cntx.form.get('cate').data = cate.iden;
+				$scope.cntx.form.get('cateText').data = cate.desc;
+				$scope.cntx.form.get('conc').data = conc.iden;
+				$scope.cntx.form.get('concText').data = conc.desc;
+			}
+		}
 		ctxl.clearXchg($scope.cntx);
 	}
 	
@@ -52,17 +62,29 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	function loadViewGo() {
 		var view = srv.getOrigView();
 		
-		$scope.cntx.conf.set('mode', 'L');
-		
-		if (view === 'cate/list') {
-			var cate = $scope.cntx.xchg.get('cate');
-			$scope.cntx.data.set('cate', cate);
-			$scope.cntx.form.get('cate').data = cate.iden;
-			
-			var mode = $scope.cntx.xchg.get('mode');
-			
-			if (mode === 'SCC') {
-				$scope.cntx.conf.set('mode', 'S');
+		$scope.cntx.conf.set('mode', 'N');
+
+		if (view === 'coes/list') {
+			var coes = $scope.cntx.xchg.get('coes');
+
+			if (coes === undefined) {
+				$scope.cntx.conf.set('mode', 'N');
+			} else {
+				$scope.cntx.conf.set('mode', 'E');
+				$scope.cntx.form.get('iden').data = coes.iden;
+				$scope.cntx.form.get('coes').data = coes.iden;
+				$scope.cntx.form.get('desc').data = coes.desc;
+				$scope.cntx.form.get('tipo').data = coes.tipo;
+				$scope.cntx.form.get('favo').data = coes.favo;
+				$scope.cntx.form.get('cate').data = coes.cate;
+				$scope.cntx.form.get('conc').data = coes.conc;
+				
+				var srv1 = comc.request('cate/get', $scope.cntx);
+				var srv2 = comc.request('conc/get', $scope.cntx);
+				$q.all([srv.stResp(true, srv1, srv2)]).then(function() {
+					$scope.cntx.form.get('cateText').data = $scope.cntx.data.get('cate').desc;
+					$scope.cntx.form.get('concText').data = $scope.cntx.data.get('conc').desc;
+				});	
 			}
 		}
 		
@@ -71,15 +93,34 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 
 	//*************************************************************************************************************//
 	// Función encargada de manejar la vista y sus modos de presentación                                           //
-	// - 'L': Lista de conceptos.                                                                                  //
+	// - 'N': Nuevo código específico.                                                                             //
+	// - 'E': Edición de código específico.                                                                        //
 	//*************************************************************************************************************//
 	function view() {
-		if ($scope.cntx.conf.get('mode') === 'L') {
-			
-		} else if ($scope.cntx.conf.get('mode') === 'S') {
-			
-		} else {
-			
+		//Nuevo código específico
+		if ($scope.cntx.conf.get('mode') === 'N') {
+			ctxl.formField($scope.cntx, 'iden', false, true);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
+			ctxl.formField($scope.cntx, 'favo', true, false);
+			//ctxl.formField($scope.cntx, 'trad', false, true);
+			//ctxl.formField($scope.cntx, 'tradText', true, true);
+			ctxl.formField($scope.cntx, 'cate', false, true);
+			ctxl.formField($scope.cntx, 'cateText', true, true);
+			ctxl.formField($scope.cntx, 'conc', false, true);
+			ctxl.formField($scope.cntx, 'concText', true, true);
+		//Edición de código específico
+		} else if ($scope.cntx.conf.get('mode') === 'E') {
+			ctxl.formField($scope.cntx, 'iden', true, true);
+			ctxl.formField($scope.cntx, 'desc', true, false);
+			ctxl.formField($scope.cntx, 'tipo', true, false);
+			ctxl.formField($scope.cntx, 'favo', true, false);
+			//ctxl.formField($scope.cntx, 'trad', false, true);
+			//ctxl.formField($scope.cntx, 'tradText', true, true);
+			ctxl.formField($scope.cntx, 'cate', false, true);
+			ctxl.formField($scope.cntx, 'cateText', true, true);
+			ctxl.formField($scope.cntx, 'conc', false, true);
+			ctxl.formField($scope.cntx, 'concText', true, true);
 		}
 	}
 
@@ -87,43 +128,19 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	// Función de inicialización del formulario de la vista                                                        //
 	//*************************************************************************************************************//
 	function inicForm() {
-		
+		$scope.cntx.form.get('iden').data = 0;
+		$scope.cntx.form.get('desc').data = '';
+		$scope.cntx.form.get('tipo').data = '';
+		$scope.cntx.form.get('favo').data = 'N';
 	}
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
-	//*********************************                                           *********************************//
-	//*********************************  FUNCIONES AUXILIARES DE MANEJO DE VISTA  *********************************//
-	//*********************************               (LISTAS)                    *********************************//
-	//*********************************                                           *********************************//
+	//***************************************                                **************************************//
+	//***************************************  FUNCIONES DE MANEJO DE VISTA  **************************************//
+	//***************************************                                **************************************//
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
-
-	//*************************************************************************************************************//
-	// Captura del evento de crear nuevo concepto.                                                                 //
-	//*************************************************************************************************************//
-	$scope.fnNuev = function() {
-		var cntx = srv.getCntx('conc/form');
-		
-		cntx.xchg.set('cate', $scope.cntx.data.get('cate'));
-		cntx.xchg.set('indx', -1);
-		
-		srv.go('conc/list', $scope.cntx, 'conc/form', cntx);
-	}
-
-	//*************************************************************************************************************//
-	// Captura del evento de edición de concepto.                                                                  //
-	//*************************************************************************************************************//
-	$scope.fnEdit = function(i) {
-		var cntx = srv.getCntx('conc/form');
-		
-		var conc = $scope.cntx.data.get('concList')[i];
-		cntx.xchg.set('cate', $scope.cntx.data.get('cate'));
-		cntx.xchg.set('conc', conc);
-		cntx.xchg.set('indx', i);
-		
-		srv.go('conc/list', $scope.cntx, 'conc/form', cntx);
-	}
 
 	//*************************************************************************************************************//
 	// Captura del evento de cancelación.                                                                          //
@@ -131,30 +148,51 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	$scope.fnCanc = function() {
 		srv.back(true, null);
 	}
-
+	
 	//*************************************************************************************************************//
-	// Despliegue de menú de acciones.                                                                             //
+	// Captura del evento de envío de formulario de categoría.                                                     //
 	//*************************************************************************************************************//
-	$scope.openMenu = function($mdOpenMenu, ev) {
-		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
-		$mdOpenMenu(ev);
+	$scope.fnForm = function() {
+		var srv1 = comc.request('coes/form', $scope.cntx);
+		
+		$q.all([srv.stResp(true, srv1)]).then(function(){
+			$scope.cntx.xchg.set('coes', $scope.cntx.data.get('coes'));
+			srv.back(true, $scope.cntx.xchg);
+		});
 	};
 
 	//*************************************************************************************************************//
-	// Despliegue de registro de una lista.                                                                        //
+	// Captura del evento de seleccionar traducción.                                                               //
 	//*************************************************************************************************************//
-	$scope.clic = function(i) {
-		if ($scope.cntx.conf.get('mode') === 'S') {
-			$scope.cntx.xchg.set('conc', $scope.cntx.data.get('concList')[i]);
-			srv.back(true, $scope.cntx.xchg);
-		} else {
-			if ($scope.cntx.conf.get('idx1') === i) {
-				$scope.cntx.conf.set('idx1', -1);
-			} else {
-				$scope.cntx.conf.set('idx1', i);
-			}
-		}
-	}
+	$scope.fnTrad = function() {
+		var cntx = srv.getCntx('trad/list');
+				
+		srv.go('coes/form', $scope.cntx, 'trad/list', cntx);
+	};
+
+	//*************************************************************************************************************//
+	// Captura del evento de seleccionar categoría.                                                                //
+	//*************************************************************************************************************//
+	$scope.fnCate = function() {
+		var cntx = srv.getCntx('cate/list');
+				
+		srv.go('coes/form', $scope.cntx, 'cate/list', cntx);
+	};
+	
+	//*************************************************************************************************************//
+	// Captura del evento de crear contabilidad.                                                                   //
+	//*************************************************************************************************************//
+	$scope.fnNuev = function() {
+		var cntx = srv.getCntx('cont/form');
+		
+		var coes = $scope.cntx.form.get('iden').data;
+		var trad = $scope.cntx.form.get('trad').data;
+		
+		cntx.xchg.set('coes', coes);
+		cntx.xchg.set('trad', trad);
+
+		srv.go('coes/form', $scope.cntx, 'cont/form', cntx);
+	};
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
@@ -164,8 +202,7 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
 	
-	//Generamos el contexto de la vista
-	$scope.cntx = srv.getCntx('conc/list');
+	$scope.cntx = srv.getCntx('coes/form');
 
 	if (srv.goTran()) {
 		loadViewGo();
@@ -173,5 +210,5 @@ app.controller('concListCtrl', function($scope, $q, srv, comc, ctxl) {
 		loadViewBack();
 	} else {
 		loadView();
-	}
+	}	
 });

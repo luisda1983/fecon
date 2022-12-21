@@ -41,7 +41,12 @@ app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 				}
 			}
 		}
-		
+
+		if (view === 'conc/list') {
+			if ($scope.cntx.conf.get('mode') === 'SCC') {
+				srv.back(true, $scope.cntx.xchg);
+			}
+		}
 		ctxl.clearXchg($scope.cntx);
 	}
 	
@@ -50,8 +55,12 @@ app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	function loadViewGo() {
 		var view = srv.getOrigView();
-		
-		$scope.cntx.conf.set('mode', 'L');
+
+		if (view === 'coes/form') {
+			$scope.cntx.conf.set('mode', 'SCC');
+		} else {
+			$scope.cntx.conf.set('mode', 'L');
+		}
 		
 		loadView();
 	}
@@ -59,9 +68,12 @@ app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	// Función encargada de manejar la vista y sus modos de presentación                                           //
 	// - 'L': Lista de categorias.                                                                                 //
+	// - 'SCC': Seleccion de concepto.                                                                             //
 	//*************************************************************************************************************//
 	function view() {
 		if ($scope.cntx.conf.get('mode') === 'L') {
+			
+		} else if ($scope.cntx.conf.get('mode') === 'SCC') {
 			
 		} else {
 			
@@ -133,11 +145,21 @@ app.controller('cateListCtrl', function($scope, $q, srv, comc, ctxl) {
 	//*************************************************************************************************************//
 	// Despliegue de registro de una lista.                                                                        //
 	//*************************************************************************************************************//
-	$scope.xpnd = function(i) {
-		if ($scope.cntx.conf.get('idx1') === i) {
-			$scope.cntx.conf.set('idx1', -1);
+	$scope.clic = function(i) {
+		if ($scope.cntx.conf.get('mode') === 'SCC') {
+			var cntx = srv.getCntx('conc/list');
+			
+			var cate = $scope.cntx.data.get('cateList')[i];
+			cntx.xchg.set('cate', cate);
+			cntx.xchg.set('mode', 'SCC');
+			
+			srv.go('cate/list', $scope.cntx, 'conc/list', cntx);
 		} else {
-			$scope.cntx.conf.set('idx1', i);
+			if ($scope.cntx.conf.get('idx1') === i) {
+				$scope.cntx.conf.set('idx1', -1);
+			} else {
+				$scope.cntx.conf.set('idx1', i);
+			}
 		}
 	}
 

@@ -98,6 +98,10 @@ public class AppNotify {
 	public final static String HCON_PRES_GEST_PART_NPRE    = "HCON-08505";
 	public final static String HCON_PRES_GEST_HCON_NF      = "HCON-08901";
 	public final static String HCON_PRES_GEST_PRES_NF      = "HCON-08902";
+
+	//Servicio de alta y edición de codigo especifico
+	public final static String COES_FORM_TRAD_CHNG_NO      = "COES-01501";
+	public final static String COES_FORM_TIPO_CHNG_NO      = "COES-01502";
 	
 	//Servicio de grabado de cuenta	
 	public final static String CUEN_SAVE_IDEN_RQRD         = "CUEN-01701";

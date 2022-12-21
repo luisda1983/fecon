@@ -35,12 +35,12 @@ public class Coes extends BaseDTO implements Serializable {
 
 	@Id
 	@Column(name = "COESANIN", nullable = false)
-	private long   anin;
+	private int   anin;
 	
 	public final static String ANIN = "Año de inicio de Código Específico";
 	
 	@Column(name = "COESANFI", nullable = false)
-	private long   anfi;
+	private int   anfi;
 	
 	public final static String ANFI = "Año de fin de Código Específico";
 	
@@ -153,6 +153,22 @@ public class Coes extends BaseDTO implements Serializable {
 		this.inst = inst;
 	}
 
+	public int getAnin() {
+		return anin;
+	}
+	
+	public void setAnin(int anin) {
+		this.anin = anin;
+	}
+	
+	public int getAnfi() {
+		return anfi;
+	}
+	
+	public void setAnfi(int anfi) {
+		this.anfi = anfi;
+	}
+	
 	public String getTipo() {
 		return tipo;
 	}

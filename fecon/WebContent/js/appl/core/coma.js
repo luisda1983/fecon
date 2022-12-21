@@ -14,10 +14,12 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		var d = $q.defer();
 		
 		     if (name === 'cate/form')      { return srvCateForm(cntx);     }
+		else if (name === 'cate/get')       { return srvCateGet(cntx);      } 
 		else if (name === 'cate/list')      { return srvCateList(cntx);     }
 		else if (name === 'coes/form')      { return srvCoesForm(cntx);     }
 		else if (name === 'coes/list')      { return srvCoesList(cntx);     }
 		else if (name === 'conc/form')      { return srvConcForm(cntx);     }
+		else if (name === 'conc/get')       { return srvConcGet(cntx);      }
 		else if (name === 'conc/full')      { return srvConcFull(cntx);     }
 		else if (name === 'conc/list')      { return srvConcList(cntx);     }
 		else if (name === 'cont/list')      { return srvContList(cntx);     }
@@ -142,6 +144,35 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 	}
 
 	//*************************************************************************************************************//
+	// PRIVATE: srvCateGet: Servicio de consulta de categoria.                                                     //
+	//*************************************************************************************************************//
+	function srvCateGet(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('cate').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/cate/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('cate', data.OUTPUT['cate']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	
+	//*************************************************************************************************************//
 	// PRIVATE: srvCateList: Servicio de consulta de categorías.                                                   //
 	//*************************************************************************************************************//
 	function srvCateList(cntx) {
@@ -178,7 +209,9 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 			tipo: cntx.form.get('tipo').data,
 			desc: cntx.form.get('desc').data,
 			favo: cntx.form.get('favo').data,
-			trad: cntx.form.get('trad').data
+			//trad: cntx.form.get('trad').data,
+			cate: cntx.form.get('cate').data,
+			conc: cntx.form.get('conc').data
 		};
 		setBase(dataRequest, cntx);
 		
@@ -290,6 +323,35 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 		return d.promise;
 	}
 
+	//*************************************************************************************************************//
+	// PRIVATE: srvConcGet: Servicio de consulta de concepto.                                                      //
+	//*************************************************************************************************************//
+	function srvConcGet(cntx) {
+		var dataRequest = {
+			iden: cntx.form.get('conc').data
+		};
+		setBase(dataRequest, cntx);
+		
+		var d = $q.defer();
+		
+		var output = srv.call(targetHost + 'service/angular/conc/get/', dataRequest);
+		output.then(function() {
+			var data = srv.getData();
+			if (data.EXEC_RC === 'V') {
+				d.reject();
+			} else {
+				cntx.data.set('conc', data.OUTPUT['conc']);
+				d.resolve(data);
+			}
+		}, function() {
+			var status = srv.getData();
+			srv.frontNotify('FRNT-00001', 'Error de comunicaciones (' + status + ')');
+			d.reject();
+		});
+		return d.promise;
+	}
+
+	
 	//*************************************************************************************************************//
 	// PRIVATE: srvConcList: Servicio de consulta de conceptos.                                                    //
 	//*************************************************************************************************************//
