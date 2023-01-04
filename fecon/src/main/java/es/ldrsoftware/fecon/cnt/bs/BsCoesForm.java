@@ -36,7 +36,7 @@ public class BsCoesForm extends BaseBS {
 			coes.setDesc(area.IN.desc);
 			coes.setFavo(area.IN.favo);
 			coes.setUsad(0);
-			// coes.setTrad(area.IN.trad);
+			coes.setTrad(area.IN.trad);
 			coes.setCate(area.IN.cate);
 			coes.setConc(area.IN.conc);
 			coes.setFeal(SESSION.get().feop);
@@ -62,10 +62,10 @@ public class BsCoesForm extends BaseBS {
 			
 			validateDtoNotFound(coes, LiteData.LT_EL_DTO_COES, Coes.key(area.IN.iden));
 
-//			if (area.IN.trad != coes.getTrad()) {
-//				notify(AppNotify.COES_FORM_TRAD_CHNG_NO, StringUtil.convert(area.IN.trad), StringUtil.convert(coes.getTrad()));
-//				//TODO: permitir cambiar si no hay apuntes
-//			}
+			if (area.IN.trad != coes.getTrad()) {
+				notify(AppNotify.COES_FORM_TRAD_CHNG_NO, StringUtil.convert(area.IN.trad), StringUtil.convert(coes.getTrad()));
+				//TODO: permitir cambiar si no hay apuntes
+			}
 
 			if (!area.IN.tipo.equals(coes.getTipo())) {
 				notify(AppNotify.COES_FORM_TIPO_CHNG_NO, area.IN.tipo, coes.getTipo());
@@ -101,7 +101,7 @@ public class BsCoesForm extends BaseBS {
 		validateInputField(area.IN.favo, Coes.FAVO);
 		validateInputField(area.IN.cate, Coes.CATE);
 		validateInputField(area.IN.conc, Coes.CONC);
-//		validateInputField(area.IN.trad, Coes.TRAD);
+		validateInputField(area.IN.trad, Coes.TRAD);
 	}
 
 }

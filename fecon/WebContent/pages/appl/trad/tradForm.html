@@ -1,0 +1,158 @@
+<div data-ng-controller="secCtrl"></div>
+
+<div flex layout="row" layout-align="center center" layout-padding>
+	<div flex-xl="90" flex-lg="90" flex-md="90" flex-sm="90" flex-xs="100" class="md-whiteframe-z3">
+		<md-toolbar class="md-warn md-whiteframe-z2">
+    		<h2 class="md-toolbar-tools">
+      			<span>Traducción</span>
+      			<div flex></div>
+      			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+    		</h2>
+  		</md-toolbar>
+  		<md-content>
+        	<form name="tradForm" data-ng-submit="fnForm()">
+        		<div layout="row" layout-xs="column" layout-sm="column">
+        			<div layout="row" layout-xs="column" flex>
+        				<md-input-container class="md-block" flex data-ng-show="cntx.form.get('iden').show">
+	                		<label>Identificador</label>
+							<input type="text" ng-model="cntx.form.get('iden').data" ng-disabled="cntx.form.get('iden').read"/>
+	                    </md-input-container>
+        			</div>
+        		</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('nomb').show">
+	                		<label>Nombre</label>
+							<input type="text" ng-model="cntx.form.get('nomb').data" ng-disabled="cntx.form.get('nomb').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('tip1').show">
+	                    	<label>Tipo Elemento 1</label>
+	                        <md-select ng-model="cntx.form.get('tip1').data" ng-disabled="cntx.form.get('tip1').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltTradtipo')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('dom1').show">
+	                    	<label>Dominio 1</label>
+	                        <md-select ng-model="cntx.form.get('dom1').data" ng-disabled="cntx.form.get('dom1').read">
+	                        	<md-option ng-repeat="domi in cntx.data.get('domiList')" ng-value="domi.iden">{{domi.nomb}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('ide1').show">
+	                		<label>Identificador 1</label>
+							<input type="text" ng-model="cntx.form.get('ide1').data" ng-disabled="cntx.form.get('ide1').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('obl1').show">
+	                    	<label>Obligatorio 1</label>
+	                        <md-select ng-model="cntx.form.get('obl1').data" ng-disabled="cntx.form.get('obl1').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltMBool')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('tip2').show">
+	                    	<label>Tipo Elemento 2</label>
+	                        <md-select ng-model="cntx.form.get('tip2').data" ng-disabled="cntx.form.get('tip2').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltTradtipo')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('dom2').show">
+	                    	<label>Dominio 2</label>
+	                        <md-select ng-model="cntx.form.get('dom2').data" ng-disabled="cntx.form.get('dom2').read">
+	                        	<md-option ng-repeat="domi in cntx.data.get('domiList')" ng-value="domi.iden">{{domi.nomb}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('ide2').show">
+	                		<label>Identificador 2</label>
+							<input type="text" ng-model="cntx.form.get('ide2').data" ng-disabled="cntx.form.get('ide2').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('obl2').show">
+	                    	<label>Obligatorio 2</label>
+	                        <md-select ng-model="cntx.form.get('obl2').data" ng-disabled="cntx.form.get('obl2').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltMBool')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('tip3').show">
+	                    	<label>Tipo Elemento 3</label>
+	                        <md-select ng-model="cntx.form.get('tip3').data" ng-disabled="cntx.form.get('tip3').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltTradtipo')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('dom3').show">
+	                    	<label>Dominio 3</label>
+	                        <md-select ng-model="cntx.form.get('dom3').data" ng-disabled="cntx.form.get('dom3').read">
+	                        	<md-option ng-repeat="domi in cntx.data.get('domiList')" ng-value="domi.iden">{{domi.nomb}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('ide3').show">
+	                		<label>Identificador 3</label>
+							<input type="text" ng-model="cntx.form.get('ide3').data" ng-disabled="cntx.form.get('ide3').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                    <md-input-container class="md-block" flex data-ng-show="cntx.form.get('obl3').show">
+	                    	<label>Obligatorio 3</label>
+	                        <md-select ng-model="cntx.form.get('obl3').data" ng-disabled="cntx.form.get('obl3').read">
+	                        	<md-option ng-repeat="lite in cntx.data.get('ltMBool')" ng-value="lite.clav">{{lite.desc}}</md-option>
+	                        </md-select>
+	                    </md-input-container>
+					</div>
+				</div>
+        		<div layout="row" layout-xs="column" layout-sm="column">
+					<div layout="row" layout-xs="column" flex>
+	                	<md-input-container class="md-block" flex data-ng-show="cntx.form.get('desc').show">
+	                		<label>Descripción</label>
+							<input type="text" ng-model="cntx.form.get('desc').data" ng-disabled="cntx.form.get('desc').read"/>
+	                    </md-input-container>
+					</div>
+				</div>
+				<div layout="row" layout-align="center center">
+                    <md-button type="submit" class="md-raised md-primary" aria-label="Aceptar">Aceptar</md-button> 
+                </div>
+        	</form>
+        </md-content>
+    </div>
+</div>

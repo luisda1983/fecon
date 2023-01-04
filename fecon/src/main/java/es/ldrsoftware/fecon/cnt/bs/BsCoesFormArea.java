@@ -13,7 +13,7 @@ public class BsCoesFormArea extends BaseBSArea {
 		public String tipo;
 		public String desc;
 		public String favo;
-		//public long   trad;
+		public long   trad;
 		public long   cate;
 		public long   conc;
 	}

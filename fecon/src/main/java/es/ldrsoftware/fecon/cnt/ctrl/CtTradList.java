@@ -13,40 +13,33 @@ import org.springframework.web.bind.annotation.RestController;
 import es.ldrsoftware.core.arq.BaseController;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.ResponseArea;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesForm;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesFormArea;
+import es.ldrsoftware.fecon.cnt.bs.BsTradList;
+import es.ldrsoftware.fecon.cnt.bs.BsTradListArea;
 
 @RestController
-public class CtCoesForm extends BaseController {
+public class CtTradList extends BaseController {
 
 	@Autowired
-	public BsCoesForm bsCoesForm;
+	public BsTradList bsTradList;
 
-	public CtCoesForm() {
-		super("ctCoesForm");
+	public CtTradList() {
+		super("ctTradList");
 	}
 	
-	@RequestMapping(value="/angular/coes/form", method = RequestMethod.POST, headers="Accept=application/json")
-	public ResponseArea ctCoesForm(HttpServletRequest servletRqt, @RequestBody CtCoesFormRqt rqt) {
-		BsCoesFormArea area = new BsCoesFormArea();
-		area.IN.iden = rqt.iden;
-		area.IN.tipo = rqt.tipo;
-		area.IN.desc = rqt.desc;
-		area.IN.favo = rqt.favo;
-		area.IN.trad = rqt.trad;
-		area.IN.cate = rqt.cate;
-		area.IN.conc = rqt.conc;
+	@RequestMapping(value="/angular/trad/list", method = RequestMethod.POST, headers="Accept=application/json")
+	public ResponseArea ctTradList(HttpServletRequest servletRqt, @RequestBody CtTradListRqt rqt) {
+		BsTradListArea area = new BsTradListArea();
 		return ctrl(servletRqt, rqt, area);
 	}
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseBSArea a) throws Exception {
-		bsCoesForm.executeBS(a);
+		bsTradList.executeBS(a);
 	}
 	
 	public void output(BaseBSArea a, ResponseArea response) {
-		BsCoesFormArea area = (BsCoesFormArea)a;
+		BsTradListArea area = (BsTradListArea)a;
 		
-		response.OUTPUT.put("coes", area.OUT.coes);
+		response.OUTPUT.put("tradList", area.OUT.tradList);
 	}
 }

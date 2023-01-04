@@ -13,40 +13,48 @@ import org.springframework.web.bind.annotation.RestController;
 import es.ldrsoftware.core.arq.BaseController;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.ResponseArea;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesForm;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesFormArea;
+import es.ldrsoftware.fecon.cnt.bs.BsTradForm;
+import es.ldrsoftware.fecon.cnt.bs.BsTradFormArea;
 
 @RestController
-public class CtCoesForm extends BaseController {
+public class CtTradForm extends BaseController {
 
 	@Autowired
-	public BsCoesForm bsCoesForm;
+	public BsTradForm bsTradForm;
 
-	public CtCoesForm() {
-		super("ctCoesForm");
+	public CtTradForm() {
+		super("ctTradForm");
 	}
 	
-	@RequestMapping(value="/angular/coes/form", method = RequestMethod.POST, headers="Accept=application/json")
-	public ResponseArea ctCoesForm(HttpServletRequest servletRqt, @RequestBody CtCoesFormRqt rqt) {
-		BsCoesFormArea area = new BsCoesFormArea();
+	@RequestMapping(value="/angular/trad/form", method = RequestMethod.POST, headers="Accept=application/json")
+	public ResponseArea ctTradForm(HttpServletRequest servletRqt, @RequestBody CtTradFormRqt rqt) {
+		BsTradFormArea area = new BsTradFormArea();
 		area.IN.iden = rqt.iden;
-		area.IN.tipo = rqt.tipo;
+		area.IN.nomb = rqt.nomb;
+		area.IN.tip1 = rqt.tip1;
+		area.IN.dom1 = rqt.dom1;
+		area.IN.ide1 = rqt.ide1;
+		area.IN.obl1 = rqt.obl1;
+		area.IN.tip2 = rqt.tip2;
+		area.IN.dom2 = rqt.dom2;
+		area.IN.ide2 = rqt.ide2;
+		area.IN.obl2 = rqt.obl2;
+		area.IN.tip3 = rqt.tip3;
+		area.IN.dom3 = rqt.dom3;
+		area.IN.ide3 = rqt.ide3;
+		area.IN.obl3 = rqt.obl3;
 		area.IN.desc = rqt.desc;
-		area.IN.favo = rqt.favo;
-		area.IN.trad = rqt.trad;
-		area.IN.cate = rqt.cate;
-		area.IN.conc = rqt.conc;
 		return ctrl(servletRqt, rqt, area);
 	}
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseBSArea a) throws Exception {
-		bsCoesForm.executeBS(a);
+		bsTradForm.executeBS(a);
 	}
 	
 	public void output(BaseBSArea a, ResponseArea response) {
-		BsCoesFormArea area = (BsCoesFormArea)a;
+		BsTradFormArea area = (BsTradFormArea)a;
 		
-		response.OUTPUT.put("coes", area.OUT.coes);
+		response.OUTPUT.put("trad", area.OUT.trad);
 	}
 }

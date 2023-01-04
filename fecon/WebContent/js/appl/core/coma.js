@@ -209,7 +209,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 			tipo: cntx.form.get('tipo').data,
 			desc: cntx.form.get('desc').data,
 			favo: cntx.form.get('favo').data,
-			//trad: cntx.form.get('trad').data,
+			trad: cntx.form.get('trad').data,
 			cate: cntx.form.get('cate').data,
 			conc: cntx.form.get('conc').data
 		};
@@ -936,6 +936,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 	// PRIVATE: srvTradForm: Servicio de grabado de traducciones.                                                  //
 	//*************************************************************************************************************//
 	function srvTradForm(cntx) {
+
 		var dataRequest = {
 			iden: cntx.form.get('iden').data,
 			nomb: cntx.form.get('nomb').data,

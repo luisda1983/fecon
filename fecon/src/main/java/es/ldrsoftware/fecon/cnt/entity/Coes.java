@@ -64,10 +64,10 @@ public class Coes extends BaseDTO implements Serializable {
 	
 	public final static String USAD = "Contador de uso de Código Específico";
 
-//	@Column(name = "COESTRAD", nullable = false)
-//	private long trad;
+	@Column(name = "COESTRAD", nullable = false)
+	private long trad;
 
-//	public final static String TRAD = "Traducción de Código Específico";
+	public final static String TRAD = "Traducción de Código Específico";
 	
 	@Column(name = "COESCATE", nullable = false)
 	private long   cate;
@@ -126,7 +126,7 @@ public class Coes extends BaseDTO implements Serializable {
 		validateFieldString(desc, 100, Coes.DESC);
 		validateFieldDomain(favo, Coes.FAVO, es.ldrsoftware.core.fwk.data.LiteData.LT_ST_BOOL);
 		validateFieldLong(usad, 0, 999999999, Coes.USAD);
-//		validateFieldLong(trad, 0, 999999999, Coes.TRAD);
+		validateFieldLong(trad, 0, 999999999, Coes.TRAD);
 		validateFieldLong(cate, 0, 999999999, Coes.CATE);
 		validateFieldLong(conc, 0, 999999999, Coes.CONC);
 		validateFieldDate(feal, Coes.FEAL);
@@ -201,13 +201,13 @@ public class Coes extends BaseDTO implements Serializable {
 		this.usad = usad;
 	}
 	
-//	public long getTrad() {
-//		return trad;
-//	}
-//	
-//	public void setTrad(long trad) {
-//		this.trad = trad;
-//	}
+	public long getTrad() {
+		return trad;
+	}
+	
+	public void setTrad(long trad) {
+		this.trad = trad;
+	}
 
 	public long getCate() {
 		return cate;

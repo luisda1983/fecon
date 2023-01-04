@@ -130,8 +130,8 @@ app.factory("ctxa", ['$q', 'ctxl', function($q, ctxl) {
 		cntx.form.set('tipo', ctxl.makeField(''));
 		cntx.form.set('desc', ctxl.makeField(''));
 		cntx.form.set('favo', ctxl.makeField('N'));
-//		cntx.form.set('trad', ctxl.makeField(0));
-//		cntx.form.set('tradText', ctxl.makeField(''));
+		cntx.form.set('trad', ctxl.makeField(0));
+		cntx.form.set('tradText', ctxl.makeField(''));
 		cntx.form.set('cate', ctxl.makeField(0));
 		cntx.form.set('cateText', ctxl.makeField(''));
 		cntx.form.set('conc', ctxl.makeField(0));

@@ -13,40 +13,34 @@ import org.springframework.web.bind.annotation.RestController;
 import es.ldrsoftware.core.arq.BaseController;
 import es.ldrsoftware.core.arq.data.BaseBSArea;
 import es.ldrsoftware.core.arq.data.ResponseArea;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesForm;
-import es.ldrsoftware.fecon.cnt.bs.BsCoesFormArea;
+import es.ldrsoftware.fecon.cnt.bs.BsTradGetk;
+import es.ldrsoftware.fecon.cnt.bs.BsTradGetkArea;
 
 @RestController
-public class CtCoesForm extends BaseController {
+public class CtTradGet extends BaseController {
 
 	@Autowired
-	public BsCoesForm bsCoesForm;
+	public BsTradGetk bsTradGetk;
 
-	public CtCoesForm() {
-		super("ctCoesForm");
+	public CtTradGet() {
+		super("ctTradGet");
 	}
 	
-	@RequestMapping(value="/angular/coes/form", method = RequestMethod.POST, headers="Accept=application/json")
-	public ResponseArea ctCoesForm(HttpServletRequest servletRqt, @RequestBody CtCoesFormRqt rqt) {
-		BsCoesFormArea area = new BsCoesFormArea();
+	@RequestMapping(value="/angular/trad/get", method = RequestMethod.POST, headers="Accept=application/json")
+	public ResponseArea ctTradGet(HttpServletRequest servletRqt, @RequestBody CtTradGetRqt rqt) {
+		BsTradGetkArea area = new BsTradGetkArea();
 		area.IN.iden = rqt.iden;
-		area.IN.tipo = rqt.tipo;
-		area.IN.desc = rqt.desc;
-		area.IN.favo = rqt.favo;
-		area.IN.trad = rqt.trad;
-		area.IN.cate = rqt.cate;
-		area.IN.conc = rqt.conc;
 		return ctrl(servletRqt, rqt, area);
 	}
 	
 	@Transactional(readOnly=false,propagation=Propagation.REQUIRES_NEW,rollbackFor=Exception.class)
 	public void execute(BaseBSArea a) throws Exception {
-		bsCoesForm.executeBS(a);
+		bsTradGetk.executeBS(a);
 	}
 	
 	public void output(BaseBSArea a, ResponseArea response) {
-		BsCoesFormArea area = (BsCoesFormArea)a;
+		BsTradGetkArea area = (BsTradGetkArea)a;
 		
-		response.OUTPUT.put("coes", area.OUT.coes);
+		response.OUTPUT.put("trad", area.OUT.trad);
 	}
 }
