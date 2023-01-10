@@ -28,6 +28,5 @@ public class BsDeleSave extends BaseBS {
 		BsDeleSaveArea area = (BsDeleSaveArea)a;
 
 		Dele dele = (Dele)validateDto(area.IN.dele, LiteData.LT_EL_DTO_DELE); 
-		dele.validate();
 	}
 }

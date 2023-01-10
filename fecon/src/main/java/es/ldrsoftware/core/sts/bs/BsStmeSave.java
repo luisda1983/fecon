@@ -28,8 +28,7 @@ public class BsStmeSave extends BaseBS {
 	protected void validateInput(BaseBSArea a) throws Exception {
 		BsStmeSaveArea area = (BsStmeSaveArea)a;
 
-		Stme stme = (Stme)validateDto(area.IN.stme, LiteData.LT_EL_DTO_STME); 
-		stme.validate();		
+		Stme stme = (Stme)validateDto(area.IN.stme, LiteData.LT_EL_DTO_STME); 	
 	}
 
 }

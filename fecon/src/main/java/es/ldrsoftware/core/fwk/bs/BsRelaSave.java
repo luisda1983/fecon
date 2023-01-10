@@ -27,7 +27,6 @@ public class BsRelaSave extends BaseBS {
 		BsRelaSaveArea area = (BsRelaSaveArea)a;
 		
 		Rela rela = (Rela)validateDto(area.IN.rela, LiteData.LT_EL_DTO_RELA);
-		rela.validate();
 		
 	}
 }

@@ -25,7 +25,7 @@ public class BaseNotifyManager {
 
 	//Metodo encargado de gestionar las notificaciones al usuario
 	public void notify(String code, String... data) throws Exception {
-		
+
 		Notf notf;
 		
 		if (code == null) { 
@@ -34,6 +34,9 @@ public class BaseNotifyManager {
 			notf.setDesc(CoreNotify.CORE_NOTF_IDEN_RQRD_DESC);
 			notf.setTipo(Session.EXEC_STATE_VOID);
 		} else {
+			System.out.println(code);
+			System.out.println(notfDao);
+			System.out.println(liteDao);
 			notf = notfDao.getByIden(code);
 			
 			if (notf == null) {

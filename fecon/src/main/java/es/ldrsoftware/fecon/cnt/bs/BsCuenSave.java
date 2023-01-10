@@ -27,6 +27,5 @@ public class BsCuenSave extends BaseBS {
 		BsCuenSaveArea area = (BsCuenSaveArea)a;
 		
 		Cuen cuen = (Cuen)validateDto(area.IN.cuen, LiteData.LT_EL_DTO_CUEN); 
-		cuen.validate();
 	}
 }

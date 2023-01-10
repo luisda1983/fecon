@@ -29,7 +29,6 @@ public class BsPlanSave extends BaseBS {
 		
 		//Validamos que la planificación esté informada
 		Plan plan = (Plan)validateDto(area.IN.plan, LiteData.LT_EL_DTO_PLAN);
-		plan.validate();
 		
 	}
 

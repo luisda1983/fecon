@@ -28,6 +28,5 @@ public class BsDomiSave extends BaseBS {
 		BsDomiSaveArea area = (BsDomiSaveArea)a;
 
 		Domi domi = (Domi)validateDto(area.IN.domi, LiteData.LT_EL_DTO_DOMI); 
-		domi.validate();
 	}
 }

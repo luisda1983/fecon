@@ -29,7 +29,6 @@ public class BsStdiSave extends BaseBS {
 		BsStdiSaveArea area = (BsStdiSaveArea)a;
 
 		Stdi stdi = (Stdi)validateDto(area.IN.stdi, LiteData.LT_EL_DTO_STDI); 
-		stdi.validate();
 				
 	}
 

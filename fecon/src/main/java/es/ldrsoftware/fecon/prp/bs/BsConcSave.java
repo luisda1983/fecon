@@ -29,6 +29,5 @@ public class BsConcSave extends BaseBS {
 		BsConcSaveArea area = (BsConcSaveArea)a;
 		
 		Conc conc = (Conc)validateDto(area.IN.conc, LiteData.LT_EL_DTO_CONC); 
-		conc.validate();
 	}
 }

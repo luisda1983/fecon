@@ -28,7 +28,6 @@ public class BsMplaSave extends BaseBS {
 		
 		//Validamos que el maestro de planificación esté informado
 		Mpla mpla = (Mpla)validateDto(area.IN.mpla, LiteData.LT_EL_DTO_MPLA); 
-		mpla.validate();
 		
 	}
 

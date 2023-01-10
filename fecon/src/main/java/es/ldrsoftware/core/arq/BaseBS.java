@@ -18,11 +18,15 @@ public abstract class BaseBS extends BaseNotifyManager {
 		execute(area);
 	}
 	
-	protected Object validateDto(Object dto, String name) throws Exception {
+	protected BaseDTO validateDto(BaseDTO dto, String name) throws Exception {
 		if (dto == null) { 
 			notify(CoreNotify.CORE_NOTF_DTO_RQRD, translate(LiteData.LT_TB_DTO, name));
 		}
+		dto.validate();
 		
+		if (dto.dtoError) {
+			notify(dto.dtoNotf, dto.dtoData);
+		}
 		return dto;
 	}
 	

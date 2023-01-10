@@ -28,6 +28,5 @@ public class BsCateSave extends BaseBS {
 		BsCateSaveArea area = (BsCateSaveArea)a;
 		
 		Cate cate = (Cate)validateDto(area.IN.cate, es.ldrsoftware.fecon.data.LiteData.LT_EL_DTO_CATE);
-		cate.validate();
 	}
 }

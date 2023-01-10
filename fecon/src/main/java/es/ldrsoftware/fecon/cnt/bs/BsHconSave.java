@@ -27,6 +27,5 @@ public class BsHconSave extends BaseBS {
 		BsHconSaveArea area = (BsHconSaveArea)a;
 		
 		Hcon hcon = (Hcon)validateDto(area.IN.hcon, LiteData.LT_EL_DTO_HCON); 
-		hcon.validate();
 	}
 }

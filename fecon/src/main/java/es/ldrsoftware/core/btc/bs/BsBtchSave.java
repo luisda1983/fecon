@@ -28,8 +28,7 @@ public class BsBtchSave extends BaseBS {
 		BsBtchSaveArea area = (BsBtchSaveArea)a;
 		
 		//Validamos que está informado el proceso Batch
-		Btch btch = (Btch)validateDto(area.IN.btch, LiteData.LT_EL_DTO_BTCH);
-		btch.validate();		
+		Btch btch = (Btch)validateDto(area.IN.btch, LiteData.LT_EL_DTO_BTCH);		
 	}
 
 }

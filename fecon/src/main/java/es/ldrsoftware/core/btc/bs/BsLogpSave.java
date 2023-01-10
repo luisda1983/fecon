@@ -29,6 +29,5 @@ public class BsLogpSave extends BaseBS {
 		
 		//Validamos que está informado el Log
 		Logp logp = (Logp)validateDto(area.IN.logp, LiteData.LT_EL_DTO_LOGP);
-		logp.validate();
 	}
 }

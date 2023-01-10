@@ -29,6 +29,5 @@ public class BsInviSave extends BaseBS {
 		
 		//Validamos que la invitación está informada
 		Invi invi = (Invi)validateDto(area.IN.invi, LiteData.LT_EL_DTO_INVI); 
-		invi.validate();
 	}
 }

@@ -29,7 +29,6 @@ public class BsEjecSave extends BaseBS {
 		
 		//Validamos que recibimos una ejecución
 		Ejec ejec = (Ejec)validateDto(area.IN.ejec, LiteData.LT_EL_DTO_EJEC);
-		ejec.validate();
 	}
 
 }

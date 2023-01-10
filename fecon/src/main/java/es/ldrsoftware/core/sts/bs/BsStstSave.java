@@ -29,7 +29,6 @@ public class BsStstSave extends BaseBS {
 		BsStstSaveArea area = (BsStstSaveArea)a;
 
 		Stst stst = (Stst)validateDto(area.IN.stst, LiteData.LT_EL_DTO_STST); 
-		stst.validate();
 	}
 
 }

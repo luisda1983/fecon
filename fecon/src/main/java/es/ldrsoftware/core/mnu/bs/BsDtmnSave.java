@@ -29,8 +29,6 @@ public class BsDtmnSave extends BaseBS {
 
 		//Validamos que el detalle de menú esté informado
 		Dtmn dtmn = (Dtmn)validateDto(area.IN.dtmn, LiteData.LT_EL_DTO_DTMN); 
-		dtmn.validate();
-		
 	}
 
 }

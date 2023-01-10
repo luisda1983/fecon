@@ -29,7 +29,6 @@ public class BsInstSave extends BaseBS {
 
 		//Validamos que la instalación esté informada
 		Inst inst = (Inst)validateDto(area.IN.inst, LiteData.LT_EL_DTO_INST); 
-		inst.validate();
 		
 	}
 }

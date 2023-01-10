@@ -27,7 +27,6 @@ public class BsNotfSave extends BaseBS {
 		BsNotfSaveArea area = (BsNotfSaveArea)a;
 		
 		Notf notf = (Notf)validateDto(area.IN.notf, LiteData.LT_EL_DTO_NOTF); 
-		notf.validate();
 				
 	}
 }

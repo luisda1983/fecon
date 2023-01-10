@@ -30,6 +30,5 @@ public class BsUsuaSave extends BaseBS {
 		
 		//Validamos que el usuario está informado
 		Usua usua = (Usua)validateDto(area.IN.usua, LiteData.LT_EL_DTO_USUA); 
-		usua.validate();
 	}
 }

@@ -30,7 +30,6 @@ public class BsSesiSave extends BaseBS {
 
 		//Validamos que la sesión esté informada
 		Sesi sesi = (Sesi)validateDto(area.IN.sesi, LiteData.LT_EL_DTO_SESI); 
-		sesi.validate();
 		
 	}
 

@@ -29,8 +29,6 @@ public class BsCtmnSave extends BaseBS {
 
 		//Validamos que la categoría de menú está informada
 		Ctmn ctmn = (Ctmn)validateDto(area.IN.ctmn, LiteData.LT_EL_DTO_CTMN); 
-		ctmn.validate();
-		
 	}
 
 }
