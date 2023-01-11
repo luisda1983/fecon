@@ -7,6 +7,18 @@
       			<span>Apunte</span>
       			<div flex></div>
       			<md-button ng-click="fnCanc()"><md-icon md-font-set="material-icons">clear</md-icon></md-button>
+				<md-menu md-position-mode="target-right target" md-dense>
+					<md-button aria-label="Acciones" class="md-icon-button" ng-click="openToolMenu($mdOpenMenu, $event)">
+						<md-icon md-font-set="material-icons">build</md-icon>
+					</md-button>
+					<md-menu-content width="3">
+						<md-menu-item>
+							<md-checkbox ng-click="closeToolMenu()" ng-model="cntx.form.get('repe').data">
+								Repetir apuntes
+							</md-checkbox>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
     		</h2>
   		</md-toolbar>
         <md-content class="md-padding">

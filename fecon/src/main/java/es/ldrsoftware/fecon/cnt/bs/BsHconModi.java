@@ -52,6 +52,20 @@ public class BsHconModi extends BaseBS {
 			
 			area.OUT.hcon = bsHconSaveArea.OUT.hcon;
 		}
+		
+		if (LiteData.LT_EL_HCONMDTIPO_DESCRIPCION.equals(area.IN.tipo)) {
+			if (area.IN.desc.equals(hcon.getDesc())) {
+				notify(AppNotify.HCON_MODI_CHGN_NO);
+			}
+			
+			hcon.setDesc(area.IN.desc);
+			
+			BsHconSaveArea bsHconSaveArea = new BsHconSaveArea();
+			bsHconSaveArea.IN.hcon = hcon;
+			bsHconSave.execute(bsHconSaveArea);
+			
+			area.OUT.hcon = bsHconSaveArea.OUT.hcon;
+		}
 	}
 
 	protected void validateInput(BaseBSArea a) throws Exception {
@@ -61,11 +75,22 @@ public class BsHconModi extends BaseBS {
 		
 		validateInputField(area.IN.iden, Hcon.IDEN);
 		
-		if (LiteData.LT_EL_HCONMDTIPO_FECHA.equals(area.IN.tipo)) {
-			validateInputField(area.IN.feva, Hcon.FEVA);
-		} else {
-			notify(AppNotify.HCON_MODI_TIPO_ERRO);
-		}
+//		if (LiteData.LT_EL_HCONMDTIPO_FECHA.equals(area.IN.tipo)) {
+//			validateInputField(area.IN.feva, Hcon.FEVA);
+//		} else {
+//			notify(AppNotify.HCON_MODI_TIPO_ERRO);
+//		}
 		
+		switch(area.IN.tipo) {
+		case LiteData.LT_EL_HCONMDTIPO_FECHA:
+			 validateInputField(area.IN.feva, Hcon.FEVA);
+			 break;
+		case LiteData.LT_EL_HCONMDTIPO_DESCRIPCION:
+			 validateInputField(area.IN.desc, Hcon.FEVA);
+			 break;
+		default:
+			notify(AppNotify.HCON_MODI_TIPO_ERRO);
+			break;
+		}
 	}
 }

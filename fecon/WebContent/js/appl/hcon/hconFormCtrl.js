@@ -1,7 +1,7 @@
 //*****************************************************************************************************************//
 // v.01.00.00 || 03.01.2019 || Versión Inicial                                                                     //
 //*****************************************************************************************************************//
-app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
+app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form, $mdMenu) {
 
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
@@ -104,6 +104,7 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 				ctxl.formField($scope.cntx, 'feva', true, false);
 			} else if ($scope.cntx.form.get('tipo').data === 'MD02') {
 				//Cambio de descripción
+				ctxl.formField($scope.cntx, 'desc', true, false);
 			} else if ($scope.cntx.form.get('tipo').data === 'MD03') {
 				//Cambio de importe
 			} else if ($scope.cntx.form.get('tipo').data === 'MD04') {
@@ -134,6 +135,18 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 	//*************************************************************************************************************//
 	//*************************************************************************************************************//
 
+	//*************************************************************************************************************//
+	// Despliegue de menú de herramientas.                                                                         //
+	//*************************************************************************************************************//
+	$scope.openToolMenu = function($mdOpenMenu, ev) {
+		//FIXME: en versiones recientes de angular cambiar mdOpenMenu por mdMenu, y la apertura es mdMenu.open(ev)
+		$mdOpenMenu(ev);
+	};
+	
+	$scope.closeToolMenu = function() {
+		$mdMenu.hide();
+	}
+	
 	//*************************************************************************************************************//
 	// Captura del evento de cancelación.                                                                          //
 	//*************************************************************************************************************//
@@ -181,8 +194,12 @@ app.controller('hconFormCtrl', function($scope, $q, srv, comc, ctxl, form) {
 		var srv1 = comc.request('hcon/form', $scope.cntx);
 		
 		$q.all([srv.stResp(true, srv1)]).then(function(){
-			inicForm();
-			srv.back(true, null);
+			$scope.cntx.xchg.set('hcon', $scope.cntx.data.get('hcon'));
+			if ($scope.cntx.form.get('repe').data === false) {
+				inicForm();
+			}
+			//srv.back(true, null);
+			srv.back(true, $scope.cntx.xchg);
 		});
 	};
 

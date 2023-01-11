@@ -587,7 +587,7 @@ app.factory("coma", ['$rootScope', '$q', 'srv', 'form', function($rootScope, $q,
 			if (data.EXEC_RC === 'V') {
 				d.reject();
 			} else {
-				cntx.data.set('cuen', data.OUTPUT['cuen']);
+				cntx.data.set('hcon', data.OUTPUT['hcon']);
 				d.resolve(data);
 			}
 		}, function() {
